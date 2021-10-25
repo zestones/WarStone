@@ -1,9 +1,6 @@
 package wargame;
 
 import javax.swing.*;
-import java.awt.*;
-import javax.swing.border.*;
-
 
 public class FenetreJeu {
 	/* Variables prédéfinies */
@@ -21,22 +18,32 @@ public class FenetreJeu {
 	
 	/* Autre variables */
 	JFrame fenetre;
-	Carte carte;
 	
 	private void initFenetre() {
-		this.fenetre = new JFrame("WarStone");
-		this.fenetre.setSize(FEN_LARGEUR, FEN_HAUTEUR);
+		fenetre = new JFrame("WarStone");
+		fenetre.setSize(FEN_LARGEUR, FEN_HAUTEUR);
 		
-		this.fenetre.setLocationRelativeTo(null);
+		fenetre.setLocationRelativeTo(null);
 		
-		this.fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.fenetre.setVisible(true);
+		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		fenetre.setVisible(true);
 	}
 	
 	public FenetreJeu() {
 		this.initFenetre();
-		this.carte = new Carte(this.NB_COLONNES, this.NB_LIGNES, this.TAILLE_TUILE);
-		this.fenetre.add(this.carte);
+		JPanel panneauPrincipal = new JPanel();
+		panneauPrincipal.setLayout(new BoxLayout(panneauPrincipal, BoxLayout.Y_AXIS));
+		
+		Element c = new Element();
+		c.setLocation(600, 10);
+        c.setSize(50, 50);
+        panneauPrincipal.add(c);
+		Element e = new Element();
+		e.setLocation(220, 10);
+        e.setSize(50, 50);
+        panneauPrincipal.add(e);
+        
+        fenetre.add(panneauPrincipal);
 	}
 	
 	public static void main(String[] args) {
