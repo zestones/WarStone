@@ -1,5 +1,11 @@
 package wargame;
 
-public class Element {
+import java.awt.Graphics;
 
+public abstract class Element implements IConfig {	
+	
+	public abstract void seDessiner(Graphics g);
+	public abstract int getPortee();
+	public abstract Position getPosition();
+	
 }
