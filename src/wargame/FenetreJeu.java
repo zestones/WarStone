@@ -1,52 +1,41 @@
 package wargame;
 
+import java.awt.*;
 import javax.swing.*;
 
-public class FenetreJeu {
-	/* Variables prédéfinies */
-	final int NB_COLONNES = 50;
-	final int NB_LIGNES = 50;
-	final int MAX_FEN_LARGEUR = 500;
-	final int MAX_FEN_HAUTEUR = 500;
-	final int PADDING_BAS = 41;
-	final int PADDING_DROIT = 18;
+public class FenetreJeu extends JFrame implements IConfig{
+	private static final long serialVersionUID = 1L;
 	
-	/* Variables calculées */
-	final int TAILLE_TUILE = Math.min(MAX_FEN_HAUTEUR / NB_COLONNES, MAX_FEN_LARGEUR / NB_LIGNES);
-	final int FEN_LARGEUR = NB_COLONNES * TAILLE_TUILE + PADDING_DROIT;
-	final int FEN_HAUTEUR = NB_LIGNES * TAILLE_TUILE + PADDING_BAS;
-	
-	/* Autre variables */
-	JFrame fenetre;
-	
-	private void initFenetre() {
-		fenetre = new JFrame("WarStone");
-		fenetre.setSize(FEN_LARGEUR, FEN_HAUTEUR);
+	FenetreJeu(){
+		// Creer la JFrame
+		JFrame frame = new JFrame("WarStone");
+		setTitle("WarStone");
 		
-		fenetre.setLocationRelativeTo(null);
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setOpaque(true);
+		menuBar.setBackground(new Color(200, 225, 150)); // ou Color.GREEN
+		menuBar.setPreferredSize(new Dimension(MENUBAR_LARGEUR, MENUBAR_HAUTEUR));
 		
-		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		fenetre.setVisible(true);
+		JPanel panel = new JPanel();
+		setBackground(Color.gray);
+		add(panel, BorderLayout.CENTER);
+		
+		
+		setSize(FEN_LARGEUR,FEN_HAUTEUR);	
+		setLocation(POSITION_X, POSITION_Y);
+		
+		setJMenuBar(menuBar);
+		
+		// Affichage
+		frame.pack(); 
+		setVisible(true);	
 	}
-	
-	public FenetreJeu() {
-		this.initFenetre();
-		JPanel panneauPrincipal = new JPanel();
-		panneauPrincipal.setLayout(new BoxLayout(panneauPrincipal, BoxLayout.Y_AXIS));
-		
-		Element c = new Element();
-		c.setLocation(600, 10);
-        c.setSize(50, 50);
-        panneauPrincipal.add(c);
-		Element e = new Element();
-		e.setLocation(220, 10);
-        e.setSize(50, 50);
-        panneauPrincipal.add(e);
-        
-        fenetre.add(panneauPrincipal);
-	}
-	
+
 	public static void main(String[] args) {
-		new FenetreJeu();
-    }
+		FenetreJeu fenetre = new FenetreJeu();
+		
+		PanneauJeu panneau = new PanneauJeu();
+		fenetre.setContentPane(panneau) ;
+		
+	}
 }
