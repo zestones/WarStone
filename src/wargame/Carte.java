@@ -17,15 +17,15 @@ public class Carte implements IConfig {
 				plateau[i][j] = null;
 			}		
 		
-		new Heros(this, Soldat.TypesH.getTypeHAlea(),"Z",new Position(0,0));
+		//new Heros(this, Soldat.TypesH.HUMAIN,"Z",new Position(LARGEUR_CARTE/2,HAUTEUR_CARTE/2));
 		
 		int inc = Math.max(NB_MONSTRES, Math.max(NB_OBSTACLES, NB_HEROS));
 		while(inc > 0 ){
-			if(inc < NB_MONSTRES)
+			if(inc <= NB_MONSTRES)
 			new Monstre(this, Soldat.TypesM.getTypeMAlea(),"M", this.trouvePositionVide());
-			if(inc < NB_HEROS)
-				new Heros(this, Soldat.TypesH.getTypeHAlea(),"H",this.trouvePositionVide());
-			if (inc < NB_OBSTACLES)
+			if(inc <= NB_HEROS) 
+				new Heros(this, Soldat.TypesH.getTypeHAlea(),"H",this.trouvePositionVide());	
+			if (inc <= NB_OBSTACLES)
 				new Obstacle(this, Obstacle.TypeObstacle.getObstacleAlea(), this.trouvePositionVide());
 			inc--;
 		}
@@ -39,6 +39,8 @@ public class Carte implements IConfig {
 		
 		Heros a = this.trouveHeros(new Position(1,10));
 		System.out.println("Nom Heros Adjacent : " + a.nom);
+		
+		
 	}
 	
 	public Position trouvePositionVide() {
@@ -132,7 +134,7 @@ public class Carte implements IConfig {
 		for(int i = 0; i < LARGEUR_CARTE; i++)
 			for(int j = 0; j < HAUTEUR_CARTE; j++) {
 				if(this.plateau[i][j] == null) {
-					g.setColor(Color.black);
+					g.setColor(COULEUR_GRILLE);
 					g.drawRect(i * NB_PIX_CASE, j * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
 				}
 				else {

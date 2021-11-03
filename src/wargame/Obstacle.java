@@ -16,7 +16,6 @@ public class Obstacle extends Element implements IConfig {
 		}
 	}
 	private TypeObstacle TYPE;
-	// ?
 	private Position pos;
 	Obstacle(Carte carte, TypeObstacle type, Position pos) {
 		this.pos = pos;
@@ -24,8 +23,6 @@ public class Obstacle extends Element implements IConfig {
 		carte.plateau[this.pos.getX()][this.pos.getY()] = this; 
 	}
 	public String toString() { return ""+TYPE; }
-	
-	
 	
 	public void seDessiner(Graphics g) {
 		g.setColor(this.TYPE.getCouleur());

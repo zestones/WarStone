@@ -14,5 +14,16 @@ public class Position implements IConfig {
 	public String toString() { return "("+x+","+y+")"; }
 	public boolean estVoisine(Position pos) {
 		return ((Math.abs(x-pos.x)<=1) && (Math.abs(y-pos.y)<=1));
+		
 	}
+	 public void verifPosition() {
+	    	if (this.getX() >= LARGEUR_CARTE ) 
+	    		this.setX(LARGEUR_CARTE - 1);
+			if (this.getY() >= HAUTEUR_CARTE) 
+				this.setY(HAUTEUR_CARTE - 1);
+			if(this.getX() < 0) 
+				this.setX(0); 
+			if(this.getY() < 0) 
+				this.setY(0);
+	    }
 }

@@ -17,7 +17,7 @@ public class FenetreJeu extends JFrame implements IConfig{
 		menuBar.setPreferredSize(new Dimension(MENUBAR_LARGEUR, MENUBAR_HAUTEUR));
 		
 		JPanel panel = new JPanel();
-		setBackground(COULEUR_VIDE);
+		setBackground(COULEUR_INCONNU);
 		add(panel, BorderLayout.CENTER);
 		
 		

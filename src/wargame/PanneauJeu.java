@@ -44,5 +44,6 @@ public class PanneauJeu extends JPanel implements IConfig{
 	
 	public void paintComponent(Graphics g) {
 		this.c.toutDessiner(g);	
+		repaint(FEN_LARGEUR,FEN_HAUTEUR, (NB_PIX_CASE + 1), (NB_PIX_CASE + 1));
 	}
 }
