@@ -14,9 +14,6 @@ public interface IConfig {
 	Color COULEUR_HEROS = Color.red, COULEUR_HEROS_DEJA_JOUE = Color.pink;
 	Color COULEUR_EAU = Color.blue, COULEUR_FORET = Color.green, COULEUR_ROCHER = Color.gray;
 	
-	//final int NB_COLONNES = 20;
-	//final int NB_LIGNES = 20;
-	
 	final int MAX_FEN_LARGEUR = 500;
 	final int MAX_FEN_HAUTEUR = 500;
 	final int PADDING_BAS = 41;
@@ -25,7 +22,6 @@ public interface IConfig {
 	
 	
 	/* Variables calculées */
-	//final int TAILLE_TUILE = Math.min(MAX_FEN_HAUTEUR / LARGEUR_CARTE, MAX_FEN_LARGEUR / HAUTEUR_CARTE);
 	final int FEN_LARGEUR = LARGEUR_CARTE * NB_PIX_CASE + PADDING_DROIT;
 	/* Variable Menu */
 	final int MENUBAR_HAUTEUR = 55;
