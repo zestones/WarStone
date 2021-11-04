@@ -22,12 +22,9 @@ public class Monstre extends Soldat {
     	g.drawString(this.nom, this.pos.getX() * NB_PIX_CASE + NB_PIX_CASE/2 - g.getFontMetrics().stringWidth(this.nom)/2, this.pos.getY() * NB_PIX_CASE + NB_PIX_CASE/2 + g.getFontMetrics().stringWidth(this.nom)/2);
 	}
 	
-    public Position getPosition() {
-		Soldat s = this;
-		return s.getPosition();
-	}
     public int getPoints() { return this.m.getPoints(); }
     public int getPortee() { return this.m.getPortee(); }
     public int getPuissance() { return this.m.getPuissance(); }
     public int getTir() { return this.m.getTir(); }
+ 
 }

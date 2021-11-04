@@ -47,8 +47,5 @@ public class Heros extends Soldat{
     public int getPortee() { return this.h.getPortee(); }
     public int getPuissance() { return this.h.getPuissance(); }
     public int getTir() { return this.h.getTir(); }
-    public Position getPosition() {
-    	Soldat s = this;
-    	return s.getPosition();
-	}
+
 }

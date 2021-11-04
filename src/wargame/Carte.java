@@ -1,10 +1,9 @@
 package wargame;
 import java.awt.Graphics;
 
-import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
 
 public class Carte implements IConfig {
 	Element[][] plateau;
@@ -16,9 +15,11 @@ public class Carte implements IConfig {
 			for(int j = 0; j < HAUTEUR_CARTE; j++) {
 				plateau[i][j] = null;
 			}		
+		// Teste deplacement d'un Heros
+		Heros myHeros = new Heros(this, Soldat.TypesH.NAIN,"H", new Position(5,5));	
+		System.out.println("==== POSITION ORIGINALE --> " + myHeros.getPosition().toString());
 		
-		//new Heros(this, Soldat.TypesH.HUMAIN,"Z",new Position(LARGEUR_CARTE/2,HAUTEUR_CARTE/2));
-		
+		// Cration des Elements
 		int inc = Math.max(NB_MONSTRES, Math.max(NB_OBSTACLES, NB_HEROS));
 		while(inc > 0 ){
 			if(inc <= NB_MONSTRES)
@@ -31,7 +32,7 @@ public class Carte implements IConfig {
 		}
 		
 		/*Teste des Fonction*/
-		Position pos = this.trouvePositionVide(new Position(0,0));
+		/*Position pos = this.trouvePositionVide(new Position(0,0));
 		System.out.println("Ma pos Adjacente trouver : " + pos.toString());
 		
 		Heros h = this.trouveHeros();
@@ -40,7 +41,23 @@ public class Carte implements IConfig {
 		Heros a = this.trouveHeros(new Position(1,10));
 		System.out.println("Nom Heros Adjacent : " + a.nom);
 		
+		this.mort(a);*/
 		
+		System.out.println("deplacement --> " + this.deplaceSoldat(new Position(7,3), myHeros));
+		
+	}
+	void mort(Soldat perso) {
+		this.plateau[perso.getPosition().getX()][perso.getPosition().getY()] = null;
+		System.out.println("Mort de ma position ==> " + perso.getPosition().toString());
+	}
+	
+	boolean deplaceSoldat(Position pos, Soldat soldat) {
+		System.out.println("distance de deplacement : --> " + soldat.getPosition().distance(pos) + "Ma portee : " + soldat.getPortee());
+		if(pos.estValide() == true && this.plateau[pos.getX()][pos.getY()] == null && soldat.getPosition().distance(pos) <= soldat.getPortee()) {
+			soldat.seDeplace(pos);
+			return true;
+		}
+		return false;
 	}
 	
 	public Position trouvePositionVide() {
@@ -49,6 +66,7 @@ public class Carte implements IConfig {
 			return pos;
 		return this.trouvePositionVide();
 	}
+	
 	private List<Position> positionAdjacente(Position pos) {
 		List<Position> listePos= new ArrayList<>();
 		listePos.add(new Position(pos.getX()-1, pos.getY()-1));
@@ -61,6 +79,7 @@ public class Carte implements IConfig {
 		listePos.add(new Position(pos.getX()-1, pos.getY()));
 		return listePos;
 	}
+	
 	Position trouvePositionVide(Position pos) {
 		if (pos.estValide() == true && this.plateau[pos.getX()][pos.getY()] == null)
 			return pos;
@@ -80,7 +99,8 @@ public class Carte implements IConfig {
 			}
 			return  listePos.get(i);
 		}
-	}	
+	}
+	
 	public Heros trouveHeros() {
 		List<Heros> listePosHeros = new ArrayList<>();
 		for(int i = 0; i < LARGEUR_CARTE; i++)
@@ -113,6 +133,7 @@ public class Carte implements IConfig {
 			return (Heros) this.plateau[listePos.get(i).getX()][listePos.get(i).getY()];
 		}
 	}
+	
 	public Element getElement(Position pos) {
 		if(plateau[pos.getX()][pos.getY()] instanceof Heros) {
 			//System.out.println("Je suis un Heros ! ");
@@ -121,13 +142,6 @@ public class Carte implements IConfig {
 			//System.out.println("Je suis un Monstre ! ");
 		}	
 		return plateau[pos.getX()][pos.getY()];
-	}
-	
-	boolean deplaceSoldat(Position pos, Soldat soldat) {
-		if(pos.estValide() == false)
-			return false;
-			
-		return true;
 	}
 	
 	public void toutDessiner(Graphics g) {

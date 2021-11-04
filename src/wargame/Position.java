@@ -1,5 +1,7 @@
 package wargame;
 
+import static java.lang.Math.pow;
+
 public class Position implements IConfig {
 	private int x, y;
 	Position(int x, int y) { this.x = x; this.y = y; }
@@ -16,6 +18,10 @@ public class Position implements IConfig {
 		return ((Math.abs(x-pos.x)<=1) && (Math.abs(y-pos.y)<=1));
 		
 	}
+	public int distance(Position p) {
+		return (int) Math.sqrt(pow((this.getX()-p.getX()),2)+pow(this.getY()-p.getY(),2));
+	}
+	
 	 public void verifPosition() {
 	    	if (this.getX() >= LARGEUR_CARTE ) 
 	    		this.setX(LARGEUR_CARTE - 1);
