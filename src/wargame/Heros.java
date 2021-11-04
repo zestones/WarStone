@@ -9,9 +9,10 @@ public class Heros extends Soldat{
     String nom;
     private Carte carte;
     private Position[] champVisuelle = new Position[5];
- 
+    private int pointsDeVie;
     Heros(Carte carte, TypesH h, String nom, Position pos){
         super(carte, h.getPoints(), h.getPortee(), h.getPuissance(), h.getTir(), pos);
+        this.pointsDeVie = h.getPoints();
         this.h = h;
         this.nom = nom;
         this.carte = carte;
@@ -86,5 +87,6 @@ public class Heros extends Soldat{
     public int getPortee() { return this.h.getPortee(); }
     public int getPuissance() { return this.h.getPuissance(); }
     public int getTir() { return this.h.getTir(); }
+	public void setPoints(int p) { this.pointsDeVie = p; }
 
 }

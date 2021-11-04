@@ -17,21 +17,23 @@ public class Carte implements IConfig {
 				plateau[i][j] = null;
 			}		
 		// Teste deplacement d'un Heros
-		/*Heros myHeros = new Heros(this, Soldat.TypesH.NAIN,"H", new Position(10,10));	
-		  System.out.println("==== POSITION ORIGINALE --> " + myHeros.getPosition().toString());
-		*/
+		this.lastHeros = new Heros(this, Soldat.TypesH.NAIN,"H", new Position(10,10));	
+		new Monstre(this, Soldat.TypesM.GOBELIN,"O", new Position(9,10));
+		//System.out.println("==== POSITION ORIGINALE --> " + myHeros.getPosition().toString());
+		
+		this.actionHeros(new Position(10,10), new Position(9,9));
 		
 		// Cration des Elements
-		int inc = Math.max(NB_MONSTRES, Math.max(NB_OBSTACLES, NB_HEROS));
+		/*int inc = Math.max(NB_MONSTRES, Math.max(NB_OBSTACLES, NB_HEROS));
 		while(inc > 0 ){
 			if(inc <= NB_MONSTRES)
-			new Monstre(this, Soldat.TypesM.getTypeMAlea(),""+inc, this.trouvePositionVide());
+				new Monstre(this, Soldat.TypesM.getTypeMAlea(),""+inc, this.trouvePositionVide());
 			if(inc <= NB_HEROS) 
 				this.lastHeros = new Heros(this, Soldat.TypesH.getTypeHAlea(),"H",this.trouvePositionVide());	
 			if (inc <= NB_OBSTACLES)
 				new Obstacle(this, Obstacle.TypeObstacle.getObstacleAlea(), this.trouvePositionVide());
 			inc--;
-		}
+		}*/
 		
 		//Teste des Fonction
 		
@@ -59,11 +61,24 @@ public class Carte implements IConfig {
 	/* Deplace le Soldat a la position pos, si l'opperation a ete effectue alors retourne true sinon false */
 	boolean deplaceSoldat(Position pos, Soldat soldat) {
 		//System.out.println("distance de deplacement : --> " + soldat.getPosition().distance(pos) + "Ma portee : " + soldat.getPortee());
-		if(pos.estValide() == true && this.plateau[pos.getX()][pos.getY()] == null && soldat.getPosition().distance(pos) <= soldat.getPortee()) {
+		if(pos.estValide() == true && this.plateau[pos.getX()][pos.getY()] == null && soldat.getPosition().estVoisine(pos)) {
 			soldat.seDeplace(pos);
 			return true;
 		}
 		return false;
+	}
+	
+	boolean actionHeros(Position pos, Position pos2) {
+		if(this.plateau[pos.getX()][pos.getY()] == null || pos.estVoisine(pos2) == false || this.getElement(pos2) instanceof Heros ) //Ajout : si le heros a deja joue son tour
+			return false;
+		else if(this.plateau[pos2.getX()][pos2.getY()] instanceof Monstre) {
+			Soldat s = (Soldat)this.plateau[pos.getX()][pos.getY()];
+			Soldat s2 = (Soldat)this.plateau[pos2.getX()][pos2.getY()];
+			s.combat(s2);
+			return true;
+		}
+		this.deplaceSoldat(pos2, (Soldat)this.plateau[pos.getX()][pos.getY()]);
+		return true;
 	}
 	
 	/* trouve une position vide aleatoiremennt sur la Carte */
