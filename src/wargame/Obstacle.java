@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Obstacle extends Element implements IConfig {
-	private static final long serialVersionUID = 1L;
-	
 	public enum TypeObstacle {
 		ROCHER (COULEUR_ROCHER), FORET (COULEUR_FORET), EAU (COULEUR_EAU);
 		private final Color COULEUR;
@@ -22,10 +20,14 @@ public class Obstacle extends Element implements IConfig {
 		this.TYPE = type; 
 		carte.plateau[this.pos.getX()][this.pos.getY()] = this; 
 	}
-	public String toString() { return ""+TYPE; }
+
 	
+	/* Dessin de l'obstacle */
 	public void seDessiner(Graphics g) {
 		g.setColor(this.TYPE.getCouleur());
     	g.fillRect(this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
 	}
+	
+	public String toString() { return ""+TYPE; }
+	public Position getPosition() {	return pos;	}
 }

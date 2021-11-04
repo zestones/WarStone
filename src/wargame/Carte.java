@@ -4,9 +4,10 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Carte implements IConfig {
 	Element[][] plateau;
+	//Autre Solution a trouver c moche
+	Heros lastHeros;
 	
 	Carte(){
 		// Initialisation de la carte
@@ -16,22 +17,24 @@ public class Carte implements IConfig {
 				plateau[i][j] = null;
 			}		
 		// Teste deplacement d'un Heros
-		Heros myHeros = new Heros(this, Soldat.TypesH.NAIN,"H", new Position(5,5));	
-		System.out.println("==== POSITION ORIGINALE --> " + myHeros.getPosition().toString());
+		/*Heros myHeros = new Heros(this, Soldat.TypesH.NAIN,"H", new Position(10,10));	
+		  System.out.println("==== POSITION ORIGINALE --> " + myHeros.getPosition().toString());
+		*/
 		
 		// Cration des Elements
 		int inc = Math.max(NB_MONSTRES, Math.max(NB_OBSTACLES, NB_HEROS));
 		while(inc > 0 ){
 			if(inc <= NB_MONSTRES)
-			new Monstre(this, Soldat.TypesM.getTypeMAlea(),"M", this.trouvePositionVide());
+			new Monstre(this, Soldat.TypesM.getTypeMAlea(),""+inc, this.trouvePositionVide());
 			if(inc <= NB_HEROS) 
-				new Heros(this, Soldat.TypesH.getTypeHAlea(),"H",this.trouvePositionVide());	
+				this.lastHeros = new Heros(this, Soldat.TypesH.getTypeHAlea(),"H",this.trouvePositionVide());	
 			if (inc <= NB_OBSTACLES)
 				new Obstacle(this, Obstacle.TypeObstacle.getObstacleAlea(), this.trouvePositionVide());
 			inc--;
 		}
 		
-		/*Teste des Fonction*/
+		//Teste des Fonction
+		
 		/*Position pos = this.trouvePositionVide(new Position(0,0));
 		System.out.println("Ma pos Adjacente trouver : " + pos.toString());
 		
@@ -43,16 +46,19 @@ public class Carte implements IConfig {
 		
 		this.mort(a);*/
 		
-		System.out.println("deplacement --> " + this.deplaceSoldat(new Position(7,3), myHeros));
+		//System.out.println("deplacement --> " + this.deplaceSoldat(new Position(7,3), myHeros));
 		
 	}
+	
+	/* Methode appelé lors de la mort d'un Soldat */
 	void mort(Soldat perso) {
 		this.plateau[perso.getPosition().getX()][perso.getPosition().getY()] = null;
 		System.out.println("Mort de ma position ==> " + perso.getPosition().toString());
 	}
 	
+	/* Deplace le Soldat a la position pos, si l'opperation a ete effectue alors retourne true sinon false */
 	boolean deplaceSoldat(Position pos, Soldat soldat) {
-		System.out.println("distance de deplacement : --> " + soldat.getPosition().distance(pos) + "Ma portee : " + soldat.getPortee());
+		//System.out.println("distance de deplacement : --> " + soldat.getPosition().distance(pos) + "Ma portee : " + soldat.getPortee());
 		if(pos.estValide() == true && this.plateau[pos.getX()][pos.getY()] == null && soldat.getPosition().distance(pos) <= soldat.getPortee()) {
 			soldat.seDeplace(pos);
 			return true;
@@ -60,6 +66,7 @@ public class Carte implements IConfig {
 		return false;
 	}
 	
+	/* trouve une position vide aleatoiremennt sur la Carte */
 	public Position trouvePositionVide() {
 		Position pos = new Position();
 		if (pos.estValide() == true && this.plateau[pos.getX()][pos.getY()] == null)
@@ -67,6 +74,7 @@ public class Carte implements IConfig {
 		return this.trouvePositionVide();
 	}
 	
+	/* Methode renvoyant une liste contenant les 8 positions adjacente a une case */
 	private List<Position> positionAdjacente(Position pos) {
 		List<Position> listePos= new ArrayList<>();
 		listePos.add(new Position(pos.getX()-1, pos.getY()-1));
@@ -80,6 +88,10 @@ public class Carte implements IConfig {
 		return listePos;
 	}
 	
+	/* 
+	 * Trouve une position vide adjacente a pos sur la carte si aucune position adjacente est vide alors une position aleatoire est renvoye 
+	 * Cete methode utilise une liste de position adjacente renvoyer par la methode ci-dessus
+	 */
 	Position trouvePositionVide(Position pos) {
 		if (pos.estValide() == true && this.plateau[pos.getX()][pos.getY()] == null)
 			return pos;
@@ -101,6 +113,7 @@ public class Carte implements IConfig {
 		}
 	}
 	
+	/* renvoie un Heros trouve aleatoirement sur la carte */
 	public Heros trouveHeros() {
 		List<Heros> listePosHeros = new ArrayList<>();
 		for(int i = 0; i < LARGEUR_CARTE; i++)
@@ -112,8 +125,11 @@ public class Carte implements IConfig {
 		return listePosHeros.get((int)Math.random() * listePosHeros.size());
 	}
 	
+	/* 
+	 * Trouve un héros choisi aléatoirement parmi les 8 positions adjacentes de pos
+	 * Si aucun Heros est trouver alors un Heros est choisi aleatoirement sur la carte
+	 */
 	public Heros trouveHeros(Position pos) {
-		
 		if (pos.estValide() == true && this.plateau[pos.getX()][pos.getY()] instanceof Heros)
 			return (Heros) this.plateau[pos.getX()][pos.getY()];
 		else {
@@ -134,6 +150,7 @@ public class Carte implements IConfig {
 		}
 	}
 	
+	/* Retourne l'element sur la carte a la position pos */
 	public Element getElement(Position pos) {
 		if(plateau[pos.getX()][pos.getY()] instanceof Heros) {
 			//System.out.println("Je suis un Heros ! ");
@@ -144,16 +161,27 @@ public class Carte implements IConfig {
 		return plateau[pos.getX()][pos.getY()];
 	}
 	
+	/* 
+	 * Methode de dessin principale :
+	 *  - Elle dessine la carte et tout les elements present 
+	 *  - Pour chaque Heros trouver on va dessiner les element a sa portee 
+	 */
 	public void toutDessiner(Graphics g) {
 		for(int i = 0; i < LARGEUR_CARTE; i++)
 			for(int j = 0; j < HAUTEUR_CARTE; j++) {
-				if(this.plateau[i][j] == null) {
-					g.setColor(COULEUR_GRILLE);
-					g.drawRect(i * NB_PIX_CASE, j * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
-				}
-				else {
+				if (this.plateau[i][j] instanceof Heros) {
 					this.plateau[i][j].seDessiner(g);
+					this.lastHeros = (Heros) this.plateau[i][j];
 				}
+				for(int k = 0; k < LARGEUR_CARTE; k++)
+					for(int n = 0; n < HAUTEUR_CARTE; n++) 
+						if(this.plateau[k][n] != null)
+							if (this.lastHeros.dedans(this.plateau[k][n].getPosition()) == true)
+								this.plateau[k][n].seDessiner(g);
+				g.setColor(COULEUR_GRILLE);
+				g.drawRect(i * NB_PIX_CASE, j * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
+				g.drawRect(i * NB_PIX_CASE, j * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
 			}
+		
 	}	
 }

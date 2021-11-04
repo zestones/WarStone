@@ -18,9 +18,7 @@ public interface IConfig {
 	final int MAX_FEN_HAUTEUR = 500;
 	final int PADDING_BAS = 41;
 	final int PADDING_DROIT = 18;
-	
-	
-	
+
 	/* Variables calculées */
 	final int FEN_LARGEUR = LARGEUR_CARTE * NB_PIX_CASE + PADDING_DROIT;
 	/* Variable Menu */

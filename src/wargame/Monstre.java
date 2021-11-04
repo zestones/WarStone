@@ -15,6 +15,7 @@ public class Monstre extends Soldat {
         carte.plateau[this.pos.getX()][this.pos.getY()] = this;
     }
     
+    /* Dessin du Monstre sur la carte */
     public void seDessiner(Graphics g) { 
     	g.setColor(COULEUR_MONSTRES);
     	g.fillRect(this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 

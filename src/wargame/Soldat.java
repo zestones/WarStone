@@ -9,6 +9,7 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
     private int pointsDeVie;
     public Position pos;
     private Carte carte;
+  
     Soldat(Carte carte,int pts, int portee, int puiss, int tir, Position pos) {
     	this.carte = carte;
         this.POINTS_DE_VIE_MAX = this.pointsDeVie = pts;
@@ -17,6 +18,8 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
     }
     
     public Position getPosition() { return pos; }
+    
+    /* Met a jours les positions du Soldat */
     public void seDeplace(Position newPos) {
     	this.carte.plateau[pos.getX()][pos.getY()] = null;
     	pos.setX(newPos.getX());
