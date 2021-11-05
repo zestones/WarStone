@@ -27,16 +27,33 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
     
     /* Methode de combat entre Heros & Monstre */
     public void combat(Soldat soldat) {
+    	Heros h; Monstre e;
     	int pH, pM;
     	
-     	if (this.getPosition().estVoisine(soldat.getPosition()) == true) {
-    		pH = (int) (Math.random() * this.PUISSANCE);
-    		pM = (int) (Math.random() * soldat.PUISSANCE);
+    	//Tres Moche autre solution ?
+    	if (this instanceof Heros) {
+    		h = (Heros) this; 
+    		e = (Monstre) soldat;
     	}
     	else {
-    		pH = (int) (Math.random() * this.TIR);
-    		pM = (int) (Math.random() * soldat.TIR);
+    		h = (Heros) soldat; 
+    		e = (Monstre) this;
     	}
+    	
+    	if(h.dedans(e.getPosition()) == true) {
+    		if (this.getPosition().estVoisine(soldat.getPosition()) == false) {
+    			System.out.println("Attaque a distance ! ");
+    			pH = (int) (Math.random() * this.TIR);
+    			pM = (int) (Math.random() * soldat.TIR);
+    		}
+    		else {
+    			System.out.println("Attaque au Corp !");
+    			pH = (int) (Math.random() * this.PUISSANCE);
+    			pM = (int) (Math.random() * soldat.PUISSANCE);
+    		}
+    	}
+    	else 
+    		return;
     	
     	soldat.pointsDeVie -= pH;
     	
