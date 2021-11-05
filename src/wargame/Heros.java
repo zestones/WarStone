@@ -5,7 +5,8 @@ import java.awt.Graphics;
 import wargame.ISoldat.TypesH;
 
 public class Heros extends Soldat{
-    TypesH h;
+    private static final String String = null;
+	TypesH h;
     String nom;
     private Position[] champVisuelle = new Position[5];
     Heros(Carte carte, TypesH h, String nom, Position pos){
@@ -79,4 +80,9 @@ public class Heros extends Soldat{
     	this.dessinHeros(g);
     }
     
+    /* Affichage des infos du Heros */
+    
+    public String toString() {
+    	return this.getPosition().toString() + " " + this.h.name() + " " + this.nom + " (" + this.h.getPoints() + "PV /" + this.getPoints() + ")";
+    }
 }
