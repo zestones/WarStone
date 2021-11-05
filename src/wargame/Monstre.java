@@ -26,6 +26,10 @@ public class Monstre extends Soldat {
     	g.drawString(this.nom, posX, posY);
 	}
     
+    public String toString() {
+    	return this.getPosition().toString() + " " + this.m.name() + " " + this.nom + " (" + this.m.getPoints() + "PV /" + this.getPoints() + ")";
+    }
+    
     // Deplacer dans Soldat
     /*public int getPortee() { return this.m.getPortee(); }
     public int getPuissance() { return this.m.getPuissance(); }
