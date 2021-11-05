@@ -7,15 +7,11 @@ import wargame.ISoldat.TypesH;
 public class Heros extends Soldat{
     TypesH h;
     String nom;
-    private Carte carte;
     private Position[] champVisuelle = new Position[5];
-    private int pointsDeVie;
     Heros(Carte carte, TypesH h, String nom, Position pos){
         super(carte, h.getPoints(), h.getPortee(), h.getPuissance(), h.getTir(), pos);
-        this.pointsDeVie = h.getPoints();
         this.h = h;
         this.nom = nom;
-        this.carte = carte;
         carte.plateau[this.pos.getX()][this.pos.getY()] = this;
         this.initChampVisuelle();
     }
@@ -71,7 +67,7 @@ public class Heros extends Soldat{
     			if(porteeVisuelle.estValide() == false)
     				porteeVisuelle.verifPosition();
     			
-    			if(this.carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] == null) {
+    			if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] == null) {
     				g.setColor(COULEUR_VIDE);
     				g.fillRect(porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
     			}
@@ -83,10 +79,4 @@ public class Heros extends Soldat{
     	this.dessinHeros(g);
     }
     
-    public int getPoints() { return this.h.getPoints(); }
-    public int getPortee() { return this.h.getPortee(); }
-    public int getPuissance() { return this.h.getPuissance(); }
-    public int getTir() { return this.h.getTir(); }
-	public void setPoints(int p) { this.pointsDeVie = p; }
-
 }

@@ -21,7 +21,7 @@ public class Carte implements IConfig {
 		new Monstre(this, Soldat.TypesM.GOBELIN,"O", new Position(9,10));
 		//System.out.println("==== POSITION ORIGINALE --> " + myHeros.getPosition().toString());
 		
-		this.actionHeros(new Position(10,10), new Position(9,9));
+		this.actionHeros(new Position(10,10), new Position(9,10));
 		
 		// Cration des Elements
 		/*int inc = Math.max(NB_MONSTRES, Math.max(NB_OBSTACLES, NB_HEROS));

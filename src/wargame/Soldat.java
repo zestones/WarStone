@@ -6,12 +6,12 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
 	private final int POINTS_DE_VIE_MAX, PUISSANCE, TIR, PORTEE_VISUELLE;
     private int pointsDeVie;
     public Position pos;
-    private Carte carte;
+    public Carte carte;
   
     Soldat(Carte carte,int pts, int portee, int puiss, int tir, Position pos) {
     	this.carte = carte;
-        this.POINTS_DE_VIE_MAX = this.pointsDeVie = pts;
-        this.PORTEE_VISUELLE = portee; this.PUISSANCE = puiss; this.TIR = tir;
+        POINTS_DE_VIE_MAX = pointsDeVie = pts;
+        PORTEE_VISUELLE = portee; PUISSANCE = puiss; TIR = tir;
         this.pos = pos;
     }
     
@@ -25,32 +25,31 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
     	carte.plateau[pos.getX()][pos.getY()] = this;
     }
     
-    /* Soustraction de point ne marche pas !!!  */
+    /* Methode de combat entre Heros & Monstre */
     public void combat(Soldat soldat) {
-    	Heros h = (Heros) this; Monstre m = (Monstre) soldat;
     	int pH, pM;
     	
-     	System.out.println("====AVANT COMBAT====\n J1 : " + h.getPoints() + " --- J2 : " + m.getPoints());
-    	if (this.getPosition().estVoisine(soldat.getPosition()) == true) {
-    		pH = (int) (Math.random() * h.getPuissance());
-    		pM = (int) (Math.random() * m.getPuissance());
+     	if (this.getPosition().estVoisine(soldat.getPosition()) == true) {
+    		pH = (int) (Math.random() * this.PUISSANCE);
+    		pM = (int) (Math.random() * soldat.PUISSANCE);
     	}
     	else {
-    		pH = (int) (Math.random() * h.getTir());
-    		pM = (int) (Math.random() * m.getTir());
+    		pH = (int) (Math.random() * this.TIR);
+    		pM = (int) (Math.random() * soldat.TIR);
     	}
     	
-    	m.setPoints(soldat.pointsDeVie - pH);
+    	soldat.pointsDeVie -= pH;
     	
-    	if(m.getPoints() > 0)
-    		h.setPoints(this.pointsDeVie - pM);
+    	if(soldat.pointsDeVie > 0)
+    		this.pointsDeVie -= pM;
     	else 
     		carte.mort(soldat);
-    	if(h.getPoints() < 0)
-    		carte.mort(this);
-    	
-    	System.out.println("====FIN COMBAT====\n J1 : " + h.getPoints() + " --- J2 : " + soldat.getPoints());	
-    	
-    	System.out.println("\n pH : " + pM + " --- pM : " + pM);
+    	if(this.pointsDeVie < 0)
+    		carte.mort(this);    	
     }
+    
+    public int getPoints() { return this.pointsDeVie; }
+    public int getPortee() { return this.PORTEE_VISUELLE; }
+    public int getPuissance() { return this.PUISSANCE; }
+    public int getTir() { return this.TIR; }
 }
