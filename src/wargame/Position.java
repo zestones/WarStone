@@ -1,8 +1,5 @@
 package wargame;
 
-import static java.lang.Math.pow;
-
-
 public class Position implements IConfig {
 	private int x, y;
 	private int SAM_ALIGNE = 1;
@@ -21,18 +18,13 @@ public class Position implements IConfig {
 	public boolean estVoisine(Position pos) {
 		return ((Math.abs(x-pos.x)<=1) && (Math.abs(y-pos.y)<=1));
 	}
-	
-	/* Renvoie la valeur entiere de la distance entre 2 position */
-	public int distance(Position p) {
-		return (int) Math.sqrt(pow((this.getX()-p.getX()),2)+pow(this.getY()-p.getY(),2));
-	}
-	
-	/* Renvoie le signe de l'angle SAM et ALIGNE renvoie le meme entier 
+		
+	/* Renvoie le signe de l'angle, SAM et ALIGNE renvoie le meme entier 
 	 * car le premier point de la zone du champ visuelle est le meme point que l'element chercher si la portee est egale a 1 
 	 * ou si l'element est adjacent a la limite de la portee 
 	 */
 	public int signeAngle(Position b, Position c) {
-		double angle = (b.x - this.x) * (c.y - this.y) - (c.x - this.x) * (b.y - this.y);
+		double angle = (b.getX() - this.getX()) * (c.getY() - this.getY()) - (c.getX() - this.getX()) * (b.getY() - this.getY());
 		if (angle < 0)
 			return SIAM;
 		return SAM_ALIGNE;	

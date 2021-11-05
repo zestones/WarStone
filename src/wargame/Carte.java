@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Carte implements IConfig {
+public class Carte implements IConfig,ICarte {
 	Element[][] plateau;
 	//Autre Solution a trouver c moche
 	Heros lastHeros;
@@ -16,15 +16,9 @@ public class Carte implements IConfig {
 			for(int j = 0; j < HAUTEUR_CARTE; j++) {
 				plateau[i][j] = null;
 			}		
-		// Teste deplacement d'un Heros
-		this.lastHeros = new Heros(this, Soldat.TypesH.NAIN,"H", new Position(10,10));	
-		new Monstre(this, Soldat.TypesM.GOBELIN,"O", new Position(9,10));
-		//System.out.println("==== POSITION ORIGINALE --> " + myHeros.getPosition().toString());
-		
-		this.actionHeros(new Position(10,10), new Position(9,10));
 		
 		// Cration des Elements
-		/*int inc = Math.max(NB_MONSTRES, Math.max(NB_OBSTACLES, NB_HEROS));
+		int inc = Math.max(NB_MONSTRES, Math.max(NB_OBSTACLES, NB_HEROS));
 		while(inc > 0 ){
 			if(inc <= NB_MONSTRES)
 				new Monstre(this, Soldat.TypesM.getTypeMAlea(),""+inc, this.trouvePositionVide());
@@ -33,33 +27,23 @@ public class Carte implements IConfig {
 			if (inc <= NB_OBSTACLES)
 				new Obstacle(this, Obstacle.TypeObstacle.getObstacleAlea(), this.trouvePositionVide());
 			inc--;
-		}*/
-		
-		//Teste des Fonction
-		
-		/*Position pos = this.trouvePositionVide(new Position(0,0));
-		System.out.println("Ma pos Adjacente trouver : " + pos.toString());
-		
-		Heros h = this.trouveHeros();
-		System.out.println("Nom Heros : " + h.nom);
-		
-		Heros a = this.trouveHeros(new Position(1,10));
-		System.out.println("Nom Heros Adjacent : " + a.nom);
-		
-		this.mort(a);*/
-		
-		//System.out.println("deplacement --> " + this.deplaceSoldat(new Position(7,3), myHeros));
-		
+		}	
+	}
+	
+	public void jouerSoldats(PanneauJeu pj) {
+		// Termine le tour de jeu
+		// Repos des Heros qui n'ont pas recu d'ordre
+		// Tour des Monstre de jouer
 	}
 	
 	/* Methode appelé lors de la mort d'un Soldat */
-	void mort(Soldat perso) {
+	public void mort(Soldat perso) {
 		this.plateau[perso.getPosition().getX()][perso.getPosition().getY()] = null;
 		System.out.println("Mort de ma position ==> " + perso.getPosition().toString());
 	}
 	
 	/* Deplace le Soldat a la position pos, si l'opperation a ete effectue alors retourne true sinon false */
-	boolean deplaceSoldat(Position pos, Soldat soldat) {
+	public boolean deplaceSoldat(Position pos, Soldat soldat) {
 		//System.out.println("distance de deplacement : --> " + soldat.getPosition().distance(pos) + "Ma portee : " + soldat.getPortee());
 		if(pos.estValide() == true && this.plateau[pos.getX()][pos.getY()] == null && soldat.getPosition().estVoisine(pos)) {
 			soldat.seDeplace(pos);
@@ -68,8 +52,8 @@ public class Carte implements IConfig {
 		return false;
 	}
 	
-	boolean actionHeros(Position pos, Position pos2) {
-		if(this.plateau[pos.getX()][pos.getY()] == null || pos.estVoisine(pos2) == false || this.getElement(pos2) instanceof Heros ) //Ajout : si le heros a deja joue son tour
+	public boolean actionHeros(Position pos, Position pos2) {
+		if(this.plateau[pos.getX()][pos.getY()] == null || this.getElement(pos2) instanceof Heros ) //Ajout : si le heros a deja joue son tour & pos.estVoisine(pos2) == false cf : enoncer pk ?
 			return false;
 		else if(this.plateau[pos2.getX()][pos2.getY()] instanceof Monstre) {
 			Soldat s = (Soldat)this.plateau[pos.getX()][pos.getY()];
@@ -107,7 +91,7 @@ public class Carte implements IConfig {
 	 * Trouve une position vide adjacente a pos sur la carte si aucune position adjacente est vide alors une position aleatoire est renvoye 
 	 * Cete methode utilise une liste de position adjacente renvoyer par la methode ci-dessus
 	 */
-	Position trouvePositionVide(Position pos) {
+	public Position trouvePositionVide(Position pos) {
 		if (pos.estValide() == true && this.plateau[pos.getX()][pos.getY()] == null)
 			return pos;
 		else {
@@ -166,21 +150,14 @@ public class Carte implements IConfig {
 	}
 	
 	/* Retourne l'element sur la carte a la position pos */
-	public Element getElement(Position pos) {
-		if(plateau[pos.getX()][pos.getY()] instanceof Heros) {
-			//System.out.println("Je suis un Heros ! ");
-		}
-		else if(plateau[pos.getX()][pos.getY()] instanceof Monstre) {
-			//System.out.println("Je suis un Monstre ! ");
-		}	
-		return plateau[pos.getX()][pos.getY()];
-	}
+	public Element getElement(Position pos) { return plateau[pos.getX()][pos.getY()]; }
 	
 	/* 
 	 * Methode de dessin principale :
 	 *  - Elle dessine la carte et tout les elements present 
 	 *  - Pour chaque Heros trouver on va dessiner les element a sa portee 
 	 */
+	// /!\ Boucle de la Mort /!\
 	public void toutDessiner(Graphics g) {
 		for(int i = 0; i < LARGEUR_CARTE; i++)
 			for(int j = 0; j < HAUTEUR_CARTE; j++) {
@@ -198,5 +175,5 @@ public class Carte implements IConfig {
 				g.drawRect(i * NB_PIX_CASE, j * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
 			}
 		
-	}	
+	}		
 }

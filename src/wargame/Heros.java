@@ -5,8 +5,7 @@ import java.awt.Graphics;
 import wargame.ISoldat.TypesH;
 
 public class Heros extends Soldat{
-    private static final String String = null;
-	TypesH h;
+    TypesH h;
     String nom;
     private Position[] champVisuelle = new Position[5];
     Heros(Carte carte, TypesH h, String nom, Position pos){
@@ -14,7 +13,6 @@ public class Heros extends Soldat{
         this.h = h;
         this.nom = nom;
         carte.plateau[this.pos.getX()][this.pos.getY()] = this;
-        this.initChampVisuelle();
     }
     
     /* Initialise le "champs visuelle" i.e les positions de la portee du Heros */
@@ -32,11 +30,12 @@ public class Heros extends Soldat{
 		int nbrCotes = this.champVisuelle.length - 1;
 		int[] listeAngle = new int[nbrCotes];
 			
+		this.initChampVisuelle();
 		for(int i = 0; i < nbrCotes - 1; i++)
 			listeAngle[i] = p.signeAngle(this.champVisuelle[i], this.champVisuelle[i + 1]);
 		
 		listeAngle[nbrCotes - 1] = p.signeAngle(this.champVisuelle[nbrCotes - 1], this.champVisuelle[0]);
-
+		
 		for(int k = 0; k < listeAngle.length; k++) {
 			for(int j = 1; j < nbrCotes - 1; j++)
 				if(listeAngle[k] != listeAngle[j])
