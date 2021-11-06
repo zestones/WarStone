@@ -61,7 +61,7 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
     		this.pointsDeVie -= pM;
     	else 
     		carte.mort(soldat);
-    	if(this.pointsDeVie < 0)
+    	if(this.pointsDeVie <= 0)
     		carte.mort(this);    	
     }
     

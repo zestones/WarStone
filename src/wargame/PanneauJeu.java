@@ -66,8 +66,7 @@ public class PanneauJeu extends JPanel implements IConfig {
 	            }
 				color = new Color(color.getRed(),color.getGreen(),color.getBlue());
 				
-				if(color.getRGB() != COULEUR_INCONNU.getRGB()) 
-				{
+				if(color.getRGB() != COULEUR_INCONNU.getRGB()) {
 					if(elem instanceof Soldat) {
 						if(elem instanceof Heros)
 							System.out.println("Survol Heros : " + elem.toString());
@@ -91,8 +90,10 @@ public class PanneauJeu extends JPanel implements IConfig {
 		if (lastClic == null)
 			return;
 		if( (clic.getX() == lastClic.getX() && clic.getY() == lastClic.getY()) == false) {
-			if( (c.actionHeros(lastClic, clic)) == true ) 
-	    		repaint();
+			if( (c.actionHeros(lastClic, clic)) == true ) {
+	    		lastClic = null;
+				repaint();
+	    		}
 		}
 	}
 	
