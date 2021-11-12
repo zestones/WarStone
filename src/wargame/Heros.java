@@ -56,7 +56,7 @@ public class Heros extends Soldat{
     }
     
     /* Methode principale du dessin de Heros:
-     * Affichage de la portee visuelle i.e les cases visible par le général
+     * Affichage de la portee visuelle i.e les cases visible par le général 
      */
     public void seDessiner(Graphics g) {
     	int portee = this.getPortee();

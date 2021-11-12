@@ -29,7 +29,6 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
     public void combat(Soldat soldat) {
     	Heros h; Monstre e;
     	int pH, pM;
-    	
     	//Tres Moche autre solution ?
     	if (this instanceof Heros) {
     		h = (Heros) this; 

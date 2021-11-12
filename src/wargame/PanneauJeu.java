@@ -8,13 +8,14 @@ import java.awt.Color;
 
 import javax.swing.JPanel;
 import java.awt.Robot;
+import java.awt.Font;
 
 public class PanneauJeu extends JPanel implements IConfig {
 	private static final long serialVersionUID = 1L;
-	Color color = null;
-	Carte c;
-	Position clic, survol, lastClic;
-	Element elem;
+	private Color color = null;
+	private Carte c;
+	private	Position clic, survol, lastClic;
+	private	Element elem;
 	Heros h;
 	boolean isSelected = false;
 	
@@ -99,5 +100,11 @@ public class PanneauJeu extends JPanel implements IConfig {
 	
 	public void paintComponent(Graphics g) {
 		c.toutDessiner(g);	
+		// Message a ecrire dans le menuBar
+		/*Font font = new Font("Courier", Font.BOLD, 20);
+	    g.setFont(font);
+	    g.setColor(Color.red);          
+	    g.drawString("Tiens ! Le Site du Zéro !", 10, 20);   
+		*/
 	}
 }
