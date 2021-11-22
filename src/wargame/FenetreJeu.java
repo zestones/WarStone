@@ -2,59 +2,46 @@ package wargame;
 
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.*;  
 
 public class FenetreJeu extends JFrame implements IConfig{
 	private static final long serialVersionUID = 1L;
-    private final JSplitPane splitPane;  
-    private final JPanel bottomPanel;    
-    private final JPanel inputPanel;      
-    private final JLabel textField;   
-    private final JButton button;       
-
-    public FenetreJeu(){
-
-    	splitPane = new JSplitPane();
-    	bottomPanel = new JPanel();      
-        
-        inputPanel = new JPanel();
-        textField = new JLabel();    
-        button = new JButton("Fin du Tour");    
-        
-        button.addActionListener(new ActionListener(){  
-			public void actionPerformed(ActionEvent e){  
-				System.out.println("Hello tu a finit ton tour !");
-			}  
-		});  
-        
-        inputPanel.setPreferredSize(new Dimension(MENUBAR_LARGEUR, MENUBAR_HAUTEUR));
-        setPreferredSize(new Dimension(FEN_LARGEUR, FEN_HAUTEUR));     
-        getContentPane().setLayout(new GridLayout());  
-        getContentPane().add(splitPane);               
-        
-        splitPane.setBackground(COULEUR_INCONNU);
-        splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);  
-        splitPane.setDividerLocation(FEN_HAUTEUR - MENUBAR_HAUTEUR - MENUBAR_HAUTEUR/2);                    
-        splitPane.setTopComponent(new PanneauJeu());                  
-        splitPane.setBottomComponent(bottomPanel);            
-
-        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
-
-        bottomPanel.add(inputPanel);            
-
-        inputPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 75));     
-        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.X_AXIS));   
-
-        inputPanel.add(textField);       
-        inputPanel.add(button);      
-
-        pack();   
-        setVisible(true);
+	
+	FenetreJeu(){
+		// Creer la JFrame
+		JFrame frame = new JFrame("WarStone");	
+		frame.setSize(FEN_LARGEUR, FEN_HAUTEUR);	
+		frame.setLocation(POSITION_X, POSITION_Y);
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setOpaque(true);
+		menuBar.setBackground(COULEUR_MENUBAR); // ou Color.GREEN
+		menuBar.setPreferredSize(new Dimension(MENUBAR_LARGEUR, MENUBAR_HAUTEUR));
+		
+		frame.setBackground(COULEUR_INCONNU);
+		
+		JPanel panel = new JPanel();
+		panel = new JPanel();
+		panel.setOpaque(true);
+		
+		frame.add(panel, BorderLayout.CENTER);
+		frame.setJMenuBar(menuBar);
+		
+		JButton finTour = new JButton("Fin du Tour");   
+		finTour.setSize(BOUTTON_LARGEUR, BOUTTON_HAUTEUR);
+		finTour.setVisible(true);
+		
+		
+        frame.setLayout(new FlowLayout(FlowLayout.CENTER));
+      
+        frame.setContentPane(new PanneauJeu(finTour));	
+        menuBar.add(finTour);
+        menuBar.setLayout(new FlowLayout(FlowLayout.CENTER));
        
-        
-    }
+        pack();
+		frame.setVisible(true); 
+	}
 
-    public static void main(String args[]){
-    	new FenetreJeu();
-    }
+	public static void main(String[] args) {
+		new FenetreJeu();
+	}
 }

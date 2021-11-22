@@ -1,0 +1,22 @@
+========================================================
+----------------------------------
+	22/11/2021 :
+----------------------------------
+	*** Class fenetre :
+		- Ajout d'un menu contenant un boutton
+		- Ajout de tout les elements à la frame
+	*** Class Panneau :
+		- Ajout des evenements pour le boutton Fin de Tour
+	*** Class Carte : 
+		- Ajout de la gestion des tours:
+		- Ajout des Methodes: 
+			-- JouerSoldats, actionCombatMonstre, joueTourGeneralJoueur, joueTourGeneralMonstre, tousHerosOntJoue, tousMonstresOntJoue --
+	*** Modif Heros
+		- Ajout Affichage (couleur des Heros devient rouge après avoir joué)
+		- Variable aJoue si true alors couleur -> ROSE sinon ROUGE
+
+/!\ Bug restant: Les tours doivents être terminer manuellement i.e:
+/!\ (1) je joue les Heros. (2) j'appuie fin de tour. (3) Les Monstres bougent (4)j'appuie fin de tour 
+	retour a (1) !
+
+========================================================

@@ -21,11 +21,13 @@ public interface IConfig {
 
 	/* Variables calculées */
 	final int FEN_LARGEUR = LARGEUR_CARTE * NB_PIX_CASE + PADDING_DROIT;
+	
 	/* Variable Menu */
 	final int MENUBAR_HAUTEUR = 55;
 	final int MENUBAR_LARGEUR = FEN_LARGEUR;
 	
 	final int FEN_HAUTEUR = HAUTEUR_CARTE * NB_PIX_CASE + PADDING_BAS + MENUBAR_HAUTEUR ;
+	
 	
 	/* Variable du Boutton */
 	final int BOUTTON_HAUTEUR = MENUBAR_HAUTEUR/2;

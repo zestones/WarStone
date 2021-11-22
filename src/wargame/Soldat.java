@@ -7,8 +7,8 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
     private int pointsDeVie;
     public Position pos;
     public Carte carte;
-  
-    Soldat(Carte carte,int pts, int portee, int puiss, int tir, Position pos) {
+   
+  Soldat(Carte carte,int pts, int portee, int puiss, int tir, Position pos) {
     	this.carte = carte;
         POINTS_DE_VIE_MAX = pointsDeVie = pts;
         PORTEE_VISUELLE = portee; PUISSANCE = puiss; TIR = tir;
@@ -19,24 +19,36 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
     
     /* Met a jours les positions du Soldat */
     public void seDeplace(Position newPos) {
+    	Heros h; Monstre m;
     	this.carte.plateau[pos.getX()][pos.getY()] = null;
     	pos.setX(newPos.getX());
     	pos.setY(newPos.getY());
     	carte.plateau[pos.getX()][pos.getY()] = this;
+    	if(this instanceof Heros) {
+    		h = (Heros)this;
+    		h.aJoue = true;
+    	}
+    	else {
+    		m = (Monstre)this;
+    		m.aJoue = true;	
+    	}
+    		
     }
     
     /* Methode de combat entre Heros & Monstre */
     public void combat(Soldat soldat) {
     	Heros h; Monstre e;
     	int pH, pM;
-    	//Tres Moche autre solution ?
+    	
     	if (this instanceof Heros) {
     		h = (Heros) this; 
     		e = (Monstre) soldat;
+    		h.aJoue = true;
     	}
     	else {
     		h = (Heros) soldat; 
     		e = (Monstre) this;
+    		e.aJoue = true;
     	}
     	
     	if(h.dedans(e.getPosition()) == true) {
@@ -63,7 +75,8 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
     	if(this.pointsDeVie <= 0)
     		carte.mort(this);    	
     }
-    
+    public void setPoints(int pts) { this.pointsDeVie = pts; }
+    public int getPointsMax() { return this.POINTS_DE_VIE_MAX; }
     public int getPoints() { return this.pointsDeVie; }
     public int getPortee() { return this.PORTEE_VISUELLE; }
     public int getPuissance() { return this.PUISSANCE; }

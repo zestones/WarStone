@@ -8,10 +8,14 @@ public class Heros extends Soldat{
     TypesH h;
     String nom;
     private Position[] champVisuelle = new Position[5];
+    public boolean aJoue;
+    private static final int BONUS_REPOS = 10;
+    
     Heros(Carte carte, TypesH h, String nom, Position pos){
         super(carte, h.getPoints(), h.getPortee(), h.getPuissance(), h.getTir(), pos);
         this.h = h;
         this.nom = nom;
+        this.aJoue = false;
         carte.plateau[this.pos.getX()][this.pos.getY()] = this;
     }
     
@@ -48,8 +52,10 @@ public class Heros extends Soldat{
     private void dessinHeros(Graphics g) { 
      	int posX = this.pos.getX() * NB_PIX_CASE + NB_PIX_CASE/2 - g.getFontMetrics().stringWidth(this.nom)/2;
     	int posY = this.pos.getY() * NB_PIX_CASE + NB_PIX_CASE/2 + g.getFontMetrics().stringWidth(this.nom)/2;
-   
-    	g.setColor(COULEUR_HEROS);
+    	if(this.aJoue == true)
+    		g.setColor(COULEUR_HEROS_DEJA_JOUE);
+    	else 
+    		g.setColor(COULEUR_HEROS);
     	g.fillRect(this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
     	g.setColor(COULEUR_TEXTE);
     	g.drawString(this.nom, posX, posY);
@@ -78,9 +84,16 @@ public class Heros extends Soldat{
     	}
     	this.dessinHeros(g);
     }
+    public void repos() {
+    	if(this.aJoue == false && this.getPoints() + BONUS_REPOS < this.getPointsMax())
+    		this.setPoints(this.getPoints()+BONUS_REPOS);
+    	else if (this.aJoue == false && this.getPoints() + BONUS_REPOS > this.getPointsMax())
+    		this.setPoints(this.getPointsMax());
+    }
+    
+    public int getPointsMax() { return this.h.getPoints(); }
     
     /* Affichage des infos du Heros */
-    
     public String toString() {
     	return this.getPosition().toString() + " " + this.h.name() + " " + this.nom + " (" + this.h.getPoints() + "PV /" + this.getPoints() + ")";
     }

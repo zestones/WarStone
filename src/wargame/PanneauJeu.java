@@ -1,11 +1,15 @@
 package wargame;
 
 import java.awt.Graphics;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Point;
 import java.awt.Color;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.Robot;
 import java.awt.Font;
@@ -14,18 +18,35 @@ public class PanneauJeu extends JPanel implements IConfig {
 	private static final long serialVersionUID = 1L;
 	private Color color = null;
 	private Carte c;
-	private	Position clic, survol, lastClic;
-	private	Element elem;
-	Heros h;
-	boolean isSelected = false;
+	private	Position survol;
+	public Position clic, lastClic;
 	
-	PanneauJeu(){
+	private	Element elem;
+	public Heros h;
+	public boolean isSelected = false;
+	public int tour;
+	JButton finTour;
+	
+	PanneauJeu(JButton finTour){
 		this.c = new Carte();
+		this.tour = 0;
+		this.finTour = finTour;
 		this.EventCatcher();
 	}
 	
 	/* Récupere les clic de souris */
 	public void EventCatcher() {
+		
+		finTour.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){  
+				if (tour == 0 )
+					tour = 1;
+				else 
+					tour = 0;
+				gameManager();
+			}  
+		});  
+		
 		this.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				clic = new Position(e.getX() / NB_PIX_CASE , e.getY() / NB_PIX_CASE);
@@ -49,13 +70,12 @@ public class PanneauJeu extends JPanel implements IConfig {
 		});
 		
 		/* Affiche les infos des elements survole avec la souris */
-		addMouseMotionListener(new MouseAdapter() {
+	/*	addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
 				survol = new Position(e.getX() / NB_PIX_CASE , e.getY() / NB_PIX_CASE);
 				survol.verifPosition();
 				elem = c.getElement(survol);
 			
-				
 				// Permet d'eviter afficher les element cacher lorsqu'on les survol (solution provisoire)
 				Point p = e.getLocationOnScreen();
 				try {
@@ -78,33 +98,23 @@ public class PanneauJeu extends JPanel implements IConfig {
 						System.out.println("Survol Obstacle : " + elem.toString());
 				}
 			}
-		});
+		});*/
 	}
 	
 	private void gameManager() {
-		Element e = c.getElement(clic);
-		if(e instanceof Heros) {
-			isSelected = true;
-			lastClic = new Position(clic.getX(), clic.getY());
-			h = (Heros) e;
-		}
-		if (lastClic == null)
-			return;
-		if( (clic.getX() == lastClic.getX() && clic.getY() == lastClic.getY()) == false) {
-			if( (c.actionHeros(lastClic, clic)) == true ) {
-	    		lastClic = null;
-				repaint();
-	    		}
-		}
+		c.jouerSoldats(this);
 	}
 	
 	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		this.setBackground(COULEUR_INCONNU);
 		c.toutDessiner(g);	
-		// Message a ecrire dans le menuBar
+		
+		// Message a ecrire dans un Label
 		/*Font font = new Font("Courier", Font.BOLD, 20);
 	    g.setFont(font);
 	    g.setColor(Color.red);          
-	    g.drawString("Tiens ! Le Site du Zéro !", 10, 20);   
+	    g.drawString("Infos de l'element : " + , 10, 20);   
 		*/
 	}
 }

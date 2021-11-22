@@ -8,6 +8,7 @@ public class Carte implements IConfig,ICarte {
 	Element[][] plateau;
 	//Autre Solution a trouver c moche
 	Heros lastHeros;
+	private int tour = 0;
 	
 	Carte(){
 		// Initialisation de la carte
@@ -30,10 +31,70 @@ public class Carte implements IConfig,ICarte {
 		}	
 	}
 	
+	/*
+	 * Fonction principale du jeu c'est ici que tout est gérer : les tours, les deplacement, les actions...
+	 */
 	public void jouerSoldats(PanneauJeu pj) {
-		// Termine le tour de jeu
-		// Repos des Heros qui n'ont pas recu d'ordre
-		// Tour des Monstre de jouer
+		Element e = this.getElement(pj.clic); 
+		this.tour = pj.tour;
+		
+		System.out.println("\n-->Mon tour d'apres carte : "  + this.tour + "\n-->D'apres pj : " + pj.tour);
+
+		if(this.tour == 0) {
+			if(e instanceof Heros) {
+				pj.isSelected = true;
+				pj.lastClic = new Position(pj.clic.getX(), pj.clic.getY());
+				pj.h = (Heros) e;
+			}
+			if (pj.lastClic == null)
+				return;
+			if( (pj.clic.getX() == pj.lastClic.getX() && pj.clic.getY() == pj.lastClic.getY()) == false) {
+				if( (this.actionHeros(pj.lastClic, pj.clic)) == true ) {
+					pj.lastClic = null;
+					pj.repaint();
+				}
+			}
+		}
+		else if(this.tour == 1) {
+			Heros h;
+			System.out.println("Tours de mes monstres !! ");
+			for(int i = 0; i < LARGEUR_CARTE; i++) {
+				for(int j = 0; j < HAUTEUR_CARTE; j++) {
+					if(this.plateau[i][j] instanceof Heros) {
+						h = (Heros) this.plateau[i][j];	
+						h.repos();	
+					}
+					else if(this.plateau[i][j] instanceof Monstre) {
+						Monstre m = (Monstre) this.plateau[i][j];
+						if(this.actionCombatMonstre(m) == false) {
+							this.deplaceSoldat(this.trouvePositionVide(m.getPosition()),m);
+							pj.repaint();
+						}
+					}		
+				}
+			}
+			if (this.tousMonstresOntJoue() == true) {
+				this.tour = 0;
+				this.joueTourGeneralMonstre();
+			}
+		}
+	}	
+	
+	/* 
+	 * Lorsque l'IA joue c'est que le monstre appelle combat
+	 * On cherche si un Heros est dans le champs visuelles d'un Heros si oui on les fait combatre
+	 * */
+	private boolean actionCombatMonstre(Monstre m) {
+		for(int i = 0; i < LARGEUR_CARTE; i++)
+			for(int j = 0; j < HAUTEUR_CARTE; j++) 
+				if(this.plateau[i][j] instanceof Heros) {
+					Heros h = (Heros) this.plateau[i][j];
+					if(m.dedans(h.getPosition())) {
+						m.combat(h);
+						return true;
+					}
+				}	
+		return false;
 	}
 	
 	/* Methode appelé lors de la mort d'un Soldat */
@@ -52,16 +113,82 @@ public class Carte implements IConfig,ICarte {
 		return false;
 	}
 	
+	/* Methode qui gere les actions des Heros */
 	public boolean actionHeros(Position pos, Position pos2) {
-		if(this.plateau[pos.getX()][pos.getY()] == null || this.getElement(pos2) instanceof Heros ) //Ajout : si le heros a deja joue son tour & pos.estVoisine(pos2) == false cf : enoncer pk ?
+		Soldat s = (Soldat)this.plateau[pos.getX()][pos.getY()];
+		Heros h =  (Heros)this.plateau[pos.getX()][pos.getY()];
+		
+		if(h == null || this.getElement(pos2) instanceof Heros || h.aJoue == true) //Ajout :  pos.estVoisine(pos2) == false cf : enoncer pk ?
 			return false;
 		else if(this.plateau[pos2.getX()][pos2.getY()] instanceof Monstre) {
-			Soldat s = (Soldat)this.plateau[pos.getX()][pos.getY()];
 			Soldat s2 = (Soldat)this.plateau[pos2.getX()][pos2.getY()];
 			s.combat(s2);
-			return true;
 		}
-		this.deplaceSoldat(pos2, (Soldat)this.plateau[pos.getX()][pos.getY()]);
+		
+		this.deplaceSoldat(pos2, s);
+		this.joueTourGeneralJoueur();
+		return true;
+	}
+	
+	/*
+	 * Methode qui joue le tours des Heros
+	 * 	- Si tout les Heros on réalisé une action alors on passe le tour
+	 * 	- Et on remet a jour les Monstre a jours
+	 * */
+	private void joueTourGeneralJoueur() {
+		System.out.println("JoueTourActionHeros ==> "  + this.tour + " bool :" +this.tousHerosOntJoue() );
+		if(this.tousHerosOntJoue() == true) {
+			//this.tour = 1;			// Ligne inutile pour le moment car obliger de cliquer sur jouer tour pour passer le tour
+			for(int i = 0; i < LARGEUR_CARTE; i++)
+				for(int j = 0; j < HAUTEUR_CARTE; j++) 
+					if(this.plateau[i][j] instanceof Monstre) {
+						Monstre m = (Monstre)this.plateau[i][j];
+						m.aJoue = false;
+					}				
+			System.out.println("--> JoueTourActionHeros ==> "  + this.tour + " bool :" +this.tousHerosOntJoue());	
+		}
+	}
+	
+	/*
+	 * Methode qui joue le tours des Monstre
+	 * 	- Si tout les Monstre on réalisé une action alors on passe le tour
+	 * 	- Et on remet a jour les Heros a jours
+	 * */
+	private void joueTourGeneralMonstre() {
+		System.out.println("JoueTourActionHeros ==> "  + this.tour + " bool :" +this.tousHerosOntJoue() );
+		if(this.tousMonstresOntJoue() == true) {
+			this.tour = 0;
+			for(int i = 0; i < LARGEUR_CARTE; i++)
+				for(int j = 0; j < HAUTEUR_CARTE; j++) 
+					if(this.plateau[i][j] instanceof Heros) {
+						Heros m = (Heros)this.plateau[i][j];
+						m.aJoue = false;
+					}				
+			System.out.println("Je suis true : --> JoueTourActionHeros ==> "  + this.tour + " bool :" +this.tousHerosOntJoue());	
+		}
+	}
+	
+	/* Retourve vrai si tout les heros on joue sinon faux */
+	private boolean tousHerosOntJoue() {	
+		for(int i = 0; i < LARGEUR_CARTE; i++)
+			for(int j = 0; j < HAUTEUR_CARTE; j++) 
+				if(this.plateau[i][j] instanceof Heros) {
+					Heros h = (Heros)this.plateau[i][j];
+					if(h.aJoue == false)
+						return false;
+				}	
+		return true;
+	}
+	
+	/* Retourne Vrai si tout les monstres ont joué sinon faux */
+	private boolean tousMonstresOntJoue() {	
+		for(int i = 0; i < LARGEUR_CARTE; i++)
+			for(int j = 0; j < HAUTEUR_CARTE; j++) 
+				if(this.plateau[i][j] instanceof Monstre) {
+					Monstre m = (Monstre)this.plateau[i][j];
+					if(m.aJoue == false)
+						return false;
+				}	
 		return true;
 	}
 	
@@ -89,7 +216,7 @@ public class Carte implements IConfig,ICarte {
 	
 	/* 
 	 * Trouve une position vide adjacente a pos sur la carte si aucune position adjacente est vide alors une position aleatoire est renvoye 
-	 * Cete methode utilise une liste de position adjacente renvoyer par la methode ci-dessus
+	 * Cette methode utilise la liste de position adjacente renvoyer par la methode ci-dessus
 	 */
 	public Position trouvePositionVide(Position pos) {
 		if (pos.estValide() == true && this.plateau[pos.getX()][pos.getY()] == null)
@@ -170,6 +297,7 @@ public class Carte implements IConfig,ICarte {
 						if(this.plateau[k][n] != null)
 							if (this.lastHeros.dedans(this.plateau[k][n].getPosition()) == true)
 								this.plateau[k][n].seDessiner(g);
+				
 				g.setColor(COULEUR_GRILLE);
 				g.drawRect(i * NB_PIX_CASE, j * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
 				g.drawRect(i * NB_PIX_CASE, j * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
