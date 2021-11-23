@@ -12,7 +12,7 @@ public interface IConfig {
 	Color COULEUR_TEXTE = Color.black, COULEUR_MONSTRES = Color.black;
 	Color COULEUR_HEROS = Color.red, COULEUR_HEROS_DEJA_JOUE = Color.pink;
 	Color COULEUR_EAU = Color.blue, COULEUR_FORET = Color.green, COULEUR_ROCHER = Color.gray;
-	Color COULEUR_GRILLE = Color.black; Color COULEUR_MENUBAR = Color.white;
+	Color COULEUR_GRILLE = Color.black; Color COULEUR_MENUBAR = Color.gray; Color COULEUR_FOOTER = Color.black;
 	
 	final int MAX_FEN_LARGEUR = 500;
 	final int MAX_FEN_HAUTEUR = 500;
@@ -23,10 +23,13 @@ public interface IConfig {
 	final int FEN_LARGEUR = LARGEUR_CARTE * NB_PIX_CASE + PADDING_DROIT;
 	
 	/* Variable Menu */
-	final int MENUBAR_HAUTEUR = 55;
+	final int MENUBAR_HAUTEUR = 35;
 	final int MENUBAR_LARGEUR = FEN_LARGEUR;
 	
-	final int FEN_HAUTEUR = HAUTEUR_CARTE * NB_PIX_CASE + PADDING_BAS + MENUBAR_HAUTEUR ;
+	/* Variable footer */
+	final int FOOTER_HAUTEUR = 25;
+	final int FOOTER_LARGEUR = FEN_LARGEUR;
+	final int FEN_HAUTEUR = HAUTEUR_CARTE * NB_PIX_CASE + PADDING_BAS + MENUBAR_HAUTEUR + FOOTER_HAUTEUR;
 	
 	
 	/* Variable du Boutton */

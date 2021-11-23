@@ -10,12 +10,14 @@ import java.awt.Point;
 import java.awt.Color;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.Robot;
 import java.awt.Font;
 
 public class PanneauJeu extends JPanel implements IConfig {
 	private static final long serialVersionUID = 1L;
+	// Variable provisoire qui permet de stocker la couleur des pixels survolé 
 	private Color color = null;
 	private Carte c;
 	private	Position survol;
@@ -25,18 +27,34 @@ public class PanneauJeu extends JPanel implements IConfig {
 	public Heros h;
 	public boolean isSelected = false;
 	public int tour;
-	JButton finTour;
-	
-	PanneauJeu(JButton finTour){
+	public JButton finTour;
+	private JLabel footer, top;
+	private int nombreHeros, nombreMonstre;
+	PanneauJeu(JButton finTour, JLabel footer, JLabel top){
 		this.c = new Carte();
 		this.tour = 0;
 		this.finTour = finTour;
+		this.footer = footer;
+		this.top = top;
 		this.EventCatcher();
+		this.nombreSoldatVivant();
 	}
-	
+	public void nombreSoldatVivant() {
+		int nbMonstre = 0;
+		int nbHeros = 0;
+		for(int i = 0; i < LARGEUR_CARTE; i++)
+			for(int j = 0; j < HAUTEUR_CARTE; j++) {
+				if(c.plateau[i][j] instanceof Heros)
+					nbHeros++;
+				else if(c.plateau[i][j] instanceof Monstre)
+					nbMonstre++;
+			}
+		nombreMonstre = nbMonstre;
+		nombreHeros = nbHeros;
+		repaint();
+	}
 	/* Récupere les clic de souris */
-	public void EventCatcher() {
-		
+	public void EventCatcher() {	
 		finTour.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
 				if (tour == 0 )
@@ -70,7 +88,7 @@ public class PanneauJeu extends JPanel implements IConfig {
 		});
 		
 		/* Affiche les infos des elements survole avec la souris */
-	/*	addMouseMotionListener(new MouseAdapter() {
+		addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
 				survol = new Position(e.getX() / NB_PIX_CASE , e.getY() / NB_PIX_CASE);
 				survol.verifPosition();
@@ -88,17 +106,10 @@ public class PanneauJeu extends JPanel implements IConfig {
 				color = new Color(color.getRed(),color.getGreen(),color.getBlue());
 				
 				if(color.getRGB() != COULEUR_INCONNU.getRGB()) {
-					if(elem instanceof Soldat) {
-						if(elem instanceof Heros)
-							System.out.println("Survol Heros : " + elem.toString());
-						else
-							System.out.println("Survol Monstre : " + elem.toString());
-					}	
-					else if(elem instanceof Obstacle)
-						System.out.println("Survol Obstacle : " + elem.toString());
+					repaint();
 				}
 			}
-		});*/
+		});
 	}
 	
 	private void gameManager() {
@@ -110,11 +121,17 @@ public class PanneauJeu extends JPanel implements IConfig {
 		this.setBackground(COULEUR_INCONNU);
 		c.toutDessiner(g);	
 		
-		// Message a ecrire dans un Label
-		/*Font font = new Font("Courier", Font.BOLD, 20);
-	    g.setFont(font);
-	    g.setColor(Color.red);          
-	    g.drawString("Infos de l'element : " + , 10, 20);   
-		*/
+		// Affichage du laben dans le menuBar
+		this.top.setFont(new Font("Arial", Font.BOLD, 13));
+		this.top.setForeground(Color.WHITE);
+		 this.top.setText("Il reste " + nombreHeros + " Heros et " + nombreMonstre + " Monstres !");
+		// Affichage du label en bas de la fenetre
+		this.footer.setFont(new Font("Arial", Font.BOLD, 13));
+		this.footer.setForeground(Color.WHITE);
+	    if(this.elem != null)
+	    	this.footer.setText(" " + this.elem.toString());
+	   
+	   
+	 
 	}
 }
