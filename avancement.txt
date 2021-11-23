@@ -20,3 +20,18 @@
 	retour a (1) !
 
 ========================================================
+========================================================
+----------------------------------
+	23/11/2021 :
+----------------------------------
+	*** Class fenetre :
+		- Ajout d'un label dans le menuBar et d'un label "footer"
+	*** Class Panneau :
+		- Affichage des labels sur la fenetre
+	*** Class Carte : 
+		- Correction de la gestion des tours ("bug" corrigé)
+	
+/!\ Si on clique sur le boutton fin de jeu avant d'avoir cliqué quelque part d'autre --> Erreur !
+/!\ public Position trouvePositionVide(Position pos) --> erreur dans cette fonction à corriger 
+
+========================================================
