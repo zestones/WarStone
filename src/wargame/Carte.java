@@ -35,55 +35,57 @@ public class Carte implements IConfig,ICarte {
 	 * Fonction principale du jeu c'est ici que tout est gérer : les tours, les deplacement, les actions...
 	 */
 	public void jouerSoldats(PanneauJeu pj) {
-		Element e = this.getElement(pj.clic); 
 		this.tour = pj.tour;
-		
-		System.out.println("\n-->Mon tour d'apres carte : "  + this.tour + "\n-->D'apres pj : " + pj.tour);
-
-		if(this.tour == 0) {
-			if(e instanceof Heros) {
-				pj.isSelected = true;
-				pj.lastClic = new Position(pj.clic.getX(), pj.clic.getY());
-				pj.h = (Heros) e;
-			}
-			if (pj.lastClic == null)
-				return;
-			if( (pj.clic.getX() == pj.lastClic.getX() && pj.clic.getY() == pj.lastClic.getY()) == false) {
-				if( (this.actionHeros(pj.lastClic, pj.clic)) == true ) {
-					pj.lastClic = null;
-					pj.repaint();
+		pj.nombreSoldatVivant();
+		if(this.tour == 0) 
+			this.joueTourHeros(pj);
+		else if(this.tour == 1) 
+			this.joueTourMonstre(pj);
+	}
+	/* On effectue une action pour chaque monstre */
+	private void joueTourMonstre(PanneauJeu pj) {
+		Heros h;
+		System.out.println("Tours de mes monstres !! ");
+		for(int i = 0; i < LARGEUR_CARTE; i++) {
+			for(int j = 0; j < HAUTEUR_CARTE; j++) {
+				if(this.plateau[i][j] instanceof Heros) {
+					h = (Heros) this.plateau[i][j];	
+					h.repos();	
 				}
-			}
-		}
-		else if(this.tour == 1) {
-			Heros h;
-			System.out.println("Tours de mes monstres !! ");
-			for(int i = 0; i < LARGEUR_CARTE; i++) {
-				for(int j = 0; j < HAUTEUR_CARTE; j++) {
-					if(this.plateau[i][j] instanceof Heros) {
-						h = (Heros) this.plateau[i][j];	
-						h.repos();	
+				else if(this.plateau[i][j] instanceof Monstre) {
+					Monstre m = (Monstre) this.plateau[i][j];
+					if(this.actionCombatMonstre(m) == false) {
+						this.deplaceSoldat(this.trouvePositionVide(m.getPosition()),m);
+						pj.repaint();
 					}
-					else if(this.plateau[i][j] instanceof Monstre) {
-						Monstre m = (Monstre) this.plateau[i][j];
-						if(this.actionCombatMonstre(m) == false) {
-							this.deplaceSoldat(this.trouvePositionVide(m.getPosition()),m);
-							pj.repaint();
-						}
-					}		
-				}
-			}
-			if (this.tousMonstresOntJoue() == true) {
-				this.tour = 0;
-				this.joueTourGeneralMonstre();
+				}		
 			}
 		}
-	}	
+		if (this.tousMonstresOntJoue() == true) {
+			this.tour = 0;
+			this.joueTourGeneralMonstre();
+			pj.finTour.doClick();
+		}
+	}
+	/* Le generale joueur decide quelle action faire */
+	private void joueTourHeros(PanneauJeu pj) {
+		Element e = this.getElement(pj.clic); 
+		if(e instanceof Heros) {
+			pj.isSelected = true;
+			pj.lastClic = new Position(pj.clic.getX(), pj.clic.getY());
+			pj.h = (Heros) e;
+		}
+		if (pj.lastClic == null)
+			return;
+		if( (pj.clic.getX() == pj.lastClic.getX() && pj.clic.getY() == pj.lastClic.getY()) == false) {
+			if( (this.actionHeros(pj.lastClic, pj.clic)) == true ) {
+				pj.lastClic = null;
+				pj.repaint();
+			}
+		}
+	}
 	
-	/* 
-	 * Lorsque l'IA joue c'est que le monstre appelle combat
-	 * On cherche si un Heros est dans le champs visuelles d'un Heros si oui on les fait combatre
-	 * */
+	/* On cherche si un Heros est dans le champs visuelles d'un Monstre et on les fait combatre */
 	private boolean actionCombatMonstre(Monstre m) {
 		for(int i = 0; i < LARGEUR_CARTE; i++)
 			for(int j = 0; j < HAUTEUR_CARTE; j++) 
