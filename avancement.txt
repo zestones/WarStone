@@ -35,3 +35,21 @@
 /!\ public Position trouvePositionVide(Position pos) --> erreur dans cette fonction à corriger 
 
 ========================================================
+========================================================
+----------------------------------
+	26/11/2021 :
+----------------------------------
+	*** Class fenetre :
+		- Nettoyage --> MenuBar et footer mis declarer dans ICONFIG 
+					--> La creation des bouttons se fait dans PanneauJeu 
+	*** Class Panneau :
+		- Ajout de deux Boutton : Sauvegarde et Resume
+		- Ajout de sauvegarde de partie (Premiere implementation)
+	*** IConfig : 
+		- herite de java.io.Serializable pour permettre la serialization de tout les objets 
+		  car IConfig est implement� par tout le monde
+	
+/!\ Si on clique sur le boutton fin de jeu avant d'avoir clique quelque part d'autre --> Erreur !
+/!\ public Position trouvePositionVide(Position pos) --> erreur dans cette fonction à corriger 
+
+========================================================
