@@ -6,12 +6,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.awt.Point;
+
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+
 import java.awt.Robot;
 import java.awt.Font;
 
@@ -27,18 +37,44 @@ public class PanneauJeu extends JPanel implements IConfig {
 	public Heros h;
 	public boolean isSelected = false;
 	public int tour;
-	public JButton finTour;
-	private JLabel footer, top;
+	public JButton finTour, sauvegarde, resume;
+	private JLabel  top;
 	private int nombreHeros, nombreMonstre;
-	PanneauJeu(JButton finTour, JLabel footer, JLabel top){
+	
+    String nomFichier = "WarStone_save.ser";
+
+	PanneauJeu(){
 		this.c = new Carte();
 		this.tour = 0;
-		this.finTour = finTour;
-		this.footer = footer;
-		this.top = top;
+
+		finTour = new JButton("Fin du Tour");   
+		finTour.setSize(BOUTTON_LARGEUR, BOUTTON_HAUTEUR);
+		finTour.setVisible(true);
+        menuBar.add(finTour);
+        
+        top = new JLabel("Tout la Haut", SwingConstants.CENTER); 
+		top.setBackground(COULEUR_MENUBAR);
+		top.setOpaque(true); 
+		menuBar.add(top);
+		
+		sauvegarde = new JButton("Save");   
+		sauvegarde.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
+		sauvegarde.setVisible(true);
+		menuBar.add(sauvegarde);
+		
+		resume = new JButton("Resume");   
+		sauvegarde.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
+		sauvegarde.setVisible(true);
+		menuBar.add(resume);
+		
+		footer.setBackground(COULEUR_FOOTER);
+		footer.setPreferredSize(new Dimension(FOOTER_LARGEUR, FOOTER_HAUTEUR));
+		footer.setOpaque(true);
+
 		this.EventCatcher();
 		this.nombreSoldatVivant();
 	}
+	
 	public void nombreSoldatVivant() {
 		int nbMonstre = 0;
 		int nbHeros = 0;
@@ -53,6 +89,7 @@ public class PanneauJeu extends JPanel implements IConfig {
 		nombreHeros = nbHeros;
 		repaint();
 	}
+	
 	/* Récupere les clic de souris */
 	public void EventCatcher() {	
 		finTour.addActionListener(new ActionListener(){  
@@ -64,6 +101,50 @@ public class PanneauJeu extends JPanel implements IConfig {
 				gameManager();
 			}  
 		});  
+		sauvegarde.addActionListener(new ActionListener(){
+    		public void actionPerformed(ActionEvent e){
+    			try
+    			{   
+    				FileOutputStream fichier = new FileOutputStream(nomFichier);
+    				ObjectOutputStream sortie = new ObjectOutputStream(fichier);
+    				
+    				sortie.writeObject(c);
+    		
+    				sortie.close();
+    				fichier.close();    		     
+    			}
+    			catch(IOException ex)
+    			{
+    				System.out.println("IOException : " + ex);
+    				ex.printStackTrace();
+    			}
+    		}
+    	});
+		
+		resume.addActionListener(new ActionListener(){
+    		public void actionPerformed(ActionEvent e){
+    			try
+    			{   
+    				FileInputStream fichier = new FileInputStream(nomFichier);
+    				ObjectInputStream in = new ObjectInputStream(fichier);
+    				
+    				c = (Carte)in.readObject();
+    				
+    				in.close();
+    				fichier.close();
+    				
+    				repaint();    	            
+    			}
+    			catch(IOException ex)
+    			{
+    				System.out.println("IOException : " + ex);
+    			}    	        
+    			catch(ClassNotFoundException ex)
+    			{
+    				System.out.println("ClassNotFoundException : " + ex);
+    			}
+    		}
+    	});
 		
 		this.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -125,11 +206,12 @@ public class PanneauJeu extends JPanel implements IConfig {
 		this.top.setFont(new Font("Arial", Font.BOLD, 13));
 		this.top.setForeground(Color.WHITE);
 		 this.top.setText("Il reste " + nombreHeros + " Heros et " + nombreMonstre + " Monstres !");
+		 
 		// Affichage du label en bas de la fenetre
-		this.footer.setFont(new Font("Arial", Font.BOLD, 13));
-		this.footer.setForeground(Color.WHITE);
+		footer.setFont(new Font("Arial", Font.BOLD, 13));
+		footer.setForeground(Color.WHITE);
 	    if(this.elem != null)
-	    	this.footer.setText(" " + this.elem.toString());
+	    	footer.setText(" " + this.elem.toString());
 	   
 	   
 	 

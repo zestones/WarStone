@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Carte implements IConfig,ICarte {
+
+	private static final long serialVersionUID = 1L;
 	Element[][] plateau;
-	//Autre Solution a trouver c moche
+	//Autre Solution ?
 	Heros lastHeros;
 	private int tour = 0;
 	

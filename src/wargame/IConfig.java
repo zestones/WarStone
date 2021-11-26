@@ -2,7 +2,15 @@ package wargame;
 
 import java.awt.Color;
 
-public interface IConfig {
+import javax.swing.JLabel;
+import javax.swing.JMenuBar;
+import javax.swing.SwingConstants;
+
+public interface IConfig extends java.io.Serializable {
+	// Element de la fenetre partager entre la class PanneauJeu & FenetreJeu
+	public static final JMenuBar menuBar = new JMenuBar();
+	public static final JLabel footer = new JLabel("", SwingConstants.CENTER);
+	
 	int LARGEUR_CARTE = 25; int HAUTEUR_CARTE = 15; // en nombre de cases
 	int NB_PIX_CASE = 20;
 	int POSITION_X = 100; int POSITION_Y = 50; // Position de la fenêtre
