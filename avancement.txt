@@ -60,3 +60,13 @@
 /!\ trouveHeros(Position pos) n'est pas utilise mais peut l'être dans actionCombatMonstre
 
 ========================================================
+========================================================
+----------------------------------
+	27/11/2021 :
+----------------------------------
+	Nettoyage du code, correction de bug et ajout d'image (mise en commentaire)
+	
+/!\ trouveHeros(Position pos) --> a corriger comme trouvePositionVide(Position pos) 
+/!\ trouveHeros(Position pos) n'est pas utilise mais peut l'être dans actionCombatMonstre
+
+========================================================
