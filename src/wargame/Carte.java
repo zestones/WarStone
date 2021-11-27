@@ -239,24 +239,13 @@ public class Carte implements IConfig,ICarte {
 	 *  - Elle dessine la carte et tout les elements present 
 	 *  - Pour chaque Heros trouver on va dessiner les element a sa portee 
 	 */
-	// /!\ Boucle de la Mort /!\
 	public void toutDessiner(Graphics g) {
 		for(int i = 0; i < LARGEUR_CARTE; i++)
 			for(int j = 0; j < HAUTEUR_CARTE; j++) {
-				if (this.plateau[i][j] instanceof Heros) {
+				if (this.plateau[i][j] instanceof Heros) 
 					this.plateau[i][j].seDessiner(g);
-					this.lastHeros = (Heros) this.plateau[i][j];
-				}
-				for(int k = 0; k < LARGEUR_CARTE; k++)
-					for(int n = 0; n < HAUTEUR_CARTE; n++) 
-						if(this.plateau[k][n] != null)
-							if (this.lastHeros.dedans(this.plateau[k][n].getPosition()) == true)
-								this.plateau[k][n].seDessiner(g);
-				
 				g.setColor(COULEUR_GRILLE);
 				g.drawRect(i * NB_PIX_CASE, j * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
-				g.drawRect(i * NB_PIX_CASE, j * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
 			}
-		
 	}		
 }

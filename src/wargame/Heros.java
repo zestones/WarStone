@@ -84,6 +84,10 @@ public class Heros extends Soldat{
     				g.fillRect(porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
     				//g.drawImage(range, porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
     			}
+    			else if (carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] instanceof Monstre)
+    				carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()].seDessiner(g);
+    			else if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] instanceof Obstacle)
+    				carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()].seDessiner(g);
     			
     			g.setColor(COULEUR_GRILLE);
 				g.drawRect(porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
