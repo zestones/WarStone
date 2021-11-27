@@ -15,7 +15,7 @@ public class Heros extends Soldat{
     
     Heros(Carte carte, TypesH h, String nom, Position pos){
         super(carte, h.getPoints(), h.getPortee(), h.getPuissance(), h.getTir(), pos, false);
-        this.img = h.getImage();
+        //this.img = h.getImage();
         this.h = h;
         this.nom = nom;
         carte.plateau[this.pos.getX()][this.pos.getY()] = this;

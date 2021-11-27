@@ -64,8 +64,12 @@
 ----------------------------------
 	27/11/2021 :
 ----------------------------------
-	Nettoyage du code, correction de bug et ajout d'image (mise en commentaire)
+	- Nettoyage du code 
+	- correction de bug,
+	- ajout image (mise en commentaire --> car trop lent redessine tout a chaque clique)
 	
+	
+/!\ Les images ne sont pas serializable --> ajout methode write..
 /!\ trouveHeros(Position pos) --> a corriger comme trouvePositionVide(Position pos) 
 /!\ trouveHeros(Position pos) n'est pas utilise mais peut l'être dans actionCombatMonstre
 

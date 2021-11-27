@@ -33,6 +33,7 @@ public interface IConfig extends java.io.Serializable {
 	Image water = Toolkit.getDefaultToolkit().getImage("./res/img/background/water.jpg");
 	Image range = Toolkit.getDefaultToolkit().getImage("./res/img/background/range.jpg");
 	
+	
 	final int MAX_FEN_LARGEUR = 500;
 	final int MAX_FEN_HAUTEUR = 500;
 	final int PADDING_BAS = 41;

@@ -39,12 +39,13 @@ public class Carte implements IConfig,ICarte {
 		pj.nombreSoldatVivant();
 		if(this.tour == 0) {
 			this.joueTourHeros(pj);
-			this.joueTourGeneralJoueur();
+			this.joueTour(this.tour);
 		}
-		else if(this.tour == 1) {
+		else {
 			this.joueTourMonstre(pj);
-			this.joueTourGeneralMonstre();
-			pj.herosSelectione = null;
+			this.joueTour(this.tour);
+			pj.finTour.doClick();
+			pj.herosSelectione = null;	
 		}
 		pj.repaint();
 		
@@ -68,7 +69,7 @@ public class Carte implements IConfig,ICarte {
 				}		
 			}
 		}		
-		pj.finTour.doClick();
+		
 	}
 	/* Le generale joueur decide quelle action faire */
 	private void joueTourHeros(PanneauJeu pj) {
@@ -93,7 +94,10 @@ public class Carte implements IConfig,ICarte {
 		}		
 	}
 	
-	/* On cherche si un Heros est dans le champs visuelles d'un Monstre et on les fait combatre */
+	/* 
+	 * On cherche si un Heros est dans le champs visuelles d'un Monstre et on les fait combatre 
+	 * --> A changer en utilisant trouveHeros
+	 * */
 	private boolean actionCombatMonstre(Monstre m) {
 		for(int i = 0; i < LARGEUR_CARTE; i++)
 			for(int j = 0; j < HAUTEUR_CARTE; j++) 
@@ -137,33 +141,23 @@ public class Carte implements IConfig,ICarte {
 	}
 	
 	/*
-	 * Methode qui joue le tours des Heros
-	 * 	- Si tout les Heros on réalisé une action alors on passe le tour
-	 * 	- Et on remet a jour les Monstre a jours
-	 * */
-	private void joueTourGeneralJoueur() {
+	 * On remet aJoue = false pour en fonction du tour de la partie : tours des Monstre == 1 / tour des Heros == 0
+	 * Lorsque c'est le tour des monstres alors les Heros doivent pouvoir bouger de nouveau, idem pour les monstres
+	 *  */
+	private void joueTour(int tour) {
 		for(int i = 0; i < LARGEUR_CARTE; i++)
-			for(int j = 0; j < HAUTEUR_CARTE; j++) 
-				if(this.plateau[i][j] instanceof Monstre) {
-					Monstre m = (Monstre)this.plateau[i][j];
+			for(int j = 0; j < HAUTEUR_CARTE; j++) {
+				if(tour == 0 &&  this.plateau[i][j] instanceof Monstre) {	
+					Monstre m = (Monstre) this.plateau[i][j];
 					m.aJoue = false;
 				}
-	}
-	
-	/*
-	 * Methode qui joue le tours des Monstre
-	 * 	- Si tout les Monstre on réalisé une action alors on passe le tour
-	 * 	- Et on remet a jour les Heros a jours
-	 * */
-	private void joueTourGeneralMonstre() {
-		for(int i = 0; i < LARGEUR_CARTE; i++)
-			for(int j = 0; j < HAUTEUR_CARTE; j++) 
-				if(this.plateau[i][j] instanceof Heros) {
-					Heros h = (Heros)this.plateau[i][j];
+				else if(tour == 1 && this.plateau[i][j] instanceof Heros) {
+					Heros h = (Heros) this.plateau[i][j];
 					h.aJoue = false;
-				}				
-	}
-	
+				}
+			}	
+					
+	}	
 	
 	/* trouve une position vide aleatoiremennt sur la Carte */
 	public Position trouvePositionVide() {

@@ -230,7 +230,7 @@ public class PanneauJeu extends JPanel implements IConfig {
 	    	footer.setText(" " + this.elem.toString());
 	   
 	    // Affiche les deplacement possible du heros selectionne
-	   if(this.herosSelectione != null) 
+	   if(this.herosSelectione != null && this.herosSelectione.aJoue != true) 
 		   this.herosSelectione.dessineSelection(g);
 	}
 }
