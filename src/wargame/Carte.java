@@ -33,9 +33,7 @@ public class Carte implements IConfig,ICarte {
 		}	
 	}
 	
-	/*
-	 * Fonction principale du jeu c'est ici que tout est gérer : les tours, les deplacement, les actions...
-	 */
+	/* Fonction principale du jeu c'est ici que tout est gérer : les tours, les deplacement, les actions... */
 	public void jouerSoldats(PanneauJeu pj) {
 		this.tour = pj.tour;
 		pj.nombreSoldatVivant();
@@ -47,12 +45,11 @@ public class Carte implements IConfig,ICarte {
 	/* On effectue une action pour chaque monstre */
 	private void joueTourMonstre(PanneauJeu pj) {
 		Heros h;
-		System.out.println("Tours de mes monstres !! ");
 		for(int i = 0; i < LARGEUR_CARTE; i++) {
 			for(int j = 0; j < HAUTEUR_CARTE; j++) {
 				if(this.plateau[i][j] instanceof Heros) {
 					h = (Heros) this.plateau[i][j];	
-					h.repos();	
+					h.repos();
 				}
 				else if(this.plateau[i][j] instanceof Monstre) {
 					Monstre m = (Monstre) this.plateau[i][j];
@@ -73,15 +70,19 @@ public class Carte implements IConfig,ICarte {
 	private void joueTourHeros(PanneauJeu pj) {
 		Element e = this.getElement(pj.clic); 
 		if(e instanceof Heros) {
-			pj.isSelected = true;
 			pj.lastClic = new Position(pj.clic.getX(), pj.clic.getY());
-			pj.h = (Heros) e;
+			pj.herosSelectione = (Heros) e;
+			if(pj.herosSelectione.aJoue == true)
+				pj.herosSelectione = null;
+			pj.repaint();
 		}
 		if (pj.lastClic == null)
 			return;
+		
 		if( (pj.clic.getX() == pj.lastClic.getX() && pj.clic.getY() == pj.lastClic.getY()) == false) {
 			if( (this.actionHeros(pj.lastClic, pj.clic)) == true ) {
 				pj.lastClic = null;
+				pj.herosSelectione = null;
 				pj.repaint();
 			}
 		}
@@ -102,14 +103,10 @@ public class Carte implements IConfig,ICarte {
 	}
 	
 	/* Methode appelé lors de la mort d'un Soldat */
-	public void mort(Soldat perso) {
-		this.plateau[perso.getPosition().getX()][perso.getPosition().getY()] = null;
-		System.out.println("Mort de ma position ==> " + perso.getPosition().toString());
-	}
+	public void mort(Soldat perso) { this.plateau[perso.getPosition().getX()][perso.getPosition().getY()] = null; }
 	
 	/* Deplace le Soldat a la position pos, si l'opperation a ete effectue alors retourne true sinon false */
 	public boolean deplaceSoldat(Position pos, Soldat soldat) {
-		//System.out.println("distance de deplacement : --> " + soldat.getPosition().distance(pos) + "Ma portee : " + soldat.getPortee());
 		if(pos.estValide() == true && this.plateau[pos.getX()][pos.getY()] == null && soldat.getPosition().estVoisine(pos)) {
 			soldat.seDeplace(pos);
 			return true;
@@ -140,17 +137,14 @@ public class Carte implements IConfig,ICarte {
 	 * 	- Et on remet a jour les Monstre a jours
 	 * */
 	private void joueTourGeneralJoueur() {
-		System.out.println("JoueTourActionHeros ==> "  + this.tour + " bool :" +this.tousHerosOntJoue() );
 		if(this.tousHerosOntJoue() == true) {
-			//this.tour = 1;			// Ligne inutile pour le moment car obliger de cliquer sur jouer tour pour passer le tour
 			for(int i = 0; i < LARGEUR_CARTE; i++)
 				for(int j = 0; j < HAUTEUR_CARTE; j++) 
 					if(this.plateau[i][j] instanceof Monstre) {
 						Monstre m = (Monstre)this.plateau[i][j];
 						m.aJoue = false;
-					}				
-			System.out.println("--> JoueTourActionHeros ==> "  + this.tour + " bool :" +this.tousHerosOntJoue());	
-		}
+					}
+			}
 	}
 	
 	/*
@@ -159,16 +153,14 @@ public class Carte implements IConfig,ICarte {
 	 * 	- Et on remet a jour les Heros a jours
 	 * */
 	private void joueTourGeneralMonstre() {
-		System.out.println("JoueTourActionHeros ==> "  + this.tour + " bool :" +this.tousHerosOntJoue() );
 		if(this.tousMonstresOntJoue() == true) {
-			this.tour = 0;
+			//this.tour = 0;
 			for(int i = 0; i < LARGEUR_CARTE; i++)
 				for(int j = 0; j < HAUTEUR_CARTE; j++) 
 					if(this.plateau[i][j] instanceof Heros) {
 						Heros m = (Heros)this.plateau[i][j];
 						m.aJoue = false;
 					}				
-			System.out.println("Je suis true : --> JoueTourActionHeros ==> "  + this.tour + " bool :" +this.tousHerosOntJoue());	
 		}
 	}
 	
@@ -207,14 +199,11 @@ public class Carte implements IConfig,ICarte {
 	/* Methode renvoyant une liste contenant les 8 positions adjacente a une case */
 	private List<Position> positionAdjacente(Position pos) {
 		List<Position> listePos= new ArrayList<>();
-		listePos.add(new Position(pos.getX()-1, pos.getY()-1));
-		listePos.add(new Position(pos.getX(), pos.getY()-1));
-		listePos.add(new Position(pos.getX()+1, pos.getY()-1));
-		listePos.add(new Position(pos.getX()+1, pos.getY()));
-		listePos.add(new Position(pos.getX()+1, pos.getY()+1));
-		listePos.add(new Position(pos.getX(), pos.getY()+1));
-		listePos.add(new Position(pos.getX()-1, pos.getY()+1));
-		listePos.add(new Position(pos.getX()-1, pos.getY()));
+		for(int i = -1; i < 2; i++)
+    		for(int j = -1; j < 2; j++) {
+    			if(i != 0 || j != 0) 
+    				listePos.add(new Position(pos.getX() + i, pos.getY() + j));
+    		}
 		return listePos;
 	}
 	
@@ -223,24 +212,16 @@ public class Carte implements IConfig,ICarte {
 	 * Cette methode utilise la liste de position adjacente renvoyer par la methode ci-dessus
 	 */
 	public Position trouvePositionVide(Position pos) {
-		if (pos.estValide() == true && this.plateau[pos.getX()][pos.getY()] == null)
-			return pos;
-		else {
-			List<Position> listePos = this.positionAdjacente(pos);
-			int i = 0;
-			while(listePos.size() != 0) {
-				i = (int) (Math.random() * listePos.size()-1);
-				if(listePos.get(i).estValide() == true && this.plateau[listePos.get(i).getX()][listePos.get(i).getY()] == null) 
-					break;
-				else 
-					listePos.remove(i);
-			}
-			if(listePos.size() == 0) {
-				System.out.println("Aucun Heros au Alentours ! ==> Selection au Hasard");
-				return this.trouvePositionVide();
-			}
-			return  listePos.get(i);
+		List<Position> listePos = this.positionAdjacente(pos);
+		int i = 0;
+		while(listePos.size() != 0) {
+			i = (int) (Math.random() * listePos.size()-1);
+			if(listePos.get(i).estValide() == true && this.plateau[listePos.get(i).getX()][listePos.get(i).getY()] == null) 
+				return listePos.get(i);
+			
+			listePos.remove(i);
 		}
+		return listePos.get(i);
 	}
 	
 	/* renvoie un Heros trouve aleatoirement sur la carte */
