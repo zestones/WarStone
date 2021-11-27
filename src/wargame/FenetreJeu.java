@@ -7,9 +7,12 @@ public class FenetreJeu extends JFrame implements IConfig{
 	private static final long serialVersionUID = 1L;
 	
 	FenetreJeu(){
-		// Creer la JFrame
-		JFrame frame = new JFrame("WarStone");	
-		frame.setSize(FEN_LARGEUR, FEN_HAUTEUR);	
+		
+		frame.setSize(FEN_LARGEUR, FEN_HAUTEUR);
+		// Pour mettre la fenetre en pleine ecran
+		/*frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		frame.setUndecorated(true);
+		*/
 		frame.setLocation(POSITION_X, POSITION_Y);
 		
 		menuBar.setOpaque(true);
@@ -36,7 +39,8 @@ public class FenetreJeu extends JFrame implements IConfig{
         menuBar.setLayout(new FlowLayout(FlowLayout.CENTER));        
         
         pack();
-		frame.setVisible(true); 	
+        frame.setVisible(true); 	
+		
 	}
 
 	public static void main(String[] args) {

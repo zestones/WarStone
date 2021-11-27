@@ -3,16 +3,19 @@ package wargame;
 import wargame.ISoldat.TypesH;
 
 public abstract class Soldat extends Element implements ISoldat,IConfig{
+	private static final long serialVersionUID = 1L;
 	private final int POINTS_DE_VIE_MAX, PUISSANCE, TIR, PORTEE_VISUELLE;
     private int pointsDeVie;
     public Position pos;
     public Carte carte;
-   
-  Soldat(Carte carte,int pts, int portee, int puiss, int tir, Position pos) {
+    public boolean aJoue;
+
+  Soldat(Carte carte,int pts, int portee, int puiss, int tir, Position pos, boolean aJoue) {
     	this.carte = carte;
         POINTS_DE_VIE_MAX = pointsDeVie = pts;
         PORTEE_VISUELLE = portee; PUISSANCE = puiss; TIR = tir;
         this.pos = pos;
+        this.aJoue = aJoue;
     }
     
     public Position getPosition() { return pos; }
@@ -35,46 +38,37 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
     		
     }
     
-    /* Methode de combat entre Heros & Monstre */
     public void combat(Soldat soldat) {
-    	Heros h; Monstre e;
     	int pH, pM;
     	
-    	if (this instanceof Heros) {
-    		h = (Heros) this; 
-    		e = (Monstre) soldat;
-    		h.aJoue = true;
-    	}
-    	else {
-    		h = (Heros) soldat; 
-    		e = (Monstre) this;
-    		e.aJoue = true;
-    	}
-    	
-    	if(h.dedans(e.getPosition()) == true) {
-    		if (this.getPosition().estVoisine(soldat.getPosition()) == false) {
-    			pH = (int) (Math.random() * this.TIR);
-    			pM = (int) (Math.random() * soldat.TIR);
-    		}
-    		else {
-    			pH = (int) (Math.random() * this.PUISSANCE);
-    			pM = (int) (Math.random() * soldat.PUISSANCE);
-    		}
-    	}
-    	else 
-    		return;
+    	if (this.getPosition().estVoisine(soldat.getPosition()) == false) {
+			pH = (int) (Math.random() * this.TIR);
+			pM = (int) (Math.random() * soldat.TIR);
+		}
+		else {
+			pH = (int) (Math.random() * this.PUISSANCE);
+			pM = (int) (Math.random() * soldat.PUISSANCE);
+		}
     	
     	soldat.pointsDeVie -= pH;
     	
-    	if(soldat.pointsDeVie > 0)
-    		this.pointsDeVie -= pM;
+    	if(soldat.pointsDeVie > 0) {
+    		if (soldat.dedans(this.getPosition()) == true)
+    			this.pointsDeVie -= pM;
+    	}
     	else 
     		carte.mort(soldat);
+    	
     	if(this.pointsDeVie <= 0)
-    		carte.mort(this);    	
+    		carte.mort(this);    
+    	
+    	this.aJoue = true;
     }
     
-    public void setPoints(int pts) { this.pointsDeVie = pts; }
+    
+    protected abstract boolean dedans(Position position);
+
+	public void setPoints(int pts) { this.pointsDeVie = pts; }
     public int getPointsMax() { return this.POINTS_DE_VIE_MAX; }
     public int getPoints() { return this.pointsDeVie; }
     public int getPortee() { return this.PORTEE_VISUELLE; }

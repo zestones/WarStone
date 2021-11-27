@@ -3,20 +3,21 @@ package wargame;
 import java.awt.Graphics;
 
 import wargame.ISoldat.TypesH;
+import java.awt.Image;
 
 public class Heros extends Soldat{
 	private static final long serialVersionUID = 1L;
 	TypesH h;
     String nom;
     private Position[] champVisuelle = new Position[5];
-    public boolean aJoue;
     private static final int BONUS_REPOS = 10;
+    private Image img;
     
     Heros(Carte carte, TypesH h, String nom, Position pos){
-        super(carte, h.getPoints(), h.getPortee(), h.getPuissance(), h.getTir(), pos);
+        super(carte, h.getPoints(), h.getPortee(), h.getPuissance(), h.getTir(), pos, false);
+        this.img = h.getImage();
         this.h = h;
         this.nom = nom;
-        this.aJoue = false;
         carte.plateau[this.pos.getX()][this.pos.getY()] = this;
     }
     
@@ -57,7 +58,11 @@ public class Heros extends Soldat{
     		g.setColor(COULEUR_HEROS_DEJA_JOUE);
     	else 
     		g.setColor(COULEUR_HEROS);
+    	
     	g.fillRect(this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
+    	g.setColor(COULEUR_GRILLE);
+     	g.drawRect(this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
+    	//g.drawImage(img, this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
     	g.setColor(COULEUR_TEXTE);
     	g.drawString(this.nom, posX, posY);
     }
@@ -77,6 +82,7 @@ public class Heros extends Soldat{
     			if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] == null) {
     				g.setColor(COULEUR_VIDE);
     				g.fillRect(porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
+    				//g.drawImage(range, porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
     			}
     			
     			g.setColor(COULEUR_GRILLE);
@@ -86,8 +92,14 @@ public class Heros extends Soldat{
     	this.dessinHeros(g);
     }
     
+    /* Dessine le Heros selectionne avec sa portee & deplacement */
+    public void dessineSelection(Graphics g) {
+    	this.dessinePorteeVisuelle(g);
+    	this.dessineDeplacement(g);
+    }
+    
     /*Methode de dessin des deplacement possible pour le heros selectionne*/
-    public void dessineDeplacement(Graphics g){
+    private void dessineDeplacement(Graphics g){
        	for(int i = -1; i < 2; i++)
     		for(int j = -1; j < 2; j++) {
     			if(i != 0 || j != 0) {
@@ -105,7 +117,7 @@ public class Heros extends Soldat{
     }
     
     /* Dessine la portee visuelle du heros selectionne*/
-    public void dessinePorteeVisuelle(Graphics g) {
+    private void dessinePorteeVisuelle(Graphics g) {
     	int portee = this.getPortee();
     	
     	for(int i = 0; i <= portee * 2; i++) {

@@ -1,6 +1,7 @@
 package wargame;
 
 public class Position implements IConfig {
+	private static final long serialVersionUID = 1L;
 	private int x, y;
 	private int SAM_ALIGNE = 1;
 	private int SIAM = -1;

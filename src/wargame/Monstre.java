@@ -6,16 +6,15 @@ import java.awt.Graphics;
 import wargame.ISoldat.TypesH;
 
 public class Monstre extends Soldat {
-    TypesM m;
+	private static final long serialVersionUID = 1L;
+	TypesM m;
     String nom;
-    public boolean aJoue;
     private Position[] champVisuelle = new Position[5];
     
     Monstre(Carte carte, TypesM m, String nom,Position pos){
-        super(carte, m.getPoints(), m.getPortee(), m.getPuissance(), m.getTir(), pos);
+        super(carte, m.getPoints(), m.getPortee(), m.getPuissance(), m.getTir(), pos, false);
         this.m = m;
         this.nom = nom;
-        this.aJoue = false;
         carte.plateau[this.pos.getX()][this.pos.getY()] = this;
     }
     
@@ -62,10 +61,4 @@ public class Monstre extends Soldat {
     public String toString() {
     	return this.getPosition().toString() + " " + this.m.name() + " " + this.nom + " (" + this.m.getPoints() + "PV /" + this.getPoints() + ")";
     }
-    
-    // Deplacer dans Soldat
-    /*public int getPortee() { return this.m.getPortee(); }
-    public int getPuissance() { return this.m.getPuissance(); }
-    public int getTir() { return this.m.getTir(); }
-     */
 }

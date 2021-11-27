@@ -32,17 +32,20 @@ public class PanneauJeu extends JPanel implements IConfig {
 	private Carte c;
 	private	Position survol;
 	public Position clic, lastClic;
-	public Heros herosSelectione = null;
+	public Heros herosSelectione;
 	private	Element elem;
 	public int tour ,nombreHeros, nombreMonstre;
-	public JButton finTour, sauvegarde, resume;
+	public JButton finTour, sauvegarde, resume, restart;
 	private JLabel  top;
+	private boolean firstPaint = true;
 	
 	String nomFichier = "wargame.ser";
 
 	PanneauJeu(){
 		this.c = new Carte();
 		this.tour = 0;
+		this.herosSelectione = null;
+		this.elem = null;
 
 		finTour = new JButton("Fin du Tour");   
 		finTour.setSize(BOUTTON_LARGEUR, BOUTTON_HAUTEUR);
@@ -63,6 +66,11 @@ public class PanneauJeu extends JPanel implements IConfig {
 		sauvegarde.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
 		sauvegarde.setVisible(true);
 		menuBar.add(resume);
+		
+		restart = new JButton("ReStart");   
+		restart.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
+		restart.setVisible(true);
+		menuBar.add(restart);
 		
 		footer.setBackground(COULEUR_FOOTER);
 		footer.setPreferredSize(new Dimension(FOOTER_LARGEUR, FOOTER_HAUTEUR));
@@ -87,18 +95,29 @@ public class PanneauJeu extends JPanel implements IConfig {
 		repaint();
 	}
 	
-	/* Récupere les clic de souris */
+	/* Gestion des evenements : souris / boutton */
 	public void EventCatcher() {	
+		restart.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){  
+				c = new Carte();
+				tour = 0;
+				herosSelectione = null;
+				elem = null;
+				nombreSoldatVivant();
+				repaint();
+			}  
+		});  
+		
 		finTour.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
 				if (tour == 0 )
 					tour = 1;
 				else 
 					tour = 0;
-
 				gameManager();
 			}  
 		});  
+		
 		sauvegarde.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e){
     			try
@@ -121,6 +140,8 @@ public class PanneauJeu extends JPanel implements IConfig {
 		
 		resume.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e){
+    			// On remet le heros selectionne a null pour eviter de dessine la zone de portee du heros de l'ancienne carte
+    			herosSelectione = null;
     			try
     			{   
     				FileInputStream fichier = new FileInputStream(nomFichier);
@@ -130,7 +151,7 @@ public class PanneauJeu extends JPanel implements IConfig {
     				
     				in.close();
     				fichier.close();
-    				
+    				nombreSoldatVivant();
     				repaint();    	            
     			}
     			catch(IOException ex)
@@ -144,7 +165,7 @@ public class PanneauJeu extends JPanel implements IConfig {
     		}
     	});
 		
-		this.addMouseListener(new MouseAdapter() {
+		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				clic = new Position(e.getX() / NB_PIX_CASE , e.getY() / NB_PIX_CASE);
 				elem = c.getElement(clic);
@@ -185,8 +206,16 @@ public class PanneauJeu extends JPanel implements IConfig {
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
+	
+		// dessine le background avec l'image charger dans IConfig
+		/*for(int i = 0; i < LARGEUR_CARTE; i++)
+			for(int j = 0; j < HAUTEUR_CARTE; j++) {
+				g.drawImage(grass, i * NB_PIX_CASE, j * NB_PIX_CASE,NB_PIX_CASE,NB_PIX_CASE, null);
+			}
+		*/
+		
 		this.setBackground(COULEUR_INCONNU);
+		
 		c.toutDessiner(g);	
 		
 		// Affichage du laben dans le menuBar
@@ -201,9 +230,7 @@ public class PanneauJeu extends JPanel implements IConfig {
 	    	footer.setText(" " + this.elem.toString());
 	   
 	    // Affiche les deplacement possible du heros selectionne
-	   if(herosSelectione != null) {
-		   herosSelectione.dessinePorteeVisuelle(g);
-		   herosSelectione.dessineDeplacement(g);
-	   }
+	   if(this.herosSelectione != null) 
+		   this.herosSelectione.dessineSelection(g);
 	}
 }
