@@ -24,10 +24,10 @@ public class FenetreJeu extends JFrame implements IConfig{
 		panel.setLayout(new BorderLayout());
 		panel.setOpaque(true);	    
 	
-		panel.add(footer, BorderLayout.SOUTH);
+		panel.add(footer, BorderLayout.SOUTH);		
 		
+        
 		frame.setJMenuBar(menuBar);
-		
 		
 		panel.add(new PanneauJeu());	
 		frame.getContentPane().add(panel);

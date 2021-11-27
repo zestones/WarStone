@@ -5,7 +5,8 @@ import java.awt.Graphics;
 import wargame.ISoldat.TypesH;
 
 public class Heros extends Soldat{
-    TypesH h;
+	private static final long serialVersionUID = 1L;
+	TypesH h;
     String nom;
     private Position[] champVisuelle = new Position[5];
     public boolean aJoue;
@@ -84,6 +85,47 @@ public class Heros extends Soldat{
     	}
     	this.dessinHeros(g);
     }
+    
+    /*Methode de dessin des deplacement possible pour le heros selectionne*/
+    public void dessineDeplacement(Graphics g){
+       	for(int i = -1; i < 2; i++)
+    		for(int j = -1; j < 2; j++) {
+    			if(i != 0 || j != 0) {
+    				Position posVoisine = new Position(this.pos.getX() + i, this.pos.getY() + j);
+    				if(posVoisine.estValide() == false)
+        				posVoisine.verifPosition();
+    				if(carte.plateau[posVoisine.getX()][posVoisine.getY()] == null) {
+    					g.setColor(COULEUR_DEPLACEMENT);
+    					g.fillRect((this.pos.getX() + i) * NB_PIX_CASE , (this.pos.getY() + j) * NB_PIX_CASE , NB_PIX_CASE, NB_PIX_CASE);
+    				}
+    			}
+    			g.setColor(COULEUR_GRILLE);
+    			g.drawRect((this.pos.getX() + i) * NB_PIX_CASE , (this.pos.getY() + j) * NB_PIX_CASE , NB_PIX_CASE, NB_PIX_CASE);
+    		}   	  
+    }
+    
+    /* Dessine la portee visuelle du heros selectionne*/
+    public void dessinePorteeVisuelle(Graphics g) {
+    	int portee = this.getPortee();
+    	
+    	for(int i = 0; i <= portee * 2; i++) {
+    		for(int j = 0; j <= portee  * 2 ; j++) {
+    			Position porteeVisuelle = new Position(this.pos.getX() + i - portee, this.pos.getY() + j - portee);
+    			if(porteeVisuelle.estValide() == false)
+    				porteeVisuelle.verifPosition();
+    			
+    			if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] == null) {
+    				g.setColor(COULEUR_PORTEE);
+    				g.fillRect(porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
+    			}
+    			
+    			g.setColor(COULEUR_GRILLE);
+    			g.drawRect(porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
+    		}
+    	}	
+    }
+    
+    /*Si le Heros n'a effectue aucune action durant le tour alors il obtient un bonus de vie*/
     public void repos() {
     	if(this.aJoue == false && this.getPoints() + BONUS_REPOS < this.getPointsMax())
     		this.setPoints(this.getPoints()+BONUS_REPOS);

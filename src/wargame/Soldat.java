@@ -53,12 +53,10 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
     	
     	if(h.dedans(e.getPosition()) == true) {
     		if (this.getPosition().estVoisine(soldat.getPosition()) == false) {
-    			System.out.println("Attaque a distance ! ");
     			pH = (int) (Math.random() * this.TIR);
     			pM = (int) (Math.random() * soldat.TIR);
     		}
     		else {
-    			System.out.println("Attaque au Corp !");
     			pH = (int) (Math.random() * this.PUISSANCE);
     			pM = (int) (Math.random() * soldat.PUISSANCE);
     		}
@@ -75,6 +73,7 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
     	if(this.pointsDeVie <= 0)
     		carte.mort(this);    	
     }
+    
     public void setPoints(int pts) { this.pointsDeVie = pts; }
     public int getPointsMax() { return this.POINTS_DE_VIE_MAX; }
     public int getPoints() { return this.pointsDeVie; }

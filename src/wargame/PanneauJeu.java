@@ -32,16 +32,13 @@ public class PanneauJeu extends JPanel implements IConfig {
 	private Carte c;
 	private	Position survol;
 	public Position clic, lastClic;
-	
+	public Heros herosSelectione = null;
 	private	Element elem;
-	public Heros h;
-	public boolean isSelected = false;
-	public int tour;
+	public int tour ,nombreHeros, nombreMonstre;
 	public JButton finTour, sauvegarde, resume;
 	private JLabel  top;
-	private int nombreHeros, nombreMonstre;
 	
-    String nomFichier = "WarStone_save.ser";
+	String nomFichier = "wargame.ser";
 
 	PanneauJeu(){
 		this.c = new Carte();
@@ -98,6 +95,7 @@ public class PanneauJeu extends JPanel implements IConfig {
 					tour = 1;
 				else 
 					tour = 0;
+
 				gameManager();
 			}  
 		});  
@@ -150,21 +148,8 @@ public class PanneauJeu extends JPanel implements IConfig {
 			public void mousePressed(MouseEvent e) {
 				clic = new Position(e.getX() / NB_PIX_CASE , e.getY() / NB_PIX_CASE);
 				elem = c.getElement(clic);
-				if(elem instanceof Soldat) {
-					if(elem instanceof Heros)
-						System.out.println("Clic Heros : " + elem.toString());
-					else
-						System.out.println("Clic Monstre : " + elem.toString());
-				}
-				else if(elem instanceof Obstacle)
-					System.out.println("Clic Obstacle : " + elem.toString());
-				if(clic.estValide() == true) {
-					System.out.println("Clique : " + clic.toString());
+				if(clic.estValide() == true) 
 					gameManager();
-				}
-				
-				else 
-					System.out.println(" Hors piste ! ");
 			}
 		});
 		
@@ -193,19 +178,21 @@ public class PanneauJeu extends JPanel implements IConfig {
 		});
 	}
 	
+	// A modifier
 	private void gameManager() {
 		c.jouerSoldats(this);
 	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+
 		this.setBackground(COULEUR_INCONNU);
 		c.toutDessiner(g);	
 		
 		// Affichage du laben dans le menuBar
 		this.top.setFont(new Font("Arial", Font.BOLD, 13));
 		this.top.setForeground(Color.WHITE);
-		 this.top.setText("Il reste " + nombreHeros + " Heros et " + nombreMonstre + " Monstres !");
+		this.top.setText("Il reste " + nombreHeros + " Heros et " + nombreMonstre + " Monstres !");
 		 
 		// Affichage du label en bas de la fenetre
 		footer.setFont(new Font("Arial", Font.BOLD, 13));
@@ -213,7 +200,10 @@ public class PanneauJeu extends JPanel implements IConfig {
 	    if(this.elem != null)
 	    	footer.setText(" " + this.elem.toString());
 	   
-	   
-	 
+	    // Affiche les deplacement possible du heros selectionne
+	   if(herosSelectione != null) {
+		   herosSelectione.dessinePorteeVisuelle(g);
+		   herosSelectione.dessineDeplacement(g);
+	   }
 	}
 }
