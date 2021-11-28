@@ -14,22 +14,25 @@ public interface ISoldat extends IConfig{
       public int getPortee() { return PORTEE_VISUELLE; }
       public int getPuissance() { return PUISSANCE; }
       public int getTir() { return TIR; }
-      public String getSprite() { return SPRITE;  }
+      public String getSprite() { return SPRITE; }
       public static TypesH getTypeHAlea() {
          return values()[(int)(Math.random()*values().length)];
       }
    }
    public static enum TypesM {
-      TROLL (100,1,30,0), ORC (40,2,10,3), GOBELIN (20,2,5,2);
+      TROLL (100,1,30,0, troll), ORC (40,2,10,3, orc), GOBELIN (20,2,5,2, gobelin);
       private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR;
-      TypesM(int points, int portee, int puissance, int tir) {
+      private final String SPRITE;
+      TypesM(int points, int portee, int puissance, int tir, String spritePath) {
     	  POINTS_DE_VIE = points; PORTEE_VISUELLE = portee;
     	  PUISSANCE = puissance; TIR = tir;
+    	  SPRITE = spritePath;
       }
       public int getPoints() { return POINTS_DE_VIE; }
       public int getPortee() { return PORTEE_VISUELLE; }
       public int getPuissance() { return PUISSANCE; }
       public int getTir() { return TIR; } 
+      public String getSprite() { return SPRITE; }
       public static TypesM getTypeMAlea() {
          return values()[(int)(Math.random()*values().length)];
       }

@@ -1,14 +1,14 @@
 package wargame;
 
 import java.awt.Color;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import java.awt.Image;
 import java.awt.Toolkit;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JMenuBar;
+import javax.swing.SwingConstants;
+
 
 public interface IConfig extends java.io.Serializable {
 	
@@ -22,15 +22,15 @@ public interface IConfig extends java.io.Serializable {
 	int NB_PIX_CASE = 75;
 	int POSITION_X = 100; int POSITION_Y = 50; // Position de la fenêtre
 	int NB_HEROS = 6; int NB_MONSTRES = 15; int NB_OBSTACLES = 20;
-	
-	
+
 	// Parametre de dessin 
 	Color COULEUR_VIDE = Color.white, COULEUR_INCONNU = Color.lightGray;
-	Color COULEUR_TEXTE = Color.black, COULEUR_MONSTRES = Color.black;
+	Color COULEUR_TEXTE = Color.black, COULEUR_MONSTRE = new Color(0, 0, 0, 60);
 	Color COULEUR_HEROS = Color.red, COULEUR_HEROS_DEJA_JOUE = new Color(175, 25, 75, 100);
 	Color COULEUR_EAU = Color.blue, COULEUR_FORET = Color.green, COULEUR_ROCHER = Color.gray;
 	Color COULEUR_GRILLE = Color.black; Color COULEUR_MENUBAR = Color.gray; Color COULEUR_FOOTER = Color.black;
-	Color COULEUR_DEPLACEMENT = new Color(75, 25, 75, 100); Color COULEUR_PORTEE = new Color(75, 125, 75, 100);
+	Color COULEUR_DEPLACEMENT = new Color(75, 25, 75, 100), COULEUR_PORTEE = new Color(75, 125, 75, 100);
+	
 	
 	// Les images 
 	Image grass = Toolkit.getDefaultToolkit().getImage("./res/img/background/grass.png");
@@ -41,11 +41,14 @@ public interface IConfig extends java.io.Serializable {
 	String nain = "./res/img/soldat/heros/nain.png";
 	String elf = "./res/img/soldat/heros/elf.png";
 	String hobbit = "./res/img/soldat/heros/hobbit.png";
-	 
-	String sprite = "./res/img/soldat/heros/tank_sprite.png";
-	public SpriteEngine spriteEngine = new SpriteEngine(33);
 	
-	int PADDING_SPRITE = NB_PIX_CASE/2;
+	// Chemin des images pour les monstres
+	String troll = "./res/img/soldat/monstres/troll.png";
+	String orc = "./res/img/soldat/monstres/orc.png";
+	String gobelin = "./res/img/soldat/monstres/gobelin.png";
+	
+	// Frequence des images
+	public SpriteEngine spriteEngine = new SpriteEngine(33);
 	
 	final int MAX_FEN_LARGEUR = 500;
 	final int MAX_FEN_HAUTEUR = 500;

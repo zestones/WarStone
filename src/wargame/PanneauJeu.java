@@ -37,7 +37,7 @@ public class PanneauJeu extends JPanel implements IConfig {
 	private JLabel  top; 
 	
 	String nomFichier = "wargame.ser";
-	
+		
 	PanneauJeu(){
 		this.c = new Carte();
 		this.tour = 0;
@@ -94,14 +94,15 @@ public class PanneauJeu extends JPanel implements IConfig {
 	
 	/* Gestion des evenements : souris / boutton */
 	public void EventCatcher() {
-		c.trouveHeros();
-		// A modifier 
+		
+		// Actualisation des sprites
 		IConfig.spriteEngine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				repaint();
 			}
 		});
 		
+		// Boutton restart recharge une carte cree aleatoirement
 		restart.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
 				c = new Carte();
@@ -113,6 +114,7 @@ public class PanneauJeu extends JPanel implements IConfig {
 			}  
 		});  
 		
+		// Boutton Fin de Tour 
 		finTour.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
 				if (tour == 0 )
@@ -123,17 +125,19 @@ public class PanneauJeu extends JPanel implements IConfig {
 			}  
 		});  
 		
+		// Boutton de sauvegarde de la partie
 		sauvegarde.addActionListener(new ActionListener(){
-    		public void actionPerformed(ActionEvent e){
+    		public void actionPerformed(ActionEvent e){    			
     			try
     			{   
     				FileOutputStream fichier = new FileOutputStream(nomFichier);
     				ObjectOutputStream sortie = new ObjectOutputStream(fichier);
     				
     				sortie.writeObject(c);
-    		
+    			
     				sortie.close();
-    				fichier.close();    		     
+    				sortie.flush();
+    				fichier.close();  
     			}
     			catch(IOException ex)
     			{
@@ -208,7 +212,7 @@ public class PanneauJeu extends JPanel implements IConfig {
 				g.drawImage(grass, i * NB_PIX_CASE, j * NB_PIX_CASE,NB_PIX_CASE,NB_PIX_CASE, null);
 			}
 		
-		c.toutDessiner(g);	
+		c.toutDessiner(g);
 		
 		// Affichage du laben dans le menuBar
 		this.top.setFont(new Font("Arial", Font.BOLD, 13));

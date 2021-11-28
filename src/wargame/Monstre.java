@@ -1,21 +1,25 @@
 package wargame;
 
-import java.awt.Color;
+import java.io.File;
 import java.awt.Graphics;
-
-import wargame.ISoldat.TypesH;
+import java.awt.Graphics2D;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 
 public class Monstre extends Soldat {
 	private static final long serialVersionUID = 1L;
 	TypesM m;
     String nom;
     private Position[] champVisuelle = new Position[5];
-    
+    public transient SpriteSheet spriteSheet;
+
     Monstre(Carte carte, TypesM m, String nom,Position pos){
         super(carte, m.getPoints(), m.getPortee(), m.getPuissance(), m.getTir(), pos, false);
         this.m = m;
         this.nom = nom;
         carte.plateau[this.pos.getX()][this.pos.getY()] = this;
+        this.initialiseSprite();
     }
     
     /* Initialise le "champs visuelle" i.e les positions de la portee du Heros */
@@ -46,17 +50,39 @@ public class Monstre extends Soldat {
 		}
 		return true;
    }
+	
+    private void initialiseSprite() {
+		try {
+	    	BufferedImage sprite = ImageIO.read(new File(this.m.getSprite()));
+	    	spriteSheet = new SpriteSheetBuilder().
+	    			withSheet(sprite).
+	    			withColumns(0).
+	    			withSpriteSize(64,62).
+	    			withRows(3).
+	    			withSpriteCount(7).
+	    			build();
+	    	spriteEngine.start();
+	    } catch (IOException ex) {
+	    	System.out.println(" Error -> " + ex);
+	    	ex.printStackTrace();
+	    }
+    }
     
     /* Dessin du Monstre sur la carte */
     public void seDessiner(Graphics g) { 
-    	int posX = this.pos.getX() * NB_PIX_CASE + NB_PIX_CASE/2 - g.getFontMetrics().stringWidth(this.nom)/2;
-    	int posY = this.pos.getY() * NB_PIX_CASE + NB_PIX_CASE/2 + g.getFontMetrics().stringWidth(this.nom)/2;
+    	g.drawImage(range, this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+
+    	if(this.spriteSheet == null)
+    		this.initialiseSprite();
     	
-    	g.setColor(COULEUR_MONSTRES);
-    	g.fillRect(this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
-    	g.setColor(Color.white);
-    	g.drawString(this.nom, posX, posY);
-	}
+    	BufferedImage sprite = spriteSheet.getSprite(spriteEngine.getCycleProgress());
+    	Graphics2D  g2d = (Graphics2D) g.create();
+    	g2d.drawImage(sprite, this.pos.getX() * NB_PIX_CASE ,this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+    	g2d.dispose();
+    
+    	g.setColor(COULEUR_MONSTRE);
+		g.fillRect(this.pos.getX()  * NB_PIX_CASE , this.pos.getY() * NB_PIX_CASE , NB_PIX_CASE, NB_PIX_CASE);    
+    }
     
     public String toString() {
     	return this.getPosition().toString() + " " + this.m.name() + " " + this.nom + " (" + this.m.getPoints() + "PV /" + this.getPoints() + ")";

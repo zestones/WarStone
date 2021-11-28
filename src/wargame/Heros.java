@@ -1,15 +1,11 @@
 package wargame;
 
+import java.io.File;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
-import wargame.ISoldat.TypesH;
-
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 
 public class Heros extends Soldat{
 	private static final long serialVersionUID = 1L;
@@ -25,20 +21,24 @@ public class Heros extends Soldat{
         this.h = h;
         this.nom = nom;
         carte.plateau[this.pos.getX()][this.pos.getY()] = this;   
-        try {
-			 BufferedImage sprite = ImageIO.read(new File(this.h.getSprite()));
-			 spriteSheet = new SpriteSheetBuilder().
-	                    withSheet(sprite).
-	                    withColumns(0).
-	                    withSpriteSize(64,62).
-	                    withRows(3).
-	                    withSpriteCount(7).
-	                    build();
-			 spriteEngine.start();
-
-		 } catch (IOException ex) {
-			 ex.printStackTrace();
-		 }
+        this.initialiseSprite();
+    }
+    
+    private void initialiseSprite() {
+		try {
+	    	BufferedImage sprite = ImageIO.read(new File(this.h.getSprite()));
+	    	spriteSheet = new SpriteSheetBuilder().
+	    			withSheet(sprite).
+	    			withColumns(0).
+	    			withSpriteSize(64,62).
+	    			withRows(3).
+	    			withSpriteCount(7).
+	    			build();
+	    	spriteEngine.start();
+	    } catch (IOException ex) {
+	    	System.out.println(" Error -> " + ex);
+	    	ex.printStackTrace();
+	    }
     }
     
     /* Initialise le "champs visuelle" i.e les positions de la portee du Heros */
@@ -84,7 +84,10 @@ public class Heros extends Soldat{
    
     /* On dessine le Heros */
     private void dessineSprite(Graphics g) {
-		BufferedImage sprite = this.spriteSheet.getSprite(spriteEngine.getCycleProgress());
+    	if(this.spriteSheet == null)
+    		this.initialiseSprite();
+    	
+    	BufferedImage sprite = spriteSheet.getSprite(spriteEngine.getCycleProgress());
 		Graphics2D  g2d = (Graphics2D) g.create();
 		g2d.drawImage(sprite, this.pos.getX() * NB_PIX_CASE ,this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 		g2d.dispose();

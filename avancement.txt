@@ -86,9 +86,10 @@
 	*** Class Carte :
 		- Supression LastHero --> nettoyage
 	*** Ajout class SpriteSheet / SpriteSheetBuilder / SpriteEngine 
-		- Premiere immplementation des animation --> BufferedImage n'est pas serializable le save est a changer en creant notre propre methode write et read
-	
-/!\ Save / Resume --> BufferedImage not serializable
+		- Premiere immplementation des animation
+	*** BUG Sauvegarde resolue !!! --> initSprite (rechargement des sprite a chaque recuperation de partie) & BuferedImage -> transient 
+	- Ajout des sprites monstres
+		
 /!\ trouveHeros(Position pos) --> a corriger comme trouvePositionVide(Position pos) 
 /!\ trouveHeros(Position pos) n'est pas utilise mais peut l'être dans actionCombatMonstre
 
