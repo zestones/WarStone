@@ -1,9 +1,15 @@
 package wargame;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import wargame.ISoldat.TypesH;
-import java.awt.Image;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Heros extends Soldat{
 	private static final long serialVersionUID = 1L;
@@ -12,11 +18,27 @@ public class Heros extends Soldat{
     private Position[] champVisuelle = new Position[5];
     private static final int BONUS_REPOS = 10;
     
+    private transient SpriteSheet spriteSheet;
+    
     Heros(Carte carte, TypesH h, String nom, Position pos){
         super(carte, h.getPoints(), h.getPortee(), h.getPuissance(), h.getTir(), pos, false);
         this.h = h;
         this.nom = nom;
-        carte.plateau[this.pos.getX()][this.pos.getY()] = this;
+        carte.plateau[this.pos.getX()][this.pos.getY()] = this;   
+        try {
+			 BufferedImage sprite = ImageIO.read(new File(this.h.getSprite()));
+			 spriteSheet = new SpriteSheetBuilder().
+	                    withSheet(sprite).
+	                    withColumns(0).
+	                    withSpriteSize(64,62).
+	                    withRows(3).
+	                    withSpriteCount(7).
+	                    build();
+			 spriteEngine.start();
+
+		 } catch (IOException ex) {
+			 ex.printStackTrace();
+		 }
     }
     
     /* Initialise le "champs visuelle" i.e les positions de la portee du Heros */
@@ -51,12 +73,22 @@ public class Heros extends Soldat{
 	/* Methode de dessin du Heros */
     private void dessinHeros(Graphics g) { 
     	g.drawImage(range, this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
-    	g.drawImage(this.h.getImage(), this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
-    	if(this.aJoue == true) {
+    	
+    	this.dessineSprite(g);
+    	
+        if(this.aJoue == true) {
     		g.setColor(COULEUR_HEROS_DEJA_JOUE);
     		g.fillRect(this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
     	}
     }
+   
+    /* On dessine le Heros */
+    private void dessineSprite(Graphics g) {
+		BufferedImage sprite = this.spriteSheet.getSprite(spriteEngine.getCycleProgress());
+		Graphics2D  g2d = (Graphics2D) g.create();
+		g2d.drawImage(sprite, this.pos.getX() * NB_PIX_CASE ,this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+		g2d.dispose();
+	}
     
     /* Methode principale du dessin de Heros:
      * Affichage de la portee visuelle i.e les cases visible par le général 
@@ -78,7 +110,7 @@ public class Heros extends Soldat{
     				carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()].seDessiner(g);
     			
     			g.setColor(COULEUR_GRILLE);
-				g.drawRect(porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
+    			g.drawRect(porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
     		}
     	}
     	this.dessinHeros(g);
@@ -111,20 +143,23 @@ public class Heros extends Soldat{
     /* Dessine la portee visuelle du heros selectionne*/
     private void dessinePorteeVisuelle(Graphics g) {
     	int portee = this.getPortee();
-    	
+    	boolean dejaDessine = false;
     	for(int i = 0; i <= portee * 2; i++) {
     		for(int j = 0; j <= portee  * 2 ; j++) {
     			Position porteeVisuelle = new Position(this.pos.getX() + i - portee, this.pos.getY() + j - portee);
-    			if(porteeVisuelle.estValide() == false)
+    			if(porteeVisuelle.estValide() == false) {
     				porteeVisuelle.verifPosition();
+    				dejaDessine = true;
+    			}
     			
-    			if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] == null) {
+    			if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] == null && dejaDessine == false) {
     				g.setColor(COULEUR_PORTEE);
     				g.fillRect(porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
     			}
     			
     			g.setColor(COULEUR_GRILLE);
     			g.drawRect(porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
+    			dejaDessine = false;
     		}
     	}	
     }

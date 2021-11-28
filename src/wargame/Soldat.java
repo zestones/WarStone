@@ -32,7 +32,7 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
     		h.aJoue = true;
     	}
     	else {
-    		m = (Monstre)this;
+    		m = (Monstre) this;
     		m.aJoue = true;	
     	}
     		

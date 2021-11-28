@@ -83,6 +83,12 @@
 	- Ajout image + Save avec image corrige
 	- Correction methode tout dessiner dans carte !
 	
+	*** Class Carte :
+		- Supression LastHero --> nettoyage
+	*** Ajout class SpriteSheet / SpriteSheetBuilder / SpriteEngine 
+		- Premiere immplementation des animation --> BufferedImage n'est pas serializable le save est a changer en creant notre propre methode write et read
+	
+/!\ Save / Resume --> BufferedImage not serializable
 /!\ trouveHeros(Position pos) --> a corriger comme trouvePositionVide(Position pos) 
 /!\ trouveHeros(Position pos) n'est pas utilise mais peut l'être dans actionCombatMonstre
 

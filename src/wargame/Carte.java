@@ -3,13 +3,11 @@ import java.awt.Graphics;
 
 import java.util.ArrayList;
 import java.util.List;
-
+ 
 public class Carte implements IConfig,ICarte {
 
 	private static final long serialVersionUID = 1L;
 	Element[][] plateau;
-	//Autre Solution ?
-	Heros lastHeros;
 	private int tour = 0;
 	
 	Carte(){
@@ -26,7 +24,7 @@ public class Carte implements IConfig,ICarte {
 			if(inc <= NB_MONSTRES)
 				new Monstre(this, Soldat.TypesM.getTypeMAlea(),""+inc, this.trouvePositionVide());
 			if(inc <= NB_HEROS) 
-				this.lastHeros = new Heros(this, Soldat.TypesH.getTypeHAlea(),"H",this.trouvePositionVide());	
+				new Heros(this, Soldat.TypesH.getTypeHAlea(),"H",this.trouvePositionVide());	
 			if (inc <= NB_OBSTACLES)
 				new Obstacle(this, Obstacle.TypeObstacle.getObstacleAlea(), this.trouvePositionVide());
 			inc--;
@@ -91,7 +89,8 @@ public class Carte implements IConfig,ICarte {
 				pj.lastClic = null;
 			}
 			pj.herosSelectione = null;
-		}		
+		}
+	
 	}
 	
 	/* 
@@ -141,8 +140,8 @@ public class Carte implements IConfig,ICarte {
 	}
 	
 	/*
-	 * On remet aJoue = false pour en fonction du tour de la partie : tours des Monstre == 1 / tour des Heros == 0
-	 * Lorsque c'est le tour des monstres alors les Heros doivent pouvoir bouger de nouveau, idem pour les monstres
+	 * On remet aJoue = false en fonction du tour de la partie : tours des Monstre == 1 / tour des Heros == 0
+	 * Lorsque c'est le tour des monstres alors les Heros doivent pouvoir bouger de nouveau, idem pour les Heros
 	 *  */
 	private void joueTour(int tour) {
 		for(int i = 0; i < LARGEUR_CARTE; i++)

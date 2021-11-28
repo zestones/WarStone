@@ -11,7 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.awt.Point;
+
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,32 +21,29 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-
-import java.awt.Robot;
 import java.awt.Font;
 
 public class PanneauJeu extends JPanel implements IConfig {
 	private static final long serialVersionUID = 1L;
 	// Variable provisoire qui permet de stocker la couleur des pixels survolé 
-	private Color color = null;
 	private Carte c;
 	private	Position survol;
 	public Position clic, lastClic;
 	public Heros herosSelectione;
 	private	Element elem;
-	public int tour ,nombreHeros, nombreMonstre;
-	public JButton finTour, sauvegarde, resume, restart;
-	private JLabel  top;
-	private boolean firstPaint = true;
+	public int tour, nombreHeros, nombreMonstre;
+	public JButton finTour;
+	private JButton sauvegarde, reprendre, restart;
+	private JLabel  top; 
 	
 	String nomFichier = "wargame.ser";
-
+	
 	PanneauJeu(){
 		this.c = new Carte();
 		this.tour = 0;
 		this.herosSelectione = null;
 		this.elem = null;
-
+		
 		finTour = new JButton("Fin du Tour");   
 		finTour.setSize(BOUTTON_LARGEUR, BOUTTON_HAUTEUR);
 		finTour.setVisible(true);
@@ -62,10 +59,10 @@ public class PanneauJeu extends JPanel implements IConfig {
 		sauvegarde.setVisible(true);
 		menuBar.add(sauvegarde);
 		
-		resume = new JButton("Resume");   
+		reprendre = new JButton("reprendre");   
 		sauvegarde.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
 		sauvegarde.setVisible(true);
-		menuBar.add(resume);
+		menuBar.add(reprendre);
 		
 		restart = new JButton("ReStart");   
 		restart.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
@@ -75,11 +72,11 @@ public class PanneauJeu extends JPanel implements IConfig {
 		footer.setBackground(COULEUR_FOOTER);
 		footer.setPreferredSize(new Dimension(FOOTER_LARGEUR, FOOTER_HAUTEUR));
 		footer.setOpaque(true);
-
+		
 		this.EventCatcher();
 		this.nombreSoldatVivant();
 	}
-	
+		
 	public void nombreSoldatVivant() {
 		int nbMonstre = 0;
 		int nbHeros = 0;
@@ -96,7 +93,15 @@ public class PanneauJeu extends JPanel implements IConfig {
 	}
 	
 	/* Gestion des evenements : souris / boutton */
-	public void EventCatcher() {	
+	public void EventCatcher() {
+		c.trouveHeros();
+		// A modifier 
+		IConfig.spriteEngine.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				repaint();
+			}
+		});
+		
 		restart.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
 				c = new Carte();
@@ -138,7 +143,7 @@ public class PanneauJeu extends JPanel implements IConfig {
     		}
     	});
 		
-		resume.addActionListener(new ActionListener(){
+		reprendre.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e){
     			// On remet le heros selectionne a null pour eviter de dessine la zone de portee du heros de l'ancienne carte
     			herosSelectione = null;
@@ -151,12 +156,14 @@ public class PanneauJeu extends JPanel implements IConfig {
     				
     				in.close();
     				fichier.close();
+    				
     				nombreSoldatVivant();
-    				repaint();    	            
+    				repaint();    	 
     			}
     			catch(IOException ex)
     			{
-    				System.out.println("IOException : " + ex);
+    				System.out.println("IOException : " + ex + " -> ");
+    				ex.printStackTrace();
     			}    	        
     			catch(ClassNotFoundException ex)
     			{
@@ -180,21 +187,7 @@ public class PanneauJeu extends JPanel implements IConfig {
 				survol = new Position(e.getX() / NB_PIX_CASE , e.getY() / NB_PIX_CASE);
 				survol.verifPosition();
 				elem = c.getElement(survol);
-			
-				// Permet d'eviter afficher les element cacher lorsqu'on les survol (solution provisoire)
-				Point p = e.getLocationOnScreen();
-				try {
-	                Robot r = new Robot();
-	                color = r.getPixelColor(p.x, p.y);
-	            }
-	            catch (Exception evt) {
-	            	System.err.println(evt.getMessage());   
-	            }
-				color = new Color(color.getRed(),color.getGreen(),color.getBlue());
-				
-				if(color.getRGB() != COULEUR_INCONNU.getRGB()) {
-					repaint();
-				}
+				// Ajouter un moyen de ne pas afficher les elements cache
 			}
 		});
 	}
@@ -204,6 +197,8 @@ public class PanneauJeu extends JPanel implements IConfig {
 		c.jouerSoldats(this);
 	}
 	
+	
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 	
@@ -212,7 +207,7 @@ public class PanneauJeu extends JPanel implements IConfig {
 			for(int j = 0; j < HAUTEUR_CARTE; j++) {
 				g.drawImage(grass, i * NB_PIX_CASE, j * NB_PIX_CASE,NB_PIX_CASE,NB_PIX_CASE, null);
 			}
-	
+		
 		c.toutDessiner(g);	
 		
 		// Affichage du laben dans le menuBar
@@ -229,5 +224,6 @@ public class PanneauJeu extends JPanel implements IConfig {
 	    // Affiche les deplacement possible du heros selectionne
 	   if(this.herosSelectione != null && this.herosSelectione.aJoue != true) 
 		   this.herosSelectione.dessineSelection(g);
+	   
 	}
 }
