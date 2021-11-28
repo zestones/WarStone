@@ -11,11 +11,9 @@ public class Heros extends Soldat{
     String nom;
     private Position[] champVisuelle = new Position[5];
     private static final int BONUS_REPOS = 10;
-    private Image img;
     
     Heros(Carte carte, TypesH h, String nom, Position pos){
         super(carte, h.getPoints(), h.getPortee(), h.getPuissance(), h.getTir(), pos, false);
-        //this.img = h.getImage();
         this.h = h;
         this.nom = nom;
         carte.plateau[this.pos.getX()][this.pos.getY()] = this;
@@ -52,19 +50,12 @@ public class Heros extends Soldat{
 	
 	/* Methode de dessin du Heros */
     private void dessinHeros(Graphics g) { 
-     	int posX = this.pos.getX() * NB_PIX_CASE + NB_PIX_CASE/2 - g.getFontMetrics().stringWidth(this.nom)/2;
-    	int posY = this.pos.getY() * NB_PIX_CASE + NB_PIX_CASE/2 + g.getFontMetrics().stringWidth(this.nom)/2;
-    	if(this.aJoue == true)
+    	g.drawImage(range, this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+    	g.drawImage(this.h.getImage(), this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+    	if(this.aJoue == true) {
     		g.setColor(COULEUR_HEROS_DEJA_JOUE);
-    	else 
-    		g.setColor(COULEUR_HEROS);
-    	
-    	g.fillRect(this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
-    	g.setColor(COULEUR_GRILLE);
-     	g.drawRect(this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
-    	//g.drawImage(img, this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
-    	g.setColor(COULEUR_TEXTE);
-    	g.drawString(this.nom, posX, posY);
+    		g.fillRect(this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
+    	}
     }
     
     /* Methode principale du dessin de Heros:
@@ -79,11 +70,8 @@ public class Heros extends Soldat{
     			if(porteeVisuelle.estValide() == false)
     				porteeVisuelle.verifPosition();
     			
-    			if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] == null) {
-    				g.setColor(COULEUR_VIDE);
-    				g.fillRect(porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
-    				//g.drawImage(range, porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
-    			}
+    			if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] == null) 
+    				g.drawImage(range, porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
     			else if (carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] instanceof Monstre)
     				carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()].seDessiner(g);
     			else if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] instanceof Obstacle)

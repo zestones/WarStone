@@ -74,3 +74,17 @@
 /!\ trouveHeros(Position pos) n'est pas utilise mais peut l'être dans actionCombatMonstre
 
 ========================================================
+========================================================
+----------------------------------
+	28/11/2021 :
+----------------------------------
+	- Nettoyage du code, suppression affichage couleur (remplacer par les img)
+	- correction de bug,
+	- Ajout image + Save avec image corrige
+	- Correction methode tout dessiner dans carte !
+	
+/!\ trouveHeros(Position pos) --> a corriger comme trouvePositionVide(Position pos) 
+/!\ trouveHeros(Position pos) n'est pas utilise mais peut l'être dans actionCombatMonstre
+
+========================================================
+

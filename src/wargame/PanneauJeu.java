@@ -208,14 +208,11 @@ public class PanneauJeu extends JPanel implements IConfig {
 		super.paintComponent(g);
 	
 		// dessine le background avec l'image charger dans IConfig
-		/*for(int i = 0; i < LARGEUR_CARTE; i++)
+		for(int i = 0; i < LARGEUR_CARTE; i++)
 			for(int j = 0; j < HAUTEUR_CARTE; j++) {
 				g.drawImage(grass, i * NB_PIX_CASE, j * NB_PIX_CASE,NB_PIX_CASE,NB_PIX_CASE, null);
 			}
-		*/
-		
-		this.setBackground(COULEUR_INCONNU);
-		
+	
 		c.toutDessiner(g);	
 		
 		// Affichage du laben dans le menuBar
