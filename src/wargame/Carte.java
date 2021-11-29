@@ -127,7 +127,7 @@ public class Carte implements IConfig,ICarte {
 	}
 	
 	/* Methode appelé lors de la mort d'un Soldat */
-	public void mort(Soldat perso) { this.plateau[perso.getPosition().getX()][perso.getPosition().getY()] = null; panel.repaint();}
+	public void mort(Soldat perso) { this.plateau[perso.getPosition().getX()][perso.getPosition().getY()] = null; frame.repaint();}
 	
 	/* Deplace le Soldat a la position pos, si l'opperation a ete effectue alors retourne true sinon false */
 	public boolean deplaceSoldat(Position pos, Soldat soldat) {

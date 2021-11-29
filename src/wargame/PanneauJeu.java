@@ -37,12 +37,12 @@ public class PanneauJeu extends JPanel implements IConfig {
 	}
 		
 	private void creationElementPanneau() {
-		finTour = new JButton("Fin du Tour");   
+		finTour = new JButton("End Turn");   
 		finTour.setSize(BOUTTON_LARGEUR, BOUTTON_HAUTEUR);
 		finTour.setVisible(true);
         menuBar.add(finTour);
         
-        top = new JLabel("Tout la Haut", SwingConstants.CENTER); 
+        top = new JLabel("", SwingConstants.CENTER); 
 		top.setBackground(COULEUR_MENUBAR);
 		top.setOpaque(true); 
 		menuBar.add(top);
@@ -52,7 +52,7 @@ public class PanneauJeu extends JPanel implements IConfig {
 		sauvegarde.setVisible(true);
 		menuBar.add(sauvegarde);
 		
-		reprendre = new JButton("reprendre");   
+		reprendre = new JButton("Resume");   
 		sauvegarde.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
 		sauvegarde.setVisible(true);
 		menuBar.add(reprendre);
