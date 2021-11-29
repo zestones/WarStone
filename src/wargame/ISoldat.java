@@ -2,7 +2,7 @@ package wargame;
 
 public interface ISoldat extends IConfig{
 	static enum TypesH {
-      HUMAIN (40,3,10,2, humain), NAIN (80,1,20,0, nain), ELF (70,5,10,6, elf), HOBBIT (20,3,5,2,hobbit);
+      HUMAIN (40,2,10,2, humain), NAIN (80,1,20,0, nain), ELF (70,5,10,6, elf), HOBBIT (20,3,5,2,hobbit);
       private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR;
       private final String SPRITE;
       TypesH(int points, int portee, int puissance, int tir, String spritePath) {

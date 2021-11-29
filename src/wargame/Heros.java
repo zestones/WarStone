@@ -13,7 +13,7 @@ public class Heros extends Soldat{
     String nom;
     private Position[] champVisuelle = new Position[5];
     private static final int BONUS_REPOS = 10;
-    
+    // On ne serialize pas les sprites 
     private transient SpriteSheet spriteSheet;
     
     Heros(Carte carte, TypesH h, String nom, Position pos){
@@ -24,6 +24,12 @@ public class Heros extends Soldat{
         this.initialiseSprite();
     }
     
+    
+    /* 
+     * On initialise le sprite pour chaque Heros lors de sa creation
+     * Si une partie est charge depuis une sauvegarde, on recharge les sprites en fonction du type 
+     * (Aucun sprite est enregistre dans la sauvegarde !)
+     *  */
     private void initialiseSprite() {
 		try {
 	    	BufferedImage sprite = ImageIO.read(new File(this.h.getSprite()));

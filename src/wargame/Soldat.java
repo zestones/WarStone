@@ -1,14 +1,13 @@
 package wargame;
 
-import wargame.ISoldat.TypesH;
-
 public abstract class Soldat extends Element implements ISoldat,IConfig{
 	private static final long serialVersionUID = 1L;
+	
 	private final int POINTS_DE_VIE_MAX, PUISSANCE, TIR, PORTEE_VISUELLE;
     private int pointsDeVie;
-    public Position pos;
-    public Carte carte;
     public boolean aJoue;
+    public Position pos;    
+    public Carte carte;
 
   Soldat(Carte carte,int pts, int portee, int puiss, int tir, Position pos, boolean aJoue) {
     	this.carte = carte;
@@ -18,8 +17,7 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
         this.aJoue = aJoue;
     }
     
-    public Position getPosition() { return pos; }
-    
+  
     /* Met a jours les positions du Soldat */
     public void seDeplace(Position newPos) {
     	Heros h; Monstre m;
@@ -38,6 +36,7 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
     		
     }
     
+    /* On fait combatre deux soldats */
     public void combat(Soldat soldat) {
     	int pH, pM;
     	
@@ -56,22 +55,27 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
     		if (soldat.dedans(this.getPosition()) == true)
     			this.pointsDeVie -= pM;
     	}
-    	else 
+    	else {
+    		soldat.pointsDeVie = 0;	
     		carte.mort(soldat);
-    	
-    	if(this.pointsDeVie <= 0)
+    	}
+    	if(this.pointsDeVie <= 0) {
+    		this.pointsDeVie = 0;
     		carte.mort(this);    
+    	}
     	
     	this.aJoue = true;
     }
     
     
     protected abstract boolean dedans(Position position);
-
-	public void setPoints(int pts) { this.pointsDeVie = pts; }
+    
     public int getPointsMax() { return this.POINTS_DE_VIE_MAX; }
-    public int getPoints() { return this.pointsDeVie; }
+    public void setPoints(int pts) { this.pointsDeVie = pts; } // Utilise pour les bonus (lorsque le heros ce repose)
     public int getPortee() { return this.PORTEE_VISUELLE; }
     public int getPuissance() { return this.PUISSANCE; }
+    public int getPoints() { return this.pointsDeVie; }
     public int getTir() { return this.TIR; }
+    public Position getPosition() { return pos; }
+    
 }

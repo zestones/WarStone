@@ -22,6 +22,28 @@ public class Monstre extends Soldat {
         this.initialiseSprite();
     }
     
+    /* 
+     * On initialise le sprite pour chaque Monstre lors de sa creation
+     * Si une partie est charge depuis une sauvegarde on recharge les sprites en fonction su type 
+     * (Aucun sprite est enregistre dans la sauvegarde !)
+     *  */
+    private void initialiseSprite() {
+		try {
+	    	BufferedImage sprite = ImageIO.read(new File(this.m.getSprite()));
+	    	spriteSheet = new SpriteSheetBuilder().
+	    			withSheet(sprite).
+	    			withColumns(0).
+	    			withSpriteSize(64,62).
+	    			withRows(1).
+	    			withSpriteCount(7).
+	    			build();
+	    	spriteEngine.start();
+	    } catch (IOException ex) {
+	    	System.out.println(" Error -> " + ex);
+	    	ex.printStackTrace();
+	    }
+    }
+    
     /* Initialise le "champs visuelle" i.e les positions de la portee du Heros */
     private void initChampVisuelle() {
     	this.champVisuelle[0] = new Position(this.getPosition().getX() - this.getPortee(), this.getPosition().getY() - this.getPortee());
@@ -50,24 +72,7 @@ public class Monstre extends Soldat {
 		}
 		return true;
    }
-	
-    private void initialiseSprite() {
-		try {
-	    	BufferedImage sprite = ImageIO.read(new File(this.m.getSprite()));
-	    	spriteSheet = new SpriteSheetBuilder().
-	    			withSheet(sprite).
-	    			withColumns(0).
-	    			withSpriteSize(64,62).
-	    			withRows(3).
-	    			withSpriteCount(7).
-	    			build();
-	    	spriteEngine.start();
-	    } catch (IOException ex) {
-	    	System.out.println(" Error -> " + ex);
-	    	ex.printStackTrace();
-	    }
-    }
-    
+	    
     /* Dessin du Monstre sur la carte */
     public void seDessiner(Graphics g) { 
     	g.drawImage(range, this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
@@ -84,6 +89,7 @@ public class Monstre extends Soldat {
 		g.fillRect(this.pos.getX()  * NB_PIX_CASE , this.pos.getY() * NB_PIX_CASE , NB_PIX_CASE, NB_PIX_CASE);    
     }
     
+    /* Affichage des infos du monstre */
     public String toString() {
     	return this.getPosition().toString() + " " + this.m.name() + " " + this.nom + " (" + this.m.getPoints() + "PV /" + this.getPoints() + ")";
     }

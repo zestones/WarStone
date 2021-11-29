@@ -34,7 +34,7 @@ public class Carte implements IConfig,ICarte {
 	/* Fonction principale du jeu c'est ici que tout est gérer : les tours, les deplacement, les actions... */
 	public void jouerSoldats(PanneauJeu pj) {
 		this.tour = pj.tour;
-		pj.nombreSoldatVivant();
+		this.nombreSoldatVivant(pj);
 		if(this.tour == 0) {
 			this.joueTourHeros(pj);
 			this.joueTour(this.tour);
@@ -48,6 +48,22 @@ public class Carte implements IConfig,ICarte {
 		pj.repaint();
 		
 	}
+	public void nombreSoldatVivant(PanneauJeu pj) {
+		int nbMonstre = 0;
+		int nbHeros = 0;
+		for(int i = 0; i < LARGEUR_CARTE; i++)
+			for(int j = 0; j < HAUTEUR_CARTE; j++) {
+				if(this.plateau[i][j] instanceof Heros)
+					nbHeros++;
+				else if(this.plateau[i][j] instanceof Monstre)
+					nbMonstre++;
+			}
+		pj.nombreMonstre = nbMonstre;
+		pj.nombreHeros = nbHeros;
+		pj.repaint();
+	}
+	
+	
 	/* On effectue une action pour chaque monstre */
 	private void joueTourMonstre(PanneauJeu pj) {
 		Heros h;
@@ -111,7 +127,7 @@ public class Carte implements IConfig,ICarte {
 	}
 	
 	/* Methode appelé lors de la mort d'un Soldat */
-	public void mort(Soldat perso) { this.plateau[perso.getPosition().getX()][perso.getPosition().getY()] = null; }
+	public void mort(Soldat perso) { this.plateau[perso.getPosition().getX()][perso.getPosition().getY()] = null; panel.repaint();}
 	
 	/* Deplace le Soldat a la position pos, si l'opperation a ete effectue alors retourne true sinon false */
 	public boolean deplaceSoldat(Position pos, Soldat soldat) {
@@ -134,8 +150,9 @@ public class Carte implements IConfig,ICarte {
 			if(h.dedans(s2.getPosition()) == true) 
 				s.combat(s2);
 		}
-		
-		this.deplaceSoldat(pos2, s);
+		else
+			this.deplaceSoldat(pos2, s);
+	
 		return true;
 	}
 	
