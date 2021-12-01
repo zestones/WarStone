@@ -84,9 +84,11 @@ public class Monstre extends Soldat {
     	Graphics2D  g2d = (Graphics2D) g.create();
     	g2d.drawImage(sprite, this.pos.getX() * NB_PIX_CASE ,this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
     	g2d.dispose();
-    
+    	
+    	this.dessinBarreVie(g);
+    	
     	g.setColor(COULEUR_MONSTRE);
-		g.fillRect(this.pos.getX()  * NB_PIX_CASE , this.pos.getY() * NB_PIX_CASE , NB_PIX_CASE, NB_PIX_CASE);    
+		g.fillRect(this.pos.getX()  * NB_PIX_CASE , this.pos.getY() * NB_PIX_CASE , NB_PIX_CASE, NB_PIX_CASE);
     }
     
     /* Affichage des infos du monstre */

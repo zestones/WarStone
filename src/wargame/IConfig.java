@@ -5,7 +5,6 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JMenuBar;
 import javax.swing.SwingConstants;
 
@@ -15,8 +14,7 @@ public interface IConfig extends java.io.Serializable {
 	// Element de la fenetre partager entre la class PanneauJeu & FenetreJeu
 	public static final JFrame frame = new JFrame("WarStone");	
 	public static final JMenuBar menuBar = new JMenuBar();
-	public static final JLabel footer = new JLabel("", SwingConstants.CENTER);
-	public static final JPanel panel = new JPanel();	
+	public static final JLabel footer = new JLabel("", SwingConstants.CENTER);		
 	
 	int LARGEUR_CARTE = 20; int HAUTEUR_CARTE = 10; // en nombre de cases
 	int NB_PIX_CASE = 75;
@@ -30,7 +28,7 @@ public interface IConfig extends java.io.Serializable {
 	Color COULEUR_EAU = Color.blue, COULEUR_FORET = Color.green, COULEUR_ROCHER = Color.gray;
 	Color COULEUR_GRILLE = Color.black; Color COULEUR_MENUBAR = Color.gray; Color COULEUR_FOOTER = Color.black;
 	Color COULEUR_DEPLACEMENT = new Color(75, 25, 75, 100), COULEUR_PORTEE = new Color(75, 125, 75, 100);
-	
+	Color COULEUR_VIE_R = Color.red, COULEUR_VIE_V = Color.green;
 	
 	// Les images 
 	Image grass = Toolkit.getDefaultToolkit().getImage("./res/img/background/grass.png");
@@ -49,6 +47,11 @@ public interface IConfig extends java.io.Serializable {
 	
 	// Frequence des images
 	public SpriteEngine spriteEngine = new SpriteEngine(33);
+	int COMBAT = 15; 
+	int STANDBY = 0;
+	int PADDING_VIE_CASE_LARGEUR = NB_PIX_CASE/8;
+	int PADDING_VIE_CASE = PADDING_VIE_CASE_LARGEUR/2;
+	
 	
 	final int MAX_FEN_LARGEUR = 500;
 	final int MAX_FEN_HAUTEUR = 500;

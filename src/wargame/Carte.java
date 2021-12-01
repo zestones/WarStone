@@ -43,11 +43,12 @@ public class Carte implements IConfig,ICarte {
 			this.joueTourMonstre(pj);
 			this.joueTour(this.tour);
 			pj.finTour.doClick();
-			pj.herosSelectione = null;	
+			pj.herosSelectione = null;
 		}
 		pj.repaint();
-		
 	}
+	
+	/* Calcule du nombre de soldats encore present sur la carte */
 	public void nombreSoldatVivant(PanneauJeu pj) {
 		int nbMonstre = 0;
 		int nbHeros = 0;
@@ -62,8 +63,7 @@ public class Carte implements IConfig,ICarte {
 		pj.nombreHeros = nbHeros;
 		pj.repaint();
 	}
-	
-	
+		
 	/* On effectue une action pour chaque monstre */
 	private void joueTourMonstre(PanneauJeu pj) {
 		Heros h;
@@ -85,6 +85,7 @@ public class Carte implements IConfig,ICarte {
 		}		
 		
 	}
+	
 	/* Le generale joueur decide quelle action faire */
 	private void joueTourHeros(PanneauJeu pj) {
 		// si le premier clic est sur le boutton "fin tour" alors clic n'est pas initialise et engendre une erreur
@@ -106,7 +107,6 @@ public class Carte implements IConfig,ICarte {
 			}
 			pj.herosSelectione = null;
 		}
-	
 	}
 	
 	/* 
@@ -127,7 +127,7 @@ public class Carte implements IConfig,ICarte {
 	}
 	
 	/* Methode appelé lors de la mort d'un Soldat */
-	public void mort(Soldat perso) { this.plateau[perso.getPosition().getX()][perso.getPosition().getY()] = null; frame.repaint();}
+	public void mort(Soldat perso) { this.plateau[perso.getPosition().getX()][perso.getPosition().getY()] = null;}
 	
 	/* Deplace le Soldat a la position pos, si l'opperation a ete effectue alors retourne true sinon false */
 	public boolean deplaceSoldat(Position pos, Soldat soldat) {
@@ -171,8 +171,7 @@ public class Carte implements IConfig,ICarte {
 					Heros h = (Heros) this.plateau[i][j];
 					h.aJoue = false;
 				}
-			}	
-					
+			}		
 	}	
 	
 	/* trouve une position vide aleatoiremennt sur la Carte */
@@ -204,7 +203,6 @@ public class Carte implements IConfig,ICarte {
 			i = (int) (Math.random() * listePos.size());
 			if(listePos.get(i).estValide() == true && this.plateau[listePos.get(i).getX()][listePos.get(i).getY()] == null) 
 				return listePos.get(i);
-			
 			listePos.remove(i);
 		}
 		return listePos.get(i);
@@ -263,5 +261,5 @@ public class Carte implements IConfig,ICarte {
 				g.setColor(COULEUR_GRILLE);
 				g.drawRect(i * NB_PIX_CASE, j * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
 			}
-	}		
+	}
 }

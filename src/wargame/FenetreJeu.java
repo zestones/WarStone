@@ -2,6 +2,8 @@ package wargame;
 
 import java.awt.Dimension;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 
@@ -23,6 +25,7 @@ public class FenetreJeu extends JFrame implements IConfig{
 		
 		frame.setBackground(COULEUR_INCONNU);
 		
+		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(FEN_LARGEUR, FEN_HAUTEUR));
 		panel.setLayout(new BorderLayout());
 		panel.setOpaque(true);	    

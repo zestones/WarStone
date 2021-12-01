@@ -142,11 +142,8 @@ public class PanneauJeu extends JPanel implements IConfig {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 	
-		// dessine le background avec l'image charger dans IConfig
-		for(int i = 0; i < LARGEUR_CARTE; i++)
-			for(int j = 0; j < HAUTEUR_CARTE; j++) {
-				g.drawImage(grass, i * NB_PIX_CASE, j * NB_PIX_CASE,NB_PIX_CASE,NB_PIX_CASE, null);
-			}
+		// dessine le background avec l'image charger dans IConfig		
+		g.drawImage(grass, 0, 0, NB_PIX_CASE * LARGEUR_CARTE, NB_PIX_CASE * HAUTEUR_CARTE, null);
 		
 		this.c.toutDessiner(g);
 		
@@ -160,10 +157,10 @@ public class PanneauJeu extends JPanel implements IConfig {
 		footer.setForeground(Color.WHITE);
 	    if(this.elem != null)
 	    	footer.setText(" " + this.elem.toString());
-	   
+
 	    // Affiche les deplacement possible du heros selectionne
-	   if(this.herosSelectione != null && this.herosSelectione.aJoue != true) 
-		   this.herosSelectione.dessineSelection(g);
-	   
+	    if(this.herosSelectione != null && this.herosSelectione.aJoue != true) {
+	    	this.herosSelectione.dessineSelection(g);
+	    }
 	}
 }

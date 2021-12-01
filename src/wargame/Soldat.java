@@ -1,5 +1,7 @@
 package wargame;
 
+import java.awt.Graphics;
+
 public abstract class Soldat extends Element implements ISoldat,IConfig{
 	private static final long serialVersionUID = 1L;
 	
@@ -15,9 +17,8 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
         PORTEE_VISUELLE = portee; PUISSANCE = puiss; TIR = tir;
         this.pos = pos;
         this.aJoue = aJoue;
-    }
+  }
     
-  
     /* Met a jours les positions du Soldat */
     public void seDeplace(Position newPos) {
     	Heros h; Monstre m;
@@ -68,6 +69,18 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
     }
     
     
+    public void dessinBarreVie(Graphics g) {
+    	
+    	g.setColor(COULEUR_VIE_R);
+ 		g.fillRect((this.pos.getX() * NB_PIX_CASE) - ( Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) / 2) + NB_PIX_CASE/2, this.pos.getY() * NB_PIX_CASE + PADDING_VIE_CASE, Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR), NB_PIX_CASE/8); 
+ 		
+ 		g.setColor(COULEUR_VIE_V);
+ 		g.fillRect((this.pos.getX() * NB_PIX_CASE) - ( Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) / 2) + NB_PIX_CASE/2, this.pos.getY() * NB_PIX_CASE + PADDING_VIE_CASE, (int) (Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) * ((float)this.getPoints() / (float)this.getPointsMax())), NB_PIX_CASE/8); 
+ 		
+ 		g.setColor(COULEUR_VIDE);
+ 		g.drawRect((this.pos.getX() * NB_PIX_CASE) - ( Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) / 2) + NB_PIX_CASE/2, this.pos.getY() * NB_PIX_CASE + PADDING_VIE_CASE, Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR), NB_PIX_CASE/8); 
+ }
+       
     protected abstract boolean dedans(Position position);
     
     public int getPointsMax() { return this.POINTS_DE_VIE_MAX; }

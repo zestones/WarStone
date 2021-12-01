@@ -12,15 +12,16 @@ public class Heros extends Soldat{
 	TypesH h;
     String nom;
     private Position[] champVisuelle = new Position[5];
-    private static final int BONUS_REPOS = 10;
+    private int BONUS_REPOS;
     // On ne serialize pas les sprites 
-    private transient SpriteSheet spriteSheet;
+    private transient SpriteSheet spriteStandBy;
     
     Heros(Carte carte, TypesH h, String nom, Position pos){
         super(carte, h.getPoints(), h.getPortee(), h.getPuissance(), h.getTir(), pos, false);
         this.h = h;
         this.nom = nom;
         carte.plateau[this.pos.getX()][this.pos.getY()] = this;   
+        this.BONUS_REPOS = this.getPointsMax() / 10;
         this.initialiseSprite();
     }
     
@@ -33,7 +34,7 @@ public class Heros extends Soldat{
     private void initialiseSprite() {
 		try {
 	    	BufferedImage sprite = ImageIO.read(new File(this.h.getSprite()));
-	    	spriteSheet = new SpriteSheetBuilder().
+	    	spriteStandBy = new SpriteSheetBuilder().
 	    			withSheet(sprite).
 	    			withColumns(0).
 	    			withSpriteSize(64,62).
@@ -85,15 +86,17 @@ public class Heros extends Soldat{
         if(this.aJoue == true) {
     		g.setColor(COULEUR_HEROS_DEJA_JOUE);
     		g.fillRect(this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
-    	}
+        }
+     
+        this.dessinBarreVie(g);
     }
-   
+       
     /* On dessine le Heros */
     private void dessineSprite(Graphics g) {
-    	if(this.spriteSheet == null)
+    	if(this.spriteStandBy == null)
     		this.initialiseSprite();
     	
-    	BufferedImage sprite = spriteSheet.getSprite(spriteEngine.getCycleProgress());
+    	BufferedImage sprite = spriteStandBy.getSprite(spriteEngine.getCycleProgress());
 		Graphics2D  g2d = (Graphics2D) g.create();
 		g2d.drawImage(sprite, this.pos.getX() * NB_PIX_CASE ,this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 		g2d.dispose();
