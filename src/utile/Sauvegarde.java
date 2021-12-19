@@ -1,17 +1,19 @@
-package wargame;
+package utile;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.FileOutputStream;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import carte.Carte;
 
 
 public class Sauvegarde {
-	private static String nomFichier = "wargame.ser";
+	private static String nomFichier = "./res/wargame.ser";
 	
 	// Creaction d'une nouvelle sauvegarde dans monFichier
-	Sauvegarde(Carte c){
+	public Sauvegarde(Carte c){
 		try
 		{   
 			FileOutputStream fichier = new FileOutputStream(nomFichier);

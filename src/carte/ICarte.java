@@ -1,6 +1,12 @@
-package wargame;
+package carte;
 
 import java.awt.Graphics;
+
+import element.Element;
+import element.Heros;
+import element.Soldat;
+import utile.Position;
+import wargame.PanneauJeu;
 
 public interface ICarte {
 	
@@ -13,7 +19,7 @@ public interface ICarte {
 									 // parmi les 8 positions adjacentes de pos
 	boolean deplaceSoldat(Position pos, Soldat soldat);
 	void mort(Soldat perso);
-	boolean actionHeros(Position pos, Position pos2);
+	boolean actionHeros(PanneauJeu pj, Position pos, Position pos2);
 	void jouerSoldats(PanneauJeu pj);
 	void toutDessiner(Graphics g);
 }

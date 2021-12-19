@@ -1,19 +1,21 @@
-package wargame;
+package utile;
+
+import wargame.IConfig;
 
 public class Position implements IConfig {
 	private static final long serialVersionUID = 1L;
 	private int x, y;
 	private int SAM_ALIGNE = 1;
-	private int SIAM = -1;
+	private int SIAM = -1; 
 	
-	Position(int x, int y) { this.x = x; this.y = y; }
-	Position() {this.x = (int) (Math.random() * LARGEUR_CARTE-1); this.y = (int) (Math.random() * HAUTEUR_CARTE-1); }
+	public Position(int x, int y) { this.x = x; this.y = y; }
+	public Position() {this.x = (int) (Math.random() * LARGEUR_CARTE_CASE-1); this.y = (int) (Math.random() * HAUTEUR_CARTE_CASE-1); }
 	public int getX() { return x; }
 	public int getY() { return y; }
 	public void setX(int x) { this.x = x; }
 	public void setY(int y) { this.y = y; }
 	public boolean estValide() {
-		if (x<0 || x>=LARGEUR_CARTE || y<0 || y>=HAUTEUR_CARTE) return false; else return true;
+		if (x<0 || x>=LARGEUR_CARTE_CASE || y<0 || y>=HAUTEUR_CARTE_CASE) return false; else return true;
 	}
 	public String toString() { return "("+x+","+y+")"; }
 	public boolean estVoisine(Position pos) {
@@ -29,17 +31,5 @@ public class Position implements IConfig {
 		if (angle < 0)
 			return SIAM;
 		return SAM_ALIGNE;	
-	}
-	
-	/* Verifie les positions et les remplace par les limites de la carte si celle-ci ne sont pas valide */
-	public void verifPosition() {
-		if (this.getX() >= LARGEUR_CARTE ) 
-			this.setX(LARGEUR_CARTE - 1);
-		if (this.getY() >= HAUTEUR_CARTE) 
-			this.setY(HAUTEUR_CARTE - 1);
-		if(this.	getX() < 0) 
-			this.setX(0); 
-		if(this.getY() < 0) 
-			this.setY(0);
 	}
 }

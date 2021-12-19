@@ -1,9 +1,13 @@
-package wargame;
+package element;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.Graphics;
+
+import carte.Carte;
+import utile.Position;
+import wargame.IConfig;
 
 public class Obstacle extends Element implements IConfig {
 	private static final long serialVersionUID = 1L;
@@ -25,7 +29,7 @@ public class Obstacle extends Element implements IConfig {
 	}
 	private TypeObstacle TYPE;
 	private Position pos;
-	Obstacle(Carte carte, TypeObstacle type, Position pos) {
+	public Obstacle(Carte carte, TypeObstacle type, Position pos) {
 		this.pos = pos;
 		this.TYPE = type; 
 		carte.plateau[this.pos.getX()][this.pos.getY()] = this; 

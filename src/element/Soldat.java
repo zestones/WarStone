@@ -1,8 +1,12 @@
-package wargame;
+package element;
 
 import java.awt.Graphics;
 
-public abstract class Soldat extends Element implements ISoldat,IConfig{
+import carte.Carte;
+import utile.Position;
+import wargame.IConfig;
+
+public abstract class Soldat extends Element implements ISoldat, IConfig{
 	private static final long serialVersionUID = 1L;
 	
 	private final int POINTS_DE_VIE_MAX, PUISSANCE, TIR, PORTEE_VISUELLE;
@@ -10,7 +14,9 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
     public boolean aJoue;
     public Position pos;    
     public Carte carte;
-
+    public Graphics g;
+    Projectile p;
+    
   Soldat(Carte carte,int pts, int portee, int puiss, int tir, Position pos, boolean aJoue) {
     	this.carte = carte;
         POINTS_DE_VIE_MAX = pointsDeVie = pts;
@@ -48,6 +54,7 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
 		else {
 			pH = (int) (Math.random() * this.PUISSANCE);
 			pM = (int) (Math.random() * soldat.PUISSANCE);
+			this.p = new Projectile(this.getPosition(), soldat.getPosition(), carte);
 		}
     	
     	soldat.pointsDeVie -= pH;
@@ -79,7 +86,7 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
  		
  		g.setColor(COULEUR_VIDE);
  		g.drawRect((this.pos.getX() * NB_PIX_CASE) - ( Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) / 2) + NB_PIX_CASE/2, this.pos.getY() * NB_PIX_CASE + PADDING_VIE_CASE, Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR), NB_PIX_CASE/8); 
- }
+    }
        
     protected abstract boolean dedans(Position position);
     
@@ -90,5 +97,7 @@ public abstract class Soldat extends Element implements ISoldat,IConfig{
     public int getPoints() { return this.pointsDeVie; }
     public int getTir() { return this.TIR; }
     public Position getPosition() { return pos; }
+
+	public abstract String getSprite();
     
 }

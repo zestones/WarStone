@@ -1,11 +1,17 @@
-package wargame;
+package element;
 
-import java.io.File;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import carte.Carte;
+import sprite.SpriteSheet;
+import sprite.SpriteSheetBuilder;
+import utile.Position;
 
 public class Monstre extends Soldat {
 	private static final long serialVersionUID = 1L;
@@ -14,7 +20,7 @@ public class Monstre extends Soldat {
     private Position[] champVisuelle = new Position[5];
     public transient SpriteSheet spriteSheet;
 
-    Monstre(Carte carte, TypesM m, String nom,Position pos){
+    public Monstre(Carte carte, TypesM m, String nom,Position pos){
         super(carte, m.getPoints(), m.getPortee(), m.getPuissance(), m.getTir(), pos, false);
         this.m = m;
         this.nom = nom;
@@ -95,4 +101,6 @@ public class Monstre extends Soldat {
     public String toString() {
     	return this.getPosition().toString() + " " + this.m.name() + " " + this.nom + " (" + this.m.getPoints() + "PV /" + this.getPoints() + ")";
     }
+    
+    public String getSprite() { return this.m.getSprite(); }
 }

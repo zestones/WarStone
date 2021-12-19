@@ -1,8 +1,10 @@
-package wargame;
+package sprite;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+
+import wargame.IConfig;
 
 
 public class SpriteSheet implements IConfig, java.io.Serializable {

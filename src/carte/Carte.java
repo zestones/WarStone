@@ -1,24 +1,35 @@
-package wargame;
-import java.awt.Graphics;
+package carte;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
- 
-public class Carte implements IConfig,ICarte {
 
+import element.Element;
+import element.Heros;
+import element.Monstre;
+import element.Obstacle;
+import element.Soldat;
+import utile.Position;
+import wargame.IConfig;
+import wargame.PanneauJeu;
+
+ 
+public class Carte implements IConfig, ICarte {
 	private static final long serialVersionUID = 1L;
-	Element[][] plateau;
+	boolean fini = false;
+	public Element[][] plateau;
 	private int tour = 0;
 	
-	Carte(){
+	public Carte() {
+		this.fini = false;
 		// Initialisation de la carte
-		this.plateau = new Element[LARGEUR_CARTE][HAUTEUR_CARTE];
-		for(int i = 0; i < LARGEUR_CARTE; i++)
-			for(int j = 0; j < HAUTEUR_CARTE; j++) {
+		this.plateau = new Element[LARGEUR_CARTE_CASE][HAUTEUR_CARTE_CASE];
+		for(int i = 0; i < LARGEUR_CARTE_CASE; i++)
+			for(int j = 0; j < HAUTEUR_CARTE_CASE; j++) {
 				plateau[i][j] = null;
 			}		
 		
-		// Cration des Elements
+		// Cration des Elements !!! Modifier les noms !!!
 		int inc = Math.max(NB_MONSTRES, Math.max(NB_OBSTACLES, NB_HEROS));
 		while(inc > 0 ){
 			if(inc <= NB_MONSTRES)
@@ -34,17 +45,30 @@ public class Carte implements IConfig,ICarte {
 	/* Fonction principale du jeu c'est ici que tout est gérer : les tours, les deplacement, les actions... */
 	public void jouerSoldats(PanneauJeu pj) {
 		this.tour = pj.tour;
+		
 		this.nombreSoldatVivant(pj);
 		if(this.tour == 0) {
 			this.joueTourHeros(pj);
 			this.joueTour(this.tour);
 		}
 		else {
-			this.joueTourMonstre(pj);
-			this.joueTour(this.tour);
-			pj.finTour.doClick();
-			pj.herosSelectione = null;
-		}
+			if(fini == true) { 
+//				try {
+//					pj.monChrono.wait();
+//					System.out.println("Patiente");
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+				
+				this.joueTourMonstre(pj);
+				this.joueTour(this.tour);
+				pj.herosSelectione = null;
+				pj.lastClic = null;
+				this.fini = false;
+				pj.finTour.doClick();
+			}
+		}	
 		pj.repaint();
 	}
 	
@@ -52,8 +76,8 @@ public class Carte implements IConfig,ICarte {
 	public void nombreSoldatVivant(PanneauJeu pj) {
 		int nbMonstre = 0;
 		int nbHeros = 0;
-		for(int i = 0; i < LARGEUR_CARTE; i++)
-			for(int j = 0; j < HAUTEUR_CARTE; j++) {
+		for(int i = 0; i < LARGEUR_CARTE_CASE; i++)
+			for(int j = 0; j < HAUTEUR_CARTE_CASE; j++) {
 				if(this.plateau[i][j] instanceof Heros)
 					nbHeros++;
 				else if(this.plateau[i][j] instanceof Monstre)
@@ -67,8 +91,8 @@ public class Carte implements IConfig,ICarte {
 	/* On effectue une action pour chaque monstre */
 	private void joueTourMonstre(PanneauJeu pj) {
 		Heros h;
-		for(int i = 0; i < LARGEUR_CARTE; i++) {
-			for(int j = 0; j < HAUTEUR_CARTE; j++) {
+		for(int i = 0; i < LARGEUR_CARTE_CASE; i++) {
+			for(int j = 0; j < HAUTEUR_CARTE_CASE; j++) {
 				if(this.plateau[i][j] instanceof Heros) {
 					h = (Heros) this.plateau[i][j];	
 					if(h.aJoue == false)
@@ -89,23 +113,17 @@ public class Carte implements IConfig,ICarte {
 	/* Le generale joueur decide quelle action faire */
 	private void joueTourHeros(PanneauJeu pj) {
 		// si le premier clic est sur le boutton "fin tour" alors clic n'est pas initialise et engendre une erreur
-		if(pj.clic == null)
+		if(pj.herosSelectione == null || pj.lastClic == null)
 			return;
-		
-		Element e = this.getElement(pj.clic); 
-		if(e instanceof Heros) {
-			pj.lastClic = new Position(pj.clic.getX(), pj.clic.getY());
-			pj.herosSelectione = (Heros) e;
-		}
-		
-		if (pj.lastClic == null)
-			return;
-		
-		if( (pj.clic.getX() == pj.lastClic.getX() && pj.clic.getY() == pj.lastClic.getY()) == false) {
-			if( (this.actionHeros(pj.lastClic, pj.clic)) == true ) {
-				pj.lastClic = null;
+				
+		if( (pj.herosSelectione.getPosition().getX() == pj.lastClic.getX() && pj.herosSelectione.getPosition().getY() == pj.lastClic.getY()) == false) {
+			if( (this.actionHeros(pj, pj.herosSelectione.getPosition(), pj.lastClic)) == true ) {
+				System.out.println("Action du heros ! ");
+				if(pj.herosSelectione.getPoints() > 0)
+					pj.herosAttack.add(pj.herosSelectione);
+				pj.herosSelectione = null;
+				
 			}
-			pj.herosSelectione = null;
 		}
 	}
 	
@@ -114,8 +132,8 @@ public class Carte implements IConfig,ICarte {
 	 * --> A changer en utilisant trouveHeros
 	 * */
 	private boolean actionCombatMonstre(Monstre m) {
-		for(int i = 0; i < LARGEUR_CARTE; i++)
-			for(int j = 0; j < HAUTEUR_CARTE; j++) 
+		for(int i = 0; i < LARGEUR_CARTE_CASE; i++)
+			for(int j = 0; j < HAUTEUR_CARTE_CASE; j++) 
 				if(this.plateau[i][j] instanceof Heros) {
 					Heros h = (Heros) this.plateau[i][j];
 					if(m.dedans(h.getPosition()) == true) {
@@ -138,21 +156,41 @@ public class Carte implements IConfig,ICarte {
 		return false;
 	}
 	
+	/* A changer */
+	public void actionListCombatSoldat(List<Soldat> soldatCombat) {
+		for(int i = 0; i < soldatCombat.size() - 1; i++) {
+			soldatCombat.get(i).combat(soldatCombat.get(i+1));
+			if(soldatCombat.get(i).getPoints() <= 0) {
+				soldatCombat.remove(i);
+				i++;
+			}
+		}
+		
+		for(int i = 0; i < soldatCombat.size(); i++) {
+			soldatCombat.remove(i);
+		}
+	}
+
+	
 	/* Methode qui gere les actions des Heros */
-	public boolean actionHeros(Position pos, Position pos2) {
+	public boolean actionHeros(PanneauJeu pj, Position pos, Position pos2) {
 		Soldat s = (Soldat)this.plateau[pos.getX()][pos.getY()];
 		Heros h =  (Heros)this.plateau[pos.getX()][pos.getY()];
 		
-		if(h == null || this.getElement(pos2) instanceof Heros || h.aJoue == true) //Ajout :  pos.estVoisine(pos2) == false cf : enoncer pk ?
+		if(h == null || this.getElement(pos2) instanceof Heros || h.aJoue == true)  //Ajout :  pos.estVoisine(pos2) == false cf : enoncer pk ?
 			return false;
 		else if(this.plateau[pos2.getX()][pos2.getY()] instanceof Monstre) {
 			Soldat s2 = (Soldat)this.plateau[pos2.getX()][pos2.getY()];
-			if(h.dedans(s2.getPosition()) == true) 
-				s.combat(s2);
+			if(h.dedans(s2.getPosition()) == true) { 
+				pj.soldatCombat.add(s);
+				pj.soldatCombat.add(s2);
+				h.aJoue = true;
+				h.combat = true;
+			}
 		}
-		else
+		else 
 			this.deplaceSoldat(pos2, s);
-	
+
 		return true;
 	}
 	
@@ -161,8 +199,8 @@ public class Carte implements IConfig,ICarte {
 	 * Lorsque c'est le tour des monstres alors les Heros doivent pouvoir bouger de nouveau, idem pour les Heros
 	 *  */
 	private void joueTour(int tour) {
-		for(int i = 0; i < LARGEUR_CARTE; i++)
-			for(int j = 0; j < HAUTEUR_CARTE; j++) {
+		for(int i = 0; i < LARGEUR_CARTE_CASE; i++)
+			for(int j = 0; j < HAUTEUR_CARTE_CASE; j++) {
 				if(tour == 0 &&  this.plateau[i][j] instanceof Monstre) {	
 					Monstre m = (Monstre) this.plateau[i][j];
 					m.aJoue = false;
@@ -211,8 +249,8 @@ public class Carte implements IConfig,ICarte {
 	/* renvoie un Heros trouve aleatoirement sur la carte */
 	public Heros trouveHeros() {
 		List<Heros> listePosHeros = new ArrayList<>();
-		for(int i = 0; i < LARGEUR_CARTE; i++)
-			for(int j = 0; j < HAUTEUR_CARTE; j++) {
+		for(int i = 0; i < LARGEUR_CARTE_CASE; i++)
+			for(int j = 0; j < HAUTEUR_CARTE_CASE; j++) {
 				Element e = this.getElement(new Position(i,j));
 				if(e instanceof Heros)
 					listePosHeros.add((Heros) e);
@@ -254,8 +292,8 @@ public class Carte implements IConfig,ICarte {
 	 *  - Pour chaque Heros trouver on va dessiner les element a sa portee 
 	 */
 	public void toutDessiner(Graphics g) {
-		for(int i = 0; i < LARGEUR_CARTE; i++)
-			for(int j = 0; j < HAUTEUR_CARTE; j++) {
+		for(int i = 0; i < LARGEUR_CARTE_CASE; i++)
+			for(int j = 0; j < HAUTEUR_CARTE_CASE; j++) {
 				if (this.plateau[i][j] instanceof Heros) 
 					this.plateau[i][j].seDessiner(g);
 				g.setColor(COULEUR_GRILLE);

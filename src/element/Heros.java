@@ -1,53 +1,37 @@
-package wargame;
+package element;
 
-import java.io.File;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+
+import carte.Carte;
+import sprite.SpriteInitializer;
+import sprite.SpriteSheet;
+import utile.Position;
 
 public class Heros extends Soldat{
 	private static final long serialVersionUID = 1L;
-	TypesH h;
-    String nom;
-    private Position[] champVisuelle = new Position[5];
+	private Position[] champVisuelle = new Position[5];
+	
+	private transient SpriteInitializer herosSprite;
+	public transient SpriteSheet dernierSprite;
     private int BONUS_REPOS;
-    // On ne serialize pas les sprites 
-    private transient SpriteSheet spriteStandBy;
+    public boolean combat;
+    String nom;
+	TypesH h;
     
-    Heros(Carte carte, TypesH h, String nom, Position pos){
+    public Heros(Carte carte, TypesH h, String nom, Position pos){
         super(carte, h.getPoints(), h.getPortee(), h.getPuissance(), h.getTir(), pos, false);
         this.h = h;
         this.nom = nom;
+        
+        this.combat = false;
+        
         carte.plateau[this.pos.getX()][this.pos.getY()] = this;   
         this.BONUS_REPOS = this.getPointsMax() / 10;
-        this.initialiseSprite();
+        this.herosSprite = new SpriteInitializer(this);
+        this.dernierSprite = this.herosSprite.spriteStandByBas;
     }
-    
-    
-    /* 
-     * On initialise le sprite pour chaque Heros lors de sa creation
-     * Si une partie est charge depuis une sauvegarde, on recharge les sprites en fonction du type 
-     * (Aucun sprite est enregistre dans la sauvegarde !)
-     *  */
-    private void initialiseSprite() {
-		try {
-	    	BufferedImage sprite = ImageIO.read(new File(this.h.getSprite()));
-	    	spriteStandBy = new SpriteSheetBuilder().
-	    			withSheet(sprite).
-	    			withColumns(0).
-	    			withSpriteSize(64,62).
-	    			withRows(3).
-	    			withSpriteCount(7).
-	    			build();
-	    	spriteEngine.start();
-	    } catch (IOException ex) {
-	    	System.out.println(" Error -> " + ex);
-	    	ex.printStackTrace();
-	    }
-    }
-    
+   
     /* Initialise le "champs visuelle" i.e les positions de la portee du Heros */
     private void initChampVisuelle() {
     	this.champVisuelle[0] = new Position(this.getPosition().getX() - this.getPortee(), this.getPosition().getY() - this.getPortee());
@@ -93,14 +77,54 @@ public class Heros extends Soldat{
        
     /* On dessine le Heros */
     private void dessineSprite(Graphics g) {
-    	if(this.spriteStandBy == null)
-    		this.initialiseSprite();
+    	if(this.herosSprite == null) {
+    		this.herosSprite = new SpriteInitializer(this);
+    		this.dernierSprite = this.herosSprite.spriteStandByDroite;
+    	}
+    	BufferedImage sprite = this.dernierSprite.getSprite(spriteEngine.getCycleProgress());
+		g.drawImage(sprite, this.pos.getX() * NB_PIX_CASE ,this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+    }
+    
+    public void dessineSprite(Graphics g, Position clic) {
+//    	System.out.println("Combat : " + this.combat);
+    	if(clic == null)
+    		return;
     	
-    	BufferedImage sprite = spriteStandBy.getSprite(spriteEngine.getCycleProgress());
-		Graphics2D  g2d = (Graphics2D) g.create();
-		g2d.drawImage(sprite, this.pos.getX() * NB_PIX_CASE ,this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
-		g2d.dispose();
-	}
+    	if(this.herosSprite == null) {
+    		this.herosSprite = new SpriteInitializer(this);
+    		this.dernierSprite = this.herosSprite.spriteStandByDroite;
+    	}
+    	
+    	BufferedImage sprite = null;    	
+    	
+    	if(this.combat == false) {
+	    	if(clic.getX() < this.getPosition().getX())
+	    		this.dernierSprite = this.herosSprite.spriteStandByGauche;
+	    	else if(clic.getX() > this.getPosition().getX())
+	    		this.dernierSprite = this.herosSprite.spriteStandByDroite;
+	      	else if(clic.getY() > this.getPosition().getY())
+	      		this.dernierSprite = this.herosSprite.spriteStandByBas;
+	    	else if(clic.getY() < this.getPosition().getY())
+	    		this.dernierSprite = this.herosSprite.spriteStandByHaut;
+    	}
+    	else {
+    		if(clic.getX() < this.getPosition().getX()) 
+    			this.dernierSprite = this.herosSprite.spriteAttackGauche;
+    		else if(clic.getX() > this.getPosition().getX())
+	    		this.dernierSprite = this.herosSprite.spriteAttackDroite;
+	      	else if(clic.getY() > this.getPosition().getY())
+	      		this.dernierSprite = this.herosSprite.spriteAttackHaut;
+	    	else if(clic.getY() < this.getPosition().getY())
+	    		this.dernierSprite = this.herosSprite.spriteAttackBas;
+    	}
+    	
+		sprite = this.dernierSprite.getSprite(spriteEngine.getCycleProgress());
+    	g.drawImage(sprite, this.pos.getX() * NB_PIX_CASE ,this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+
+    	this.dessinBarreVie(g);
+
+    }	
+    
     
     /* Methode principale du dessin de Heros:
      * Affichage de la portee visuelle i.e les cases visible par le général 
@@ -109,10 +133,10 @@ public class Heros extends Soldat{
     	int portee = this.getPortee();
     	
     	for(int i = 0; i <= portee * 2; i++) {
-    		for(int j = 0; j <= portee  * 2 ; j++) {
+    		for(int j = 0; j <= portee * 2 ; j++) {
     			Position porteeVisuelle = new Position(this.pos.getX() + i - portee, this.pos.getY() + j - portee);
     			if(porteeVisuelle.estValide() == false)
-    				porteeVisuelle.verifPosition();
+    				continue;
     			
     			if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] == null) 
     				g.drawImage(range, porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
@@ -141,7 +165,7 @@ public class Heros extends Soldat{
     			if(i != 0 || j != 0) {
     				Position posVoisine = new Position(this.pos.getX() + i, this.pos.getY() + j);
     				if(posVoisine.estValide() == false)
-        				posVoisine.verifPosition();
+        				continue;
     				if(carte.plateau[posVoisine.getX()][posVoisine.getY()] == null) {
     					g.setColor(COULEUR_DEPLACEMENT);
     					g.fillRect((this.pos.getX() + i) * NB_PIX_CASE , (this.pos.getY() + j) * NB_PIX_CASE , NB_PIX_CASE, NB_PIX_CASE);
@@ -155,23 +179,28 @@ public class Heros extends Soldat{
     /* Dessine la portee visuelle du heros selectionne*/
     private void dessinePorteeVisuelle(Graphics g) {
     	int portee = this.getPortee();
-    	boolean dejaDessine = false;
+    	
     	for(int i = 0; i <= portee * 2; i++) {
     		for(int j = 0; j <= portee  * 2 ; j++) {
     			Position porteeVisuelle = new Position(this.pos.getX() + i - portee, this.pos.getY() + j - portee);
-    			if(porteeVisuelle.estValide() == false) {
-    				porteeVisuelle.verifPosition();
-    				dejaDessine = true;
-    			}
+    			if(porteeVisuelle.estValide() == false) 
+    				continue;
     			
-    			if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] == null && dejaDessine == false) {
+    			if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] == null) {
     				g.setColor(COULEUR_PORTEE);
+    				g.fillRect(porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
+    			}
+    			else if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] instanceof Monstre) {
+    				g.setColor(COULEUR_ENEMIS);
+    				g.fillRect(porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
+    			}
+    			else if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] instanceof Heros && carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] != this) {
+    				g.setColor(COULEUR_AMIS);
     				g.fillRect(porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
     			}
     			
     			g.setColor(COULEUR_GRILLE);
     			g.drawRect(porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
-    			dejaDessine = false;
     		}
     	}	
     }
@@ -190,4 +219,8 @@ public class Heros extends Soldat{
     public String toString() {
     	return this.getPosition().toString() + " " + this.h.name() + " " + this.nom + " (" + this.h.getPoints() + "PV /" + this.getPoints() + ")";
     }
+
+	public String getSprite() {
+		return this.h.getSprite();
+	}
 }

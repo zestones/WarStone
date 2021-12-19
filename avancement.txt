@@ -94,4 +94,21 @@
 /!\ trouveHeros(Position pos) n'est pas utilise mais peut l'être dans actionCombatMonstre
 
 ========================================================
+========================================================
+----------------------------------
+	19/12/2021 :
+----------------------------------
+	**** REFRACTOR rearangement du code *****
+	****************************************
+	
+	- Creation class SpriteInitialier / ISprite
+	- Ajout des Sprites des 4 directions
+	- Detection Dragged & Moved
+	
+/!\ Attendre que l'animation des heros qui attaque se termine pour lancer les monstres
+/!\ Reorganiser la class PanneauJeu en plusieurs "sous-Class"		
+		
+/!\ trouveHeros(Position pos) --> a corriger comme trouvePositionVide(Position pos) 
+/!\ trouveHeros(Position pos) n'est pas utilise mais peut l'être dans actionCombatMonstre
 
+========================================================

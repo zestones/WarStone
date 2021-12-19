@@ -1,4 +1,4 @@
-package wargame;
+package sprite;
 
 import javax.swing.Timer;
 import java.util.ArrayList;
@@ -72,6 +72,5 @@ public class SpriteEngine implements java.io.Serializable  {
                 listener.actionPerformed(ae);
             }
 		}
-
     }
 }
