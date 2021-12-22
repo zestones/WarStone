@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 
 import carte.Carte;
+import element.ISoldat.TypesH;
 import utile.Position;
 import wargame.IConfig;
 
@@ -32,20 +33,28 @@ public class Obstacle extends Element implements IConfig {
 	public Obstacle(Carte carte, TypeObstacle type, Position pos) {
 		this.pos = pos;
 		this.TYPE = type; 
-		carte.plateau[this.pos.getX()][this.pos.getY()] = this; 
+		carte.plateau[this.getPosition().getX()][this.getPosition().getY()] = this; 
 	}
 
 	
 	/* Dessin de l'obstacle */
 	public void seDessiner(Graphics g) {
-		//g.setColor(COULEUR_VIDE);
-		//g.fillRect(this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
-		
-		g.drawImage(obstacle, this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
-		g.drawImage(this.TYPE.getImage(), this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
-    	
+		g.drawImage(obstacle, this.getPosition().getX() * NB_PIX_CASE, this.getPosition().getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+		g.drawImage(this.TYPE.getImage(), this.getPosition().getX() * NB_PIX_CASE, this.getPosition().getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+	}
+	
+	/* Dessin de l'obstacle */
+	public void seDessinerMinia(Graphics g) {
+		g.drawImage(obstacle, this.getPosition().getX() * MINI_NB_PIX_CASE, this.getPosition().getY() * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, null);
+		g.drawImage(this.TYPE.getImage(), this.getPosition().getX() * MINI_NB_PIX_CASE, this.getPosition().getY() * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, null);
 	}
 	
 	public String toString() { return ""+TYPE; }
 	public Position getPosition() {	return pos;	}
+
+	public Image getImage() { return this.TYPE.getImage(); }
+
+
+	@Override
+	public String getType() { return ""+this.TYPE.name(); }
 }

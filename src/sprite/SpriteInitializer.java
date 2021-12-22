@@ -22,6 +22,8 @@ public class SpriteInitializer implements IConfig, ISprite {
 	public transient SpriteSheet spriteAttackHaut;
 	public transient SpriteSheet spriteAttackBas;
 	
+	public transient SpriteSheet spriteDeplaceGauche;
+	
 	private Soldat soldat;
 
 	/* 
@@ -31,18 +33,22 @@ public class SpriteInitializer implements IConfig, ISprite {
 	 */	
 	public SpriteInitializer(Soldat s){
 		this.soldat = s;
+		// Creation des sprites StandBy
 		this.spriteStandByGauche = initSprite(LIGNE_STANDBY_GAUCHE, NB_IMAGE_STANDBY);	
 		this.spriteStandByDroite = initSprite(LIGNE_STANDBY_DROITE, NB_IMAGE_STANDBY);	
 		
 		this.spriteStandByHaut = initSprite(LIGNE_STANDBY_HAUT, NB_IMAGE_STANDBY);	
 		this.spriteStandByBas = initSprite(LIGNE_STANDBY_BAS, NB_IMAGE_STANDBY);
 		
+		// Creation des sprites Attaque
 		this.spriteAttackGauche = initSprite(LIGNE_ATTACK_GAUCHE, NB_IMAGE_ATTACK);
 		this.spriteAttackDroite = initSprite(LIGNE_ATTACK_DROITE, NB_IMAGE_ATTACK);
 
 		this.spriteAttackHaut = initSprite(LIGNE_ATTACK_HAUT, NB_IMAGE_ATTACK);
 		this.spriteAttackBas = initSprite(LIGNE_ATTACK_BAS, NB_IMAGE_ATTACK);
-
+		
+		this.spriteDeplaceGauche = initSprite(LIGNE_MOVE_GAUCHE, NB_IMAGE_MOVE);
+		
 		
 	}
 	

@@ -98,7 +98,7 @@
 ----------------------------------
 	19/12/2021 :
 ----------------------------------
-	**** REFRACTOR rearangement du code *****
+	**** REFACTOR rearangement du code *****
 	****************************************
 	
 	- Creation class SpriteInitialier / ISprite

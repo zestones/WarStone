@@ -16,7 +16,7 @@ public class Chrono {
     class RemindTask extends TimerTask {
         public void run() {
         	System.out.println("Notification du timer !");
-        	timer.notifyAll();
+        	
         	timer.cancel();
         }
     }

@@ -1,16 +1,14 @@
 package element;
 
 import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
+import java.util.ArrayList;
+import java.util.List;
 
 import carte.Carte;
+import sprite.SpriteInitializer;
 import sprite.SpriteSheet;
-import sprite.SpriteSheetBuilder;
 import utile.Position;
 
 public class Monstre extends Soldat {
@@ -18,36 +16,73 @@ public class Monstre extends Soldat {
 	TypesM m;
     String nom;
     private Position[] champVisuelle = new Position[5];
-    public transient SpriteSheet spriteSheet;
+    private transient SpriteInitializer monstreSprite;
+	public transient SpriteSheet dernierSprite;
+    public boolean combat;
 
     public Monstre(Carte carte, TypesM m, String nom,Position pos){
         super(carte, m.getPoints(), m.getPortee(), m.getPuissance(), m.getTir(), pos, false);
         this.m = m;
         this.nom = nom;
+        this.combat = false;
+        
         carte.plateau[this.pos.getX()][this.pos.getY()] = this;
-        this.initialiseSprite();
+        this.monstreSprite = new SpriteInitializer(this);
+        this.initChampVisuelle();
+        
+        this.dernierSprite = this.monstreSprite.spriteStandByBas;
     }
     
-    /* 
-     * On initialise le sprite pour chaque Monstre lors de sa creation
-     * Si une partie est charge depuis une sauvegarde on recharge les sprites en fonction su type 
-     * (Aucun sprite est enregistre dans la sauvegarde !)
-     *  */
-    private void initialiseSprite() {
-		try {
-	    	BufferedImage sprite = ImageIO.read(new File(this.m.getSprite()));
-	    	spriteSheet = new SpriteSheetBuilder().
-	    			withSheet(sprite).
-	    			withColumns(0).
-	    			withSpriteSize(64,62).
-	    			withRows(1).
-	    			withSpriteCount(7).
-	    			build();
-	    	spriteEngine.start();
-	    } catch (IOException ex) {
-	    	System.out.println(" Error -> " + ex);
-	    	ex.printStackTrace();
-	    }
+    private void dessineSprite(Graphics g) {
+    	if(this.monstreSprite == null) {
+    		this.monstreSprite = new SpriteInitializer(this);
+			this.dernierSprite = this.monstreSprite.spriteStandByDroite;
+    	}
+    	BufferedImage sprite = this.dernierSprite.getSprite(spriteEngine.getCycleProgress());
+		g.drawImage(sprite, this.pos.getX() * NB_PIX_CASE ,this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+    }
+    
+    public void dessineSprite(Graphics g, Position clic) {
+//    	System.out.println("Combat : " + this.combat);
+    	if(clic == null)
+    		return;
+    	
+    	if(this.monstreSprite == null) {
+    		this.monstreSprite = new SpriteInitializer(this);
+    		this.dernierSprite = this.monstreSprite.spriteStandByDroite;
+    	}
+    	
+    	BufferedImage sprite = null;    	
+    	
+    	if(this.combat == false && this.deplacement == false) {
+	    	if(clic.getX() < this.getPosition().getX())
+	    		this.dernierSprite = this.monstreSprite.spriteStandByGauche;
+	    	else if(clic.getX() > this.getPosition().getX())
+	    		this.dernierSprite = this.monstreSprite.spriteStandByDroite;
+	      	else if(clic.getY() > this.getPosition().getY())
+	      		this.dernierSprite = this.monstreSprite.spriteStandByBas;
+	    	else if(clic.getY() < this.getPosition().getY())
+	    		this.dernierSprite = this.monstreSprite.spriteStandByHaut;
+    	}
+    	else if (this.combat == true){
+    		if(clic.getX() < this.getPosition().getX()) 
+    			this.dernierSprite = this.monstreSprite.spriteAttackGauche;
+    		else if(clic.getX() > this.getPosition().getX())
+	    		this.dernierSprite = this.monstreSprite.spriteAttackDroite;
+	      	else if(clic.getY() > this.getPosition().getY())
+	      		this.dernierSprite = this.monstreSprite.spriteAttackHaut;
+	    	else if(clic.getY() < this.getPosition().getY())
+	    		this.dernierSprite = this.monstreSprite.spriteAttackBas;
+    	}
+    	else if(this.deplacement == true) {
+    		if(clic.getX() < this.getPosition().getX()) {
+    			this.dernierSprite = this.monstreSprite.spriteDeplaceGauche;
+//    			this.deplacement(clic);
+    		}
+    	}
+    	sprite = this.dernierSprite.getSprite(spriteEngine.getCycleProgress());
+    	g.drawImage(sprite, this.pos.getX() * NB_PIX_CASE ,this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+
     }
     
     /* Initialise le "champs visuelle" i.e les positions de la portee du Heros */
@@ -58,14 +93,13 @@ public class Monstre extends Soldat {
      	this.champVisuelle[3] = new Position(this.getPosition().getX() - this.getPortee(), this.getPosition().getY() + this.getPortee());
     }
     
-    /* Renvoie true si la position pos donnee en parametre est a la portee du Hero 
+    /* Renvoie true si la position pos donnee en parametre est a la portee du Monstre 
      * i.e la position est dans sont champVisuelle
      */
 	public boolean dedans(Position p) {
 		int nbrCotes = this.champVisuelle.length - 1;
 		int[] listeAngle = new int[nbrCotes];
 			
-		this.initChampVisuelle();
 		for(int i = 0; i < nbrCotes - 1; i++)
 			listeAngle[i] = p.signeAngle(this.champVisuelle[i], this.champVisuelle[i + 1]);
 		
@@ -83,24 +117,49 @@ public class Monstre extends Soldat {
     public void seDessiner(Graphics g) { 
     	g.drawImage(range, this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 
-    	if(this.spriteSheet == null)
-    		this.initialiseSprite();
-    	
-    	BufferedImage sprite = spriteSheet.getSprite(spriteEngine.getCycleProgress());
-    	Graphics2D  g2d = (Graphics2D) g.create();
-    	g2d.drawImage(sprite, this.pos.getX() * NB_PIX_CASE ,this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
-    	g2d.dispose();
-    	
+    	this.dessineSprite(g);
     	this.dessinBarreVie(g);
     	
     	g.setColor(COULEUR_MONSTRE);
 		g.fillRect(this.pos.getX()  * NB_PIX_CASE , this.pos.getY() * NB_PIX_CASE , NB_PIX_CASE, NB_PIX_CASE);
     }
     
+    /* Dessin du Monstre sur la carte */
+    public void seDessinerMinia(Graphics g) { 
+    	g.drawImage(range, this.pos.getX() * MINI_NB_PIX_CASE, this.pos.getY() * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, null);   	
+    	
+    	g.drawImage(this.getImage(), this.pos.getX() * MINI_NB_PIX_CASE, this.pos.getY() * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, null);   	
+
+    	g.setColor(COULEUR_MONSTRE);
+    	g.fillRect(this.pos.getX()  * MINI_NB_PIX_CASE , this.pos.getY() * MINI_NB_PIX_CASE , MINI_NB_PIX_CASE, MINI_NB_PIX_CASE);
+
+    }
+    
+    public List<Heros> getListHerosInRange(){
+		List<Heros> listeHeros = new ArrayList<>();
+		int portee = this.getPortee();
+//		System.out.println("=======================\nPORTEE : " + portee + " === MONSTRE  : " + this.toString());
+		for(int i = 0; i <= portee * 2; i++) {
+			for(int j = 0; j <= portee * 2 ; j++) {
+				Position porteeVisuelle = new Position(this.pos.getX() + i - portee, this.pos.getY() + j - portee);
+				if(porteeVisuelle.estValide() == false)
+    				continue; 
+				if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] instanceof Heros) 
+					listeHeros.add((Heros)carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()]);
+			}
+		}
+//		System.out.println("      -------------     \n " + listeHeros + "\n=========================");
+		return listeHeros;
+    }
+    
     /* Affichage des infos du monstre */
     public String toString() {
     	return this.getPosition().toString() + " " + this.m.name() + " " + this.nom + " (" + this.m.getPoints() + "PV /" + this.getPoints() + ")";
-    }
+    } 
     
-    public String getSprite() { return this.m.getSprite(); }
+    public String getSprite() { return this.m.getSprite(); } 
+    public Image getImage() { return this.m.getImage(); }
+
+	@Override
+	public String getType() { return this.m.name(); }
 }

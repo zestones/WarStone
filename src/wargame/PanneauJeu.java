@@ -6,64 +6,46 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import carte.Carte;
 import element.Element;
 import element.Heros;
-import element.Soldat;
+import infosgame.InformationElement;
 import sprite.ISprite;
-import utile.Chrono;
 import utile.Position;
 import utile.Sauvegarde;
 
-public class PanneauJeu extends JPanel implements IConfig, ISprite {
+public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 	private static final long serialVersionUID = 1L;
 
 	private JButton sauvegarde, reprendre, restart;
 	public int tour, nombreHeros, nombreMonstre;
 	public Position clic, lastClic, clicDragged;
-	private boolean dessineAction = false;
 	public Heros herosSelectione;
-	public List<Heros> herosAttack;
-	private List<Heros> herosRepos;
-	public List<Soldat> soldatCombat;
 	private	Position survol;
 	public JButton finTour;
 	private	Element elem;
 	private JLabel  top; 
-	private Carte c;
-	public Chrono monChrono;
-	protected boolean isDone = false;
+	public Carte c;
 		
-	PanneauJeu(){
+	PanneauJeu(){ 
 		this.c = new Carte();
 		this.tour = 0;
 		this.herosSelectione = null;
-		this.herosAttack = new ArrayList<>();
-		this.herosRepos = new ArrayList<>();
-		this.soldatCombat= new ArrayList<>() ;
+			
 		this.elem = null;
-
 		this.creationElementPanneau();	
-		
-		this.setFocusable(true);
-		this.requestFocusInWindow();
-		
+
 		this.gestionEvenement();
 		c.nombreSoldatVivant(this);
-	}
+	} 
 		
 	private void creationElementPanneau() {
 		finTour = new JButton("End Turn");   
@@ -74,7 +56,7 @@ public class PanneauJeu extends JPanel implements IConfig, ISprite {
         top = new JLabel("", SwingConstants.CENTER); 
 		top.setBackground(COULEUR_MENUBAR);
 		top.setOpaque(true); 
-		menuBar.add(top);
+		menuBar.add(top); 
 		
 		sauvegarde = new JButton("Save");   
 		sauvegarde.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
@@ -102,6 +84,7 @@ public class PanneauJeu extends JPanel implements IConfig, ISprite {
 		// Actualisation des sprites
 		ISprite.spriteEngine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				carteMiniature.repaint();
 				repaint();
 			}
 		});
@@ -120,20 +103,16 @@ public class PanneauJeu extends JPanel implements IConfig, ISprite {
 		
 		// Boutton Fin de Tour 
 		finTour.addActionListener(new ActionListener(){  
-			public void actionPerformed(ActionEvent e){  
+			public void actionPerformed(ActionEvent e){  			
 				if (tour == 0 )
 					tour = 1;
 				else 
 					tour = 0;
-				herosSelectione = null;
-				if(herosAttack.size() == 0)
-					dessineAction = false;
-				else {
-					dessineAction = true;
-					c.actionListCombatSoldat(soldatCombat);
-				}
 				
-				c.jouerSoldats(pj);
+				// On oublie le dernier heros selectionne
+				herosSelectione = null;
+				
+				c.jouerSoldats(pj); 
 			}  
 		});  
 		
@@ -165,7 +144,10 @@ public class PanneauJeu extends JPanel implements IConfig, ISprite {
 						return;	
 					
 					elem = c.getElement(clic);
-					
+
+					if(elem != null) dessineInfosElement(elem);
+			
+					// Si on a Selectionnee un heros et que l'on a effectuer un clic autre part alors on appelle jouerSoldat
 					if(elem instanceof Heros) {
 						herosSelectione = (Heros)elem;
 						if(lastClic != null)
@@ -176,11 +158,17 @@ public class PanneauJeu extends JPanel implements IConfig, ISprite {
 			
 			public void mouseReleased(MouseEvent e) {
 				if (SwingUtilities.isLeftMouseButton(e)) {
+					// On recupere les clic lorsque la souris est egalement relache
 					lastClic = new Position((int)e.getX() / NB_PIX_CASE, (int)e.getY() / NB_PIX_CASE);
-				
+					// Si On a un heros de selectionner et que clic actuellement sur autre chose alors on appelle jouerSoldat
 					if(lastClic != null && herosSelectione != null)
 						c.jouerSoldats(pj);
 					
+					/* 
+					 * Option de jeu suplementaire avec MouseDragged 
+					 *	Si le clic est relacher dans la case du heros alors on "memorise" le heros selectionner
+					 *	Sinon si le clic est relacher sur un enemis ou sur case de deplacement alors laction est effectuer
+					 */
 					if(herosSelectione != null && lastClic != null)
 						if(lastClic.getX() != herosSelectione.getPosition().getX() && lastClic.getY() != herosSelectione.getPosition().getY())
 							herosSelectione = null;
@@ -200,62 +188,18 @@ public class PanneauJeu extends JPanel implements IConfig, ISprite {
 				if(survol.estValide() == false)
 					return;
 				elem = c.getElement(survol);
-				
+		
+				/* Si le clic est relacher dans la case du heros on continue a memoriser les position */ 
 				if(herosSelectione != null)
 					clicDragged = new Position(survol.getX(), survol.getY());
 				// Ajouter un moyen de ne pas afficher les elements cache
 			}
 		});
-		
-		/* MARCHE PAS */ 
-		this.addKeyListener(new KeyListener() {
-			public void keyPressed(KeyEvent event) {
-				if(event.getKeyCode() == KeyEvent.VK_UP)
-				System.out.println("Key Pressed");
-			}
-			public void keyReleased(KeyEvent event) {
-				System.out.println("Key Released");
-			} 
-			public void keyTyped(KeyEvent event) {
-				System.out.println("Key Typed");
-			}
-		});
 	}
-	/* Dessine la liste des sprite attaque pour le heros */
-	private void dessineAction(Graphics g) {
-		isDone = true;
-		for(int i = 0; i < this.herosAttack.size(); i++) {
-			if(this.herosAttack.get(i) != null && this.herosAttack.get(i).combat == true) {
-				this.herosAttack.get(i).dessineSprite(g, clicDragged);
-				this.herosAttack.get(i).combat = false;
-				this.herosRepos.add(this.herosAttack.get(i));
-			}
-		}
-	
-		for(int i = 0; i < this.herosAttack.size(); i++)
-			this.herosAttack.remove(i);
 		
-		monChrono = new Chrono(5);
-		dessineAction = false;
-	}
-	
-	/* Apres timer dessine sprite au repos */
-	public void dessineRepos(Graphics g) {
-		for(int i = 0; i < this.herosRepos.size(); i++) {
-			if(this.herosRepos.get(i) != null && this.herosRepos.get(i).combat == false) {
-				this.herosRepos.get(i).dessineSprite(g, new Position(0,0));
-			}
-		}
-		
-		for(int i = 0; i < this.herosRepos.size(); i++)
-			this.herosRepos.remove(i);
-		
-		isDone = true;	
-	}
-	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-	
+				
 		// dessine le background avec l'image charger dans IConfig		
 		g.drawImage(grass, 0, 0, NB_PIX_CASE * LARGEUR_CARTE_CASE, NB_PIX_CASE * HAUTEUR_CARTE_CASE, null);
 		
@@ -265,33 +209,23 @@ public class PanneauJeu extends JPanel implements IConfig, ISprite {
 		this.top.setFont(new Font("Arial", Font.BOLD, 13));
 		this.top.setForeground(Color.WHITE);
 		this.top.setText("Il reste " + nombreHeros + " Heros et " + nombreMonstre + " Monstres !");
-		 
+		
+		soldatRestant.setText("" + nombreHeros + " Heros VS " + nombreMonstre + " Monstre");
+		
 		// Affichage du label en bas de la fenetre
 		footer.setFont(new Font("Arial", Font.BOLD, 13));
 		footer.setForeground(Color.WHITE);
 	  
 		if(this.elem != null)
 	    	footer.setText(" " + this.elem.toString());
-
+				
 	    // Affiche les deplacement possible du heros selectionne
 	    if(this.herosSelectione != null && this.herosSelectione.aJoue != true) {
-	    	this.herosSelectione.dessineSelection(g);
+	    	this.herosSelectione.dessineSelection(g, this.herosSelectione, clicDragged);
 	    	this.herosSelectione.dessineSprite(g,clicDragged);
 	    }
 	    
-//	    if(this.herosSelectione == null)
-//	    	clicDragged = null;
-	    
-	    if(clicDragged != null && this.herosSelectione != null && this.herosSelectione.dedans(clicDragged))
-	    	g.drawImage(this.herosSelectione.dernierSprite.getSprite(spriteEngine.getCycleProgress()), clicDragged.getX() * NB_PIX_CASE, clicDragged.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
-	    	
-	 
-	    
-	    if(dessineAction == true)
-	    	dessineAction(g);
-	    
-	    if(isDone == false)
-	    	dessineRepos(g);
-	    	
-	}
+	    if(this.herosSelectione == null)
+	    	clicDragged = null;   
+	 }
 }
