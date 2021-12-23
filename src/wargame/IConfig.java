@@ -15,7 +15,7 @@ import javax.swing.SwingConstants;
 public interface IConfig extends java.io.Serializable {	
 	
 	// Definir le NB ELEMENT sur la carte
-	int NB_HEROS = 10; int NB_MONSTRES = 1; int NB_OBSTACLES = 0;
+	int NB_HEROS = 1; int NB_MONSTRES = 6; int NB_OBSTACLES = 3;
 
 	// Parametre de dessin 
 	Color COULEUR_VIDE = Color.white, COULEUR_INCONNU = Color.lightGray;
@@ -28,6 +28,7 @@ public interface IConfig extends java.io.Serializable {
 	Color COULEUR_ENEMIS = new Color(255, 10, 20, 50), COULEUR_AMIS = new Color(20,200,10,50); 
 	Color COULEUR_INFOS_PANEL = new Color(88, 41, 0);
 	Color COULEUR_BORDURE = Color.white;
+	Color COULEUR_FOCUS = new Color(145, 145, 145, 95);
 	// Les images 
 	Image grass = Toolkit.getDefaultToolkit().getImage("./res/img/background/grass.png");
 	Image range = Toolkit.getDefaultToolkit().getImage("./res/img/background/range.jpg");
@@ -53,16 +54,17 @@ public interface IConfig extends java.io.Serializable {
 		
 	
 	/* Variable Menu */
-	final int MENUBAR_HAUTEUR = 35;
+	final int MENUBAR_HAUTEUR = 65;
 	final int MENUBAR_LARGEUR = FEN_LARGEUR;
 	
 	/* Variable footer */
 	final int FOOTER_HAUTEUR = 30;
 	final int FOOTER_LARGEUR = FEN_LARGEUR;
 	
-	// HAUTEUR et LARGEUR de la carte en NB DE CASE
+	// HAUTEUR et LARGEUR de la carte en NB DE CASE 
+	// definit la taille en dehors de la fenetre si trop de case
 	int HAUTEUR_CARTE_CASE = (FEN_HAUTEUR / NB_PIX_CASE) + 1;
-	int LARGEUR_CARTE_CASE = FEN_LARGEUR / NB_PIX_CASE;
+	int LARGEUR_CARTE_CASE = (FEN_LARGEUR / NB_PIX_CASE);
 	
 	// On definit la largeur comme etant 1/4 de l'ecran de jeu
 	int LARGEUR_INFOS_PANEL = NB_PIX_CASE * (FEN_LARGEUR / NB_PIX_CASE)/4;	

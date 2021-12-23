@@ -1,5 +1,6 @@
 package wargame;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -11,14 +12,17 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.plaf.basic.BasicArrowButton;
 
 import carte.Camera;
 import carte.Carte;
 import element.Element;
 import element.Heros;
 import infosgame.InformationElement;
+import infosgame.MiniCarte;
 import sprite.ISprite;
 import utile.Position;
 import utile.Sauvegarde;
@@ -37,12 +41,10 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 	private JLabel  top; 
 	public Camera cam;
 	public Carte c;
-	
 		
 	PanneauJeu(){ 
 		this.c = new Carte();
-		this.cam = new Camera(0, 0);
-		this.cam.centreCamera();
+		this.cam = new Camera(c, 0, 0);
 		this.tour = 0;
 		this.herosSelectione = null;			
 		this.elem = null;
@@ -54,6 +56,7 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 	} 
 		
 	private void creationElementPanneau() {
+				
 		finTour = new JButton("End Turn");   
 		finTour.setSize(BOUTTON_LARGEUR, BOUTTON_HAUTEUR);
 		finTour.setVisible(true);
@@ -81,30 +84,34 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 		restart.setVisible(true);
 		menuBar.add(restart);
 		
+		JPanel fleche = new JPanel(new BorderLayout());
 		// Boutton descend Camera 
-		cameraBas = new JButton("Bas");
-		cameraBas.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
+		cameraBas = new BasicArrowButton(BasicArrowButton.SOUTH);
+//		cameraBas.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
 		cameraBas.setVisible(true);
-		menuBar.add(cameraBas);
+		fleche.add(cameraBas, BorderLayout.SOUTH);
 		
 		// Boutton descend Camera 
-		cameraHaut = new JButton("Haut");
-		cameraHaut.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
+		cameraHaut = new BasicArrowButton(BasicArrowButton.NORTH);
+//		cameraHaut.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
 		cameraHaut.setVisible(true);
-		menuBar.add(cameraHaut);
+		fleche.add(cameraHaut, BorderLayout.NORTH);
 		
 		// Boutton descend Camera 
-		cameraGauche = new JButton("Gauche");
-		cameraGauche.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
+		cameraGauche = new BasicArrowButton(BasicArrowButton.WEST);
+//		cameraGauche.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
 		cameraGauche.setVisible(true);
-		menuBar.add(cameraGauche);
+		fleche.add(cameraGauche, BorderLayout.WEST);
 		
 		// Boutton descend Camera 
-		cameraDroite = new JButton("Droite");
-		cameraDroite.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
+		cameraDroite = new BasicArrowButton(BasicArrowButton.EAST); 
+//		cameraDroite.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
 		cameraDroite.setVisible(true);
-		menuBar.add(cameraDroite);
+		fleche.add(cameraDroite, BorderLayout.EAST);
 		
+		menuBar.add(fleche);
+
+				
 		footer.setBackground(COULEUR_FOOTER);
 		footer.setPreferredSize(new Dimension(FOOTER_LARGEUR, FOOTER_HAUTEUR));
 		footer.setOpaque(true);
@@ -126,40 +133,19 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 		// Boutton restart recharge une carte cree aleatoirement
 		restart.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){   
+				// On genere une nouvelle carte / camera
 				c = new Carte();
+				
+				majMiniCarte();
+				
 				tour = 0;
 				herosSelectione = null;
 				elem = null;
-//				c.nombreSoldatVivant(pj);
+				c.nombreSoldatVivant(pj);
 				repaint();
 			}  
 		});  
-		
-		// Boutton restart recharge une carte cree aleatoirement
-		cameraBas.addActionListener(new ActionListener(){  
-			public void actionPerformed(ActionEvent e){  
-				cam.deplacement(0, 1);;
-				repaint();
-			}  
-		});  
-		cameraHaut.addActionListener(new ActionListener(){  
-			public void actionPerformed(ActionEvent e){  
-				cam.deplacement(0, -1);
-				repaint();
-			}  
-		});  
-		cameraGauche.addActionListener(new ActionListener(){  
-			public void actionPerformed(ActionEvent e){  
-				cam.deplacement(-1, 0);
-				repaint();
-			}  
-		});  
-		cameraDroite.addActionListener(new ActionListener(){  
-			public void actionPerformed(ActionEvent e){  
-				cam.deplacement(1, 0);
- 				repaint();
-			}  
-		});  
+		 
 		// Boutton Fin de Tour 
 		finTour.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  			
@@ -186,12 +172,36 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 		// Bouton de recuperation de sauvegarde
 		reprendre.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e){
-    			// On remet le heros selectionne a null pour eviter de dessine la zone de portee du heros de l'ancienne carte
-    			herosSelectione = null;
+    			
     			c  = Sauvegarde.recupSauvegarde(c);
     			c.nombreSoldatVivant(pj);
-    		}
+    			
+    			// Mise a jour de la miniCarte
+				majMiniCarte();
+    		}    		
     	});
+		
+		// Boutton restart recharge une carte cree aleatoirement
+		cameraBas.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){  
+				cam.deplacement(0, 1);;
+			}  
+		});  
+		cameraHaut.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){  
+				cam.deplacement(0, -1);
+			}  
+		});  
+		cameraGauche.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){  
+				cam.deplacement(-1, 0);
+			}  
+		});  
+		cameraDroite.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){  
+				cam.deplacement(1, 0);
+			}  
+		}); 
 		
 		// Recuperation des clics a la souris
 		this.addMouseListener(new MouseAdapter() {
@@ -270,6 +280,16 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 		});
 	}
 		
+	private void majMiniCarte() {
+		cam = new Camera(c, 0, 0);
+		// Une supprime l'ancien conteneur
+		carteMiniature.removeAll();
+		// On valide les changement
+		carteMiniature.revalidate();
+		// Ajout de la nouvelle MiniCarte
+		carteMiniature.add(new MiniCarte(cam));
+	}
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 				

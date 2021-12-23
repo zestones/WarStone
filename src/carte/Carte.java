@@ -26,13 +26,16 @@ public class Carte implements IConfig, ICarte {
 			for (int j = 0; j < HAUTEUR_CARTE_CASE; j++) {
 				plateau[i][j] = null;
 			}
-
+		
+		// On position un soldat dans le focus de la camera
+		new Heros(this, Soldat.TypesH.ELF, "H", new Position(LARGEUR_CARTE_CASE/2, HAUTEUR_CARTE_CASE/2));
+		
 		// Cration des Elements !!! Modifier les noms !!!
 		int inc = Math.max(NB_MONSTRES, Math.max(NB_OBSTACLES, NB_HEROS));
 		while (inc > 0) {
 			if (inc <= NB_MONSTRES)
 				new Monstre(this, Soldat.TypesM.TROLL, "" + inc, this.trouvePositionVide());
-			if (inc <= NB_HEROS)
+			if (inc < NB_HEROS)
 				new Heros(this, Soldat.TypesH.getTypeHAlea(), "H", this.trouvePositionVide());
 			if (inc <= NB_OBSTACLES)
 				new Obstacle(this, Obstacle.TypeObstacle.getObstacleAlea(), this.trouvePositionVide());
@@ -257,10 +260,10 @@ public class Carte implements IConfig, ICarte {
 	 * Methode de dessin principal
 	 * Les heros son dessiner en premier
 	 */
-	public void toutDessiner(Graphics g, Camera cam) {
-	
-		for(int i = 0; i < LARGEUR_CASE_VISIBLE; i++)
-			for(int j = 0; j < HAUTEUR_CASE_VISIBLE; j++) {
+	public void toutDessiner(Graphics g, Camera cam) {	
+		// On dessine ce qui est visible, donc les positions donnee par la camera
+		for(int i = cam.getDx(); i < LARGEUR_CASE_VISIBLE + cam.getDx(); i++)
+			for(int j = cam.getDy(); j < HAUTEUR_CASE_VISIBLE + cam.getDy(); j++) {
 				if (this.plateau[i][j] instanceof Heros) 
 					this.plateau[i][j].seDessiner(g, cam);
 				

@@ -1,12 +1,9 @@
 package wargame;
 
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,12 +12,10 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
 import infosgame.MiniCarte;
-import utile.Position;
 
 
 public class FenetreJeu extends JFrame implements IConfig{
 	private static final long serialVersionUID = 1L;	
-	private Position currentLocation;
 
 	
 	FenetreJeu(){	
@@ -55,7 +50,7 @@ public class FenetreJeu extends JFrame implements IConfig{
 		// On cree notre panneau 
 		PanneauJeu panneau = new PanneauJeu();
 		// On l'ajoute au panel principale
-		panel.add(panneau);	
+		panel.add(panneau);
 				
 		// Creation d'un panel qui contient les infos du jeux
 		JPanel infosPanel = new JPanel(new FlowLayout());
@@ -88,7 +83,7 @@ public class FenetreJeu extends JFrame implements IConfig{
 		carteMiniature.setPreferredSize(new Dimension(LARGEUR_MINI_CARTE, HAUTEUR_MINI_CARTE));
 		
 		// On ajoute la carte au panel
-		carteMiniature.add(new MiniCarte(panneau.c));	
+		carteMiniature.add(new MiniCarte(panneau.cam));	
 		
 		// On Met des bordure autour de la carte
 		carteMiniature.setBorder(new MatteBorder(5, 5, 5, 5, COULEUR_MENUBAR));
@@ -176,23 +171,6 @@ public class FenetreJeu extends JFrame implements IConfig{
         frame.pack();
         frame.setVisible(true); 	 
 		
-	}
-	
-	public void setDraggable(JPanel panel) {
-	    panel.addMouseListener(new MouseAdapter() {
-	        public void mousePressed(MouseEvent e) {
-	            currentLocation = new Position((int)e.getPoint().getX(), (int)e.getPoint().getY());
-	            System.out.println("clic --> " + currentLocation.toString());
-	        }
-	    });
-	    panel.addMouseMotionListener(new MouseAdapter() {
-	        public void mouseDragged(MouseEvent e) {
-	        	Position currentScreenLocation = new Position((int)e.getLocationOnScreen().getX(),(int)e.getLocationOnScreen().getY());
-	            setLocation(currentScreenLocation.getX() - currentLocation.getX(), currentScreenLocation.getY()- currentLocation.getY());
-	            System.out.println("----- DEPLACEMENT ------");
-
-	        }
-	    });
 	}
 	public static void main(String[] args) {
 		new FenetreJeu();

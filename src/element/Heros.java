@@ -65,13 +65,16 @@ public class Heros extends Soldat {
 	
 	/* Methode de dessin du Heros */
     private void dessinHeros(Graphics g, Camera cam) { 
-    	g.drawImage(range, (this.pos.getX() * NB_PIX_CASE) - cam.getDx() * NB_PIX_CASE, (this.pos.getY() * NB_PIX_CASE) - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+    	int dx = cam.getDx() * NB_PIX_CASE;
+    	int dy = cam.getDy() * NB_PIX_CASE;
+    	
+     	g.drawImage(range, (this.pos.getX() * NB_PIX_CASE) - dx, (this.pos.getY() * NB_PIX_CASE) - dy, NB_PIX_CASE, NB_PIX_CASE, null);
     	
     	this.dessineSprite(g, cam);
     	
         if(this.aJoue == true) {
     		g.setColor(COULEUR_HEROS_DEJA_JOUE);
-    		g.fillRect((this.pos.getX() * NB_PIX_CASE) - cam.getDx() * NB_PIX_CASE, (this.pos.getY() * NB_PIX_CASE) - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
+    		g.fillRect((this.pos.getX() * NB_PIX_CASE) - dx, (this.pos.getY() * NB_PIX_CASE) - dy, NB_PIX_CASE, NB_PIX_CASE); 
         }
      
         this.dessinBarreVie(g, cam);
@@ -79,16 +82,22 @@ public class Heros extends Soldat {
        
     /* On dessine le Heros */
     private void dessineSprite(Graphics g, Camera cam) {
+    	int dx = cam.getDx() * NB_PIX_CASE;
+    	int dy = cam.getDy() * NB_PIX_CASE;
+    	
     	if(this.herosSprite == null) {
     		this.herosSprite = new SpriteInitializer(this);
     		this.dernierSprite = this.herosSprite.spriteStandByDroite;
     	}
     	
     	BufferedImage sprite = this.dernierSprite.getSprite(spriteEngine.getCycleProgress()); 
-		g.drawImage(sprite, (this.pos.getX() * NB_PIX_CASE) - cam.getDx() * NB_PIX_CASE, (this.pos.getY() * NB_PIX_CASE) - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+		g.drawImage(sprite, (this.pos.getX() * NB_PIX_CASE) - dx, (this.pos.getY() * NB_PIX_CASE) - dy, NB_PIX_CASE, NB_PIX_CASE, null);
     }
     
     public void dessineSprite(Graphics g, Position clic, Camera cam) {
+//    	int dx = cam.getDx() * NB_PIX_CASE;
+//    	int dy = cam.getDy() * NB_PIX_CASE;
+    	
 //    	System.out.println("Combat : " + this.combat);
     	if(clic == null)
     		return;
@@ -146,7 +155,8 @@ public class Heros extends Soldat {
      */
     public void seDessiner(Graphics g, Camera cam) {
     	int portee = this.getPortee();
-    	
+    	int dx = cam.getDx() * NB_PIX_CASE;
+    	int dy = cam.getDy() * NB_PIX_CASE;
     	
     	for(int i = 0; i <= portee * 2; i++) {
     		for(int j = 0; j <= portee * 2 ; j++) {
@@ -155,14 +165,14 @@ public class Heros extends Soldat {
     				continue;
     			
     			if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] == null) 
-    				g.drawImage(range, porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+    				g.drawImage(range, porteeVisuelle.getX() * NB_PIX_CASE  - dx, porteeVisuelle.getY() * NB_PIX_CASE  - dy, NB_PIX_CASE, NB_PIX_CASE, null);
     			else if (carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] instanceof Monstre)
     				carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()].seDessiner(g, cam);
     			else if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] instanceof Obstacle)
     				carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()].seDessiner(g, cam);
     			
     			g.setColor(COULEUR_GRILLE);
-    			g.drawRect((porteeVisuelle.getX() * NB_PIX_CASE) - cam.getDx() * NB_PIX_CASE, (porteeVisuelle.getY() * NB_PIX_CASE) - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
+    			g.drawRect((porteeVisuelle.getX() * NB_PIX_CASE) - dx, (porteeVisuelle.getY() * NB_PIX_CASE) - dy, NB_PIX_CASE, NB_PIX_CASE); 
     		}
     	} 
     	this.dessinHeros(g, cam);
@@ -176,54 +186,63 @@ public class Heros extends Soldat {
     }
     
     private void dessineSpriteDeplacement(Graphics g, Heros herosSelectione, Position clicDragged, Camera cam) {
+    	int dx = cam.getDx() * NB_PIX_CASE;
+    	int dy = cam.getDy() * NB_PIX_CASE;
+    	
     	if(clicDragged != null && clicDragged.estVoisine(herosSelectione.getPosition()) && carte.getElement(clicDragged) == null)
-    		g.drawImage(herosSelectione.dernierSprite.getSprite(spriteEngine.getCycleProgress()), clicDragged.getX() * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE, clicDragged.getY() * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+    		g.drawImage(herosSelectione.dernierSprite.getSprite(spriteEngine.getCycleProgress()), clicDragged.getX() * NB_PIX_CASE - dx, clicDragged.getY() * NB_PIX_CASE - dy, NB_PIX_CASE, NB_PIX_CASE, null);
 		
 	}
 
 	/*Methode de dessin des deplacement possible pour le heros selectionne*/
     private void dessineDeplacement(Graphics g, Camera cam){
-       	for(int i = -1; i < 2; i++)
+    	int dx = cam.getDx() * NB_PIX_CASE;
+    	int dy = cam.getDy() * NB_PIX_CASE;
+    
+    	for(int i = -1; i < 2; i++)
     		for(int j = -1; j < 2; j++) {
     			if(i != 0 || j != 0) {
     				Position posVoisine = new Position(this.pos.getX() + i, this.pos.getY() + j);
-    				if(posVoisine.estValide() == false)
-        				continue;
+    				if(posVoisine.estValide() == false) 
+    					continue;
+    				
     				if(carte.plateau[posVoisine.getX()][posVoisine.getY()] == null) {
     					g.setColor(COULEUR_DEPLACEMENT);
-    					g.fillRect((this.pos.getX() + i) * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE, (this.pos.getY() + j) * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+    					g.fillRect((this.pos.getX() + i) * NB_PIX_CASE - dx, (this.pos.getY() + j) * NB_PIX_CASE - dy, NB_PIX_CASE, NB_PIX_CASE);
     				}
     			}
     			g.setColor(COULEUR_GRILLE);
-    			g.drawRect((this.pos.getX() + i) * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE, (this.pos.getY() + j) * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE);
+    			g.drawRect((this.pos.getX() + i) * NB_PIX_CASE - dx, (this.pos.getY() + j) * NB_PIX_CASE - dy, NB_PIX_CASE, NB_PIX_CASE);
     		}   	  
     }
     
     /* Dessine la portee visuelle du heros selectionne*/
     private void dessinePorteeVisuelle(Graphics g, Camera cam) {
     	int portee = this.getPortee();
-    	
+    	int dx = cam.getDx() * NB_PIX_CASE;
+    	int dy = cam.getDy() * NB_PIX_CASE;
+    
     	for(int i = 0; i <= portee * 2; i++) {
     		for(int j = 0; j <= portee  * 2 ; j++) {
-    			Position porteeVisuelle = new Position(this.pos.getX() - cam.getDx() + i - portee, this.pos.getY() - cam.getDy() + j - portee);
+    			Position porteeVisuelle = new Position(this.pos.getX() + i - portee, this.pos.getY() + j - portee);
     			if(porteeVisuelle.estValide() == false) 
     				continue;
     			
     			if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] == null) {
     				g.setColor(COULEUR_PORTEE);
-    				g.fillRect(porteeVisuelle.getX() * NB_PIX_CASE , porteeVisuelle.getY() * NB_PIX_CASE , NB_PIX_CASE, NB_PIX_CASE); 
+    				g.fillRect(porteeVisuelle.getX() * NB_PIX_CASE - dx, porteeVisuelle.getY() * NB_PIX_CASE - dy, NB_PIX_CASE, NB_PIX_CASE); 
     			}
     			else if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] instanceof Monstre) {
     				g.setColor(COULEUR_ENEMIS);
-    				g.fillRect(porteeVisuelle.getX() * NB_PIX_CASE , porteeVisuelle.getY() * NB_PIX_CASE , NB_PIX_CASE, NB_PIX_CASE); 
+    				g.fillRect(porteeVisuelle.getX() * NB_PIX_CASE - dx, porteeVisuelle.getY() * NB_PIX_CASE - dy, NB_PIX_CASE, NB_PIX_CASE); 
     			}
     			else if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] instanceof Heros && carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] != this) {
     				g.setColor(COULEUR_AMIS);
-    				g.fillRect(porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
+    				g.fillRect(porteeVisuelle.getX() * NB_PIX_CASE - dx, porteeVisuelle.getY() * NB_PIX_CASE - dy, NB_PIX_CASE, NB_PIX_CASE); 
     			}
     			
     			g.setColor(COULEUR_GRILLE);
-    			g.drawRect(porteeVisuelle.getX() * NB_PIX_CASE, porteeVisuelle.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
+    			g.drawRect(porteeVisuelle.getX() * NB_PIX_CASE - dx, porteeVisuelle.getY() * NB_PIX_CASE - dy, NB_PIX_CASE, NB_PIX_CASE); 
     		}
     	}	
     }
@@ -231,7 +250,7 @@ public class Heros extends Soldat {
     /*Si le Heros n'a effectue aucune action durant le tour alors il obtient un bonus de vie*/
     public void repos() {
     	if(this.aJoue == false && this.getPoints() + BONUS_REPOS < this.getPointsMax())
-    		this.setPoints(this.getPoints()+BONUS_REPOS);
+    		this.setPoints(this.getPoints() + BONUS_REPOS);
     	else if (this.aJoue == false && this.getPoints() + BONUS_REPOS > this.getPointsMax())
     		this.setPoints(this.getPointsMax());
     }
@@ -245,7 +264,7 @@ public class Heros extends Soldat {
     
 	public void seDessinerMinia(Graphics g) {
 		int portee = h.getPortee();
-    	
+		
     	for(int i = 0; i <= portee * 2; i++) {
     		for(int j = 0; j <= portee * 2 ; j++) {
     			Position porteeVisuelle = new Position(this.getPosition().getX() + i - portee, this.getPosition().getY() + j - portee);

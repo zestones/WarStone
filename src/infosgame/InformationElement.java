@@ -33,6 +33,6 @@ public abstract class InformationElement extends JPanel implements IConfig {
 		infosElementHeader.add(iconInfosLabel, BorderLayout.CENTER);
 		infosElementPanel.add(infosElementHeader, BorderLayout.NORTH);
 
-		frame.repaint();
+		infosElementPanel.repaint();
 	}
 }
