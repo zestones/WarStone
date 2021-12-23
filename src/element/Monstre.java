@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import carte.Camera;
 import carte.Carte;
 import sprite.SpriteInitializer;
 import sprite.SpriteSheet;
@@ -33,16 +34,16 @@ public class Monstre extends Soldat {
         this.dernierSprite = this.monstreSprite.spriteStandByBas;
     }
     
-    private void dessineSprite(Graphics g) {
+    private void dessineSprite(Graphics g, Camera cam) {
     	if(this.monstreSprite == null) {
     		this.monstreSprite = new SpriteInitializer(this);
 			this.dernierSprite = this.monstreSprite.spriteStandByDroite;
     	}
     	BufferedImage sprite = this.dernierSprite.getSprite(spriteEngine.getCycleProgress());
-		g.drawImage(sprite, this.pos.getX() * NB_PIX_CASE ,this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+		g.drawImage(sprite, (this.pos.getX() * NB_PIX_CASE) - cam.getDx() * NB_PIX_CASE ,(this.pos.getY() * NB_PIX_CASE) - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
     }
     
-    public void dessineSprite(Graphics g, Position clic) {
+    public void dessineSprite(Graphics g, Position clic, Camera cam) {
 //    	System.out.println("Combat : " + this.combat);
     	if(clic == null)
     		return;
@@ -81,7 +82,7 @@ public class Monstre extends Soldat {
     		}
     	}
     	sprite = this.dernierSprite.getSprite(spriteEngine.getCycleProgress());
-    	g.drawImage(sprite, this.pos.getX() * NB_PIX_CASE ,this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+    	g.drawImage(sprite, (this.pos.getX() * NB_PIX_CASE) - cam.getDx() * NB_PIX_CASE, (this.pos.getY() * NB_PIX_CASE) - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 
     }
     
@@ -114,14 +115,15 @@ public class Monstre extends Soldat {
    }
 	    
     /* Dessin du Monstre sur la carte */
-    public void seDessiner(Graphics g) { 
-    	g.drawImage(range, this.pos.getX() * NB_PIX_CASE, this.pos.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+    public void seDessiner(Graphics g, Camera cam) { 
 
-    	this.dessineSprite(g);
-    	this.dessinBarreVie(g);
+    	g.drawImage(range, (this.pos.getX() * NB_PIX_CASE) - cam.getDx() * NB_PIX_CASE, (this.pos.getY() * NB_PIX_CASE) - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+
+    	this.dessineSprite(g, cam);
+    	this.dessinBarreVie(g, cam);
     	
     	g.setColor(COULEUR_MONSTRE);
-		g.fillRect(this.pos.getX()  * NB_PIX_CASE , this.pos.getY() * NB_PIX_CASE , NB_PIX_CASE, NB_PIX_CASE);
+		g.fillRect((this.pos.getX()  * NB_PIX_CASE) - cam.getDx() * NB_PIX_CASE, (this.pos.getY() * NB_PIX_CASE) - cam.getDy() * NB_PIX_CASE , NB_PIX_CASE, NB_PIX_CASE);
     }
     
     /* Dessin du Monstre sur la carte */
@@ -153,7 +155,7 @@ public class Monstre extends Soldat {
     }
     
     /* Affichage des infos du monstre */
-    public String toString() {
+    public String toString() { 
     	return this.getPosition().toString() + " " + this.m.name() + " " + this.nom + " (" + this.m.getPoints() + "PV /" + this.getPoints() + ")";
     } 
     

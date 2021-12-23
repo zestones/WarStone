@@ -1,9 +1,12 @@
 package wargame;
 
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,12 +15,14 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
 import infosgame.MiniCarte;
+import utile.Position;
 
 
 public class FenetreJeu extends JFrame implements IConfig{
 	private static final long serialVersionUID = 1L;	
+	private Position currentLocation;
 
-
+	
 	FenetreJeu(){	
 		frame.setSize(FEN_LARGEUR, FEN_HAUTEUR);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,8 +43,9 @@ public class FenetreJeu extends JFrame implements IConfig{
         // On ajoute le menu a notre HEADER
         header.add(menuBar, BorderLayout.CENTER);
         
-        // Creation du panel principal qui contient la carte
-		JPanel panel = new JPanel();
+     // Creation du panel principal qui contient la carte
+    	JPanel panel = new JPanel();
+    	
 		
 		panel.setPreferredSize(new Dimension(LARGEUR_CARTE, HAUTEUR_CARTE));
 		panel.setLayout(new BorderLayout());
@@ -50,7 +56,7 @@ public class FenetreJeu extends JFrame implements IConfig{
 		PanneauJeu panneau = new PanneauJeu();
 		// On l'ajoute au panel principale
 		panel.add(panneau);	
-		
+				
 		// Creation d'un panel qui contient les infos du jeux
 		JPanel infosPanel = new JPanel(new FlowLayout());
 		
@@ -60,7 +66,7 @@ public class FenetreJeu extends JFrame implements IConfig{
 		FlowLayout layout = (FlowLayout)infosPanel.getLayout();
 		layout.setVgap(0);
 		
-		infosPanel.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, FEN_HAUTEUR));
+		infosPanel.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, HAUTEUR_INFOS_PANEL));
 		infosPanel.setBackground(COULEUR_INFOS_PANEL);
 
 		infosPanel.setOpaque(true);	    	
@@ -68,10 +74,10 @@ public class FenetreJeu extends JFrame implements IConfig{
 		
 		
 		// On cree un conteneur avec FlowLayout pour pouvoir centrer la miniCarte
-		JPanel miniCartePanel = new JPanel(new FlowLayout(FlowLayout.LEADING, LARGEUR_INFOS_PANEL/8, NB_PIX_CASE/2));
+		JPanel miniCartePanel = new JPanel(new FlowLayout(FlowLayout.LEADING, LARGEUR_INFOS_PANEL/8, LARGEUR_INFOS_PANEL/8));
 
 		// On definie les dimensions et la couleurs du background
-		miniCartePanel.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, HAUTEUR_MINI_CARTE + NB_PIX_CASE));
+		miniCartePanel.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, HAUTEUR_MINI_CARTE + LARGEUR_INFOS_PANEL/4));
 		miniCartePanel.setBackground(COULEUR_EAU);
 		miniCartePanel.setBorder(new MatteBorder(0, 2, 0, 2, COULEUR_BORDURE));
 
@@ -109,14 +115,14 @@ public class FenetreJeu extends JFrame implements IConfig{
 		soldatRestant.setLayout(new BorderLayout());
 	
 		// On definit la couleur et la taille
-		soldatRestant.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, NB_PIX_CASE/3));
+		soldatRestant.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, HAUTEUR_NB_SOLDAT_VIVANT));
 		
 		// Couleur du text et Police
 		soldatRestant.setForeground(COULEUR_GRILLE);
 		soldatRestant.setFont(new Font("Pushster", Font.BOLD, 15));
 		
 		// On rajoute une La bordure gauche et droite
-		soldatRestant.setBorder(new MatteBorder(0, 2, 0, 2, COULEUR_BORDURE));
+		soldatRestant.setBorder(new MatteBorder(2, 2, 0, 2, COULEUR_BORDURE));
 		
 		// On ajoute le label au panel
 		infosSoldatPanel.add(soldatRestant);
@@ -125,11 +131,11 @@ public class FenetreJeu extends JFrame implements IConfig{
 		infosPanel.add(infosSoldatPanel);
 		
 		// Couleur et taille du panel Principal contenant les infos sur les elements
-		infosElementPanel.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, FEN_HAUTEUR));
+		infosElementPanel.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, HAUTEUR_INFOS_PANEL));
 		infosElementPanel.setBackground(COULEUR_HEROS);		
-		
+
 		// Couleur et taille du header dans ce panel
-		infosElementHeader.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, NB_PIX_CASE));
+		infosElementHeader.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, HAUTEUR_ICON_ELEMENT));
 		infosElementHeader.setBackground(COULEUR_MENUBAR);
 		infosElementPanel.setBorder(new MatteBorder(2, 2, 0, 2, COULEUR_BORDURE));
 		
@@ -138,7 +144,7 @@ public class FenetreJeu extends JFrame implements IConfig{
 		iconPanel.setBorder(new LineBorder(COULEUR_BORDURE, 2, true));
 		
 		// Taille du label contenant l'icon
-		iconLabel.setPreferredSize(new Dimension(NB_PIX_CASE, NB_PIX_CASE));
+		iconLabel.setPreferredSize(new Dimension(LARGEUR_ICON_ELEMENT, HAUTEUR_ICON_ELEMENT));
 		
 		// Label contant les infos de l'elements
 		iconInfosLabel.setOpaque(true);
@@ -154,7 +160,6 @@ public class FenetreJeu extends JFrame implements IConfig{
 		infosElementHeader.add(iconPanel, BorderLayout.WEST);
 		infosElementHeader.add(iconInfosLabel, BorderLayout.CENTER);
 		infosElementPanel.add(infosElementHeader, BorderLayout.NORTH);
-
 		
 		infosPanel.add(infosElementPanel);
 		
@@ -166,13 +171,29 @@ public class FenetreJeu extends JFrame implements IConfig{
 		
 		// On creer notre bar de menu secondaire
 		new MenuBar();
-	      
+		
 		// On affiche la frame
         frame.pack();
         frame.setVisible(true); 	 
 		
 	}
+	
+	public void setDraggable(JPanel panel) {
+	    panel.addMouseListener(new MouseAdapter() {
+	        public void mousePressed(MouseEvent e) {
+	            currentLocation = new Position((int)e.getPoint().getX(), (int)e.getPoint().getY());
+	            System.out.println("clic --> " + currentLocation.toString());
+	        }
+	    });
+	    panel.addMouseMotionListener(new MouseAdapter() {
+	        public void mouseDragged(MouseEvent e) {
+	        	Position currentScreenLocation = new Position((int)e.getLocationOnScreen().getX(),(int)e.getLocationOnScreen().getY());
+	            setLocation(currentScreenLocation.getX() - currentLocation.getX(), currentScreenLocation.getY()- currentLocation.getY());
+	            System.out.println("----- DEPLACEMENT ------");
 
+	        }
+	    });
+	}
 	public static void main(String[] args) {
 		new FenetreJeu();
 	}

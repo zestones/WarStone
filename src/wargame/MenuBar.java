@@ -8,8 +8,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-public class MenuBar implements IConfig{
-
+public class MenuBar implements IConfig {
 	private static final long serialVersionUID = 1L;
 
 	public MenuBar() {		
@@ -17,10 +16,8 @@ public class MenuBar implements IConfig{
 		
 		ImageIcon exitIcon = new ImageIcon("./res/icon/exit.png"); 
 		Image image = exitIcon.getImage(); 
-		Image newimg = image.getScaledInstance(LARGEUR_ICON, HAUTEUR_ICON,  java.awt.Image.SCALE_SMOOTH); 
-		exitIcon = new ImageIcon(newimg); 
-		
-		
+		Image newimg = image.getScaledInstance(LARGEUR_ICON_MENU, HAUTEUR_ICON_MENU,  java.awt.Image.SCALE_SMOOTH); 
+		exitIcon = new ImageIcon(newimg); 		
 		
         JMenu option = new JMenu("Option");
         // Marche pas setFocusable ??
@@ -36,5 +33,5 @@ public class MenuBar implements IConfig{
         menuBarSecondaire.add(option);
         
         frame.setJMenuBar(menuBarSecondaire);
-    }
-}
+	}
+} 

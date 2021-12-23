@@ -1,5 +1,7 @@
 package utile;
 
+import static java.lang.Math.pow;
+
 import wargame.IConfig;
 
 public class Position implements IConfig {
@@ -15,10 +17,16 @@ public class Position implements IConfig {
 	public void setX(int x) { this.x = x; }
 	public void setY(int y) { this.y = y; }
 	public String toString() { return "("+x+","+y+")"; }
+	public double distance(Position p) { return Math.sqrt(pow(this.x-p.x,2)+pow(this.y-p.y,2)); }
+	public boolean estIdentique(Position p) { 
+		if(this.distance(p) == 0)
+			return true;
+		return false;
+	}
 	
 	// Translater un point 
 	public void translater(int dx, int dy) {
-		this.x += dx; 
+		this.x += dx;  
 		this.y += dy;
 	}
 	

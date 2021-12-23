@@ -15,14 +15,14 @@ public abstract class InformationElement extends JPanel implements IConfig {
 	 
 	public void dessineInfosElement(Element e) {
 		
-		Image img = e.getImage().getScaledInstance(NB_PIX_CASE, NB_PIX_CASE, Image.SCALE_SMOOTH);
+		Image img = e.getImage().getScaledInstance(LARGEUR_ICON_ELEMENT, HAUTEUR_ICON_ELEMENT, Image.SCALE_SMOOTH);
 		ImageIcon imgIcon = new ImageIcon(img);
 		
 		iconLabel.setIcon(imgIcon);
 		
-		String infos = "<html><font size=\"+2\">  " + e.getType() + "</font><FONT COLOR=RED><br><font>  POS: " + e.getPosition()+"</font></FONT>";
+		String infos = "<html><font size=\"+1\">  " + e.getType() + "</font><FONT COLOR=RED><br><font size=\"-1\">  POS: " + e.getPosition()+"</font></FONT>";
 		if(e instanceof Soldat)
-			infos += "<br><FONT COLOR=BLUE>  HP: "+((Soldat) e).getPoints() + " / " + ((Soldat) e).getPointsMax() + "</FONT><br><font COLOR=GREEN>  PV: "+((Soldat) e).getPuissance()+"</font></html>";
+			infos += "<br><FONT COLOR=BLUE size=\"-1\">  HP: "+((Soldat) e).getPoints() + " / " + ((Soldat) e).getPointsMax() + "</FONT><br><font COLOR=GREEN size = \"-1\">  PV: "+((Soldat) e).getPuissance()+"</font></html>";
 		else
 			infos += "</html>";
 		iconInfosLabel.setText(infos);

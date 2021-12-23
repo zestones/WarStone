@@ -2,6 +2,7 @@ package element;
 
 import java.awt.Graphics;
 
+import carte.Camera;
 import carte.Carte;
 import utile.Position;
 import wargame.IConfig;
@@ -17,7 +18,7 @@ public abstract class Soldat extends Element implements ISoldat, IConfig{
     public Graphics g;
     public Position nouvellePos;
     public boolean deplacement;
-//    private Projectile p;
+//    private Projectile p; 
     
   public Soldat(Carte carte,int pts, int portee, int puiss, int tir, Position pos, boolean aJoue) {
     	this.carte = carte;
@@ -73,16 +74,16 @@ public abstract class Soldat extends Element implements ISoldat, IConfig{
     }
     
     
-    public void dessinBarreVie(Graphics g) {
+    public void dessinBarreVie(Graphics g, Camera cam) {
     	
     	g.setColor(COULEUR_VIE_R);
- 		g.fillRect((this.pos.getX() * NB_PIX_CASE) - ( Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) / 2) + NB_PIX_CASE/2, this.pos.getY() * NB_PIX_CASE + PADDING_VIE_CASE, Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR), NB_PIX_CASE/8); 
+ 		g.fillRect(((this.pos.getX() * NB_PIX_CASE) - ( Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) / 2) + NB_PIX_CASE/2) - cam.getDx() * NB_PIX_CASE, (this.pos.getY() * NB_PIX_CASE + PADDING_VIE_CASE) - cam.getDy() * NB_PIX_CASE, Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR), NB_PIX_CASE/8); 
  		
  		g.setColor(COULEUR_VIE_V);
- 		g.fillRect((this.pos.getX() * NB_PIX_CASE) - ( Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) / 2) + NB_PIX_CASE/2, this.pos.getY() * NB_PIX_CASE + PADDING_VIE_CASE, (int) (Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) * ((float)this.getPoints() / (float)this.getPointsMax())), NB_PIX_CASE/8); 
+ 		g.fillRect(((this.pos.getX() * NB_PIX_CASE) - ( Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) / 2) + NB_PIX_CASE/2) - cam.getDx() * NB_PIX_CASE, (this.pos.getY() * NB_PIX_CASE + PADDING_VIE_CASE) - cam.getDy() * NB_PIX_CASE,  (int) (Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) * ((float)this.getPoints() / (float)this.getPointsMax())), NB_PIX_CASE/8); 
  		
  		g.setColor(COULEUR_VIDE);
- 		g.drawRect((this.pos.getX() * NB_PIX_CASE) - ( Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) / 2) + NB_PIX_CASE/2, this.pos.getY() * NB_PIX_CASE + PADDING_VIE_CASE, Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR), NB_PIX_CASE/8); 
+ 		g.drawRect(((this.pos.getX() * NB_PIX_CASE) - ( Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) / 2) + NB_PIX_CASE/2) - cam.getDx() * NB_PIX_CASE, (this.pos.getY() * NB_PIX_CASE + PADDING_VIE_CASE) - cam.getDy() * NB_PIX_CASE, Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR), NB_PIX_CASE/8); 
     }
        
     protected abstract boolean dedans(Position position);
@@ -95,5 +96,5 @@ public abstract class Soldat extends Element implements ISoldat, IConfig{
     public int getTir() { return this.TIR; }
     public Position getPosition() { return pos; }
 	public abstract String getSprite();
-	public abstract void dessineSprite(Graphics g2, Position clicDragged);
+	public abstract void dessineSprite(Graphics g2, Position clicDragged, Camera cam);
 }

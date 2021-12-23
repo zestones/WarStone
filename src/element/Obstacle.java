@@ -5,8 +5,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 
+import carte.Camera;
 import carte.Carte;
-import element.ISoldat.TypesH;
 import utile.Position;
 import wargame.IConfig;
 
@@ -21,7 +21,7 @@ public class Obstacle extends Element implements IConfig {
 		ROCHER (COULEUR_ROCHER, rocher), FORET (COULEUR_FORET, foret), EAU (COULEUR_EAU, water);
 		private final Color COULEUR;
 		private final Image IMAGE;
-		public Color getCouleur() { return COULEUR; } 
+		public Color getCouleur() { return COULEUR; }  
 		TypeObstacle(Color couleur, Image img) { COULEUR  = couleur; IMAGE = img; }
 		public Image getImage() { return IMAGE; } 
 		public static TypeObstacle getObstacleAlea() {
@@ -38,9 +38,9 @@ public class Obstacle extends Element implements IConfig {
 
 	
 	/* Dessin de l'obstacle */
-	public void seDessiner(Graphics g) {
-		g.drawImage(obstacle, this.getPosition().getX() * NB_PIX_CASE, this.getPosition().getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
-		g.drawImage(this.TYPE.getImage(), this.getPosition().getX() * NB_PIX_CASE, this.getPosition().getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+	public void seDessiner(Graphics g, Camera cam) {
+		g.drawImage(obstacle, (this.getPosition().getX() * NB_PIX_CASE) - cam.getDx() * NB_PIX_CASE, (this.getPosition().getY() * NB_PIX_CASE) - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+		g.drawImage(this.TYPE.getImage(), (this.getPosition().getX() * NB_PIX_CASE) - cam.getDx() * NB_PIX_CASE, (this.getPosition().getY() * NB_PIX_CASE) - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 	}
 	
 	/* Dessin de l'obstacle */

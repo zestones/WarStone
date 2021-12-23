@@ -257,14 +257,15 @@ public class Carte implements IConfig, ICarte {
 	 * Methode de dessin principal
 	 * Les heros son dessiner en premier
 	 */
-	public void toutDessiner(Graphics g) {
-		for(int i = 0; i < LARGEUR_CARTE_CASE; i++)
-			for(int j = 0; j < HAUTEUR_CARTE_CASE; j++) {
+	public void toutDessiner(Graphics g, Camera cam) {
+	
+		for(int i = 0; i < LARGEUR_CASE_VISIBLE; i++)
+			for(int j = 0; j < HAUTEUR_CASE_VISIBLE; j++) {
 				if (this.plateau[i][j] instanceof Heros) 
-					this.plateau[i][j].seDessiner(g);
+					this.plateau[i][j].seDessiner(g, cam);
 				
 				g.setColor(COULEUR_GRILLE);
-				g.drawRect(i * NB_PIX_CASE, j * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
+				g.drawRect(i * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE, j  * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
 			}
 	}
 }
