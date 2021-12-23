@@ -32,7 +32,7 @@ public class MiniCarte extends JPanel implements IConfig {
 	private void dessineMiniCarte(Graphics g, int dx, int dy) {
 		for(int i = 0; i < LARGEUR_CARTE_CASE; i++) {
 			for(int j = 0; j < HAUTEUR_CARTE_CASE; j++) {
-				if(this.c.getElement(new Position(i, j)) instanceof Heros && i >= dx && i < LARGEUR_CASE_VISIBLE && j >= dy && j < HAUTEUR_CASE_VISIBLE) { 
+				if(this.c.getElement(new Position(i, j)) instanceof Heros && i >= dx && i < LARGEUR_CASE_VISIBLE + dx  && j >= dy && j < HAUTEUR_CASE_VISIBLE + dy) { 
 					((Heros)this.c.getElement(new Position(i, j))).seDessinerMinia(g);
 				}		
 				g.setColor(COULEUR_GRILLE);
