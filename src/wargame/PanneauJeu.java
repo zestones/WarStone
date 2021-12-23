@@ -34,14 +34,16 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 	public int tour, nombreHeros, nombreMonstre;
 	public Position clic, lastClic, clicDragged;
 	private	Position survol;
-//	private Position clicCamera, lastCamera;
+	private Position clicCamera, lastCamera, releasedClic;
 	public Heros herosSelectione;
 	public JButton finTour;
 	private	Element elem;
 	private JLabel  top; 
 	public Camera cam;
 	public Carte c;
-		
+	private boolean dessineFleche = false;
+	private int dx, dy;
+
 	PanneauJeu(){ 
 		this.c = new Carte();
 		this.cam = new Camera(c, 0, 0);
@@ -209,6 +211,10 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 				if (SwingUtilities.isLeftMouseButton(e)) {
 					clic = new Position(e.getX() / NB_PIX_CASE + cam.getDx(), e.getY() / NB_PIX_CASE + cam.getDy());
 					lastClic = new Position(e.getX() / NB_PIX_CASE + cam.getDx(), e.getY() / NB_PIX_CASE + cam.getDy());
+					
+					if(c.getElement(clic) != null)
+						dessineFleche = false;
+											
 					if (clic.estValide() == false)
 						return;	
 					
@@ -227,6 +233,8 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 			
 			public void mouseReleased(MouseEvent e) {
 				if (SwingUtilities.isLeftMouseButton(e)) {
+					dessineFleche = false;
+					releasedClic = new Position((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());
 					// On recupere les clic lorsque la souris est egalement relache
 					lastClic = new Position((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());
 					// Si On a un heros de selectionner et que clic actuellement sur autre chose alors on appelle jouerSoldat
@@ -239,30 +247,68 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 					 *	Sinon si le clic est relacher sur un enemis ou sur case de deplacement alors laction est effectuer
 					 */
 					if(herosSelectione != null && lastClic != null)
-						if(lastClic.estIdentique(herosSelectione.getPosition()) == false)
+						if(!lastClic.estIdentique(herosSelectione.getPosition()))
 							herosSelectione = null;
+				
+					if(c.getElement(clic) == null && !clic.estIdentique(releasedClic)) {
+						int distance = (int) clic.distance(releasedClic);
+						System.out.println("distance " + distance);
+						if(clic.getX() == releasedClic.getX() && clic.getY() < releasedClic.getY()) {
+							dx = 0; dy = -distance;
+							cam.deplacement(0, -distance);
+							clic = new Position(releasedClic.getX(), releasedClic.getY());
+						}				
+						else if(clic.getX() < releasedClic.getX() && clic.getY() < releasedClic.getY()) {
+							dx = -distance; dy = -distance;
+							cam.deplacement(-distance, -distance);
+							clic = new Position(releasedClic.getX(), releasedClic.getY());
+						}
+						else if(clic.getX() < releasedClic.getX() && clic.getY() == releasedClic.getY() ) {
+							dx = -distance; dy = 0;
+							cam.deplacement(-distance, 0);
+							clic = new Position(releasedClic.getX(), releasedClic.getY());
+						}
+						else if(clic.getX() < releasedClic.getX() && clic.getY() > releasedClic.getY()) {
+							dx = -distance; dy = distance;
+							cam.deplacement(-distance, distance);
+							clic = new Position(releasedClic.getX(), releasedClic.getY());
+						}
+						else if(clic.getX() == releasedClic.getX() && clic.getY() > releasedClic.getY()) {
+							dx = 0; dy = distance;
+							cam.deplacement(0, distance);
+							clic = new Position(releasedClic.getX(), releasedClic.getY());
+						}
+						else if(clic.getX() > releasedClic.getX() && clic.getY() > releasedClic.getY()) {
+							dx = distance; dy = distance;
+							cam.deplacement(distance, distance);
+							clic = new Position(releasedClic.getX(), releasedClic.getY());
+						}
+						else if(clic.getX() > releasedClic.getX() && clic.getY() == releasedClic.getY()) {
+							dx = distance; dy = 0;
+							cam.deplacement(distance, 0);
+							clic = new Position(releasedClic.getX(), releasedClic.getY());
+						}
+						else if(clic.getX() > releasedClic.getX() && clic.getY() > releasedClic.getY()) {
+							dx = distance; dy = distance;
+							cam.deplacement(distance, distance);
+							clic = new Position(releasedClic.getX(), releasedClic.getY());
+						}
+					}
+					clicCamera = null;
+				
 				}
 			}
-		});
-				
+		});		
 		
 		/* Affiche les infos des elements survole avec la souris */
 		this.addMouseMotionListener(new MouseAdapter() {
 			public void mouseDragged(MouseEvent e) {
 				clicDragged = new Position ((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());
-//				clicCamera = new Position ((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE);
-				
-				
-//				if(c.getElement(clic) == null && !lastCamera.estIdentique(clicCamera)) {
-//					int delta = (int) clic.distance(clicCamera);
-//					if(clic.getY() < clicCamera.getY()) {
-//						System.out.println("distance : " + delta);
-//						cam.deplacement.setX(0);
-//						cam.getPosition().setY(-delta);
-//						lastCamera = new Position(clicCamera.getX(), clicCamera.getY());
-//					}					
-//				}
-					
+				clicCamera = new Position ((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());		
+				if(c.getElement(clic) == null)
+					dessineFleche = true;
+				else 
+					dessineFleche = false;
 			}	
 			
 			public void mouseMoved(MouseEvent e) {
@@ -279,7 +325,13 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 			}
 		});
 	}
-		
+	
+	private void dessineFleche(Graphics g, int x, int y) {
+		g.setColor(Color.green); 
+		g.drawLine(clic.getX() * NB_PIX_CASE, clic.getY() * NB_PIX_CASE, x * NB_PIX_CASE, y * NB_PIX_CASE); 
+		dx = 0; dy = 0;
+	}
+
 	private void majMiniCarte() {
 		cam = new Camera(c, 0, 0);
 		// Une supprime l'ancien conteneur
@@ -315,5 +367,9 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 	    
 	    if(this.herosSelectione == null)
 	    	clicDragged = null;   
-	 }
+
+	    if(clicCamera != null && dessineFleche == true) 
+	    	dessineFleche(g, clicCamera.getX(), clicCamera.getY());
+
+	}
 }
