@@ -30,23 +30,26 @@ public abstract class Soldat extends Element implements ISoldat, IConfig{
   }
     
     /* Met a jours les positions du Soldat */
-    public void seDeplace(Position newPos) {
-
-    	this.carte.plateau[pos.getX()][pos.getY()] = null;
-    	pos.setX(newPos.getX());
-    	pos.setY(newPos.getY());
-    	carte.plateau[pos.getX()][pos.getY()] = this;
+    public void seDeplace(Position nouvPos) {
+    	// Supression du soldat a sa position
+    	carte.setElementVide(this.getPosition());
+    	
+    	// definition des nouvelles position
+    	this.getPosition().setX(nouvPos.getX());
+    	this.getPosition().setY(nouvPos.getY());
+    	
+    	// Positionnement du soldat sur la carte
+    	carte.setElement(this);
     	
     	this.aJoue = true; 
-    		
     }
     
     /* On fait combatre deux soldats */
     public void combat(Soldat soldat) {
     	int pH, pM;
     	
-    	if (this.getPosition().estVoisine(soldat.getPosition()) == false) {
-			pH = (int) (Math.random() * this.TIR);
+    	if (!this.getPosition().estVoisine(soldat.getPosition())) {
+    		pH = (int) (Math.random() * this.TIR);
 			pM = (int) (Math.random() * soldat.TIR);
 		}
 		else { 
@@ -56,9 +59,8 @@ public abstract class Soldat extends Element implements ISoldat, IConfig{
 		}
     	
     	soldat.pointsDeVie -= pH;
-    	
     	if(soldat.pointsDeVie > 0) {
-    		if (soldat.dedans(this.getPosition()) == true)
+    		if (soldat.dedans(this.getPosition()))
     			this.pointsDeVie -= pM;
     	}
     	else {
@@ -73,21 +75,24 @@ public abstract class Soldat extends Element implements ISoldat, IConfig{
     	this.aJoue = true;
     }
     
-    
     public void dessinBarreVie(Graphics g, Camera cam) {
-    	
+    	int dx = cam.getDx() * NB_PIX_CASE;
+    	int dy = cam.getDy() * NB_PIX_CASE;
+    			
     	g.setColor(COULEUR_VIE_R);
- 		g.fillRect(((this.pos.getX() * NB_PIX_CASE) - ( Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) / 2) + NB_PIX_CASE/2) - cam.getDx() * NB_PIX_CASE, (this.pos.getY() * NB_PIX_CASE + PADDING_VIE_CASE) - cam.getDy() * NB_PIX_CASE, Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR), NB_PIX_CASE/8); 
+ 		g.fillRect(((this.pos.getX() * NB_PIX_CASE) - ( Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) / 2) + NB_PIX_CASE/2) - dx, (this.pos.getY() * NB_PIX_CASE + PADDING_VIE_CASE) - dy, Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR), NB_PIX_CASE/8); 
  		
  		g.setColor(COULEUR_VIE_V);
- 		g.fillRect(((this.pos.getX() * NB_PIX_CASE) - ( Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) / 2) + NB_PIX_CASE/2) - cam.getDx() * NB_PIX_CASE, (this.pos.getY() * NB_PIX_CASE + PADDING_VIE_CASE) - cam.getDy() * NB_PIX_CASE,  (int) (Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) * ((float)this.getPoints() / (float)this.getPointsMax())), NB_PIX_CASE/8); 
+ 		g.fillRect(((this.pos.getX() * NB_PIX_CASE) - ( Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) / 2) + NB_PIX_CASE/2) - dx, (this.pos.getY() * NB_PIX_CASE + PADDING_VIE_CASE) - dy,  (int) (Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) * ((float)this.getPoints() / (float)this.getPointsMax())), NB_PIX_CASE/8); 
  		
  		g.setColor(COULEUR_VIDE);
- 		g.drawRect(((this.pos.getX() * NB_PIX_CASE) - ( Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) / 2) + NB_PIX_CASE/2) - cam.getDx() * NB_PIX_CASE, (this.pos.getY() * NB_PIX_CASE + PADDING_VIE_CASE) - cam.getDy() * NB_PIX_CASE, Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR), NB_PIX_CASE/8); 
+ 		g.drawRect(((this.pos.getX() * NB_PIX_CASE) - ( Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) / 2) + NB_PIX_CASE/2) - dx, (this.pos.getY() * NB_PIX_CASE + PADDING_VIE_CASE) - dy, Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR), NB_PIX_CASE/8); 
     }
        
-    protected abstract boolean dedans(Position position);
-    
+    public abstract boolean dedans(Position position);
+    public abstract int getIndexSoldat();
+    public abstract void mort(int index);
+ 
     public int getPointsMax() { return this.POINTS_DE_VIE_MAX; }
     public void setPoints(int pts) { this.pointsDeVie = pts; } // Utilise pour les bonus (lorsque le heros ce repose)
     public int getPortee() { return this.PORTEE_VISUELLE; }

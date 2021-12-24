@@ -33,7 +33,7 @@ public class Obstacle extends Element implements IConfig {
 	public Obstacle(Carte carte, TypeObstacle type, Position pos) {
 		this.pos = pos;
 		this.TYPE = type; 
-		carte.plateau[this.getPosition().getX()][this.getPosition().getY()] = this; 
+		carte.setElement(this);; 
 	}
 
 	

@@ -24,7 +24,7 @@ public class Projectile implements IConfig {
 	void dessine(Graphics g) {
 		Position deplacement = this.origine;
 		while(this.origine != this.arrive){
-			if(this.carte.plateau[deplacement.getX()][deplacement.getY()] instanceof Monstre) {
+			if(this.carte.getElement(deplacement)instanceof Monstre) {
 				this.toucher = true;
 			}
 	    	g.drawImage(fleche, deplacement.getX() * NB_PIX_CASE, deplacement.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);

@@ -22,6 +22,9 @@ public class FenetreJeu extends JFrame implements IConfig{
 		frame.setSize(FEN_LARGEUR, FEN_HAUTEUR);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+//		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+//		frame.setUndecorated(true);
+
 		// Creation du menu qui contiendra les bouttons
 		menuBar.setBackground(COULEUR_MENUBAR); 
         menuBar.setOpaque(true);

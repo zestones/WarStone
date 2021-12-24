@@ -27,7 +27,7 @@ public class Monstre extends Soldat {
         this.nom = nom;
         this.combat = false;
         
-        carte.plateau[this.pos.getX()][this.pos.getY()] = this;
+        carte.setElement(this);
         this.monstreSprite = new SpriteInitializer(this);
         this.initChampVisuelle();
         
@@ -140,19 +140,22 @@ public class Monstre extends Soldat {
     public List<Heros> getListHerosInRange(){
 		List<Heros> listeHeros = new ArrayList<>();
 		int portee = this.getPortee();
-//		System.out.println("=======================\nPORTEE : " + portee + " === MONSTRE  : " + this.toString());
+
 		for(int i = 0; i <= portee * 2; i++) {
 			for(int j = 0; j <= portee * 2 ; j++) {
-				Position porteeVisuelle = new Position(this.pos.getX() + i - portee, this.pos.getY() + j - portee);
+				Position porteeVisuelle = new Position(this.getPosition().getX() + i - portee, this.getPosition().getY() + j - portee);
 				if(porteeVisuelle.estValide() == false)
     				continue; 
-				if(carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()] instanceof Heros) 
-					listeHeros.add((Heros)carte.plateau[porteeVisuelle.getX()][porteeVisuelle.getY()]);
+				if(carte.getElement(porteeVisuelle) instanceof Heros) 
+					listeHeros.add((Heros)carte.getElement(porteeVisuelle));
 			}
 		}
-//		System.out.println("      -------------     \n " + listeHeros + "\n=========================");
 		return listeHeros;
     }
+    
+	public int getIndexSoldat() { return carte.listeMonstres.indexOf(this); }
+	
+	public void mort(int index) { carte.listeMonstres.remove(index); }
     
     /* Affichage des infos du monstre */
     public String toString() { 

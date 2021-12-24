@@ -15,7 +15,7 @@ import javax.swing.SwingConstants;
 public interface IConfig extends java.io.Serializable {	
 	
 	// Definir le NB ELEMENT sur la carte
-	int NB_HEROS = 1; int NB_MONSTRES = 6; int NB_OBSTACLES = 3;
+	int NB_HEROS = 3; int NB_MONSTRES = 6; int NB_OBSTACLES = 3;
 
 	// Parametre de dessin 
 	Color COULEUR_VIDE = Color.white, COULEUR_INCONNU = Color.lightGray;
@@ -29,19 +29,19 @@ public interface IConfig extends java.io.Serializable {
 	Color COULEUR_INFOS_PANEL = new Color(88, 41, 0);
 	Color COULEUR_BORDURE = Color.white;
 	Color COULEUR_FOCUS = new Color(145, 145, 145, 95);
+	
 	// Les images 
 	Image grass = Toolkit.getDefaultToolkit().getImage("./res/img/background/grass.png");
 	Image range = Toolkit.getDefaultToolkit().getImage("./res/img/background/range.jpg");
 	Image fleche = Toolkit.getDefaultToolkit().getImage("./res/img/pops/arrow.png");
 	
-	
 //	Dimension taille = Toolkit.getDefaultToolkit().getScreenSize();	
 //	(int)taille.getWidth();
-//  (int)taille.getHeight();
-
+//	(int)taille.getHeight();
+	
 	// HAUTEUR et LARGEUR de la Fenetre
-	final int FEN_LARGEUR = 800;
-	final int FEN_HAUTEUR = 600;
+	final int FEN_LARGEUR = 1000;
+	final int FEN_HAUTEUR = 800;
 
 	int POSITION_X = 100; int POSITION_Y = 50; 
 
@@ -52,7 +52,6 @@ public interface IConfig extends java.io.Serializable {
 	int PADDING_VIE_CASE_LARGEUR = NB_PIX_CASE/8;
 	int PADDING_VIE_CASE = PADDING_VIE_CASE_LARGEUR/2;
 		
-	
 	/* Variable Menu */
 	final int MENUBAR_HAUTEUR = 65;
 	final int MENUBAR_LARGEUR = FEN_LARGEUR;

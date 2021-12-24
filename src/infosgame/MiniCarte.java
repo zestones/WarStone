@@ -6,8 +6,6 @@ import javax.swing.JPanel;
 
 import carte.Camera;
 import carte.Carte;
-import element.Heros;
-import utile.Position;
 import wargame.IConfig;
 
 public class MiniCarte extends JPanel implements IConfig {
@@ -20,6 +18,7 @@ public class MiniCarte extends JPanel implements IConfig {
 		this.cam = cam;
 	}
 	
+	// Dessin de la zone visible sur la carte
 	private void dessineFocus(Graphics g, int dx, int dy) {
 		for(int i = 0; i < LARGEUR_CASE_VISIBLE; i++) {
 			for(int j = 0; j < HAUTEUR_CASE_VISIBLE; j++) {
@@ -29,12 +28,15 @@ public class MiniCarte extends JPanel implements IConfig {
 		}
 	}
 	
+	// dessin de la carte entiere (les zones depassant l'ecran comprise)
 	private void dessineMiniCarte(Graphics g, int dx, int dy) {
+		// on dessine les heros et element a leur portee
+		for(int n = 0; n < this.c.listeHeros.size(); n++)
+			this.c.listeHeros.get(n).seDessinerMinia(g);
+	
+		// dessin de la grille
 		for(int i = 0; i < LARGEUR_CARTE_CASE; i++) {
 			for(int j = 0; j < HAUTEUR_CARTE_CASE; j++) {
-				if(this.c.getElement(new Position(i, j)) instanceof Heros && i >= dx && i < LARGEUR_CASE_VISIBLE + dx  && j >= dy && j < HAUTEUR_CASE_VISIBLE + dy) { 
-					((Heros)this.c.getElement(new Position(i, j))).seDessinerMinia(g);
-				}		
 				g.setColor(COULEUR_GRILLE);
 				g.drawRect(i * MINI_NB_PIX_CASE, j * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE); 
 			}
