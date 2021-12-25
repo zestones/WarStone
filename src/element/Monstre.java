@@ -1,3 +1,12 @@
+/********************************************************************
+ * 							WarStone								*
+ *  -------------------------------------------------------------	*
+ * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
+ *  -------------------------------------------------------------	*
+ * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
+ * 																	*
+ * 														element		*
+ * ******************************************************************/
 package element;
 
 import java.awt.Graphics;
@@ -12,15 +21,40 @@ import sprite.SpriteInitializer;
 import sprite.SpriteSheet;
 import utile.Position;
 
+/**
+ * The Class Monstre.
+ */
 public class Monstre extends Soldat {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The m. */
 	TypesM m;
+    
+    /** The nom. */
     String nom;
+    
+    /** The champ visuelle. */
     private Position[] champVisuelle = new Position[5];
+    
+    /** The monstre sprite. */
     private transient SpriteInitializer monstreSprite;
+	
+	/** The dernier sprite. */
 	public transient SpriteSheet dernierSprite;
+    
+    /** The combat. */
     public boolean combat;
 
+    /**
+     * Instantiates a new monstre.
+     *
+     * @param carte the carte
+     * @param m the m
+     * @param nom the nom
+     * @param pos the pos
+     */
     public Monstre(Carte carte, TypesM m, String nom,Position pos){
         super(carte, m.getPoints(), m.getPortee(), m.getPuissance(), m.getTir(), pos, false);
         this.m = m;
@@ -34,6 +68,12 @@ public class Monstre extends Soldat {
         this.dernierSprite = this.monstreSprite.spriteStandByBas;
     }
     
+    /**
+     * Dessine sprite.
+     *
+     * @param g the g
+     * @param cam the cam
+     */
     private void dessineSprite(Graphics g, Camera cam) {
     	if(this.monstreSprite == null) {
     		this.monstreSprite = new SpriteInitializer(this);
@@ -43,6 +83,13 @@ public class Monstre extends Soldat {
 		g.drawImage(sprite, (this.pos.getX() * NB_PIX_CASE) - cam.getDx() * NB_PIX_CASE ,(this.pos.getY() * NB_PIX_CASE) - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
     }
     
+    /**
+     * Dessine sprite.
+     *
+     * @param g the g
+     * @param clic the clic
+     * @param cam the cam
+     */
     public void dessineSprite(Graphics g, Position clic, Camera cam) {
 //    	System.out.println("Combat : " + this.combat);
     	if(clic == null)
@@ -86,6 +133,9 @@ public class Monstre extends Soldat {
 
     }
     
+    /**
+     * Inits the champ visuelle.
+     */
     /* Initialise le "champs visuelle" i.e les positions de la portee du Heros */
     private void initChampVisuelle() {
     	this.champVisuelle[0] = new Position(this.getPosition().getX() - this.getPortee(), this.getPosition().getY() - this.getPortee());
@@ -94,6 +144,12 @@ public class Monstre extends Soldat {
      	this.champVisuelle[3] = new Position(this.getPosition().getX() - this.getPortee(), this.getPosition().getY() + this.getPortee());
     }
     
+    /**
+     * Dedans.
+     *
+     * @param p the p
+     * @return true, if successful
+     */
     /* Renvoie true si la position pos donnee en parametre est a la portee du Monstre 
      * i.e la position est dans sont champVisuelle
      */
@@ -114,6 +170,12 @@ public class Monstre extends Soldat {
 		return true;
    }
 	    
+    /**
+     * Se dessiner.
+     *
+     * @param g the g
+     * @param cam the cam
+     */
     /* Dessin du Monstre sur la carte */
     public void seDessiner(Graphics g, Camera cam) { 
 
@@ -126,6 +188,11 @@ public class Monstre extends Soldat {
 		g.fillRect((this.pos.getX()  * NB_PIX_CASE) - cam.getDx() * NB_PIX_CASE, (this.pos.getY() * NB_PIX_CASE) - cam.getDy() * NB_PIX_CASE , NB_PIX_CASE, NB_PIX_CASE);
     }
     
+    /**
+     * Se dessiner minia.
+     *
+     * @param g the g
+     */
     /* Dessin du Monstre sur la carte */
     public void seDessinerMinia(Graphics g) { 
     	g.drawImage(range, this.pos.getX() * MINI_NB_PIX_CASE, this.pos.getY() * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, null);   	
@@ -137,6 +204,11 @@ public class Monstre extends Soldat {
 
     }
     
+    /**
+     * Gets the list heros in range.
+     *
+     * @return the list heros in range
+     */
     public List<Heros> getListHerosInRange(){
 		List<Heros> listeHeros = new ArrayList<>();
 		int portee = this.getPortee();
@@ -153,18 +225,49 @@ public class Monstre extends Soldat {
 		return listeHeros;
     }
     
+	/**
+	 * Gets the index soldat.
+	 *
+	 * @return the index soldat
+	 */
 	public int getIndexSoldat() { return carte.listeMonstres.indexOf(this); }
 	
+	/**
+	 * Mort.
+	 *
+	 * @param index the index
+	 */
 	public void mort(int index) { carte.listeMonstres.remove(index); }
     
+    /**
+     * To string.
+     *
+     * @return the string
+     */
     /* Affichage des infos du monstre */
     public String toString() { 
     	return this.getPosition().toString() + " " + this.m.name() + " " + this.nom + " (" + this.m.getPoints() + "PV /" + this.getPoints() + ")";
     } 
     
+    /**
+     * Gets the sprite.
+     *
+     * @return the path sprite
+     */
     public String getSprite() { return this.m.getSprite(); } 
+    
+    /**
+     * Gets the image.
+     *
+     * @return the image
+     */
     public Image getImage() { return this.m.getImage(); }
 
+	/**
+	 * Gets the type.
+	 *
+	 * @return the type
+	 */
 	@Override
 	public String getType() { return this.m.name(); }
 }

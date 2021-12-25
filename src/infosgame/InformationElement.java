@@ -1,3 +1,12 @@
+/********************************************************************
+ * 							WarStone								*
+ *  -------------------------------------------------------------	*
+ * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
+ *  -------------------------------------------------------------	*
+ * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
+ * 																	*
+ * 														infosgame	*
+ * ******************************************************************/
 package infosgame;
 
 import java.awt.BorderLayout;
@@ -10,9 +19,21 @@ import element.Element;
 import element.Soldat;
 import wargame.IConfig;
 
+/**
+ * The Class InformationElement.
+ *
+ * @author pc
+ */
 public abstract class InformationElement extends JPanel implements IConfig {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	 
+	/**
+	 * Dessine infos element.
+	 *
+	 * @param e the e
+	 */
 	public void dessineInfosElement(Element e) {
 		
 		Image img = e.getImage().getScaledInstance(LARGEUR_ICON_ELEMENT, HAUTEUR_ICON_ELEMENT, Image.SCALE_SMOOTH);

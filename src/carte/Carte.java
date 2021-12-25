@@ -1,3 +1,12 @@
+/********************************************************************
+ * 							WarStone								*
+ *  -------------------------------------------------------------	*
+ * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
+ *  -------------------------------------------------------------	*
+ * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
+ * 																	*
+ * 														carte		*
+ * ******************************************************************/
 package carte;
 
 import java.awt.Graphics;
@@ -12,16 +21,26 @@ import element.Soldat;
 import utile.Position;
 import wargame.IConfig;
 import wargame.PanneauJeu;
-
+/**
+ * Class implementant la carte du jeu ainsi que ses methodes
+ * @author Islem, Antoine, Idriss  
+ *
+ */
 public class Carte implements IConfig, ICarte {
 	private static final long serialVersionUID = 1L;
 	private Element[][] plateau;
-	// creation d'une Liste de Heros et de monstres present sur la carte 
-	// ses liste nous permettent d'eviter des parcours de la carte type (LARGEUR & HAUTEUR)
-	// On va simplement parcourir le nombre de heros et de monstres existant 
-	public List<Heros> listeHeros;
-	public List<Monstre> listeMonstres;
+	/** 
+	 *	 Création d'une Liste de Heros contenant les heros présent sur la carte 
+	 */
 	
+	public List<Heros> listeHeros;
+	/**
+	 *  Création d'une liste de Monstres contenant les monstres présent sur la carte
+	 */
+	public List<Monstre> listeMonstres;
+	/**
+	 * Constructeur de la Carte
+	 */
 	public Carte() {
 		// Initialisation de la carte
 		this.plateau = new Element[LARGEUR_CARTE_CASE][HAUTEUR_CARTE_CASE];
@@ -49,9 +68,10 @@ public class Carte implements IConfig, ICarte {
 		}
 	}
 
-	/*
-	 * Fonction principale du jeu c'est ici que tout est gérer : les tours, les
-	 * deplacement, les actions...
+	/**
+	 *  Fonction principale du jeu c'est ici que tout est gére
+	 *  Les appels au autre methode 
+	 *  @param pj
 	 */
 	public void jouerSoldats(PanneauJeu pj) {
 		// On met a jour le nombre de soldat restant sur la carte
@@ -70,45 +90,71 @@ public class Carte implements IConfig, ICarte {
 		pj.repaint();
 	}
 
-	/* Calcule du nombre de soldats encore present sur la carte */
+	/**
+	 * Calcule du nombre de soldats encore present sur la carte
+	 * @param pj
+	 */
 	public void nombreSoldatVivant(PanneauJeu pj) {
 		pj.nombreMonstre = this.listeMonstres.size();
 		pj.nombreHeros = this.listeHeros.size();
 	}
 
-	/* On effectue une action pour chaque monstre */
+	/**
+	 *  On effectue une action pour chaque monstre 
+	 *  @param pj
+	 */
 	private void joueTourMonstre(PanneauJeu pj) {
 		// Tour du monstre ?
 		if (pj.tour != 1) return;
 	
-		// Creation d'une liste contenant les heros a la portee du Monstre
+		/**
+		 *  Creation d'une liste contenant les heros a la portee du Monstre
+		 */
 		List<Heros> listePorteeHeros;
 		
-		// On effectue une action pour chaque monstre
+		/**
+		 *  On effectue une action pour chaque monstre
+		 */
 		for(int i = 0; i < this.listeMonstres.size(); i++) {
-			// Si le monstre a deja Joue on passe 
+			/**
+			 *  Si le monstre a deja Joue on passe 
+			 */
 			if(this.listeMonstres.get(i).aJoue) continue;
 			
-			// On initialise une liste de heros a la portee du monstre
+			/**
+			 *  On initialise une liste de heros a la portee du monstre
+			 */
 			listePorteeHeros = this.listeMonstres.get(i).getListHerosInRange();
-			// Si la liste est vide (i.e aucun Heros n'est a la porter du monstre) alors on deplace le monstre
+			/**
+			 *  Si la liste est vide (i.e aucun Heros n'est a la porter du monstre) alors on deplace le monstre
+			 */
 			if(listePorteeHeros.isEmpty()) {
 				Position pos2 = this.trouvePositionVide(this.listeMonstres.get(i).getPosition());
 				this.deplaceSoldat(pos2, this.listeMonstres.get(i));
 			}
-			// Sinon il faut choisir un Heros et l'attaquer
+			/**
+			 *  Sinon il faut choisir un Heros et l'attaquer
+			 */
 			else {
 				Heros h = this.trouveHeros(listePorteeHeros);
 				this.actionMonstre(pj, this.listeMonstres.get(i).getPosition(), h.getPosition());
 			}
 		}
 		
-		// On cherche les heros qui n'ont effectuer aucune action
+		/*
+		 *  On cherche les heros qui n'ont effectuer aucune action
+		 */
 		for(int j = 0; j < this.listeHeros.size(); j++)
 			if(!this.listeHeros.get(j).aJoue) this.listeHeros.get(j).repos();	
 	}
 	
-	/* Methode qui gere les actions des Heros */
+	/**
+	 *  Methode qui gere les actions des Heros : Combat ou deplacement 
+	 *  @param pj
+	 *  @param pos
+	 *  @param pos2
+	 *  @return boolean
+	 */
 	public boolean actionMonstre(PanneauJeu pj, Position pos, Position pos2) {
 		Monstre m = (Monstre) this.getElement(pos);
 		// On verifie que le Monstre n'a pas deja jouer et que la position d'attaque (pos2) n'est pas un autre Monstre
@@ -121,7 +167,10 @@ public class Carte implements IConfig, ICarte {
 		return true;
 	}
 
-	/* Le generale joueur decide quelle action faire */
+	/**
+	 *  Le generale joueur decide quelle action réaliser
+	 *  @param pj
+	 */
 	private void joueTourHeros(PanneauJeu pj) {
 		// On verifie qu'un Heros a ete selectionne et qu'un deuxieme clic a ete enregistre
 		if (pj.herosSelectione == null || pj.lastClic == null)
@@ -140,7 +189,13 @@ public class Carte implements IConfig, ICarte {
 		}
 	}
 	
-	/* Methode qui gere les actions des Heros */
+	/**
+	 *  Methode qui gere les actions des Heros 
+	 *  @param pj
+	 *  @param pos
+	 *  @param pos2
+	 *  @return boolean
+	 */
 	public boolean actionHeros(PanneauJeu pj, Position pos, Position pos2) {
 		Heros h = (Heros) this.plateau[pos.getX()][pos.getY()];
 		
@@ -160,7 +215,10 @@ public class Carte implements IConfig, ICarte {
 		return this.deplaceSoldat(pos2, h);
 	}
 
-	/* Si le Soldat perd tout ses Points de vie alors il meurt */
+	/**
+	 *  On supprime un soldat ayant perdu tout ses point de vie
+	 *  @param perso
+	 */
 	public void mort(Soldat perso) { 
 		// On recupere l'index du soldat dans la liste
 		int index = perso.getIndexSoldat();
@@ -170,9 +228,12 @@ public class Carte implements IConfig, ICarte {
 		perso.mort(index);
 	}
 
-	/*
+	/**
 	 * Deplace le Soldat a la position pos, si l'opperation a ete effectue alors
 	 * retourne true sinon false
+	 * @param pos
+	 * @param soldat
+	 * @return boolean
 	 */
 	public boolean deplaceSoldat(Position pos, Soldat soldat) {
 		if (pos.estValide() && this.getElement(pos) == null && soldat.getPosition().estVoisine(pos)) {
@@ -182,11 +243,12 @@ public class Carte implements IConfig, ICarte {
 		return false;
 	}
 
-	/*
+	/**
 	 * On remet aJoue = false en fonction du tour de la partie : 
-	 * tours des Monstre == 1 / tour des Heros == 0 
+	 * tours des Monstre == 1 / tour des Heros == 0
 	 * Lorsque c'est le tour des monstres alors les Heros
 	 * doivent pouvoir bouger de nouveau, idem pour les Heros
+	 * @param tour
 	 */
 	private void joueTour(int tour) {
 		if(tour == 1) {
@@ -199,7 +261,10 @@ public class Carte implements IConfig, ICarte {
 		}
 	}
 
-	/* trouve une position vide aleatoiremennt sur la Carte */
+	/**
+	 *  trouve une position vide aleatoiremennt sur la Carte 
+	 *  @return Position
+	 */
 	public Position trouvePositionVide() {
 		Position pos = new Position();
 		if (pos.estValide() && this.getElement(pos) == null)
@@ -207,7 +272,11 @@ public class Carte implements IConfig, ICarte {
 		return this.trouvePositionVide();
 	}
 
-	/* Methode renvoyant une liste contenant les 8 positions adjacente a une case */
+	/**
+	 *  Methode renvoyant une liste contenant les 8 positions adjacente a une case 
+	 *  @param pos
+	 *  @return List
+	 */
 	private List<Position> positionAdjacente(Position pos) {
 		List<Position> listePos = new ArrayList<>();
 		for (int i = -1; i < 2; i++)
@@ -217,7 +286,11 @@ public class Carte implements IConfig, ICarte {
 		return listePos;
 	}
 	
-	/* Trouve une position vide adjacente a pos sur la carte si aucune position */
+	/**
+	 *  Trouve une position vide adjacente a pos sur la carte si aucune position 
+	 *  @param pos
+	 *  @return Position
+	 */
 	public Position trouvePositionVide(Position pos) {
 		List<Position> listePos = this.positionAdjacente(pos);
 		
@@ -238,31 +311,54 @@ public class Carte implements IConfig, ICarte {
 		return listePos.get(index);
 	}
 
-	/* renvoie un Heros trouve aleatoirement sur la carte 
-	 * Les heros présent sur la carte sont stocke dans la liste "listeheros"
+	/**
+	 *  renvoie un Heros trouve aleatoirement sur la carte 
+	 *  Les heros présent sur la carte sont stocke dans la liste "listeheros"
+	 *  @return Heros
 	 */
 	public Heros trouveHeros() { return this.listeHeros.get((int) Math.random() * this.listeHeros.size()); }
 
-	/*
+	/**
 	 * Prend en parametre une liste de heros et retourne un heros choisi aleatoirement dans cette liste
 	 * On utilise cette methode pour trouver un heros que le Monstre va attaquer durant le tour
+	 * @param herosTrouve 
+	 * @return Heros
 	 */
 	public Heros trouveHeros(List<Heros> herosTrouve) {
 		int index = (int) (Math.random() * herosTrouve.size());
 		return listeHeros.get(index);
 	}
 
-	/* Retourne l'element sur la carte a la position pos */
+	/**
+	 *  Retourne l'element sur la carte a la position pos 
+	 *  @param pos
+	 *  @return Element
+	 */
 	public Element getElement(Position pos) { return plateau[pos.getX()][pos.getY()]; }
-	/* Ajoute un element sur la carte */
+	
+	/**
+	 *  Ajoute un element sur la carte 
+	 *  @param e 
+	 */
 	public void setElement(Element e) { this.plateau[e.getPosition().getX()][e.getPosition().getY()] = e; }
-	/* Met une position donnee vide */
+	
+	/**
+	 *  Met une position donnee vide 
+	 *  @param pos
+	 */
 	public void setElementVide(Position pos) { this.plateau[pos.getX()][pos.getY()] = null; }
-	/* Renvoie true si la case est vide sinon false */
+	
+	/**
+	 *  Renvoie true si la case est vide sinon false 
+	 *  @param pos
+	 *  @return boolean
+	 */
 	public boolean estCaseVide(Position pos) { return (this.getElement(pos)==null); }
-	/*
+	
+	/**
 	 * Methode de dessin principal
-	 * Les heros son dessiner en premier
+	 * @param g
+	 * @param cam
 	 */
 	public void toutDessiner(Graphics g, Camera cam) {	
 		// dessine tout les heros sur la carte ainsi que les elements a leurs portee

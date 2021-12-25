@@ -1,3 +1,12 @@
+/********************************************************************
+ * 							WarStone								*
+ *  -------------------------------------------------------------	*
+ * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
+ *  -------------------------------------------------------------	*
+ * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
+ * 																	*
+ * 														wargame		*
+ * ******************************************************************/
 package wargame;
 
 import java.awt.Image;
@@ -8,9 +17,17 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+/**
+ * The Class MenuBar.
+ */
 public class MenuBar implements IConfig {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Instantiates a new menu bar.
+	 */
 	public MenuBar() {		
 		JMenuBar menuBarSecondaire = new JMenuBar();
 		

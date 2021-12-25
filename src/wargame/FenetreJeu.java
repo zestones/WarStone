@@ -1,3 +1,12 @@
+/********************************************************************
+ * 							WarStone								*
+ *  -------------------------------------------------------------	*
+ * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
+ *  -------------------------------------------------------------	*
+ * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
+ * 																	*
+ * 														wargame		*
+ * ******************************************************************/
 package wargame;
 
 import java.awt.BorderLayout;
@@ -14,10 +23,18 @@ import javax.swing.border.MatteBorder;
 import infosgame.MiniCarte;
 
 
+/**
+ * The Class FenetreJeu.
+ */
 public class FenetreJeu extends JFrame implements IConfig{
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;	
 
 	
+	/**
+	 * Instantiates a new fenetre jeu.
+	 */
 	FenetreJeu(){	
 		frame.setSize(FEN_LARGEUR, FEN_HAUTEUR);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -175,6 +192,12 @@ public class FenetreJeu extends JFrame implements IConfig{
         frame.setVisible(true); 	 
 		
 	}
+	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		new FenetreJeu();
 	}

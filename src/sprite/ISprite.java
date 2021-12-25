@@ -1,47 +1,96 @@
+/********************************************************************
+ * 							WarStone							    *
+ *  -------------------------------------------------------------	*
+ * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
+ *  -------------------------------------------------------------	*
+ * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
+ * 																	*
+ *	 													sprite  	*
+ * ******************************************************************/
+
+
 package sprite;
 
+/**
+ * Interface ISprite.
+ */
 public interface ISprite {
-	
-	// Chemin des images pour les Heros
+
+	/** Chemin des sprites. */
+	/** humain. */
 	String humain = "./res/img/soldat/heros/sprite/humain.png";
+
+	/** nain. */
 	String nain = "./res/img/soldat/heros/sprite/nain.png";
+
+	/** elf. */
 	String elf = "./res/img/soldat/heros/sprite/elf.png";
+
+	/** hobbit. */
 	String hobbit = "./res/img/soldat/heros/sprite/hobbit.png";
-	
+
+	/** troll. */
 	// Chemin des images pour les monstres
 	String troll = "./res/img/soldat/monstres/sprite/troll.png";
+
+	/** orc. */
 	String orc = "./res/img/soldat/monstres/sprite/orc.png";
+
+	/** gobelin. */
 	String gobelin = "./res/img/soldat/monstres/sprite/gobelin.png";
-	
-	// Frequence des images
+
+	/** frequence des image pour la lecture des sprites. */
 	public SpriteEngine spriteEngine = new SpriteEngine(33);
-	
-	// Taille d'une image d'un sprite
+
+	/** largeur image. */
 	int LARGEUR_IMAGE = 64;
+
+	/** hauteur image. */
 	int HAUTEUR_IMAGE = 58;
-	
+
+	/** La ligne standby haut. */
 	// Infos sur le sprite StandBy
 	int LIGNE_STANDBY_HAUT = 0;
+
+	/** La ligne standby gauche. */
 	int LIGNE_STANDBY_GAUCHE = 1;
+
+	/** La ligne standby bas. */
 	int LIGNE_STANDBY_BAS = 2;
+
+	/** La ligne standby droite. */
 	int LIGNE_STANDBY_DROITE = 3;
-	
+
+	/** Le nb image standby. */
 	int NB_IMAGE_STANDBY = 7;
-	
-	// Infos sur le sprite Attaque 
+
+	/** La ligne attack gauche. */
 	int LIGNE_ATTACK_GAUCHE = 17;
+
+	/** La ligne attack droite. */
 	int LIGNE_ATTACK_DROITE = 19;
+
+	/** La ligne attack haut. */
 	int LIGNE_ATTACK_HAUT = 18;
+
+	/** La ligne attack bas. */
 	int LIGNE_ATTACK_BAS = 16;
-	
+
+	/** Le nb image attack. */
 	int NB_IMAGE_ATTACK = 13;
 
-	
-	// Infos sur le sprite deplacement
+	/** La ligne move gauche. */
 	int LIGNE_MOVE_GAUCHE = 9;
+
+	/** La ligne move droite. */
 	int LIGNE_MOVE_DROITE = 19;
+
+	/** La ligne move haut. */
 	int LIGNE_MOVE_HAUT = 18;
+
+	/** La ligne move bas. */
 	int LIGNE_MOVE_BAS = 16;
-	
+
+	/** Le nb image move. */
 	int NB_IMAGE_MOVE = 9;
 }

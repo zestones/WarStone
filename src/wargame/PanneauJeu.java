@@ -1,3 +1,12 @@
+/********************************************************************
+ * 							WarStone								*
+ *  -------------------------------------------------------------	*
+ * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
+ *  -------------------------------------------------------------	*
+ * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
+ * 																	*
+ * 														wargame		*
+ * ******************************************************************/
 package wargame;
 
 import java.awt.BasicStroke;
@@ -30,22 +39,53 @@ import utile.Position;
 import utile.Sauvegarde;
 
 
+/**
+ * The Class PanneauJeu.
+ */
 public class PanneauJeu extends InformationElement implements IConfig, ISprite {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The camera droite. */
 	private JButton sauvegarde, reprendre, restart,cameraBas,cameraHaut,cameraGauche, cameraDroite;
+	
+	/** The nombre monstre. */
 	public int tour, nombreHeros, nombreMonstre;
+	
+	/** The clic dragged. */
 	public Position clic, lastClic, clicDragged;
+	
+	/** The released clic. */
 	private Position draggedCam, releasedClic;
+	
+	/** The dessine fleche. */
 	private boolean dessineFleche;
+	
+	/** The heros selectione. */
 	public Heros herosSelectione;
+	
+	/** The survol. */
 	private	Position survol;
+	
+	/** The fin tour. */
 	public JButton finTour;
+	
+	/** The elem. */
 	private	Element elem;
+	
+	/** The top. */
 	private JLabel  top; 
+	
+	/** The cam. */
 	public Camera cam;
+	
+	/** The c. */
 	public Carte c;
 	
+	/**
+	 * Instantiates a new panneau jeu.
+	 */
 	PanneauJeu(){ 
 		this.c = new Carte();
 		this.cam = new Camera(c, 0, 0);
@@ -60,6 +100,9 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 		c.nombreSoldatVivant(this);
 	} 
 		
+	/**
+	 * Creation element panneau.
+	 */
 	private void creationElementPanneau() {
 				
 		finTour = new JButton("End Turn");   
@@ -124,6 +167,9 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 		footer.setForeground(Color.WHITE);
 	}
 		 
+	/**
+	 * Gestion evenement.
+	 */
 	/* Gestion des evenements : souris / boutton */
 	public void gestionEvenement() {
 		PanneauJeu pj = this;
@@ -316,6 +362,18 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 		});
 	}
 	
+	/**
+	 * Dessine fleche.
+	 *
+	 * @param g the g
+	 * @param x1 the x 1
+	 * @param y1 the y 1
+	 * @param x2 the x 2
+	 * @param y2 the y 2
+	 * @param d the d
+	 * @param h the h
+	 * @param clic the clic
+	 */
 	// https://stackoverflow.com/questions/2027613/how-to-draw-a-directed-arrow-line-in-java
 	private void dessineFleche(Graphics g, int x1, int y1, int x2, int y2, int d, int h, Position clic) {
 	    int dx = x2 - x1, dy = y2 - y1;
@@ -374,6 +432,9 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 	}
 
 
+	/**
+	 * Maj mini carte.
+	 */
 	private void majMiniCarte() {
 		cam = new Camera(c, 0, 0);
 		// Une supprime l'ancien conteneur
@@ -384,6 +445,11 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 		carteMiniature.add(new MiniCarte(cam));
 	}
 	
+	/**
+	 * Dessine deplacement.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean dessineDeplacement() {
 		// Si aucun heros est selectione est que dessine Fleche est true alors on dessine
 		if(herosSelectione == null && dessineFleche)
@@ -396,6 +462,11 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 		return false;			
 	}
 	
+	/**
+	 * Paint component.
+	 *
+	 * @param g the g
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 				

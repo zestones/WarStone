@@ -1,3 +1,12 @@
+/********************************************************************
+ * 							WarStone								*
+ *  -------------------------------------------------------------	*
+ * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
+ *  -------------------------------------------------------------	*
+ * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
+ * 																	*
+ * 															element	*
+ * ******************************************************************/
 package element;
 
 import java.awt.Graphics;
@@ -10,18 +19,43 @@ import sprite.SpriteInitializer;
 import sprite.SpriteSheet;
 import utile.Position;
 
+/**
+ * The Class Heros.
+ */
 public class Heros extends Soldat {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The champ visuelle. */
 	private Position[] champVisuelle = new Position[5];
 	
+	/** The heros sprite. */
 	private transient SpriteInitializer herosSprite;
+	
+	/** The dernier sprite. */
 	public transient SpriteSheet dernierSprite;
+    
+    /** The bonus repos. */
     private int BONUS_REPOS;
+    
+    /** The combat. */
     public boolean combat;
     
+    /** The nom. */
     String nom;
+	
+	/** The h. */
 	private TypesH h;
     
+    /**
+     * Instantiates a new heros.
+     *
+     * @param carte the carte
+     * @param h the h
+     * @param nom the nom
+     * @param pos the pos
+     */
     public Heros(Carte carte, TypesH h, String nom, Position pos){
         super(carte, h.getPoints(), h.getPortee(), h.getPuissance(), h.getTir(), pos, false);
         this.h = h;
@@ -34,6 +68,9 @@ public class Heros extends Soldat {
         this.dernierSprite = this.herosSprite.spriteStandByBas;
     }
    
+    /**
+     * Inits the champ visuelle.
+     */
     /* Initialise le "champs visuelle" i.e les positions de la portee du Heros */
     private void initChampVisuelle() {
     	this.champVisuelle[0] = new Position(this.getPosition().getX() - this.getPortee(), this.getPosition().getY() - this.getPortee());
@@ -42,6 +79,12 @@ public class Heros extends Soldat {
      	this.champVisuelle[3] = new Position(this.getPosition().getX() - this.getPortee(), this.getPosition().getY() + this.getPortee());
     }
     
+    /**
+     * Dedans.
+     *
+     * @param p the p
+     * @return true, if successful
+     */
     /* Renvoie true si la position pos donnee en parametre est a la portee du Hero 
      * i.e la position est dans sont champVisuelle
      */
@@ -63,6 +106,12 @@ public class Heros extends Soldat {
 		return true;
    }
 	
+	/**
+	 * Dessin heros.
+	 *
+	 * @param g the g
+	 * @param cam the cam
+	 */
 	/* Methode de dessin du Heros */
     private void dessinHeros(Graphics g, Camera cam) { 
     	int dx = cam.getDx() * NB_PIX_CASE;
@@ -80,6 +129,12 @@ public class Heros extends Soldat {
         this.dessinBarreVie(g, cam);
     }
        
+    /**
+     * Dessine sprite.
+     *
+     * @param g the g
+     * @param cam the cam
+     */
     /* On dessine le Heros */
     private void dessineSprite(Graphics g, Camera cam) {
     	int dx = cam.getDx() * NB_PIX_CASE;
@@ -94,6 +149,13 @@ public class Heros extends Soldat {
 		g.drawImage(sprite, (this.pos.getX() * NB_PIX_CASE) - dx, (this.pos.getY() * NB_PIX_CASE) - dy, NB_PIX_CASE, NB_PIX_CASE, null);
     }
     
+    /**
+     * Dessine sprite.
+     *
+     * @param g the g
+     * @param clic the clic
+     * @param cam the cam
+     */
     public void dessineSprite(Graphics g, Position clic, Camera cam) {
     	int dx = cam.getDx() * NB_PIX_CASE;
     	int dy = cam.getDy() * NB_PIX_CASE;
@@ -150,7 +212,13 @@ public class Heros extends Soldat {
 //    }
     
     
-    /* Methode principale du dessin de Heros:
+    /**
+ * Se dessiner.
+ *
+ * @param g the g
+ * @param cam the cam
+ */
+/* Methode principale du dessin de Heros:
      * Affichage de la portee visuelle i.e les cases visible par le général 
      */
     public void seDessiner(Graphics g, Camera cam) {
@@ -178,6 +246,14 @@ public class Heros extends Soldat {
     	this.dessinHeros(g, cam);
     }
     
+    /**
+     * Dessine selection.
+     *
+     * @param g the g
+     * @param herosSelectione the heros selectione
+     * @param clicDragged the clic dragged
+     * @param cam the cam
+     */
     /* Dessine le Heros selectionne avec sa portee & deplacement */
     public void dessineSelection(Graphics g, Heros herosSelectione, Position clicDragged, Camera cam) {
     	this.dessinePorteeVisuelle(g, cam); 
@@ -185,6 +261,14 @@ public class Heros extends Soldat {
     	this.dessineSpriteDeplacement(g, herosSelectione, clicDragged, cam);   	
     }
     
+    /**
+     * Dessine sprite deplacement.
+     *
+     * @param g the g
+     * @param herosSelectione the heros selectione
+     * @param clicDragged the clic dragged
+     * @param cam the cam
+     */
     private void dessineSpriteDeplacement(Graphics g, Heros herosSelectione, Position clicDragged, Camera cam) {
     	int dx = cam.getDx() * NB_PIX_CASE;
     	int dy = cam.getDy() * NB_PIX_CASE;
@@ -194,6 +278,12 @@ public class Heros extends Soldat {
 		
 	}
 
+	/**
+	 * Dessine deplacement.
+	 *
+	 * @param g the g
+	 * @param cam the cam
+	 */
 	/*Methode de dessin des deplacement possible pour le heros selectionne*/
     private void dessineDeplacement(Graphics g, Camera cam){
     	int dx = cam.getDx() * NB_PIX_CASE;
@@ -216,6 +306,12 @@ public class Heros extends Soldat {
     		}   	  
     }
     
+    /**
+     * Dessine portee visuelle.
+     *
+     * @param g the g
+     * @param cam the cam
+     */
     /* Dessine la portee visuelle du heros selectionne*/
     private void dessinePorteeVisuelle(Graphics g, Camera cam) {
     	int portee = this.getPortee();
@@ -247,6 +343,9 @@ public class Heros extends Soldat {
     	}	
     }
     
+    /**
+     * Repos.
+     */
     /*Si le Heros n'a effectue aucune action durant le tour alors il obtient un bonus de vie*/
     public void repos() {
     	if(this.aJoue == false && this.getPoints() + BONUS_REPOS < this.getPointsMax())
@@ -255,16 +354,42 @@ public class Heros extends Soldat {
     		this.setPoints(this.getPointsMax());
     }
 
+    /**
+     * Gets the index soldat.
+     *
+     * @return the index soldat
+     */
     public int getIndexSoldat() { return carte.listeHeros.indexOf(this); }
     
+    /**
+     * Gets the points max.
+     *
+     * @return the points max
+     */
     public int getPointsMax() { return this.h.getPoints(); }
+	
+	/**
+	 * Mort.
+	 *
+	 * @param index the index
+	 */
 	public void mort(int index) { carte.listeHeros.remove(index); }
 
+    /**
+     * To string.
+     *
+     * @return the string
+     */
     /* Affichage des infos du Heros */
     public String toString() {
     	return this.getPosition().toString() + " " + this.h.name() + " " + this.nom + " (" + this.h.getPoints() + "PV /" + this.getPoints() + ")";
     }
     
+	/**
+	 * Se dessiner minia.
+	 *
+	 * @param g the g
+	 */
 	public void seDessinerMinia(Graphics g) {
 		int portee = h.getPortee();
 		
@@ -288,6 +413,11 @@ public class Heros extends Soldat {
     	this.dessinHerosMinia(g);
     }
 
+	/**
+	 * Dessin heros minia.
+	 *
+	 * @param g the g
+	 */
 	/* Methode de dessin du Heros */
     private void dessinHerosMinia(Graphics g) { 
     	g.drawImage(range, this.getPosition().getX() * MINI_NB_PIX_CASE, this.getPosition().getY() * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, null);	
@@ -295,7 +425,24 @@ public class Heros extends Soldat {
     }
 
 
+	/**
+	 * Gets the sprite path.
+	 *
+	 * @return the sprite
+	 */
 	public String getSprite() { return this.h.getSprite(); }
+	
+	/**
+	 * Gets the image.
+	 *
+	 * @return the image
+	 */
 	public Image getImage() {return this.h.getImage(); }
+	
+	/**
+	 * Gets the type.
+	 *
+	 * @return the type
+	 */
 	public String getType() { return ""+this.h.name(); }
 }
