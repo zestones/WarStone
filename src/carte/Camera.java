@@ -9,6 +9,7 @@
  * ******************************************************************/
 package carte;
 
+import utile.Position;
 import wargame.IConfig;
 
 /**
@@ -23,14 +24,8 @@ public class Camera implements IConfig {
 	
 	/** Definition de la class camera et ses des methodes. */
 	public Carte c;
+	private Position delta;
 
-/**
- * Recuperation de la valeur de deplacment en Y.
- *
- * @return dy : int
- */
-	public int dx, dy;
-	
 	/**
 	 * Le contructeur de camera prend la carte un indice de deplacement x et y.
 	 *
@@ -40,8 +35,7 @@ public class Camera implements IConfig {
 	 */
 	public Camera(Carte c, int dx, int dy) {
 		this.c = c ;
-		this.dx = dx;
-		this.dy = dy;
+		this.delta = new Position(dx, dy);
 		this.centreCamera();
 	}
 	
@@ -49,23 +43,23 @@ public class Camera implements IConfig {
 	 * Verification que le deplacement ne sorte pas de la carte.
 	 */ 
 	public void estValideDeplacement() {
-		if(dx < 0) 
-			dx = 0;
-		else if(dx > LARGEUR_CARTE_CASE - LARGEUR_CASE_VISIBLE)
-			dx = LARGEUR_CARTE_CASE - LARGEUR_CASE_VISIBLE;
+		if(this.getDx() < 0) 
+			this.setDx(0);
+		else if(this.getDx() > LARGEUR_CARTE_CASE - LARGEUR_CASE_VISIBLE)
+			this.setDx(LARGEUR_CARTE_CASE - LARGEUR_CASE_VISIBLE);
 		
-		if(dy < 0) 
-			dy = 0;
-		else if(dy > HAUTEUR_CARTE_CASE - HAUTEUR_CASE_VISIBLE)	
-			dy = HAUTEUR_CARTE_CASE - HAUTEUR_CASE_VISIBLE;
+		if(this.getDy() < 0) 
+			this.setDy(0);
+		else if(this.getDy() > HAUTEUR_CARTE_CASE - HAUTEUR_CASE_VISIBLE)	
+			this.setDy(HAUTEUR_CARTE_CASE - HAUTEUR_CASE_VISIBLE);
 	}
 	
 	/**
 	 * Positionement de la camera au centre de notre carte.
 	 */
 	private void centreCamera() {
-		dx = LARGEUR_CASE_VISIBLE/2;    
-		dy = HAUTEUR_CASE_VISIBLE/2;
+		this.setDx(LARGEUR_CASE_VISIBLE/2);
+		this.setDy(HAUTEUR_CASE_VISIBLE/2);
 		estValideDeplacement();
 	}
 	
@@ -76,8 +70,7 @@ public class Camera implements IConfig {
 	 * @param y : int
 	 */
 	public void deplacement(int x, int y) {
-		dx += x;
-		dy += y;
+		this.delta.translater(x, y);
 		estValideDeplacement();
 	}
 	
@@ -86,26 +79,26 @@ public class Camera implements IConfig {
 	 *
 	 * @return dx : int
 	 */
-	public int getDx() { return dx; }
+	public int getDx() { return this.delta.getX(); }
 	
 	/**
 	 * Recuperation de la valeur de deplacment en Y.
 	 *
 	 * @return dy : int
 	 */
-	public int getDy() { return dy; }
+	public int getDy() { return this.delta.getY(); }
 	
 	/**
 	 * Modification de la valeur de deplacement X.
 	 *
 	 * @param dx : int
 	 */
-	public void setDx(int dx) { this.dx = dx; }
+	public void setDx(int dx) { this.delta.setX(dx); }
 	
 	/**
 	 * Modification de la valeur de deplacement en Y.
 	 *
 	 * @param dy : int
 	 */
-	public void setDy(int dy) { this.dy = dy; }
+	public void setDy(int dy) { this.delta.setY(dy); }
 }
