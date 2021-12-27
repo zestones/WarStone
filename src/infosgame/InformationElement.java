@@ -10,21 +10,21 @@
 package infosgame;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 
 import element.Element;
 import element.Soldat;
-import wargame.IConfig;
+import fenetrejeu.IFenetre;
 
 /**
  * The Class InformationElement.
  *
  * @author pc
  */
-public abstract class InformationElement extends JPanel implements IConfig {
+public abstract class InformationElement implements IFenetre {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -34,8 +34,12 @@ public abstract class InformationElement extends JPanel implements IConfig {
 	 *
 	 * @param e the e
 	 */
-	public void dessineInfosElement(Element e) {
-		
+	public static void dessineInfosElement(Element e) {
+		if(e == null) {
+			supprimeInfos();
+			return;
+		}
+			
 		Image img = e.getImage().getScaledInstance(LARGEUR_ICON_ELEMENT, HAUTEUR_ICON_ELEMENT, Image.SCALE_SMOOTH);
 		ImageIcon imgIcon = new ImageIcon(img);
 		
@@ -55,5 +59,13 @@ public abstract class InformationElement extends JPanel implements IConfig {
 		infosElementPanel.add(infosElementHeader, BorderLayout.NORTH);
 
 		infosElementPanel.repaint();
+	}
+	
+	private static void supprimeInfos() {
+		iconPanel.removeAll();
+		iconPanel.revalidate();
+		iconPanel.setPreferredSize(new Dimension(LARGEUR_ICON_ELEMENT, HAUTEUR_ICON_ELEMENT));
+		iconInfosLabel.setText("");
+		infosElementHeader.repaint();
 	}
 }

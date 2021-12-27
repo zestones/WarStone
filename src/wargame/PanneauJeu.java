@@ -9,7 +9,6 @@
  * ******************************************************************/
 package wargame;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -19,17 +18,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.plaf.basic.BasicArrowButton;
 
 import carte.Camera;
 import carte.Carte;
 import element.Element;
 import element.Heros;
+import fenetrejeu.IFenetre;
+import fenetrejeu.menubar.MenuBarHeader;
 import infosgame.Fleche;
 import infosgame.InformationElement;
 import infosgame.MiniCarte;
@@ -42,59 +39,28 @@ import utile.Sauvegarde;
 /**
  * The Class PanneauJeu.
  */
-public class PanneauJeu extends InformationElement implements IConfig, ISprite {
-	
-	/** The Constant serialVersionUID. */
+public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	private static final long serialVersionUID = 1L;
 
-	/** The camera droite. */
-	private JButton sauvegarde, reprendre, restart,cameraBas,cameraHaut,cameraGauche, cameraDroite;
-	
-	/** The clic dragged. */
 	public Position clic, lastClic, clicDragged;
-	
-	/** The released clic. */
 	private Position draggedCam, releasedClic;
-	
 	private SpriteController spriteController;
-	
-	/** The nombre monstre. */
 	public int tour,nombreHeros, nombreMonstre;
-	
-	/** The dessine fleche. */
 	private boolean dessineFleche;
-	
 	public boolean estFiniAction;
-	
 	private Fleche flecheDirectionnelle;
-	/** The heros selectione. */
 	public Heros herosSelectione;
-	
-	/** The survol. */
 	private	Position survol;
-	
-	/** boutton fin tour. */
-	public JButton finTour;
-	
-	/** element */
 	private	Element elem;
-	
 	public int lastTour;
-	
-	/** label top. */
-	private JLabel  top; 
-	
-	/** la camera. */
 	public Camera cam;
-	
-	/** Carte */
 	public Carte c;
 
 	
 	/**
 	 * Instantiates a new panneau jeu.
 	 */
-	PanneauJeu(){ 
+	public PanneauJeu(){ 
 		this.c = new Carte();
 		this.cam = new Camera(c, 0, 0);
 		
@@ -108,72 +74,18 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 		this.estFiniAction = true;
 
 		this.spriteController = new SpriteController(this);
+			
+		new MenuBarHeader();
 		
-		this.creationElementPanneau();	
+		this.creationElementPanneau();
+		
 		this.gestionEvenement();
 		
 		c.nombreSoldatVivant(this);
 	} 
 		
-	/**
-	 * Creation element panneau.
-	 */
+	// FOOTER A Garder ?
 	private void creationElementPanneau() {
-				
-		finTour = new JButton("End Turn");   
-		finTour.setSize(BOUTTON_LARGEUR, BOUTTON_HAUTEUR);
-		finTour.setVisible(true);
-        menuBar.add(finTour);
- 		
-        top = new JLabel("", SwingConstants.CENTER); 
-		top.setBackground(COULEUR_MENUBAR);
-		top.setOpaque(true); 
-		this.top.setFont(new Font("Arial", Font.BOLD, 13));
-		this.top.setForeground(Color.WHITE);
-		menuBar.add(top); 
-		
-		sauvegarde = new JButton("Save");   
-		sauvegarde.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
-		sauvegarde.setVisible(true);
-		menuBar.add(sauvegarde);
-		
-		reprendre = new JButton("Resume");   
-		sauvegarde.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
-		sauvegarde.setVisible(true);
-		menuBar.add(reprendre);
-		
-		restart = new JButton("ReStart");   
-		restart.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
-		restart.setVisible(true);
-		menuBar.add(restart);
-		
-		JPanel fleche = new JPanel(new BorderLayout());
-		// Boutton descend Camera 
-		cameraBas = new BasicArrowButton(BasicArrowButton.SOUTH);
-//		cameraBas.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
-		cameraBas.setVisible(true);
-		fleche.add(cameraBas, BorderLayout.SOUTH);
-		
-		// Boutton descend Camera 
-		cameraHaut = new BasicArrowButton(BasicArrowButton.NORTH);
-//		cameraHaut.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
-		cameraHaut.setVisible(true);
-		fleche.add(cameraHaut, BorderLayout.NORTH);
-		
-		// Boutton descend Camera 
-		cameraGauche = new BasicArrowButton(BasicArrowButton.WEST);
-//		cameraGauche.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
-		cameraGauche.setVisible(true);
-		fleche.add(cameraGauche, BorderLayout.WEST);
-		
-		// Boutton descend Camera 
-		cameraDroite = new BasicArrowButton(BasicArrowButton.EAST); 
-//		cameraDroite.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
-		cameraDroite.setVisible(true);
-		fleche.add(cameraDroite, BorderLayout.EAST);
-		
-		menuBar.add(fleche);
-				
 		footer.setBackground(COULEUR_FOOTER);
 		footer.setPreferredSize(new Dimension(FOOTER_LARGEUR, FOOTER_HAUTEUR));
 		footer.setOpaque(true);
@@ -286,7 +198,9 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 						return;	
 					
 					elem = c.getElement(clic);
-			
+					
+					InformationElement.dessineInfosElement(elem);
+					
 					// Si on a Selectionnee un heros et que l'on a effectuer un clic autre part alors on appelle jouerSoldat
 					if(elem instanceof Heros && estFiniAction) {
 						herosSelectione = (Heros)elem;
@@ -404,15 +318,14 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 		// CHANGER LARGEUR_CASE_VISIBLE <--> LARGEUR_CARTE_CASE_VISIBLE 
 		// 	|-> dans le cas ou la carte visible est couper (i.e la derniere case visible est calculer invisible mais visible a moitier sur l ecran)
 		//  | --> si un monstrer est a la portee d'un hero dans cette partie alors seule les case a sa portee seront dessiner
-		g.drawImage(grass, 0, 0, NB_PIX_CASE * LARGEUR_CARTE_CASE, NB_PIX_CASE * HAUTEUR_CARTE_CASE, null);
+		g.drawImage(grass, 0, 0, NB_PIX_CASE * LARGEUR_CASE_VISIBLE, NB_PIX_CASE * HAUTEUR_CASE_VISIBLE, null);
 		
 		this.c.toutDessiner(g, cam);
 		
 		// Affichage du label dans le menuBar
-		this.top.setText("Il reste " + nombreHeros + " Heros et " + nombreMonstre + " Monstres !");
+		top.setText("Il reste " + nombreHeros + " Heros et " + nombreMonstre + " Monstres !");
 		
 		soldatRestant.setText("" + nombreHeros + " Heros VS " + nombreMonstre + " Monstre");
-		if(elem != null) dessineInfosElement(elem);
 		
 		// Affichage du label en bas de la fenetre
 		if(this.elem != null)

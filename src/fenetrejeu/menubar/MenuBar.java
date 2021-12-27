@@ -7,7 +7,7 @@
  * 																	*
  * 														wargame		*
  * ******************************************************************/
-package wargame;
+package fenetrejeu.menubar;
 
 import java.awt.Image;
 import java.awt.event.KeyEvent;
@@ -17,10 +17,12 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import fenetrejeu.IFenetre;
+
 /**
  * The Class MenuBar.
  */
-public class MenuBar implements IConfig {
+public class MenuBar implements IFenetre {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;

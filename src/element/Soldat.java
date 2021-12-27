@@ -17,7 +17,6 @@ import carte.Carte;
 import sprite.SpriteInitializer;
 import sprite.SpriteSheet;
 import utile.Position;
-import utile.Position.POINT_CARDINAUX;
 
 public abstract class Soldat extends Element implements ISoldat, Cloneable{
 	private static final long serialVersionUID = 1L;
@@ -36,7 +35,6 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     
     protected int deplacementX;
 	protected int deplacementY;
-	protected POINT_CARDINAUX direction;
 	
     public boolean activeDeplacement;
    
@@ -51,9 +49,7 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
         this.deplacement = false;
         this.activeDeplacement = false;    
         this.deplacementX = 0;
-        this.deplacementY = 0;
-        this.direction = POINT_CARDINAUX.MILIEU;
-        
+        this.deplacementY = 0;        
     }
     
    public void seDeplace(Position nouvPos) {
@@ -141,47 +137,16 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     	
     	BufferedImage sprite = this.dernierSprite.getSprite(spriteEngine.getCycleProgress()); 
 		g.drawImage(sprite, (this.pos.getX() * NB_PIX_CASE) - dx + this.deplacementX, (this.pos.getY() * NB_PIX_CASE) - dy + this.deplacementY, NB_PIX_CASE, NB_PIX_CASE, null);
+	
 		this.effectuerDeplacement();
-		this.finDeplacement();
     }
     
     private void effectuerDeplacement() {
     	if(this.activeDeplacement) {
-			switch(this.direction) {
-			case NORD: 
-				this.deplacementY -= 1;
-				break;
-			case NORD_OUEST:
-    			this.deplacementX -= 1;
-				this.deplacementY -= 1;
-				break;
-			case OUEST:
-				this.deplacementX -= 1;
-				break;
-			case SUD_OUEST:
-				this.deplacementX -= 1;
-				this.deplacementY += 1;
-				break;
-			case SUD:
-				this.deplacementY += 1;
-				break;
-			case SUD_EST:
-				this.deplacementX += 1;
-				this.deplacementY += 1;
-				break;
-			case EST:
-				this.deplacementX += 1;
-				break;
-			case NORD_EST:					
-				this.deplacementX += 1;
-				this.deplacementY -= 1;
-				break;
-			default: 
-				this.deplacementX = 0;
-				this.deplacementY = 0;
-				break;
-			}
-		}
+    		this.deplacementX += this.nouvellePos.getX() - this.getPosition().getX();
+    		this.deplacementY += this.nouvellePos.getY() - this.getPosition().getY();
+    		this.finDeplacement();
+    	}
     }
     
     private void finDeplacement() {
@@ -192,7 +157,6 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
 		}
     }
     
-    
     public void changeSprite(Graphics g, Position clic, Camera cam) {   	
     	if(clic == null)
     		return;
@@ -202,12 +166,10 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     		this.dernierSprite = this.soldatSprite.spriteStandByDroite;
     	}
     	   	
-    	if(this.combat == false && this.deplacement == false) {
+    	if(this.combat == false && this.deplacement == false)
     		this.setStandBySprite(clic);
-    	}
-    	else if (this.combat == true){
+    	else if (this.combat == true)
     		this.setAttackSprite(clic);
-    	}
     	else if(this.deplacement == true) {
     		this.setDeplacementSprite(clic);
     		this.activeDeplacement = true;
@@ -245,42 +207,24 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     
     private void setDeplacementSprite(Position clic) {
     	switch(clic.getPositionCardinal(this.getPosition())) {
-		case NORD: 
-			this.dernierSprite = this.soldatSprite.spriteDeplaceHaut;
-			this.direction = POINT_CARDINAUX.NORD;
-			break;
-		case NORD_OUEST:
-			this.dernierSprite = this.soldatSprite.spriteDeplaceGauche;
-			this.direction = POINT_CARDINAUX.NORD_OUEST;
-			break;
-		case OUEST:
-			this.dernierSprite = this.soldatSprite.spriteDeplaceGauche;
-			this.direction = POINT_CARDINAUX.OUEST;
-			break;
-		case SUD_OUEST:
-			this.dernierSprite = this.soldatSprite.spriteDeplaceGauche;
-			this.direction = POINT_CARDINAUX.SUD_OUEST;
-			break;
-		case SUD:
-			this.dernierSprite = this.soldatSprite.spriteDeplaceBas;
-			this.direction = POINT_CARDINAUX.SUD;
-			break;
-		case SUD_EST:
-			this.dernierSprite = this.soldatSprite.spriteDeplaceDroite;
-		this.direction = POINT_CARDINAUX.SUD_EST;
-			break;
-		case EST:
-			this.dernierSprite = this.soldatSprite.spriteDeplaceDroite;
-			this.direction = POINT_CARDINAUX.EST;
-			break;
-		case NORD_EST:					
-			this.dernierSprite = this.soldatSprite.spriteDeplaceDroite;
-			this.direction = POINT_CARDINAUX.NORD_EST;
-			break;
-		default: 
-			this.dernierSprite = this.soldatSprite.spriteStandByBas;
-			this.direction = POINT_CARDINAUX.MILIEU;
-			break;
+		case NORD: this.dernierSprite = this.soldatSprite.spriteDeplaceHaut;
+		break;
+		case NORD_OUEST: this.dernierSprite = this.soldatSprite.spriteDeplaceGauche;
+		break;
+		case OUEST: this.dernierSprite = this.soldatSprite.spriteDeplaceGauche;
+		break;
+		case SUD_OUEST: this.dernierSprite = this.soldatSprite.spriteDeplaceGauche;
+		break;
+		case SUD: this.dernierSprite = this.soldatSprite.spriteDeplaceBas;
+		break;
+		case SUD_EST: this.dernierSprite = this.soldatSprite.spriteDeplaceDroite;
+		break;
+		case EST: this.dernierSprite = this.soldatSprite.spriteDeplaceDroite;
+		break;
+		case NORD_EST: this.dernierSprite = this.soldatSprite.spriteDeplaceDroite;
+		break;
+		default: this.dernierSprite = this.soldatSprite.spriteStandByBas;
+		break;
     	}
     }
     

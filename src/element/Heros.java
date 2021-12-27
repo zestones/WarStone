@@ -175,12 +175,11 @@ public class Heros extends Soldat {
 
 	public int getIndexSoldat() { return carte.listeHeros.indexOf(this); }
 	public int getPointsMax() { return this.h.getPoints(); }
-	public void mort(int index) { carte.listeHeros.remove(index); }
-    public String toString() {
-    	return this.getPosition().toString() + " " + this.h.name() + " " + this.nom + " (" + this.h.getPoints() + "PV /" + this.getPoints() + ")";
-    }
-    
+	public void mort(int index) { carte.listeHeros.remove(index); }  
     public String getSprite() { return h.getSprite(); }
 	public Image getImage() {return this.h.getImage(); }
 	public String getType() { return ""+this.h.name(); }
+	public String toString() {
+		return this.getPosition().toString() + " " + this.h.name() + " " + this.nom + " (" + this.h.getPoints() + "PV /" + this.getPoints() + ")";
+	}
 }

@@ -7,7 +7,7 @@
  * 																	*
  * 														wargame		*
  * ******************************************************************/
-package wargame;
+package fenetrejeu;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -20,13 +20,15 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
+import fenetrejeu.menubar.MenuBar;
 import infosgame.MiniCarte;
+import wargame.PanneauJeu;
 
 
 /**
  * The Class FenetreJeu.
  */
-public class FenetreJeu extends JFrame implements IConfig{
+public class FenetreJeu extends JFrame implements IFenetre{
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;	
@@ -156,6 +158,7 @@ public class FenetreJeu extends JFrame implements IConfig{
 		
 		// panel contenant l'icon
 		iconPanel.setBackground(COULEUR_GRILLE);
+		iconPanel.setPreferredSize(new Dimension(LARGEUR_ICON_ELEMENT, HAUTEUR_ICON_ELEMENT));
 		iconPanel.setBorder(new LineBorder(COULEUR_BORDURE, 2, true));
 		
 		// Taille du label contenant l'icon

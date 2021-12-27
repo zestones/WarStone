@@ -9,18 +9,10 @@
  * ******************************************************************/
 package wargame;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 /**
  * The Interface IConfig.
@@ -31,57 +23,28 @@ public interface IConfig extends java.io.Serializable {
 	// Definir le NB ELEMENT sur la carte
 	int NB_HEROS = 5; 
 	/** The nb monstres. */
-	int NB_MONSTRES = 6; 
+	int NB_MONSTRES = 0; 
 	/** The nb obstacles. */
 	int NB_OBSTACLES = 4;
 
-	/** The couleur inconnu. */
-	// Parametre de dessin 
 	Color COULEUR_VIDE = Color.white, COULEUR_INCONNU = Color.lightGray;
-	
-	/** The couleur monstre. */
 	Color COULEUR_TEXTE = Color.black, COULEUR_MONSTRE = new Color(0, 0, 0, 60);
-	
-	/** The couleur heros deja joue. */
 	Color COULEUR_HEROS = Color.red, COULEUR_HEROS_DEJA_JOUE = new Color(175, 25, 75, 100);
-	
-	/** The couleur rocher. */
 	Color COULEUR_EAU = Color.blue, COULEUR_FORET = Color.green, COULEUR_ROCHER = Color.gray;
-	
-	/** The couleur grille. */
 	Color COULEUR_GRILLE = Color.black; 
-	/** The couleur menubar. */
 	Color COULEUR_MENUBAR = Color.gray; 
-	/** The couleur footer. */
 	Color COULEUR_FOOTER = Color.black;
-	
-	/** The couleur portee. */
 	Color COULEUR_DEPLACEMENT = new Color(75, 25, 75, 100), COULEUR_PORTEE = new Color(20, 25, 25, 100);
-	
-	/** The couleur vie v. */
 	Color COULEUR_VIE_R = Color.red, COULEUR_VIE_V = Color.green;
-	
-	/** The couleur amis. */
 	Color COULEUR_ENEMIS = new Color(255, 10, 20, 50), COULEUR_AMIS = new Color(20,200,10,50); 
-	
-	/** The couleur infos panel. */
 	Color COULEUR_INFOS_PANEL = new Color(88, 41, 0);
-	
-	/** The couleur bordure. */
 	Color COULEUR_BORDURE = Color.white;
-	
-	/** The couleur focus. */
 	Color COULEUR_FOCUS = new Color(145, 145, 145, 95);
 	
-	/** The grass. */
-	// Les images 
 	Image grass = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/grass.png");
-	
-	/** The range. */
 	Image range = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/range.jpg");
-	
-	/** The fleche. */
 	Image fleche = Toolkit.getDefaultToolkit().getImage("./res/img/pops/arrow.png");
+	
 	
 	Dimension taille = Toolkit.getDefaultToolkit().getScreenSize();	
 //	(int)taille.getWidth();
@@ -94,10 +57,6 @@ public interface IConfig extends java.io.Serializable {
 	/** The fen hauteur. */
 	final int FEN_HAUTEUR = 800;
 
-	/** The position x. */
-	int POSITION_X = 100; 
-	/** The position y. */
-	int POSITION_Y = 50; 
 
 	/** The nb pix case. */
 	// Taille d'une case de la carte
@@ -110,20 +69,6 @@ public interface IConfig extends java.io.Serializable {
 	/** The padding vie case. */
 	int PADDING_VIE_CASE = PADDING_VIE_CASE_LARGEUR/2;
 		
-	/** The menubar hauteur. */
-	/* Variable Menu */
-	final int MENUBAR_HAUTEUR = 65;
-	
-	/** The menubar largeur. */
-	final int MENUBAR_LARGEUR = FEN_LARGEUR;
-	
-	/** The footer hauteur. */
-	/* Variable footer */
-	final int FOOTER_HAUTEUR = 30;
-	
-	/** The footer largeur. */
-	final int FOOTER_LARGEUR = FEN_LARGEUR;
-	
 	// HAUTEUR et LARGEUR de la carte en NB DE CASE 
 	/** The hauteur carte case. */
 	// definit la taille en dehors de la fenetre si trop de case
@@ -182,56 +127,9 @@ public interface IConfig extends java.io.Serializable {
 	/** The largeur icon element. */
 	int LARGEUR_ICON_ELEMENT = HAUTEUR_ICON_ELEMENT;
 	
-	/** The boutton hauteur. */
-	/* Variable du Boutton */
-	final int BOUTTON_HAUTEUR = MENUBAR_HAUTEUR/2;
-	
-	/** The boutton largeur. */
-	final int BOUTTON_LARGEUR = MENUBAR_LARGEUR/6;
-	
 	/** The largeur case visible. */
 	int LARGEUR_CASE_VISIBLE = (LARGEUR_CARTE / NB_PIX_CASE);
 	
 	/** The hauteur case visible. */
-	int HAUTEUR_CASE_VISIBLE = (HAUTEUR_CARTE / NB_PIX_CASE);
-	
-	/** The Constant frame. */
-	// Parametre dessin de la fenetre
-	public static final JFrame frame = new JFrame("WarStone");	
-	
-	/** The Constant menuBar. */
-	// MenuBar Principal contenant les bouton
-	public static final JMenuBar menuBar = new JMenuBar();
-	
-	/** The Constant footer. */
-	public static final JLabel footer = new JLabel("", SwingConstants.CENTER);	
-	
-	/** The icon infos label. */
-	// infos sur les elements clique
-	public JLabel iconInfosLabel = new JLabel();
-	
-	/** The icon label. */
-	// Image pour les elements clique
-	public JLabel iconLabel = new JLabel();
-	
-	/** The icon panel. */
-	// Conteneur de l'img de l'element clique
-	public JPanel iconPanel = new JPanel();
-	
-	/** The infos element header. */
-	// Panel qui contient les l'icon et les infos sur l'element cliquer
-	JPanel infosElementHeader = new JPanel(new BorderLayout());
-	
-	/** The infos element panel. */
-	// Conteneur principal des infos sur les elements
-	public JPanel infosElementPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, PADDING_INFOS_PANEL, PADDING_INFOS_PANEL));
-
-	/** The soldat restant. */
-	// Label pour Nombre de soldat restant
-	JLabel soldatRestant = new JLabel();	
-	
-	/** The carte miniature. */
-	// Panel contenant la carte miniature
-	JPanel carteMiniature = new JPanel();
-
+	int HAUTEUR_CASE_VISIBLE = (HAUTEUR_CARTE / NB_PIX_CASE);	
 }
