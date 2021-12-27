@@ -18,9 +18,8 @@ import sprite.SpriteInitializer;
 import sprite.SpriteSheet;
 import utile.Position;
 import utile.Position.POINT_CARDINAUX;
-import wargame.IConfig;
 
-public abstract class Soldat extends Element implements ISoldat, IConfig, Cloneable{
+public abstract class Soldat extends Element implements ISoldat, Cloneable{
 	private static final long serialVersionUID = 1L;
 	private final int POINTS_DE_VIE_MAX, PUISSANCE, TIR, PORTEE_VISUELLE;
    

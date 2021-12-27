@@ -29,11 +29,11 @@ public interface IConfig extends java.io.Serializable {
 	
 	/** The nb heros. */
 	// Definir le NB ELEMENT sur la carte
-	int NB_HEROS = 4; 
+	int NB_HEROS = 5; 
 	/** The nb monstres. */
-	int NB_MONSTRES = 3; 
+	int NB_MONSTRES = 6; 
 	/** The nb obstacles. */
-	int NB_OBSTACLES = 3;
+	int NB_OBSTACLES = 4;
 
 	/** The couleur inconnu. */
 	// Parametre de dessin 
@@ -88,11 +88,11 @@ public interface IConfig extends java.io.Serializable {
 //	(int)taille.getHeight();
 	
 	/** The fen largeur. */
-// HAUTEUR et LARGEUR de la Fenetre
-	final int FEN_LARGEUR = (int)taille.getWidth();;
+	// HAUTEUR et LARGEUR de la Fenetre
+	final int FEN_LARGEUR = 1000;
 	
 	/** The fen hauteur. */
-	final int FEN_HAUTEUR = (int)taille.getHeight();;
+	final int FEN_HAUTEUR = 800;
 
 	/** The position x. */
 	int POSITION_X = 100; 

@@ -39,8 +39,8 @@ public class FenetreJeu extends JFrame implements IConfig{
 		frame.setSize(FEN_LARGEUR, FEN_HAUTEUR);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		frame.setUndecorated(true);
+//		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+//		frame.setUndecorated(true);
 
 		// Creation du menu qui contiendra les bouttons
 		menuBar.setBackground(COULEUR_MENUBAR); 
@@ -58,7 +58,7 @@ public class FenetreJeu extends JFrame implements IConfig{
         // On ajoute le menu a notre HEADER
         header.add(menuBar, BorderLayout.CENTER);
         
-     // Creation du panel principal qui contient la carte
+        // Creation du panel principal qui contient la carte
     	JPanel panel = new JPanel();
     	
 		

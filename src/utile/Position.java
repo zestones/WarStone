@@ -24,7 +24,19 @@ public class Position implements IConfig {
 	/**  x, y. */
 	public int x, y;
 	
-	public enum POINT_CARDINAUX {NORD, SUD, EST, OUEST, NORD_EST, NORD_OUEST, SUD_EST, SUD_OUEST, MILIEU};
+	/**
+	 * The Enum POINT_CARDINAUX.
+	 */
+	public enum POINT_CARDINAUX {/** The nord. */
+NORD, /** The sud. */
+ SUD, /** The est. */
+ EST, /** The ouest. */
+ OUEST, /** The nord est. */
+ NORD_EST, /** The nord ouest. */
+ NORD_OUEST, /** The sud est. */
+ SUD_EST, /** The sud ouest. */
+ SUD_OUEST, /** The milieu. */
+ MILIEU};
 	
 	/** sam aligne. */
 	private static final int SAM_ALIGNE = 1;
@@ -145,6 +157,12 @@ public class Position implements IConfig {
 		return SAM_ALIGNE;	
 	}
 	
+	/**
+	 * Gets position cardinal.
+	 *
+	 * @param pos the pos
+	 * @return pointCardinal
+	 */
 	public POINT_CARDINAUX getPositionCardinal(Position pos) {
 		if(this.getX() == pos.getX() && this.getY() < pos.getY()) {
 			return POINT_CARDINAUX.NORD;

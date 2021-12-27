@@ -17,12 +17,11 @@ import java.awt.Toolkit;
 import carte.Camera;
 import carte.Carte;
 import utile.Position;
-import wargame.IConfig;
 
 /**
  * The Class Obstacle.
  */
-public class Obstacle extends Element implements IConfig {
+public class Obstacle extends Element{
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;

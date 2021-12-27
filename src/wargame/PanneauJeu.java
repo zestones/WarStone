@@ -9,13 +9,11 @@
  * ******************************************************************/
 package wargame;
 
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -32,6 +30,7 @@ import carte.Camera;
 import carte.Carte;
 import element.Element;
 import element.Heros;
+import infosgame.Fleche;
 import infosgame.InformationElement;
 import infosgame.MiniCarte;
 import sprite.ISprite;
@@ -51,26 +50,25 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 	/** The camera droite. */
 	private JButton sauvegarde, reprendre, restart,cameraBas,cameraHaut,cameraGauche, cameraDroite;
 	
-	/** The nombre monstre. */
-	public int tour,nombreHeros, nombreMonstre;
-	
-	public int lastTour;
-	
 	/** The clic dragged. */
 	public Position clic, lastClic, clicDragged;
 	
 	/** The released clic. */
 	private Position draggedCam, releasedClic;
 	
+	private SpriteController spriteController;
+	
+	/** The nombre monstre. */
+	public int tour,nombreHeros, nombreMonstre;
+	
 	/** The dessine fleche. */
 	private boolean dessineFleche;
 	
 	public boolean estFiniAction;
 	
+	private Fleche flecheDirectionnelle;
 	/** The heros selectione. */
 	public Heros herosSelectione;
-	
-	private SpriteController spriteController;
 	
 	/** The survol. */
 	private	Position survol;
@@ -80,6 +78,8 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 	
 	/** element */
 	private	Element elem;
+	
+	public int lastTour;
 	
 	/** label top. */
 	private JLabel  top; 
@@ -97,8 +97,10 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 	PanneauJeu(){ 
 		this.c = new Carte();
 		this.cam = new Camera(c, 0, 0);
-		this.tour = 0;
 		
+		this.flecheDirectionnelle = new Fleche(cam);
+		
+		this.tour = 0;
 		this.herosSelectione = null;		
 		
 		this.elem = null;
@@ -171,7 +173,6 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 		fleche.add(cameraDroite, BorderLayout.EAST);
 		
 		menuBar.add(fleche);
-
 				
 		footer.setBackground(COULEUR_FOOTER);
 		footer.setPreferredSize(new Dimension(FOOTER_LARGEUR, FOOTER_HAUTEUR));
@@ -287,9 +288,9 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 					elem = c.getElement(clic);
 			
 					// Si on a Selectionnee un heros et que l'on a effectuer un clic autre part alors on appelle jouerSoldat
-					if(elem instanceof Heros) {
+					if(elem instanceof Heros && estFiniAction) {
 						herosSelectione = (Heros)elem;
-						if(lastClic != null && estFiniAction)
+						if(lastClic != null)
 							c.jouerSoldats(pj);
 					}
 				}
@@ -377,76 +378,6 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 			}
 		});
 	}
-	
-	/**
-	 * Dessine fleche.
-	 *
-	 * @param g the g
-	 * @param x1 the x 1
-	 * @param y1 the y 1
-	 * @param x2 the x 2
-	 * @param y2 the y 2
-	 * @param d the d
-	 * @param h the h
-	 * @param clic the clic
-	 */
-	// https://stackoverflow.com/questions/2027613/how-to-draw-a-directed-arrow-line-in-java
-	private void dessineFleche(Graphics g, int x1, int y1, int x2, int y2, int d, int h, Position clic) {
-	    int dx = x2 - x1, dy = y2 - y1;
-	    double D = Math.sqrt(dx*dx + dy*dy);
-	    double xm = D - d, xn = xm, ym = h, yn = -h, x;
-	    double sin = dy / D, cos = dx / D;
-	    	    
-	    x = xm*cos - ym*sin + x1;
-	    ym = xm*sin + ym*cos + y1;
-	    xm = x;
-
-	    x = xn*cos - yn*sin + x1;
-	    yn = xn*sin + yn*cos + y1;
-	    xn = x;
-
-	    int[] xpoints = {x2, (int) xm, (int) xn};
-	    int[] ypoints = {y2, (int) ym, (int) yn};
-
-
-	    // On recupre les positions des point X2, Y2
-	    // Pour enlever le bout de ligne debordant de la fleche
-	    int Cx = x2 / NB_PIX_CASE + cam.getDx(); 
-	    int Cy = y2 / NB_PIX_CASE + cam.getDy();
-	    	
-	    // On recupere la distance entre les deux point   
-	    Position pos2 = new Position((x1/NB_PIX_CASE + cam.getDx()), (y1/NB_PIX_CASE + cam.getDy()));
-	    Position pos1 = new Position(Cx, Cy);
-	    
-	    int distance = (int) pos1.distance(pos2);
-	    
-	    // SetStroke utilisable uniquement avec Graphicd2D
-	    Graphics2D g2 = (Graphics2D) g;
-	    g2.setStroke(new BasicStroke(2));
-	    
-	    g.setColor(COULEUR_EAU);
-	    // On recalcule le deuxieme point de la ligne de la fleche pour qu'il soit centre
-	    if(clic.getX() < Cx && clic.getY() == Cy) x2 -= d;
-	    else if(clic.getX() > Cx && clic.getY() == Cy) x2 += d;
-	    if(clic.getX() == Cx && clic.getY() > Cy) y2 += d;
-	    else if(clic.getX() == Cx && clic.getY() < Cy) y2 -= d;
-	    if(clic.getX() > Cx && clic.getY() < Cy) {
-	    	x2 += d/(distance+1); y2 -= d/(distance+1);
-	    }
-	    else if(clic.getX() > Cx && clic.getY() > Cy) {
-	    	x2 += d/(distance+1); y2 += d/(distance+1);
-	    }
-	    else if(clic.getX() < Cx && clic.getY() < Cy) {
-	    	x2 -= d/(distance+1); y2 -= d/(distance+1);
-	    }
-	    else if(clic.getX() < Cx && clic.getY() > Cy) {
-	    	x2 -= d/(distance+1); y2 += d/(distance+1);
-	    }
-	    g.drawLine(x1, y1, x2, y2);
-	   
-	    g.fillPolygon(xpoints, ypoints, 3);
-	}
-
 
 	/**
 	 * Maj mini carte.
@@ -460,23 +391,6 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 		// Ajout de la nouvelle MiniCarte
 		carteMiniature.add(new MiniCarte(cam));
 	}
-	
-	/**
-	 * Dessine deplacement.
-	 *
-	 * @return true, if successful
-	 */
-	private boolean dessineDeplacement() {
-		// Si aucun heros est selectione est que dessine Fleche est true alors on dessine
-		if(herosSelectione == null && dessineFleche)
-			return true;
-		// Si on a selectione un heros on verifie que la position de draggedCam 
-		// ne se situe pas dans la zone de deplacement du heros
-		if(herosSelectione != null && dessineFleche)
-			if(!herosSelectione.getPosition().estVoisine(draggedCam))
-				return true;
-		return false;			
-	}	
 	
 	/**
 	 * Paint component.
@@ -513,9 +427,9 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 	    if(this.herosSelectione == null)
 	    	clicDragged = null;   
 	                
-	      // On verifie si on doit dessiner la fleche ou non
-	    if(dessineDeplacement()) 
-	    	dessineFleche(g, clic.getX() * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE + NB_PIX_CASE/2, 
+	    // On verifie si on doit dessiner la fleche ou non
+	    if(flecheDirectionnelle.estFlecheDessinable(herosSelectione, dessineFleche, draggedCam)) 
+	    	flecheDirectionnelle.dessineFleche(g, clic.getX() * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE + NB_PIX_CASE/2, 
 	    			clic.getY() * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE + NB_PIX_CASE/2, 
 	    			draggedCam.getX() * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE + NB_PIX_CASE/2, 
 	    			draggedCam.getY() * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE + NB_PIX_CASE/2, 

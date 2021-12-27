@@ -85,13 +85,12 @@ public class Heros extends Soldat {
     	
     	if(clicDragged != null && clicDragged.estVoisine(herosSelectione.getPosition()) && carte.getElement(clicDragged) == null)
     		g.drawImage(herosSelectione.dernierSprite.getSprite(spriteEngine.getCycleProgress()), clicDragged.getX() * NB_PIX_CASE - dx, clicDragged.getY() * NB_PIX_CASE - dy, NB_PIX_CASE, NB_PIX_CASE, null);
-		
-	}
+    }
 
 	private void dessineDeplacement(Graphics g, Camera cam){
     	int dx = cam.getDx() * NB_PIX_CASE;
     	int dy = cam.getDy() * NB_PIX_CASE;
-    
+    	
     	for(int i = -1; i < 2; i++)
     		for(int j = -1; j < 2; j++) {
     			if(i != 0 || j != 0) {

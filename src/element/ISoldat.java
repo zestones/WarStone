@@ -14,12 +14,11 @@ import java.awt.Toolkit;
 
 import sprite.ISprite;
 import utile.Position;
-import wargame.IConfig;
 	
 /**
  * The Interface ISoldat.
  */
-public interface ISoldat extends IConfig, ISprite{
+public interface ISoldat extends ISprite{
 	
 	/** The Elf miniature. */
 	//	Miniature des Heros
