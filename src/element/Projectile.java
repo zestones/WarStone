@@ -32,6 +32,8 @@ public class Projectile implements IConfig {
 	/** The arrive. */
 	private Position arrive;
 	
+	private int coeff;
+	
 	/** The toucher. */
 	public boolean toucher;
 	
@@ -45,6 +47,7 @@ public class Projectile implements IConfig {
 	Projectile(Position depart, Position arrive, Carte c){
 		this.origine = depart;
 		this.arrive = arrive;
+		this.coeff = (this.arrive.getY() - this.origine.getY()) / (this.arrive.getX() - this.origine.getX());
 		this.carte = c;
 		this.toucher = false;
 	}
@@ -54,14 +57,8 @@ public class Projectile implements IConfig {
 	 *
 	 * @param g the g
 	 */
-	void dessine(Graphics g) {
-		Position deplacement = this.origine;
-		while(this.origine != this.arrive){
-			if(this.carte.getElement(deplacement)instanceof Monstre) {
-				this.toucher = true;
-			}
-	    	g.drawImage(fleche, deplacement.getX() * NB_PIX_CASE, deplacement.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
-	    	deplacement = new Position(deplacement.getX() + 10, deplacement.getY());
-		}
+	void dessineProjectile(Graphics g) {
+		System.out.println("origine  " + this.origine.toString());
+		g.drawImage(grass, this.origine.getX() * NB_PIX_CASE, this.origine.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
 	}
 }

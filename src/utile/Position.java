@@ -22,13 +22,15 @@ public class Position implements IConfig {
 	private static final long serialVersionUID = 1L;
 	
 	/**  x, y. */
-	private int x, y;
+	public int x, y;
+	
+	public enum POINT_CARDINAUX {NORD, SUD, EST, OUEST, NORD_EST, NORD_OUEST, SUD_EST, SUD_OUEST, MILIEU};
 	
 	/** sam aligne. */
-	private int SAM_ALIGNE = 1;
+	private static final int SAM_ALIGNE = 1;
 	
 	/** siam. */
-	private int SIAM = -1; 
+	private static final int SIAM = -1; 
 	
 	/**
 	 * Instantiates a new position.
@@ -126,15 +128,15 @@ public class Position implements IConfig {
 	}
 		
 	/**
-	 * Signe angle.
+	 * Signe d'un angle.
+	 * 
+	 * Renvoie le signe de l'angle, SAM et ALIGNE renvoie le meme entier 
+	 * car le premier point de la zone du champ visuelle est le meme point que l'element chercher si la portee est egale a 1 
+	 * ou si l'element est adjacent a la limite de la portee 
 	 *
 	 * @param b b
 	 * @param c c
 	 * @return int
-	 */
-	/* Renvoie le signe de l'angle, SAM et ALIGNE renvoie le meme entier 
-	 * car le premier point de la zone du champ visuelle est le meme point que l'element chercher si la portee est egale a 1 
-	 * ou si l'element est adjacent a la limite de la portee 
 	 */
 	public int signeAngle(Position b, Position c) {
 		double angle = (b.getX() - this.getX()) * (c.getY() - this.getY()) - (c.getX() - this.getX()) * (b.getY() - this.getY());
@@ -142,4 +144,33 @@ public class Position implements IConfig {
 			return SIAM;
 		return SAM_ALIGNE;	
 	}
+	
+	public POINT_CARDINAUX getPositionCardinal(Position pos) {
+		if(this.getX() == pos.getX() && this.getY() < pos.getY()) {
+			return POINT_CARDINAUX.NORD;
+		}				
+		else if(this.getX() < pos.getX() && this.getY() < pos.getY()) {
+			return POINT_CARDINAUX.NORD_OUEST;
+		}
+		else if(this.getX() < pos.getX() && this.getY() == pos.getY() ) {
+			return POINT_CARDINAUX.OUEST;
+		}
+		else if(this.getX() < pos.getX() && this.getY() > pos.getY()) {
+			return POINT_CARDINAUX.SUD_OUEST;
+		}
+		else if(this.getX() == pos.getX() && this.getY() > pos.getY()) {
+			return POINT_CARDINAUX.SUD;
+		}
+		else if(this.getX() > pos.getX() && this.getY() > pos.getY()) {
+			return POINT_CARDINAUX.SUD_EST;
+		}
+		else if(this.getX() > pos.getX() && this.getY() == pos.getY()) {
+			return POINT_CARDINAUX.EST;
+		}
+		else if(this.getX() > pos.getX() && this.getY() < pos.getY()) {
+			return POINT_CARDINAUX.NORD_EST;
+		}
+		return POINT_CARDINAUX.MILIEU;
+	}
+	
 }

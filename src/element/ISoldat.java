@@ -251,6 +251,8 @@ public interface ISoldat extends IConfig, ISprite{
     * Combat.
     *
     * @param soldat the soldat
+    * @return true, if successful
     */
-   void combat(Soldat soldat);	
+   boolean combat(Soldat soldat);	
+
 }

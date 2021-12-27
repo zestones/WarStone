@@ -12,24 +12,33 @@ package carte;
 import wargame.IConfig;
 
 /**
- * 
- * @author Islem, Antoine, Idriss  
+ * The Class Camera.
  *
+ * @author Islem, Antoine, Idriss
  */
 public class Camera implements IConfig {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	/**
-	 * Definition de la class camera et ses des methodes 
-	 */
+	
+	/** Definition de la class camera et ses des methodes. */
 	public Carte c;
-	private int dx, dy;
+
+/**
+ * Recuperation de la valeur de deplacment en Y.
+ *
+ * @return dy : int
+ */
+	public int dx, dy;
+	
 	/**
 	 * Le contructeur de camera prend la carte un indice de deplacement x et y.
-	 * @param c
-	 * @param dx
-	 * @param dy
+	 *
+	 * @param c the c
+	 * @param dx the dx
+	 * @param dy the dy
 	 */
-	 	public Camera(Carte c, int dx, int dy) {
+	public Camera(Carte c, int dx, int dy) {
 		this.c = c ;
 		this.dx = dx;
 		this.dy = dy;
@@ -37,7 +46,7 @@ public class Camera implements IConfig {
 	}
 	
 	/**
-	 * Verification que le deplacement ne sorte pas de la carte  
+	 * Verification que le deplacement ne sorte pas de la carte.
 	 */ 
 	public void estValideDeplacement() {
 		if(dx < 0) 
@@ -52,7 +61,7 @@ public class Camera implements IConfig {
 	}
 	
 	/**
-	 * Positionement de la camera au centre de notre carte
+	 * Positionement de la camera au centre de notre carte.
 	 */
 	private void centreCamera() {
 		dx = LARGEUR_CASE_VISIBLE/2;    
@@ -61,7 +70,8 @@ public class Camera implements IConfig {
 	}
 	
 	/**
-	 *  Translatation des points
+	 *  Translatation des points.
+	 *
 	 * @param x : int
 	 * @param y : int
 	 */
@@ -70,23 +80,31 @@ public class Camera implements IConfig {
 		dy += y;
 		estValideDeplacement();
 	}
+	
 	/**
-	 * Recuperation de la valeur de deplacement en X
+	 * Recuperation de la valeur de deplacement en X.
+	 *
 	 * @return dx : int
 	 */
 	public int getDx() { return dx; }
+	
 	/**
-	 * Recuperation de la valeur de deplacment en Y
+	 * Recuperation de la valeur de deplacment en Y.
+	 *
 	 * @return dy : int
 	 */
 	public int getDy() { return dy; }
+	
 	/**
-	 * Modification de la valeur de deplacement X
-	 * @param dx : int 
+	 * Modification de la valeur de deplacement X.
+	 *
+	 * @param dx : int
 	 */
 	public void setDx(int dx) { this.dx = dx; }
+	
 	/**
-	 * Modification de la valeur de deplacement en Y
+	 * Modification de la valeur de deplacement en Y.
+	 *
 	 * @param dy : int
 	 */
 	public void setDy(int dy) { this.dy = dy; }

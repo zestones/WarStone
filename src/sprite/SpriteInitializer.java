@@ -22,47 +22,27 @@ import wargame.IConfig;
  * La Class SpriteInitializer.
  */
 public class SpriteInitializer implements IConfig, ISprite {
-
-	/** Constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
-	/** Le sprite stand by gauche. */
 	public transient SpriteSheet spriteStandByGauche;
-
-	/** Le sprite stand by droite. */
 	public transient SpriteSheet spriteStandByDroite;
-
-	/** Le sprite stand by haut. */
 	public transient SpriteSheet spriteStandByHaut;
-
-	/** Le sprite stand by bas. */
 	public transient SpriteSheet spriteStandByBas;
-
-	/** Le sprite attack gauche. */
+	
 	public transient SpriteSheet spriteAttackGauche;
-
-	/** Le sprite attack droite. */
 	public transient SpriteSheet spriteAttackDroite;
-
-	/** Le sprite attack haut. */
 	public transient SpriteSheet spriteAttackHaut;
-
-	/** Le sprite attack bas. */
 	public transient SpriteSheet spriteAttackBas;
-
-	/** Le sprite deplace gauche. */
+	
 	public transient SpriteSheet spriteDeplaceGauche;
+	public transient SpriteSheet spriteDeplaceDroite;
+	public transient SpriteSheet spriteDeplaceHaut;
+	public transient SpriteSheet spriteDeplaceBas;
 
-	/** soldat. */
 	private final Soldat soldat;
 
 	/**
-	 * Instantiates a new sprite initializer.
-	 *
-	 * @param s the s
-	 */
-	/*
-	 * On initialise le sprite pour chaque Heros lors de sa creation Si une partie
+	 * On initialise le sprite pour chaque soldat lors de sa creation Si une partie
 	 * est charge depuis une sauvegarde, on recharge les sprites en fonction du type
 	 * (Aucun sprite est enregistre dans la sauvegarde !)
 	 */
@@ -82,8 +62,13 @@ public class SpriteInitializer implements IConfig, ISprite {
 		spriteAttackHaut = initSprite(LIGNE_ATTACK_HAUT, NB_IMAGE_ATTACK);
 		spriteAttackBas = initSprite(LIGNE_ATTACK_BAS, NB_IMAGE_ATTACK);
 
-		spriteDeplaceGauche = initSprite(LIGNE_MOVE_GAUCHE, NB_IMAGE_MOVE);
+		spriteDeplaceGauche = initSprite(LIGNE_DEPLACEMENT_GAUCHE, NB_IMAGE_DEPLACEMENT);
+		spriteDeplaceDroite = initSprite(LIGNE_DEPLACEMENT_DROITE, NB_IMAGE_DEPLACEMENT);
+		
+		spriteDeplaceHaut = initSprite(LIGNE_DEPLACEMENT_HAUT, NB_IMAGE_DEPLACEMENT);
+		spriteDeplaceBas = initSprite(LIGNE_DEPLACEMENT_BAS, NB_IMAGE_DEPLACEMENT);
 
+		
 	}
 
 	/**
@@ -102,7 +87,7 @@ public class SpriteInitializer implements IConfig, ISprite {
 					.withSpriteSize(LARGEUR_IMAGE, HAUTEUR_IMAGE).withRows(ligne).withSpriteCount(nbImage).build();
 			spriteEngine.start();
 		} catch (final IOException ex) {
-			System.out.println(" Erreur Sptite Attack Left-> " + ex);
+			System.out.println(" Erreur Sprite Attack Left-> " + ex);
 			ex.printStackTrace();
 		}
 		return spriteSheet;

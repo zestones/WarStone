@@ -35,6 +35,7 @@ import element.Heros;
 import infosgame.InformationElement;
 import infosgame.MiniCarte;
 import sprite.ISprite;
+import sprite.SpriteController;
 import utile.Position;
 import utile.Sauvegarde;
 
@@ -51,7 +52,9 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 	private JButton sauvegarde, reprendre, restart,cameraBas,cameraHaut,cameraGauche, cameraDroite;
 	
 	/** The nombre monstre. */
-	public int tour, nombreHeros, nombreMonstre;
+	public int tour,nombreHeros, nombreMonstre;
+	
+	public int lastTour;
 	
 	/** The clic dragged. */
 	public Position clic, lastClic, clicDragged;
@@ -62,26 +65,31 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 	/** The dessine fleche. */
 	private boolean dessineFleche;
 	
+	public boolean estFiniAction;
+	
 	/** The heros selectione. */
 	public Heros herosSelectione;
+	
+	private SpriteController spriteController;
 	
 	/** The survol. */
 	private	Position survol;
 	
-	/** The fin tour. */
+	/** boutton fin tour. */
 	public JButton finTour;
 	
-	/** The elem. */
+	/** element */
 	private	Element elem;
 	
-	/** The top. */
+	/** label top. */
 	private JLabel  top; 
 	
-	/** The cam. */
+	/** la camera. */
 	public Camera cam;
 	
-	/** The c. */
+	/** Carte */
 	public Carte c;
+
 	
 	/**
 	 * Instantiates a new panneau jeu.
@@ -90,9 +98,14 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 		this.c = new Carte();
 		this.cam = new Camera(c, 0, 0);
 		this.tour = 0;
-		this.herosSelectione = null;			
+		
+		this.herosSelectione = null;		
+		
 		this.elem = null;
 		this.dessineFleche = false;
+		this.estFiniAction = true;
+
+		this.spriteController = new SpriteController(this);
 		
 		this.creationElementPanneau();	
 		this.gestionEvenement();
@@ -168,9 +181,8 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 	}
 		 
 	/**
-	 * Gestion evenement.
+	 * Gestion evenement : souris / boutton.
 	 */
-	/* Gestion des evenements : souris / boutton */
 	public void gestionEvenement() {
 		PanneauJeu pj = this;
 		// Actualisation des sprites
@@ -192,23 +204,26 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 				tour = 0;
 				herosSelectione = null;
 				elem = null;
-				c.nombreSoldatVivant(pj);
-				repaint();
 			}  
 		});  
 		 
 		// Boutton Fin de Tour 
 		finTour.addActionListener(new ActionListener(){  
-			public void actionPerformed(ActionEvent e){  			
-				if (tour == 0 )
-					tour = 1;
-				else 
-					tour = 0;
+			public void actionPerformed(ActionEvent e){
 				
+				System.out.println(estFiniAction);
+									
 				// On oublie le dernier heros selectionne
 				herosSelectione = null;
 				
-				c.jouerSoldats(pj); 
+				if(estFiniAction == true) {
+					tour = tour == 0 ? 1 : 0; 
+					spriteController.lanceSpriteAction(getGraphics());
+				}
+				
+//				System.out.println("----------liste  : ------------\n\n" +  c.listeActionSoldat);
+//				System.out.println("\n\n----------FIN-----------\n\n");
+				
 			}  
 		});  
 		
@@ -229,6 +244,8 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
     			
     			// Mise a jour de la miniCarte
 				majMiniCarte();
+				
+				frame.repaint();
     		}    		
     	});
 		
@@ -272,7 +289,7 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 					// Si on a Selectionnee un heros et que l'on a effectuer un clic autre part alors on appelle jouerSoldat
 					if(elem instanceof Heros) {
 						herosSelectione = (Heros)elem;
-						if(lastClic != null)
+						if(lastClic != null && estFiniAction)
 							c.jouerSoldats(pj);
 					}
 				}
@@ -285,51 +302,49 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 					// On recupere les clic lorsque la souris est egalement relache
 					lastClic = new Position((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());
 					// Si On a un heros de selectionner et que clic actuellement sur autre chose alors on appelle jouerSoldat
-					if(lastClic != null && herosSelectione != null)
+					if(lastClic != null && herosSelectione != null && estFiniAction)
 						c.jouerSoldats(pj);
 					
-					/* 
-					 * Option de jeu suplementaire avec MouseDragged 
+					/** 
+					 * 	Option de jeu suplementaire avec MouseDragged 
 					 *	Si le clic est relacher dans la case du heros alors on "memorise" le heros selectionner
 					 *	Sinon si le clic est relacher sur un enemis ou sur case de deplacement alors laction est effectuer
 					 */
 					if(herosSelectione != null && lastClic != null)
 						if(!lastClic.estIdentique(herosSelectione.getPosition()))
 							herosSelectione = null;
-				
+					/**
+					 * gestion des mouvements de la camera en fonction des position de la souris lorsqu'elle est dragged puis released
+					 *
+					 */
 					if(c.getElement(clic) == null && !clic.estIdentique(releasedClic) && c.estCaseVide(lastClic)) {
 						int distance = (int) clic.distance(releasedClic);
-						if(clic.getX() == releasedClic.getX() && clic.getY() < releasedClic.getY()) {
+						switch(clic.getPositionCardinal(releasedClic)) {
+						case NORD: 
 							cam.deplacement(0, -distance);
-							clic = new Position(releasedClic.getX(), releasedClic.getY());
-						}				
-						else if(clic.getX() < releasedClic.getX() && clic.getY() < releasedClic.getY()) {
+							break;
+						case NORD_OUEST:
 							cam.deplacement(-distance, -distance);
-							clic = new Position(releasedClic.getX(), releasedClic.getY());
-						}
-						else if(clic.getX() < releasedClic.getX() && clic.getY() == releasedClic.getY() ) {
+							break;
+						case OUEST:
 							cam.deplacement(-distance, 0);
-							clic = new Position(releasedClic.getX(), releasedClic.getY());
-						}
-						else if(clic.getX() < releasedClic.getX() && clic.getY() > releasedClic.getY()) {
+							break;
+						case SUD_OUEST:
 							cam.deplacement(-distance, distance);
-							clic = new Position(releasedClic.getX(), releasedClic.getY());
-						}
-						else if(clic.getX() == releasedClic.getX() && clic.getY() > releasedClic.getY()) {
+							break;
+						case SUD:
 							cam.deplacement(0, distance);
-							clic = new Position(releasedClic.getX(), releasedClic.getY());
-						}
-						else if(clic.getX() > releasedClic.getX() && clic.getY() > releasedClic.getY()) {
+							break;
+						case SUD_EST:
 							cam.deplacement(distance, distance);
-							clic = new Position(releasedClic.getX(), releasedClic.getY());
-						}
-						else if(clic.getX() > releasedClic.getX() && clic.getY() == releasedClic.getY()) {
+							break;
+						case EST:
 							cam.deplacement(distance, 0);
-							clic = new Position(releasedClic.getX(), releasedClic.getY());
-						}
-						else if(clic.getX() > releasedClic.getX() && clic.getY() > releasedClic.getY()) {
-							cam.deplacement(distance, distance);
-							clic = new Position(releasedClic.getX(), releasedClic.getY());
+							break;
+						case NORD_EST:
+							cam.deplacement(distance, -distance);
+							break;
+						default: break;
 						}
 					}
 				}
@@ -349,6 +364,7 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 			
 			public void mouseMoved(MouseEvent e) {
 				survol = new Position((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());
+
 				if(!survol.estValide())
 					return;
 				elem = c.getElement(survol);
@@ -460,7 +476,7 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 			if(!herosSelectione.getPosition().estVoisine(draggedCam))
 				return true;
 		return false;			
-	}
+	}	
 	
 	/**
 	 * Paint component.
@@ -491,12 +507,13 @@ public class PanneauJeu extends InformationElement implements IConfig, ISprite {
 	    // Affiche les deplacement possible du heros selectionne
 	    if(this.herosSelectione != null && !this.herosSelectione.aJoue) {
 	    	this.herosSelectione.dessineSelection(g, this.herosSelectione, clicDragged, cam);
-	    	this.herosSelectione.dessineSprite(g, clicDragged, cam);
+	    	this.herosSelectione.changeSprite(g, clicDragged, cam);
 	    }
 	    
 	    if(this.herosSelectione == null)
 	    	clicDragged = null;   
-	    
+	                
+	      // On verifie si on doit dessiner la fleche ou non
 	    if(dessineDeplacement()) 
 	    	dessineFleche(g, clic.getX() * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE + NB_PIX_CASE/2, 
 	    			clic.getY() * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE + NB_PIX_CASE/2, 

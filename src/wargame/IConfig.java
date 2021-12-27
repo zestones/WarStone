@@ -11,6 +11,7 @@ package wargame;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -28,11 +29,11 @@ public interface IConfig extends java.io.Serializable {
 	
 	/** The nb heros. */
 	// Definir le NB ELEMENT sur la carte
-	int NB_HEROS = 3; 
- /** The nb monstres. */
- int NB_MONSTRES = 6; 
- /** The nb obstacles. */
- int NB_OBSTACLES = 3;
+	int NB_HEROS = 4; 
+	/** The nb monstres. */
+	int NB_MONSTRES = 3; 
+	/** The nb obstacles. */
+	int NB_OBSTACLES = 3;
 
 	/** The couleur inconnu. */
 	// Parametre de dessin 
@@ -74,24 +75,24 @@ public interface IConfig extends java.io.Serializable {
 	
 	/** The grass. */
 	// Les images 
-	Image grass = Toolkit.getDefaultToolkit().getImage("./res/img/background/grass.png");
+	Image grass = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/grass.png");
 	
 	/** The range. */
-	Image range = Toolkit.getDefaultToolkit().getImage("./res/img/background/range.jpg");
+	Image range = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/range.jpg");
 	
 	/** The fleche. */
 	Image fleche = Toolkit.getDefaultToolkit().getImage("./res/img/pops/arrow.png");
 	
-//	Dimension taille = Toolkit.getDefaultToolkit().getScreenSize();	
+	Dimension taille = Toolkit.getDefaultToolkit().getScreenSize();	
 //	(int)taille.getWidth();
 //	(int)taille.getHeight();
 	
 	/** The fen largeur. */
 // HAUTEUR et LARGEUR de la Fenetre
-	final int FEN_LARGEUR = 1000;
+	final int FEN_LARGEUR = (int)taille.getWidth();;
 	
 	/** The fen hauteur. */
-	final int FEN_HAUTEUR = 800;
+	final int FEN_HAUTEUR = (int)taille.getHeight();;
 
 	/** The position x. */
 	int POSITION_X = 100; 
@@ -133,15 +134,17 @@ public interface IConfig extends java.io.Serializable {
 	
 	/** The largeur infos panel. */
 	// On definit la largeur comme etant 1/4 de l'ecran de jeu
-	int LARGEUR_INFOS_PANEL = NB_PIX_CASE * (FEN_LARGEUR / NB_PIX_CASE)/4;	
+	int LARGEUR_INFOS_PANEL = NB_PIX_CASE * LARGEUR_CARTE_CASE/4;	
 	
 	/** The hauteur nb soldat vivant. */
 	// Hauteur pour le label NB_SOLDAT_RESTANT
 	int HAUTEUR_NB_SOLDAT_VIVANT = LARGEUR_INFOS_PANEL/6;
 	
+	int PADDING_LARGEUR_MINI_CARTE = LARGEUR_INFOS_PANEL/16;
+	int PADDING_HAUTEUR_MINI_CARTE = PADDING_LARGEUR_MINI_CARTE;
 	/** The mini nb pix case. */
 	// Taille d'une case dans la miniCarte
-	int MINI_NB_PIX_CASE = Math.min((LARGEUR_INFOS_PANEL - LARGEUR_INFOS_PANEL/6) / HAUTEUR_CARTE_CASE, (LARGEUR_INFOS_PANEL - LARGEUR_INFOS_PANEL/4) / LARGEUR_CARTE_CASE);
+	int MINI_NB_PIX_CASE = Math.min((LARGEUR_INFOS_PANEL - LARGEUR_INFOS_PANEL/12) / HAUTEUR_CARTE_CASE, (LARGEUR_INFOS_PANEL - LARGEUR_INFOS_PANEL/8) / LARGEUR_CARTE_CASE);
 	
 	/** The largeur mini carte. */
 	// Definit la largeur de la minicarte + TAILLE_BORDURE

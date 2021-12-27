@@ -30,7 +30,7 @@ public interface ISprite {
 	String hobbit = "./res/img/soldat/heros/sprite/hobbit.png";
 
 	/** troll. */
-	// Chemin des images pour les monstres
+	// Chemin des sprites pour les monstres
 	String troll = "./res/img/soldat/monstres/sprite/troll.png";
 
 	/** orc. */
@@ -80,17 +80,17 @@ public interface ISprite {
 	int NB_IMAGE_ATTACK = 13;
 
 	/** La ligne move gauche. */
-	int LIGNE_MOVE_GAUCHE = 9;
+	int LIGNE_DEPLACEMENT_GAUCHE = 9;
 
 	/** La ligne move droite. */
-	int LIGNE_MOVE_DROITE = 19;
+	int LIGNE_DEPLACEMENT_DROITE = 11;
 
 	/** La ligne move haut. */
-	int LIGNE_MOVE_HAUT = 18;
+	int LIGNE_DEPLACEMENT_HAUT = 8;
 
 	/** La ligne move bas. */
-	int LIGNE_MOVE_BAS = 16;
+	int LIGNE_DEPLACEMENT_BAS = 10;
 
 	/** Le nb image move. */
-	int NB_IMAGE_MOVE = 9;
+	int NB_IMAGE_DEPLACEMENT = 9;
 }

@@ -35,12 +35,12 @@ public class FenetreJeu extends JFrame implements IConfig{
 	/**
 	 * Instantiates a new fenetre jeu.
 	 */
-	FenetreJeu(){	
+	public FenetreJeu(){	
 		frame.setSize(FEN_LARGEUR, FEN_HAUTEUR);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-//		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-//		frame.setUndecorated(true);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		frame.setUndecorated(true);
 
 		// Creation du menu qui contiendra les bouttons
 		menuBar.setBackground(COULEUR_MENUBAR); 
@@ -87,12 +87,12 @@ public class FenetreJeu extends JFrame implements IConfig{
 		infosPanel.setOpaque(true);	    	
 		infosPanel.setBorder(new MatteBorder(0, 2, 2, 2, COULEUR_BORDURE));
 		
-		
+
 		// On cree un conteneur avec FlowLayout pour pouvoir centrer la miniCarte
-		JPanel miniCartePanel = new JPanel(new FlowLayout(FlowLayout.LEADING, LARGEUR_INFOS_PANEL/8, LARGEUR_INFOS_PANEL/8));
+		JPanel miniCartePanel = new JPanel(new FlowLayout(FlowLayout.LEADING, PADDING_LARGEUR_MINI_CARTE, PADDING_HAUTEUR_MINI_CARTE));
 
 		// On definie les dimensions et la couleurs du background
-		miniCartePanel.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, HAUTEUR_MINI_CARTE + LARGEUR_INFOS_PANEL/4));
+		miniCartePanel.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, HAUTEUR_MINI_CARTE + PADDING_HAUTEUR_MINI_CARTE * 2));
 		miniCartePanel.setBackground(COULEUR_EAU);
 		miniCartePanel.setBorder(new MatteBorder(0, 2, 0, 2, COULEUR_BORDURE));
 

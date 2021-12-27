@@ -28,16 +28,16 @@ public class Obstacle extends Element implements IConfig {
 	private static final long serialVersionUID = 1L;
 	
 	/** The rocher. */
-	private static Image rocher = Toolkit.getDefaultToolkit().getImage("./res/img/background/rocher.png");
+	private static Image rocher = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/rocher.png");
 	
 	/** The water. */
-	private static Image water = Toolkit.getDefaultToolkit().getImage("./res/img/background/water.png");
+	private static Image water = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/water.png");
 	
 	/** The foret. */
-	private static Image foret = Toolkit.getDefaultToolkit().getImage("./res/img/background/foret.png");
+	private static Image foret = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/foret.png");
 	
 	/** The obstacle. */
-	private static Image obstacle = Toolkit.getDefaultToolkit().getImage("./res/img/background/obstacle.jpg");
+	private static Image obstacle = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/obstacle.jpg");
 	
 	/**
 	 * The Enum TypeObstacle.
@@ -46,10 +46,10 @@ public class Obstacle extends Element implements IConfig {
 		
 		/** The rocher. */
 		ROCHER (COULEUR_ROCHER, rocher), 
- /** The foret. */
- FORET (COULEUR_FORET, foret), 
- /** The eau. */
- EAU (COULEUR_EAU, water);
+		/** The foret. */
+		FORET (COULEUR_FORET, foret), 
+		/** The eau. */
+		EAU (COULEUR_EAU, water);
 		
 		/** The couleur. */
 		private final Color COULEUR;
