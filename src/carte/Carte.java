@@ -1,7 +1,7 @@
 /********************************************************************
  * 							WarStone								*
  *  -------------------------------------------------------------	*
- * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
+ * |	 Universitï¿½ Jean-Monnet    L3-Infos 		    2021	 |	*
  *  -------------------------------------------------------------	*
  * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
  * 																	*
@@ -36,15 +36,15 @@ public class Carte implements IConfig, ICarte {
 	/** The plateau. */
 	private Element[][] plateau;
 	
-	/** Création d'une Liste de Heros contenant les heros présent sur la carte. */
+	/** Crï¿½ation d'une Liste de Heros contenant les heros prï¿½sent sur la carte. */
 	
 	public List<Heros> listeHeros;
 	
-	/**  Création d'une liste de Monstres contenant les monstres présent sur la carte. */
+	/**  Crï¿½ation d'une liste de Monstres contenant les monstres prï¿½sent sur la carte. */
 	public List<Monstre> listeMonstres;
 	
 	/**
-	 * Il va y avoir 3 types d'animation a générer donc une liste de trois liste :
+	 * Il va y avoir 3 types d'animation a gï¿½nï¿½rer donc une liste de trois liste :
 	 * 	- Liste Attaque
 	 * 	- Liste Deplacement
 	 * 	- Liste de Mort
@@ -88,7 +88,7 @@ public class Carte implements IConfig, ICarte {
 	}
 
 	/**
-	 *  Fonction principale du jeu c'est ici que tout est gére
+	 *  Fonction principale du jeu c'est ici que tout est gï¿½re
 	 *  Les appels au autre methode .
 	 *
 	 * @param pj the pj
@@ -183,7 +183,7 @@ public class Carte implements IConfig, ICarte {
 	}
 
 	/**
-	 *  Le generale joueur decide quelle action réaliser.
+	 *  Le generale joueur decide quelle action rï¿½aliser.
 	 *
 	 * @param pj the pj
 	 */
@@ -356,7 +356,7 @@ public class Carte implements IConfig, ICarte {
 
 	/**
 	 *  renvoie un Heros trouve aleatoirement sur la carte 
-	 *  Les heros présent sur la carte sont stocke dans la liste "listeheros".
+	 *  Les heros prï¿½sent sur la carte sont stocke dans la liste "listeheros".
 	 *
 	 * @return Heros
 	 */
@@ -419,8 +419,12 @@ public class Carte implements IConfig, ICarte {
 	public void toutDessiner(Graphics g, Camera cam) {	
 		// dessine tout les heros sur la carte ainsi que les elements a leurs portee
 		for(Heros h : this.listeHeros)
-			h.seDessiner(g, cam);
+			h.desssinerZone(g, cam);
+			
 		
+		for(Heros h : this.listeHeros)
+			h.seDessiner(g, cam);
+			
 		// On dessine la grille visible, donc les positions donnee par la camera	
 		for(int i = cam.getDx(); i < LARGEUR_CASE_VISIBLE + cam.getDx(); i++) {
 			for(int j = cam.getDy(); j < HAUTEUR_CASE_VISIBLE + cam.getDy(); j++) {		

@@ -1,7 +1,7 @@
 /********************************************************************
  * 							WarStone								*
  *  -------------------------------------------------------------	*
- * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
+ * |	 Universitï¿½ Jean-Monnet    L3-Infos 		    2021	 |	*
  *  -------------------------------------------------------------	*
  * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
  * 																	*
@@ -50,7 +50,7 @@ public class Heros extends Soldat {
         	this.dessinBarreVie(g, cam);
     }
     
-    public void seDessiner(Graphics g, Camera cam) {
+    public void desssinerZone(Graphics g, Camera cam) {
     	int portee = this.getPortee();
     	int dx = cam.getDx() * NB_PIX_CASE;
     	int dy = cam.getDy() * NB_PIX_CASE;
@@ -70,6 +70,9 @@ public class Heros extends Soldat {
     			
     		}
     	} 
+    }
+    
+    public void seDessiner(Graphics g, Camera cam) {
     	this.dessinHeros(g, cam);
     }
     
