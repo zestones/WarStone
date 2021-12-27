@@ -258,15 +258,21 @@ public class Carte implements IConfig, ICarte {
 	 * @return boolean
 	 */
 	public boolean deplaceSoldat(Position pos, Soldat soldat) {
-		if (pos.estValide() && this.getElement(pos) == null && soldat.getPosition().estVoisine(pos)) {
+		boolean positionPrise = false;
+		
+		for(int i = 0; i < this.listeActionDeplacement.size() - 1; i++) 
+			positionPrise = this.listeActionDeplacement.get(i + 1).getPosition().estIdentique(pos);
+				
+		if (pos.estValide() && this.getElement(pos) == null && soldat.getPosition().estVoisine(pos) && !positionPrise) {
+						
 			Soldat cmp = null;
 			try {
 				cmp = soldat.clone();
-				
 			} catch (CloneNotSupportedException e) {
 				e.printStackTrace();
 			}
 			cmp.setPosition(pos);
+			
 			soldat.deplacement = true;
 			soldat.aJoue = true; 
 			this.listeActionDeplacement.addAll(Arrays.asList(soldat, cmp));
