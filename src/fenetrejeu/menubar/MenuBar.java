@@ -34,8 +34,10 @@ public class MenuBar implements IFenetre {
 		JMenuBar menuBarSecondaire = new JMenuBar();
 
 		ImageIcon exitIcon = new ImageIcon("./res/icon/exit.png");
+	
 		Image image = exitIcon.getImage();
 		Image newimg = image.getScaledInstance(LARGEUR_ICON_MENU, HAUTEUR_ICON_MENU, java.awt.Image.SCALE_SMOOTH);
+		
 		exitIcon = new ImageIcon(newimg);
 
 		JMenu option = new JMenu("Option");
@@ -48,7 +50,6 @@ public class MenuBar implements IFenetre {
 		menuItem.addActionListener(event -> System.exit(0));
 
 		option.add(menuItem);
-
 		menuBarSecondaire.add(option);
 
 		frame.setJMenuBar(menuBarSecondaire);

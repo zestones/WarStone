@@ -3,18 +3,15 @@ package fenetrejeu;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import fenetrejeu.menubar.IMenuBar;
+import menu.IMenu;
 
-public interface IFenetre extends IMenuBar{
-	
-	// Parametre dessin de la fenetre
-	public static final JFrame frame = new JFrame("WarStone");	
+public interface IFenetre extends IMenuBar, IMenu{
 	
 	// Creation du panel principal qui contient la carte
 	JPanel panel = new JPanel();

@@ -14,13 +14,11 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
-import fenetrejeu.menubar.MenuBar;
 import infosgame.MiniCarte;
 import wargame.PanneauJeu;
 
@@ -28,7 +26,7 @@ import wargame.PanneauJeu;
 /**
  * The Class FenetreJeu.
  */
-public class FenetreJeu extends JFrame implements IFenetre{
+public class FenetreJeu extends JPanel implements IFenetre{
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;	
@@ -38,12 +36,14 @@ public class FenetreJeu extends JFrame implements IFenetre{
 	 * Instantiates a new fenetre jeu.
 	 */
 	public FenetreJeu(){	
-		frame.setSize(FEN_LARGEUR, FEN_HAUTEUR);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			
+		JPanel panelPrincipal = new JPanel(new BorderLayout());
+		panelPrincipal.setPreferredSize(new Dimension(FEN_LARGEUR, FEN_HAUTEUR));
+		panelPrincipal.setLayout(new BorderLayout());
+		panelPrincipal.setOpaque(true);	    		
 		
-//		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-//		frame.setUndecorated(true);
-
+		
+		
 		// Creation du menu qui contiendra les bouttons
 		menuBar.setBackground(COULEUR_MENUBAR); 
         menuBar.setOpaque(true);
@@ -178,26 +178,13 @@ public class FenetreJeu extends JFrame implements IFenetre{
 		infosPanel.add(infosElementPanel);
 		
 		// On ajoute tout les panels a la frame
-		frame.add(footer, BorderLayout.SOUTH);		
-		frame.add(header, BorderLayout.NORTH);
-		frame.add(infosPanel, BorderLayout.EAST);
-		frame.add(panel, BorderLayout.CENTER);
 		
-		// On creer notre bar de menu secondaire
-		new MenuBar();
-		
-		// On affiche la frame
-        frame.pack();
-        frame.setVisible(true); 	 
-		
-	}
-	
-	/**
-	 * The main method.
-	 *
-	 * @param args the arguments
-	 */
-	public static void main(String[] args) {
-		new FenetreJeu();
+		panelPrincipal.add(footer, BorderLayout.SOUTH);		
+		panelPrincipal.add(header, BorderLayout.NORTH);
+		panelPrincipal.add(infosPanel, BorderLayout.EAST);
+		panelPrincipal.add(panel, BorderLayout.CENTER);
+			
+		frame.add(panelPrincipal);
+		frame.pack();
 	}
 }

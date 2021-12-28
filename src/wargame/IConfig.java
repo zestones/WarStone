@@ -50,13 +50,9 @@ public interface IConfig extends java.io.Serializable {
 //	(int)taille.getWidth();
 //	(int)taille.getHeight();
 	
-	/** The fen largeur. */
-	// HAUTEUR et LARGEUR de la Fenetre
-	final int FEN_LARGEUR = 1200;
+	final int FEN_LARGEUR = (int)taille.getWidth();
+	final int FEN_HAUTEUR = (int)taille.getHeight();
 	
-	/** The fen hauteur. */
-	final int FEN_HAUTEUR = 800;
-
 	/** The nb pix case. */
 	// Taille d'une case de la carte
 	int NB_PIX_CASE = 100;
