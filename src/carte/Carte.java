@@ -95,12 +95,12 @@ public class Carte implements IConfig, ICarte {
 	 *
 	 * @param pj the pj
 	 */
-	public void jouerSoldats(PanneauJeu pj) {
+	public void jouerSoldats(PanneauJeu pj, int tour) {
 		// On met a jour le nombre de soldat restant sur la carte
 		this.nombreSoldatVivant(pj);
 		
 		//On joue le tour de chacun des deux joueurs
-		if (pj.tour == 0) 
+		if (pj.buttonEvent.tour == 0) 
 			this.joueTourHeros(pj);
 		else {
 			this.joueTourMonstre(pj);
@@ -127,7 +127,7 @@ public class Carte implements IConfig, ICarte {
 	 */
 	private void joueTourMonstre(PanneauJeu pj) {
 		// Tour du monstre 
-		if (pj.tour != 1) return;
+		if (pj.buttonEvent.tour != 1) return;
 	
 		/**  Creation d'une liste contenant les heros a la portee du Monstre */
 		List<Heros> listePorteeHeros;

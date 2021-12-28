@@ -30,10 +30,9 @@ import fenetrejeu.menubar.MenuBarHeader;
 import infosgame.InformationElement;
 import infosgame.MiniCarte;
 import sprite.ISprite;
-import sprite.SpriteController;
 import utile.Fleche;
 import utile.Position;
-import utile.Sauvegarde;
+import wargame.evenement.ButtonEvent;
 
 
 /**
@@ -44,18 +43,17 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 
 	public Position clic, lastClic, clicDragged;
 	private Position draggedCam, releasedClic;
-	private SpriteController spriteController;
-	public int tour,nombreHeros, nombreMonstre;
+	public int nombreHeros, nombreMonstre;
 	private boolean dessineFleche;
 	public boolean estFiniAction;
-	private Fleche flecheDirectionnelle;
+	public Fleche flecheDirectionnelle;
 	public Heros herosSelectione;
 	private	Position survol;
-	private	Element elem;
+	public	Element elem;
 	public Camera cam;
 	public Carte c;
+	public ButtonEvent buttonEvent;
 
-	
 	/**
 	 * Instantiates a new panneau jeu.
 	 */
@@ -65,21 +63,21 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		
 		this.flecheDirectionnelle = new Fleche(cam);
 		
-		this.tour = 0;
 		this.herosSelectione = null;		
 		
 		this.elem = null;
 		this.dessineFleche = false;
 		this.estFiniAction = true;
-
-		this.spriteController = new SpriteController(this);
-			
+		
 		new MenuBarHeader();
 		
 		this.creationElementPanneau();
 		
+		this.buttonEvent = new ButtonEvent(this);		
 		this.gestionEvenement();
+		
 		c.nombreSoldatVivant(this);
+		
 	} 
 		
 	// FOOTER A Garder ?
@@ -100,82 +98,9 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		ISprite.spriteEngine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				carteMiniature.repaint();
-				repaint();
+				pj.repaint();
 			}
 		});
-		
-		// Boutton restart recharge une carte cree aleatoirement
-		restart.addActionListener(new ActionListener(){  
-			public void actionPerformed(ActionEvent e){  
-
-				c = new Carte();
-				
-				majMiniCarte();
-				
-				tour = 0;
-				herosSelectione = null;
-				elem = null;
-			}  
-		});  
-		 
-		// Boutton Fin de Tour 
-		finTour.addActionListener(new ActionListener(){  
-			public void actionPerformed(ActionEvent e){						
-				// On oublie le dernier heros selectionne
-				herosSelectione = null;
-				
-				if(estFiniAction) {
-					c.joueTour(tour);
-					tour = tour == 0 ? 1 : 0; 
-					spriteController.lanceSpriteAction(getGraphics());
-				}			
-			}  
-		});  
-		
-		// Boutton de sauvegarde de la partie
-		sauvegarde.addActionListener(new ActionListener(){
-    		public void actionPerformed(ActionEvent e){    			
-    			new Sauvegarde(c);
-    			c.nombreSoldatVivant(pj);   		
-    		}
-    	});
-		
-		// Bouton de recuperation de sauvegarde
-		reprendre.addActionListener(new ActionListener(){
-    		public void actionPerformed(ActionEvent e){
-    			c  = Sauvegarde.recupSauvegarde(c);
-    			
-    			c.nombreSoldatVivant(pj);
-    			
-    			// Mise a jour de la miniCarte
-				majMiniCarte();
-				
-				repaint();
-    		}    		
-    	});
-		
-		// Boutton restart recharge une carte cree aleatoirement
-		cameraBas.addActionListener(new ActionListener(){  
-			public void actionPerformed(ActionEvent e){  
-				cam.deplacement(0, 1);;
-			}  
-		});  
-		cameraHaut.addActionListener(new ActionListener(){  
-			public void actionPerformed(ActionEvent e){  
-				cam.deplacement(0, -1);
-			}  
-		});  
-		cameraGauche.addActionListener(new ActionListener(){  
-			public void actionPerformed(ActionEvent e){  
-				cam.deplacement(-1, 0);
-			}  
-		});  
-		cameraDroite.addActionListener(new ActionListener(){  
-			public void actionPerformed(ActionEvent e){  
-				cam.deplacement(1, 0);
-			}  
-		}); 
-		
 		// Recuperation des clics a la souris
 		this.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -197,7 +122,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 					if(elem instanceof Heros && estFiniAction) {
 						herosSelectione = (Heros)elem;
 						if(lastClic != null)
-							c.jouerSoldats(pj);
+							c.jouerSoldats(pj, pj.buttonEvent.tour);
 					}
 				}
 			}
@@ -210,7 +135,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 					lastClic = new Position((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());
 					// Si On a un heros de selectionner et que clic actuellement sur autre chose alors on appelle jouerSoldat
 					if(lastClic != null && herosSelectione != null && estFiniAction)
-						c.jouerSoldats(pj);
+						c.jouerSoldats(pj, pj.buttonEvent.tour);
 					
 					/** 
 					 * 	Option de jeu suplementaire avec MouseDragged 
@@ -259,7 +184,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		});		
 		
 		/* Affiche les infos des elements survole avec la souris */
-		this.addMouseMotionListener(new MouseAdapter() {
+		addMouseMotionListener(new MouseAdapter() {
 			public void mouseDragged(MouseEvent e) {
 				clicDragged = new Position ((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());
 				draggedCam = new Position ((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());		
@@ -288,7 +213,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	/**
 	 * Maj mini carte.
 	 */
-	private void majMiniCarte() {
+	public void majMiniCarte() {
 		cam = new Camera(c, 0, 0);
 		// Une supprime l'ancien conteneur
 		carteMiniature.removeAll();
@@ -306,17 +231,13 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		// dessine le background avec l'image charger dans IConfig		
-		// CHANGER LARGEUR_CASE_VISIBLE <--> LARGEUR_CARTE_CASE_VISIBLE 
-		// 	|-> dans le cas ou la carte visible est couper (i.e la derniere case visible est calculer invisible mais visible a moitier sur l ecran)
-		//  | --> si un monstrer est a la portee d'un hero dans cette partie alors seule les case a sa portee seront dessiner
 		g.drawImage(grass, 0, 0, NB_PIX_CASE * LARGEUR_CASE_VISIBLE, NB_PIX_CASE * HAUTEUR_CASE_VISIBLE, null);
 		
 		this.c.toutDessiner(g, cam);
 		
 		// Affichage du label dans le menuBar
 		top.setText("Il reste " + nombreHeros + " Heros et " + nombreMonstre + " Monstres !");
-		
+		// Affichage du nombre de soldat restant
 		soldatRestant.setText("" + nombreHeros + " Heros VS " + nombreMonstre + " Monstre");
 		
 		// Affichage du label en bas de la fenetre

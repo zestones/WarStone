@@ -31,6 +31,7 @@ import fenetrejeu.menubar.MenuBar;
 public class MenuJeu implements IMenu {
 	
 	MenuJeu(){
+		
 		frame.setSize(MENU_LARGEUR, MENU_HAUTEUR);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);

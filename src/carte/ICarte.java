@@ -79,7 +79,7 @@ public interface ICarte {
 	 * géré par cette methode
 	 * @param pj
 	 */
-	void jouerSoldats(PanneauJeu pj);
+	void jouerSoldats(PanneauJeu pj, int tour);
 	
 	/**
 	 * Methode de dessin de la carte

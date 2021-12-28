@@ -25,9 +25,9 @@ import wargame.PanneauJeu;
 public class SpriteController implements IConfig{
 
 	private static final long serialVersionUID = 1L;
+	private List<Position> listePositionDeplacement;
 	private List<Soldat> listeRepos;
 	private PanneauJeu pj;
-	private List<Position> listePositionDeplacement;
 	
 	public SpriteController(PanneauJeu pj) {
 		this.listeRepos = new ArrayList<>();
@@ -47,6 +47,7 @@ public class SpriteController implements IConfig{
 			 tmps = 1;
 		 else 
 			 tmps = 5;
+		 
 		 new Chrono(tmps);
 	}
 	
@@ -150,7 +151,7 @@ public class SpriteController implements IConfig{
 				pj.c.removeAllAction();
 				
 				pj.estFiniAction = true;
-				pj.c.jouerSoldats(pj);
+				pj.c.jouerSoldats(pj, pj.buttonEvent.tour);
 				timer.cancel();
 			}
 	    }

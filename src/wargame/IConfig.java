@@ -21,9 +21,9 @@ public interface IConfig extends java.io.Serializable {
 	
 	/** The nb heros. */
 	// Definir le NB ELEMENT sur la carte
-	int NB_HEROS = 4; 
+	int NB_HEROS = 2; 
 	/** The nb monstres. */
-	int NB_MONSTRES = 6; 
+	int NB_MONSTRES = 1; 
 	/** The nb obstacles. */
 	int NB_OBSTACLES = 4;
 
@@ -50,8 +50,8 @@ public interface IConfig extends java.io.Serializable {
 //	(int)taille.getWidth();
 //	(int)taille.getHeight();
 	
-	final int FEN_LARGEUR = (int)taille.getWidth();
-	final int FEN_HAUTEUR = (int)taille.getHeight();
+	final int FEN_LARGEUR = 1200;
+	final int FEN_HAUTEUR = 800;
 	
 	/** The nb pix case. */
 	// Taille d'une case de la carte
