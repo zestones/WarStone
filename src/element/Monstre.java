@@ -26,7 +26,7 @@ public class Monstre extends Soldat {
     String nom;
     
 	public Monstre(Carte carte, TypesM m, String nom,Position pos){
-        super(carte, m.getPoints(), m.getPortee(), m.getPuissance(), m.getTir(), pos, false);
+        super(carte, m.getPoints(), m.getPortee(), m.getPuissance(), m.getTir(), pos);
         this.m = m;
         this.nom = nom;
         this.combat = false;
@@ -35,28 +35,30 @@ public class Monstre extends Soldat {
         carte.setElement(this);      
     }
 	
-    public void seDessiner(Graphics g, Camera cam) { 
+	public void seDessiner(Graphics g, Camera cam) { 
     	int dx = cam.getDx() * NB_PIX_CASE;
     	int dy = cam.getDy() * NB_PIX_CASE;
-    	g.drawImage(range, (this.pos.getX() * NB_PIX_CASE) - dx, (this.pos.getY() * NB_PIX_CASE) - dy, NB_PIX_CASE, NB_PIX_CASE, null);
+    	g.drawImage(range, (this.getPosition().getX() * NB_PIX_CASE) - dx, (this.getPosition().getY() * NB_PIX_CASE) - dy, NB_PIX_CASE, NB_PIX_CASE, null);
 
+    	g.setColor(COULEUR_GRILLE);
+		g.drawRect(this.getPosition().getX() * NB_PIX_CASE - dx, this.getPosition().getY() * NB_PIX_CASE - dy, NB_PIX_CASE, NB_PIX_CASE); 
+		    	
     	this.dessineSprite(g, cam);
     	
-    	if(!this.activeDeplacement)
-    		this.dessinBarreVie(g, cam);
     	if(!this.activeDeplacement) {
+    		this.dessinBarreVie(g, cam);
     		g.setColor(COULEUR_MONSTRE);
-    		g.fillRect((this.pos.getX()  * NB_PIX_CASE) - dx, (this.pos.getY() * NB_PIX_CASE) - dy, NB_PIX_CASE, NB_PIX_CASE);
+    		g.fillRect((this.getPosition().getX()  * NB_PIX_CASE) - dx, (this.getPosition().getY() * NB_PIX_CASE) - dy, NB_PIX_CASE, NB_PIX_CASE);
     	}
     }
     
   public void seDessinerMinia(Graphics g) { 
-    	g.drawImage(range, this.pos.getX() * MINI_NB_PIX_CASE, this.pos.getY() * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, null);   	
+    	g.drawImage(range, this.getPosition().getX() * MINI_NB_PIX_CASE, this.getPosition().getY() * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, null);   	
     	
-    	g.drawImage(this.getImage(), this.pos.getX() * MINI_NB_PIX_CASE, this.pos.getY() * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, null);   	
+    	g.drawImage(this.getImage(), this.getPosition().getX() * MINI_NB_PIX_CASE, this.getPosition().getY() * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, null);   	
 
     	g.setColor(COULEUR_MONSTRE);
-    	g.fillRect(this.pos.getX()  * MINI_NB_PIX_CASE , this.pos.getY() * MINI_NB_PIX_CASE , MINI_NB_PIX_CASE, MINI_NB_PIX_CASE);
+    	g.fillRect(this.getPosition().getX()  * MINI_NB_PIX_CASE , this.getPosition().getY() * MINI_NB_PIX_CASE , MINI_NB_PIX_CASE, MINI_NB_PIX_CASE);
 
     }
     

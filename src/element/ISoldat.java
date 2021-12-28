@@ -49,39 +49,39 @@ public interface ISoldat extends ISprite{
 	static enum TypesH { 
 		
 		/** The humain. */
-		HUMAIN (40,2,10,2, humain, HumainMiniature), 
+		HUMAIN (40, 2, 10, 2, humain, HumainMiniature), 
 		/** The nain. */
-		NAIN (80,1,20,0, nain, NainMiniature), 
+		NAIN (80, 1, 20, 0, nain, NainMiniature), 
 		/** The elf. */
-		ELF (70,5,10,6, elf, ElfMiniature), 
+		ELF (70, 5, 10, 6, elf, ElfMiniature), 
 		/** The hobbit. */
-		HOBBIT (20,3,5,2,hobbit, HobbitMiniature);
+		HOBBIT (20, 3, 5, 2, hobbit, HobbitMiniature);
       
-      /** The tir. */
+		/** The tir. */
 		private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR;
       
-      /** The sprite. */
-      private final String SPRITE;
+		/** The sprite. */
+		private final String SPRITE;
       
-      /** The image. */
-      private final Image IMAGE;
+		/** The image. */
+		private final Image IMAGE;
       
-      /**
-       * Instantiates a new types H.
-       *
-       * @param points the points
-       * @param portee the portee
-       * @param puissance the puissance
-       * @param tir the tir
-       * @param spritePath the sprite path
-       * @param imgMiniature the img miniature
-       */
-      TypesH(int points, int portee, int puissance, int tir, String spritePath, Image imgMiniature) {
-    	  POINTS_DE_VIE = points; PORTEE_VISUELLE = portee;
-    	  PUISSANCE = puissance; TIR = tir;
-    	  SPRITE = spritePath;
-    	  IMAGE = imgMiniature;
-      }
+		/**
+		 * Instantiates a new types H.
+		 *
+		 * @param points the points
+		 * @param portee the portee
+		 * @param puissance the puissance
+		 * @param tir the tir
+		 * @param spritePath the sprite path
+		 * @param imgMiniature the img miniature
+		 */
+		TypesH(int points, int portee, int puissance, int tir, String spritePath, Image imgMiniature) {
+			POINTS_DE_VIE = points; PORTEE_VISUELLE = portee;
+			PUISSANCE = puissance; TIR = tir;
+			SPRITE = spritePath;
+			IMAGE = imgMiniature;
+		}
       
       /**
        * Gets the points.

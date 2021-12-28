@@ -35,17 +35,11 @@ public class SpriteController implements IConfig{
 		this.pj = pj;
 	}
 	
-	public void lanceSpriteAction(Graphics g) {
-//		 System.out.println("__________________________________________________\n" + this.pj.c.listeActionMort + "\n");
-//		 System.out.println(this.pj.c.listeActionDeplacement + "\n");
-//		 System.out.println(this.pj.c.listeActionAttaque + " \n_____________________________________________________\n");
-		
+	public void lanceSpriteAction(Graphics g) {		
 		 pj.estFiniAction = false;
 		 
 		 lanceSpriteAttaque(g, pj.c.listeActionAttaque, pj.cam);
-		 
 		 lanceSpriteMort(g, pj.c.listeActionMort, pj.cam);
-		 
 		 lanceSpriteDeplacement(g, pj.c.listeActionDeplacement, pj.cam);
 		 
 		 int tmps;
@@ -68,7 +62,7 @@ public class SpriteController implements IConfig{
 				continue;
 			}
 			if(listeActionAttaque.get(i).combat(listeActionAttaque.get(i + 1)))
-				listeActionAttaque.get(i).changeSprite(g, listeActionAttaque.get(i + 1).getPosition(), cam);
+				listeActionAttaque.get(i).changeSprite(listeActionAttaque.get(i + 1).getPosition(), cam);
 			i++;
 		 }	
 	}
@@ -85,14 +79,14 @@ public class SpriteController implements IConfig{
 				i++; 
 				continue;
 			}
-			listeActionDeplacement.get(i).changeSprite(g, listeActionDeplacement.get(i + 1).getPosition(), cam);
+			listeActionDeplacement.get(i).changeSprite(listeActionDeplacement.get(i + 1).getPosition(), cam);
 			i++;
 		 }
 	}
 	
 	private void lanceSpriteMort(Graphics g, List<Soldat> listeActionMort, Camera cam) {
 		for(Soldat meurt : listeActionMort) {
-			meurt.changeSprite(g, meurt.getPosition(), cam);
+			meurt.changeSprite(meurt.getPosition(), cam);
 			pj.c.mort(meurt);
 		}
 			
@@ -100,7 +94,6 @@ public class SpriteController implements IConfig{
 	
 	private void reposSoldatAttaque(Graphics g, List<Soldat> listeRepos) {
 		if(listeRepos.isEmpty()) return;
-//		System.out.println("--------------REPOS-----------\n" + listeRepos);
 		int i = 0;
 
 		while(i < listeRepos.size() - 1) {
@@ -114,18 +107,14 @@ public class SpriteController implements IConfig{
 				i++;
 				continue;
 			}
-			listeRepos.get(i).changeSprite(g, listeRepos.get(i + 1).getPosition(), pj.cam);
+			listeRepos.get(i).changeSprite(listeRepos.get(i + 1).getPosition(), pj.cam);
 			i++;
 		}
-		
-//		System.out.println("\n------------FIN-REPOS-----------\n\n");
-
 		listeRepos.clear();
 	}
 	
 	private void reposSoldatDeplacement(Graphics g, List<Position> listePosition) {
 		if(listePosition.isEmpty()) return;
-//		System.out.println("***************************REPOS DEPLACEMENT *****************************\n" + listePosition);
 		int i = 0;
 		while(i < listePosition.size() - 1) {
 			if(i%2 != 0) {
@@ -134,15 +123,12 @@ public class SpriteController implements IConfig{
 			}
 			Element e = pj.c.getElement(listePosition.get(i + 1));
 			if(e instanceof Soldat) {
-				Soldat s = (Soldat)e;
+				Soldat s = (Soldat) e;
 				s.deplacement = false; 
-				s.changeSprite(g, listePosition.get(i), pj.cam);
+				s.changeSprite(listePosition.get(i), pj.cam);
 			}
 			i++;
 		}
-		
-//		System.out.println("\n*******************************FIN-DEPLACEMENT****************************************\n\n");
-
 		listePosition.clear();
 	}
 	
@@ -156,12 +142,11 @@ public class SpriteController implements IConfig{
 
 		class RemindTask extends TimerTask {
 			public void run() {
-//				System.out.println("\n/!!/Notification du timer /!!/\n");
+				// On recharge les sprites standBy
 				reposSoldatAttaque(pj.getGraphics(), listeRepos);
 				reposSoldatDeplacement(pj.getGraphics(), listePositionDeplacement);
-				// On supprime toute les actions realise au tour precedent
 				
-//				System.out.println("- --- fin je supprime les listes ---- ");
+				// On supprime toute les actions realise au tour precedent
 				pj.c.removeAllAction();
 				
 				pj.estFiniAction = true;

@@ -16,6 +16,9 @@ public interface IFenetre extends IMenuBar{
 	// Parametre dessin de la fenetre
 	public static final JFrame frame = new JFrame("WarStone");	
 	
+	// Creation du panel principal qui contient la carte
+	JPanel panel = new JPanel();
+
 	// MenuBar Principal contenant les bouton
 	public static final JMenuBar menuBar = new JMenuBar();
 	

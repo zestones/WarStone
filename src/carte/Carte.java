@@ -1,12 +1,13 @@
 /********************************************************************
  * 							WarStone								*
  *  -------------------------------------------------------------	*
- * |	 Universitï¿½ Jean-Monnet    L3-Infos 		    2021	 |	*
+ * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
  *  -------------------------------------------------------------	*
- * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
+ * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU IDRISS		*
  * 																	*
  * 														carte		*
  * ******************************************************************/
+
 package carte;
 
 import java.awt.Graphics;
@@ -19,6 +20,7 @@ import element.Heros;
 import element.Monstre;
 import element.Obstacle;
 import element.Soldat;
+import fenetrejeu.menubar.IMenuBar;
 import utile.Position;
 import wargame.IConfig;
 import wargame.PanneauJeu;
@@ -96,17 +98,14 @@ public class Carte implements IConfig, ICarte {
 	public void jouerSoldats(PanneauJeu pj) {
 		// On met a jour le nombre de soldat restant sur la carte
 		this.nombreSoldatVivant(pj);
-	
+		
 		//On joue le tour de chacun des deux joueurs
-		if (pj.tour == 0) {
+		if (pj.tour == 0) 
 			this.joueTourHeros(pj);
-			this.joueTour(pj.tour);
-		} 
-		else if(pj.tour == 1 || pj.lastTour == 1) {
+		else {
 			this.joueTourMonstre(pj);
-			this.joueTour(pj.tour);
 			// On effectue le clic pour jouer le tour des monstres
-			pj.finTour.doClick();
+			IMenuBar.finTour.doClick();
 		}
 		pj.repaint();
 	}
@@ -169,13 +168,12 @@ public class Carte implements IConfig, ICarte {
 	public boolean actionMonstre(PanneauJeu pj, Position pos, Position pos2) {
 		Monstre m = (Monstre) this.getElement(pos);
 		// On verifie que le Monstre n'a pas deja jouer et que la position d'attaque (pos2) n'est pas un autre Monstre
-		if (m == null || this.getElement(pos2) instanceof Monstre || m.aJoue == true) 
+		if (m == null || this.getElement(pos2) instanceof Monstre || m.aJoue) 
 			return false;
 		// Si un Heros est present en pos2 alors on fait combatre notre monstre
 		if (this.getElement(pos2) instanceof Heros) {
 			Heros h = (Heros)this.getElement(pos2);
-			m.combat = true;
-			h.combat = true;
+			m.combat = h.combat = true;
 			this.listeActionAttaque.addAll(Arrays.asList(m, h, h, m));
 			
 		}
@@ -218,15 +216,14 @@ public class Carte implements IConfig, ICarte {
 		Heros h = (Heros) this.plateau[pos.getX()][pos.getY()];
 		
 		// Si l'element a attaquer est un heros ou que le heros selectionner a deja jouer alors on ne fait rien
-		if (h == null || this.getElement(pos2) instanceof Heros || h.aJoue == true) // Ajout : pos.estVoisine(pos2) ==
+		if (h == null || this.getElement(pos2) instanceof Heros || h.aJoue) // Ajout : pos.estVoisine(pos2) ==
 			return false;
 		
 		// Si l'element a la position pos2 est un Monstre et que ce monstre est a la porte du Heros alors il attaque
 		if (this.getElement(pos2) instanceof Monstre) {
 			Monstre m = (Monstre) this.getElement(pos2);
-			if (h.dedans(m.getPosition()) == true) {
-				h.combat = true;
-				m.combat = true;
+			if (h.estDedans(m.getPosition())) {
+				h.combat = m.combat = true;
 				this.listeActionAttaque.addAll(Arrays.asList(h, m, m, h));
 				return true;
 			}
@@ -240,6 +237,7 @@ public class Carte implements IConfig, ICarte {
 	 *
 	 * @param perso the perso
 	 */
+	// A REVOIR 
 	public void mort(Soldat perso) { 
 		// On recupere l'index du soldat dans la liste
 		int index = perso.getIndexSoldat();
@@ -258,13 +256,8 @@ public class Carte implements IConfig, ICarte {
 	 * @return boolean
 	 */
 	public boolean deplaceSoldat(Position pos, Soldat soldat) {
-		boolean positionPrise = false;
-		
-		for(int i = 0; i < this.listeActionDeplacement.size() - 1; i++) 
-			positionPrise = this.listeActionDeplacement.get(i + 1).getPosition().estIdentique(pos);
-				
-		if (pos.estValide() && this.getElement(pos) == null && soldat.getPosition().estVoisine(pos) && !positionPrise) {
-						
+		if (pos.estValide() && this.getElement(pos) == null && soldat.getPosition().estVoisine(pos) && !estPrisePosition(pos)) {
+			
 			Soldat cmp = null;
 			try {
 				cmp = soldat.clone();
@@ -281,6 +274,29 @@ public class Carte implements IConfig, ICarte {
 		}
 		return false;
 	}
+	/**
+	 * Verification de la position a laquelle on veut se deplacer 
+	 * si plusieurs soldat veulent se deplacer sur la meme case on retourne false
+	 * 
+	 * @param pos
+	 * @return positionPrise boolean 
+	 */
+	private boolean estPrisePosition(Position pos) {
+		boolean positionPrise = false;
+		int i = 0;
+		while(i < listeActionDeplacement.size() - 1) {
+			if(i % 2 != 0) {
+				i++; 
+				continue;
+			}
+			if(this.listeActionDeplacement.get(i + 1).getPosition().estIdentique(pos)) {
+				positionPrise = true;
+				break;
+			}
+			i++;
+		 }
+		return positionPrise;
+	}
 
 	/**
 	 * On remet aJoue = false en fonction du tour de la partie : 
@@ -290,14 +306,14 @@ public class Carte implements IConfig, ICarte {
 	 *
 	 * @param tour the tour
 	 */
-	private void joueTour(int tour) {
+	public void joueTour(int tour) {
 		if(tour == 1) {
-			for(int i = 0; i < this.listeHeros.size(); i++) 
-				this.listeHeros.get(i).aJoue = false;
+			for(Heros h : this.listeHeros)
+				h.aJoue = false;
 		}
 		else {
-			for(int j = 0; j < this.listeMonstres.size(); j++) 
-				this.listeMonstres.get(j).aJoue = false;	
+			for(Monstre m : this.listeMonstres) 
+				m.aJoue = false;	
 		}
 	}
 
@@ -417,20 +433,26 @@ public class Carte implements IConfig, ICarte {
 	 * @param cam the cam
 	 */
 	public void toutDessiner(Graphics g, Camera cam) {	
-		// dessine tout les heros sur la carte ainsi que les elements a leurs portee
-		for(Heros h : this.listeHeros)
+		// dessin de la zone a la portee des heros
+		for(Heros h : this.listeHeros) {
 			h.desssinerZone(g, cam);
-			
-		
-		for(Heros h : this.listeHeros)
-			h.seDessiner(g, cam);
-			
+		}
+	
 		// On dessine la grille visible, donc les positions donnee par la camera	
 		for(int i = cam.getDx(); i < LARGEUR_CASE_VISIBLE + cam.getDx(); i++) {
 			for(int j = cam.getDy(); j < HAUTEUR_CASE_VISIBLE + cam.getDy(); j++) {		
 				g.setColor(COULEUR_GRILLE);
 				g.drawRect(i * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE, j  * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
 			}
-		}	
+		}
+			
+		// dessine les elements 					
+		for(Heros h : this.listeHeros) {
+			for(Monstre m : this.listeMonstres) {
+				if(h.estDedans(m.getPosition()))
+					m.seDessiner(g, cam);
+			}
+			h.seDessiner(g, cam);	  
+		}
 	}
 }

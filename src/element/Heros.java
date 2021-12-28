@@ -25,27 +25,32 @@ public class Heros extends Soldat {
 	private TypesH h;
 	
     public Heros(Carte carte, TypesH h, String nom, Position pos){
-    	super(carte, h.getPoints(), h.getPortee(), h.getPuissance(), h.getTir(), pos, false);
+    	super(carte, h.getPoints(), h.getPortee(), h.getPuissance(), h.getTir(), pos);
         this.h = h;
     	this.nom = nom;
-        carte.setElement(this);;   
+        carte.setElement(this);
+       
+        this.BONUS_REPOS = this.getPointsMax() / 10;
         this.soldatSprite = new SpriteInitializer(this);
         this.dernierSprite = this.soldatSprite.spriteStandByBas;
-		this.BONUS_REPOS = this.getPointsMax() / 10;
     }
    
     private void dessinHeros(Graphics g, Camera cam) { 
     	int dx = cam.getDx() * NB_PIX_CASE;
     	int dy = cam.getDy() * NB_PIX_CASE;
     	
-     	g.drawImage(range, (this.pos.getX() * NB_PIX_CASE) - dx, (this.pos.getY() * NB_PIX_CASE) - dy, NB_PIX_CASE, NB_PIX_CASE, null);
+    	g.drawImage(range, (this.getPosition().getX() * NB_PIX_CASE) - dx, (this.getPosition().getY() * NB_PIX_CASE) - dy, NB_PIX_CASE, NB_PIX_CASE, null);
     	
+    	g.setColor(COULEUR_GRILLE);
+		g.drawRect(this.getPosition().getX() * NB_PIX_CASE - dx, this.getPosition().getY() * NB_PIX_CASE - dy, NB_PIX_CASE, NB_PIX_CASE); 
+		
     	this.dessineSprite(g, cam);
-    	
-        if(this.aJoue == true && !this.activeDeplacement) {
+
+    	if(this.aJoue && !this.activeDeplacement) {
     		g.setColor(COULEUR_HEROS_DEJA_JOUE);
-    		g.fillRect((this.pos.getX() * NB_PIX_CASE) - dx + this.deplacementX, (this.pos.getY() * NB_PIX_CASE) - dy + this.deplacementY, NB_PIX_CASE, NB_PIX_CASE); 
+    		g.fillRect((this.getPosition().getX() * NB_PIX_CASE) - dx + this.deplacementX, (this.getPosition().getY() * NB_PIX_CASE) - dy + this.deplacementY, NB_PIX_CASE, NB_PIX_CASE); 
         }
+        
         if(!this.activeDeplacement)
         	this.dessinBarreVie(g, cam);
     }
@@ -57,19 +62,16 @@ public class Heros extends Soldat {
     	    	
     	for(int i = 0; i <= portee * 2; i++) {
     		for(int j = 0; j <= portee * 2 ; j++) {
-    			Position porteeVisuelle = new Position(this.pos.getX() + i - portee, this.pos.getY() + j - portee);
+    			Position porteeVisuelle = new Position(this.getPosition().getX() + i - portee, this.getPosition().getY() + j - portee);
     			if(porteeVisuelle.estValide() == false)
     				continue;
     			
     			if(carte.getElement(porteeVisuelle) == null) 
     				g.drawImage(range, porteeVisuelle.getX() * NB_PIX_CASE  - dx, porteeVisuelle.getY() * NB_PIX_CASE - dy, NB_PIX_CASE, NB_PIX_CASE, null);
-    			else if (carte.getElement(porteeVisuelle) instanceof Monstre)
-    				carte.getElement(porteeVisuelle).seDessiner(g, cam);
     			else if(carte.getElement(porteeVisuelle) instanceof Obstacle)
-    				carte.getElement(porteeVisuelle).seDessiner(g, cam);
-    			
+    				carte.getElement(porteeVisuelle).seDessiner(g, cam);   			
     		}
-    	} 
+    	}
     }
     
     public void seDessiner(Graphics g, Camera cam) {
@@ -97,19 +99,17 @@ public class Heros extends Soldat {
     	for(int i = -1; i < 2; i++)
     		for(int j = -1; j < 2; j++) {
     			if(i != 0 || j != 0) {
-    				Position posVoisine = new Position(this.pos.getX() + i, this.pos.getY() + j);
+    				Position posVoisine = new Position(this.getPosition().getX() + i, this.getPosition().getY() + j);
     				if(posVoisine.estValide() == false) 
     					continue;
     				
     				if(carte.getElement(posVoisine) == null) {
     					g.setColor(COULEUR_DEPLACEMENT);
-    					g.fillRect((this.pos.getX() + i) * NB_PIX_CASE - dx + this.deplacementX, (this.pos.getY() + j) * NB_PIX_CASE - dy + this.deplacementY, NB_PIX_CASE, NB_PIX_CASE);
+    					g.fillRect((this.getPosition().getX() + i) * NB_PIX_CASE - dx + this.deplacementX, (this.getPosition().getY() + j) * NB_PIX_CASE - dy + this.deplacementY, NB_PIX_CASE, NB_PIX_CASE);
     				}
     			}
-    			g.setColor(COULEUR_GRILLE);
-    			g.drawRect((this.pos.getX() + i) * NB_PIX_CASE - dx + this.deplacementX, (this.pos.getY() + j) * NB_PIX_CASE - dy + this.deplacementY, NB_PIX_CASE, NB_PIX_CASE);
     		}   	  
-    }
+	}
     
 	private void dessinePorteeVisuelle(Graphics g, Camera cam) {
     	int portee = this.getPortee();
@@ -118,7 +118,7 @@ public class Heros extends Soldat {
     
     	for(int i = 0; i <= portee * 2; i++) {
     		for(int j = 0; j <= portee  * 2 ; j++) {
-    			Position porteeVisuelle = new Position(this.pos.getX() + i - portee, this.pos.getY() + j - portee);
+    			Position porteeVisuelle = new Position(this.getPosition().getX() + i - portee, this.getPosition().getY() + j - portee);
     			if(porteeVisuelle.estValide() == false) 
     				continue;
     			
@@ -134,12 +134,9 @@ public class Heros extends Soldat {
     				g.setColor(COULEUR_AMIS);
     				g.fillRect(porteeVisuelle.getX() * NB_PIX_CASE - dx + this.deplacementX, porteeVisuelle.getY() * NB_PIX_CASE - dy + this.deplacementY, NB_PIX_CASE, NB_PIX_CASE); 
     			}
-    			
-    			g.setColor(COULEUR_GRILLE);
-    			g.drawRect(porteeVisuelle.getX() * NB_PIX_CASE - dx + this.deplacementX, porteeVisuelle.getY() * NB_PIX_CASE - dy + this.deplacementY, NB_PIX_CASE, NB_PIX_CASE); 
     		}
-    	}	
-    }
+    	}
+	}
 	
 	public void seDessinerMinia(Graphics g) {
 		int portee = h.getPortee();
@@ -156,9 +153,6 @@ public class Heros extends Soldat {
     				carte.getElement(porteeVisuelle).seDessinerMinia(g);
     			else if(carte.getElement(porteeVisuelle) instanceof Obstacle)
     				carte.getElement(porteeVisuelle).seDessinerMinia(g);
-    			
-    			g.setColor(COULEUR_GRILLE);
-    			g.drawRect(porteeVisuelle.getX() * MINI_NB_PIX_CASE, porteeVisuelle.getY() * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE); 
     		}
     	} 
     	this.dessinHerosMinia(g);

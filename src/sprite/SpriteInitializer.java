@@ -38,8 +38,8 @@ public class SpriteInitializer implements IConfig, ISprite {
 	public transient SpriteSheet spriteDeplaceDroite;
 	public transient SpriteSheet spriteDeplaceHaut;
 	public transient SpriteSheet spriteDeplaceBas;
-
-	private final Soldat soldat;
+	
+	private transient final Soldat soldat;
 
 	/**
 	 * On initialise le sprite pour chaque soldat lors de sa creation Si une partie
@@ -47,28 +47,29 @@ public class SpriteInitializer implements IConfig, ISprite {
 	 * (Aucun sprite est enregistre dans la sauvegarde !)
 	 */
 	public SpriteInitializer(Soldat s) {
-		soldat = s;
+		this.soldat = s;
+		System.out.println("chemint -- > "  + soldat.getSprite());
+		String chemin = this.soldat.getSprite();
+		
 		// Creation des sprites StandBy
-		spriteStandByGauche = initSprite(LIGNE_STANDBY_GAUCHE, NB_IMAGE_STANDBY);
-		spriteStandByDroite = initSprite(LIGNE_STANDBY_DROITE, NB_IMAGE_STANDBY);
+		spriteStandByGauche = initSprite(LIGNE_STANDBY_GAUCHE, NB_IMAGE_STANDBY, chemin);
+		spriteStandByDroite = initSprite(LIGNE_STANDBY_DROITE, NB_IMAGE_STANDBY, chemin);
 
-		spriteStandByHaut = initSprite(LIGNE_STANDBY_HAUT, NB_IMAGE_STANDBY);
-		spriteStandByBas = initSprite(LIGNE_STANDBY_BAS, NB_IMAGE_STANDBY);
+		spriteStandByHaut = initSprite(LIGNE_STANDBY_HAUT, NB_IMAGE_STANDBY, chemin);
+		spriteStandByBas = initSprite(LIGNE_STANDBY_BAS, NB_IMAGE_STANDBY, chemin);
 
 		// Creation des sprites Attaque
-		spriteAttackGauche = initSprite(LIGNE_ATTACK_GAUCHE, NB_IMAGE_ATTACK);
-		spriteAttackDroite = initSprite(LIGNE_ATTACK_DROITE, NB_IMAGE_ATTACK);
+		spriteAttackGauche = initSprite(LIGNE_ATTACK_GAUCHE, NB_IMAGE_ATTACK, chemin);
+		spriteAttackDroite = initSprite(LIGNE_ATTACK_DROITE, NB_IMAGE_ATTACK, chemin);
 
-		spriteAttackHaut = initSprite(LIGNE_ATTACK_HAUT, NB_IMAGE_ATTACK);
-		spriteAttackBas = initSprite(LIGNE_ATTACK_BAS, NB_IMAGE_ATTACK);
+		spriteAttackHaut = initSprite(LIGNE_ATTACK_HAUT, NB_IMAGE_ATTACK, chemin);
+		spriteAttackBas = initSprite(LIGNE_ATTACK_BAS, NB_IMAGE_ATTACK, chemin);
 
-		spriteDeplaceGauche = initSprite(LIGNE_DEPLACEMENT_GAUCHE, NB_IMAGE_DEPLACEMENT);
-		spriteDeplaceDroite = initSprite(LIGNE_DEPLACEMENT_DROITE, NB_IMAGE_DEPLACEMENT);
+		spriteDeplaceGauche = initSprite(LIGNE_DEPLACEMENT_GAUCHE, NB_IMAGE_DEPLACEMENT, chemin);
+		spriteDeplaceDroite = initSprite(LIGNE_DEPLACEMENT_DROITE, NB_IMAGE_DEPLACEMENT, chemin);
 		
-		spriteDeplaceHaut = initSprite(LIGNE_DEPLACEMENT_HAUT, NB_IMAGE_DEPLACEMENT);
-		spriteDeplaceBas = initSprite(LIGNE_DEPLACEMENT_BAS, NB_IMAGE_DEPLACEMENT);
-
-		
+		spriteDeplaceHaut = initSprite(LIGNE_DEPLACEMENT_HAUT, NB_IMAGE_DEPLACEMENT, chemin);
+		spriteDeplaceBas = initSprite(LIGNE_DEPLACEMENT_BAS, NB_IMAGE_DEPLACEMENT, chemin);
 	}
 
 	/**
@@ -79,15 +80,15 @@ public class SpriteInitializer implements IConfig, ISprite {
 	 * @return spriteSheet le sprite Sheet
 	 */
 	/* Genere un Sprite a l'aide du numero de ligne et le nombre d'image */
-	private SpriteSheet initSprite(int ligne, int nbImage) {
+	private SpriteSheet initSprite(int ligne, int nbImage, String chemin) {
 		SpriteSheet spriteSheet = null;
 		try {
-			final BufferedImage sprite = ImageIO.read(new File(soldat.getSprite()));
+			BufferedImage sprite = ImageIO.read(new File(chemin));
 			spriteSheet = new SpriteSheetBuilder().withSheet(sprite).withColumns(0)
 					.withSpriteSize(LARGEUR_IMAGE, HAUTEUR_IMAGE).withRows(ligne).withSpriteCount(nbImage).build();
 			spriteEngine.start();
 		} catch (final IOException ex) {
-			System.out.println(" Erreur Sprite Attack Left-> " + ex);
+			System.out.println(" Erreur Sprite " + ex);
 			ex.printStackTrace();
 		}
 		return spriteSheet;

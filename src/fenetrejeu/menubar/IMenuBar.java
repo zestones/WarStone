@@ -19,6 +19,7 @@ public interface IMenuBar extends IConfig {
 	JButton cameraHaut = new BasicArrowButton(BasicArrowButton.NORTH);
 	JButton cameraGauche = new BasicArrowButton(BasicArrowButton.WEST);
 	JButton cameraDroite = new BasicArrowButton(BasicArrowButton.EAST); 
+
 	/** Variable du menuBar dans le PanneauJeu */
 	final int MENUBAR_HAUTEUR = 65;
 	final int MENUBAR_LARGEUR = FEN_LARGEUR;
@@ -28,8 +29,5 @@ public interface IMenuBar extends IConfig {
 	/** Varibale du footer dans le PanneauJeu */
 	final int FOOTER_HAUTEUR = 30;
 	final int FOOTER_LARGEUR = FEN_LARGEUR;
-	
-	
 
-	
 }

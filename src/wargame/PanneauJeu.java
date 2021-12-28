@@ -27,11 +27,11 @@ import element.Element;
 import element.Heros;
 import fenetrejeu.IFenetre;
 import fenetrejeu.menubar.MenuBarHeader;
-import infosgame.Fleche;
 import infosgame.InformationElement;
 import infosgame.MiniCarte;
 import sprite.ISprite;
 import sprite.SpriteController;
+import utile.Fleche;
 import utile.Position;
 import utile.Sauvegarde;
 
@@ -52,7 +52,6 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	public Heros herosSelectione;
 	private	Position survol;
 	private	Element elem;
-	public int lastTour;
 	public Camera cam;
 	public Carte c;
 
@@ -80,7 +79,6 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		this.creationElementPanneau();
 		
 		this.gestionEvenement();
-		
 		c.nombreSoldatVivant(this);
 	} 
 		
@@ -108,8 +106,8 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		
 		// Boutton restart recharge une carte cree aleatoirement
 		restart.addActionListener(new ActionListener(){  
-			public void actionPerformed(ActionEvent e){   
-				// On genere une nouvelle carte / camera
+			public void actionPerformed(ActionEvent e){  
+
 				c = new Carte();
 				
 				majMiniCarte();
@@ -122,21 +120,15 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		 
 		// Boutton Fin de Tour 
 		finTour.addActionListener(new ActionListener(){  
-			public void actionPerformed(ActionEvent e){
-				
-				System.out.println(estFiniAction);
-									
+			public void actionPerformed(ActionEvent e){						
 				// On oublie le dernier heros selectionne
 				herosSelectione = null;
 				
-				if(estFiniAction == true) {
+				if(estFiniAction) {
+					c.joueTour(tour);
 					tour = tour == 0 ? 1 : 0; 
 					spriteController.lanceSpriteAction(getGraphics());
-				}
-				
-//				System.out.println("----------liste  : ------------\n\n" +  c.listeActionSoldat);
-//				System.out.println("\n\n----------FIN-----------\n\n");
-				
+				}			
 			}  
 		});  
 		
@@ -151,14 +143,14 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		// Bouton de recuperation de sauvegarde
 		reprendre.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e){
-    			
     			c  = Sauvegarde.recupSauvegarde(c);
+    			
     			c.nombreSoldatVivant(pj);
     			
     			// Mise a jour de la miniCarte
 				majMiniCarte();
 				
-				frame.repaint();
+				repaint();
     		}    		
     	});
 		
@@ -313,7 +305,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-				
+		
 		// dessine le background avec l'image charger dans IConfig		
 		// CHANGER LARGEUR_CASE_VISIBLE <--> LARGEUR_CARTE_CASE_VISIBLE 
 		// 	|-> dans le cas ou la carte visible est couper (i.e la derniere case visible est calculer invisible mais visible a moitier sur l ecran)
@@ -332,14 +324,12 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	    	footer.setText(" " + this.elem.toString());
 				
 	    // Affiche les deplacement possible du heros selectionne
-	    if(this.herosSelectione != null && !this.herosSelectione.aJoue) {
-	    	this.herosSelectione.dessineSelection(g, this.herosSelectione, clicDragged, cam);
-	    	this.herosSelectione.changeSprite(g, clicDragged, cam);
+		if(this.herosSelectione != null && !this.herosSelectione.aJoue) {
+			this.herosSelectione.dessineSelection(g, this.herosSelectione, clicDragged, cam);
+			this.herosSelectione.changeSprite(clicDragged, cam);
 	    }
-	    
-	    if(this.herosSelectione == null)
-	    	clicDragged = null;   
-	                
+		    
+	   
 	    // On verifie si on doit dessiner la fleche ou non
 	    if(flecheDirectionnelle.estFlecheDessinable(herosSelectione, dessineFleche, draggedCam)) 
 	    	flecheDirectionnelle.dessineFleche(g, clic.getX() * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE + NB_PIX_CASE/2, 

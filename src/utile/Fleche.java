@@ -1,4 +1,4 @@
-package infosgame;
+package utile;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics;
@@ -6,10 +6,9 @@ import java.awt.Graphics2D;
 
 import carte.Camera;
 import element.Soldat;
-import utile.Position;
 import wargame.IConfig;
 
-public class Fleche implements IConfig{
+public class Fleche implements IConfig {
 	private static final long serialVersionUID = 1L;
 	
 	private Camera cam;

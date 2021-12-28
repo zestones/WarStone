@@ -20,6 +20,7 @@ import utile.Position;
 
 public abstract class Soldat extends Element implements ISoldat, Cloneable{
 	private static final long serialVersionUID = 1L;
+	
 	private final int POINTS_DE_VIE_MAX, PUISSANCE, TIR, PORTEE_VISUELLE;
    
 	protected transient SpriteInitializer soldatSprite;
@@ -27,35 +28,35 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
 	
 	private int pointsDeVie;
     public boolean aJoue;
-    public Position pos;    
+    private Position pos;    
     public Carte carte;
     public Position nouvellePos;
     public boolean deplacement, combat, mort;
     private Position[] champVisuelle = new Position[5];
     
     protected int deplacementX;
-	protected int deplacementY;
-	
+    protected int deplacementY;
+    
     public boolean activeDeplacement;
-   
-    public Soldat(Carte carte, int pts, int portee, int puiss, int tir, Position pos, boolean aJoue) {
+    
+    public Soldat(Carte carte, int pts, int portee, int puiss, int tir, Position pos) {
     	this.carte = carte;
     	
     	POINTS_DE_VIE_MAX = pointsDeVie = pts;
-        PORTEE_VISUELLE = portee; PUISSANCE = puiss; TIR = tir;
-        
-        this.pos = pos;
-        this.aJoue = aJoue;
-        this.deplacement = false;
-        this.activeDeplacement = false;    
-        this.deplacementX = 0;
-        this.deplacementY = 0;        
+    	PORTEE_VISUELLE = portee; PUISSANCE = puiss; TIR = tir;
+    	
+    	this.deplacementX = this.deplacementY = 0;    
+    	
+    	this.pos = pos;
+    	
+    	this.aJoue = false;
+    	this.deplacement = false;
+    	this.activeDeplacement = false;     
     }
     
    public void seDeplace(Position nouvPos) {
     	// Supression du soldat a sa position
-    	
-    	carte.setElementVide(this.getPosition());
+	   carte.setElementVide(this.getPosition());
     	
     	// definition des nouvelles position
     	this.getPosition().setX(nouvPos.getX());
@@ -65,20 +66,9 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     	carte.setElement(this);
     }
     
-    /**
-     * Clone un objet et le retourne sous forme d'objet de type soldat
-     * Utiliser pour copier un soldat lors d'une action de type deplacement
-     *
-     * @return the object
-     * @throws CloneNotSupportedException the clone not supported exception
-     */
-    public Soldat clone() throws CloneNotSupportedException {	
-    	return (Soldat) super.clone();
-    }
-    
-    public boolean combat(Soldat soldat) {
+   public boolean combat(Soldat soldat) {
     	// On verifie que le solodat attaquer se trouve bien a sa portee
-    	if(!this.dedans(soldat.getPosition()))
+    	if(!this.estDedans(soldat.getPosition()))
     		return false;
     	
     	int puissance;
@@ -96,7 +86,8 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     	if(soldat.getPoints() <= 0){
     		soldat.pointsDeVie = 0;	
     		soldat.mort = true;
-    		carte.listeActionMort.add(soldat);
+    		if(!carte.listeActionMort.contains(soldat))
+    			carte.listeActionMort.add(soldat);
     	}
     	return true;
     }
@@ -108,7 +99,7 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
      	this.champVisuelle[3] = new Position(this.getPosition().getX() - this.getPortee(), this.getPosition().getY() + this.getPortee());
     }
     
-    public boolean dedans(Position p) {
+    public boolean estDedans(Position p) {
     	int nbrCotes = this.champVisuelle.length - 1;
     	int[] listeAngle = new int[nbrCotes];
 			
@@ -154,10 +145,10 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
 			this.deplacementX = this.deplacementY = 0;
 			this.seDeplace(this.nouvellePos);
 			this.activeDeplacement = false;
-		}
+    	}
     }
     
-    public void changeSprite(Graphics g, Position clic, Camera cam) {   	
+    public void changeSprite(Position clic, Camera cam) {   	
     	if(clic == null)
     		return;
     	
@@ -166,11 +157,11 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     		this.dernierSprite = this.soldatSprite.spriteStandByDroite;
     	}
     	   	
-    	if(this.combat == false && this.deplacement == false)
+    	if(!this.combat && !this.deplacement)
     		this.setStandBySprite(clic);
-    	else if (this.combat == true)
+    	else if (this.combat)
     		this.setAttackSprite(clic);
-    	else if(this.deplacement == true) {
+    	else if(this.deplacement) {
     		this.setDeplacementSprite(clic);
     		this.activeDeplacement = true;
     		this.nouvellePos = clic;
@@ -242,6 +233,16 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
  		g.drawRect(((this.pos.getX() * NB_PIX_CASE) - ( Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR) / 2) + NB_PIX_CASE/2) - dx, (this.pos.getY() * NB_PIX_CASE + PADDING_VIE_CASE) - dy, Math.min(this.getPointsMax(), NB_PIX_CASE - PADDING_VIE_CASE_LARGEUR), NB_PIX_CASE/8); 
     }
    
+    /**
+     * Clone un objet et le retourne sous forme d'objet de type soldat
+     * Utiliser pour copier un soldat lors d'une action de type deplacement
+     *
+     * @return the object
+     * @throws CloneNotSupportedException the clone not supported exception
+     */
+    public Soldat clone() throws CloneNotSupportedException {	
+    	return (Soldat) super.clone();
+    }
     
     public void setPosition(Position nouvPos) { pos = new Position(nouvPos.getX(), nouvPos.getY()); }
     public int getPointsMax() { return this.POINTS_DE_VIE_MAX; }

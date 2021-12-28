@@ -59,11 +59,7 @@ public class FenetreJeu extends JFrame implements IFenetre{
 		
         // On ajoute le menu a notre HEADER
         header.add(menuBar, BorderLayout.CENTER);
-        
-        // Creation du panel principal qui contient la carte
-    	JPanel panel = new JPanel();
-    	
-		
+        	
 		panel.setPreferredSize(new Dimension(LARGEUR_CARTE, HAUTEUR_CARTE));
 		panel.setLayout(new BorderLayout());
 		panel.setBackground(COULEUR_FORET);
