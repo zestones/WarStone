@@ -24,7 +24,7 @@ public class Camera implements IConfig {
 	
 	/** Definition de la class camera et ses des methodes. */
 	public Carte c;
-	private Position delta;
+	private Position pos;
 
 	/**
 	 * Le contructeur de camera prend la carte un indice de deplacement x et y.
@@ -35,7 +35,7 @@ public class Camera implements IConfig {
 	 */
 	public Camera(Carte c, int dx, int dy) {
 		this.c = c ;
-		this.delta = new Position(dx, dy);
+		this.pos = new Position(dx, dy);
 		this.centreCamera();
 	}
 	
@@ -70,7 +70,7 @@ public class Camera implements IConfig {
 	 * @param y : int
 	 */
 	public void deplacement(int x, int y) {
-		this.delta.translater(x, y);
+		this.pos.translater(x, y);
 		estValideDeplacement();
 	}
 	
@@ -79,26 +79,26 @@ public class Camera implements IConfig {
 	 *
 	 * @return dx : int
 	 */
-	public int getDx() { return this.delta.getX(); }
+	public int getDx() { return this.pos.getX(); }
 	
 	/**
 	 * Recuperation de la valeur de deplacment en Y.
 	 *
 	 * @return dy : int
 	 */
-	public int getDy() { return this.delta.getY(); }
+	public int getDy() { return this.pos.getY(); }
 	
 	/**
 	 * Modification de la valeur de deplacement X.
 	 *
 	 * @param dx : int
 	 */
-	public void setDx(int dx) { this.delta.setX(dx); }
+	public void setDx(int dx) { this.pos.setX(dx); estValideDeplacement(); }
 	
 	/**
 	 * Modification de la valeur de deplacement en Y.
 	 *
 	 * @param dy : int
 	 */
-	public void setDy(int dy) { this.delta.setY(dy); }
+	public void setDy(int dy) { this.pos.setY(dy); estValideDeplacement(); }
 }

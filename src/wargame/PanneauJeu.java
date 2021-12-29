@@ -27,7 +27,7 @@ import element.Element;
 import element.Heros;
 import fenetrejeu.IFenetre;
 import fenetrejeu.menubar.MenuBarHeader;
-import infosgame.InformationElement;
+import infosgame.InfosElement;
 import infosgame.MiniCarte;
 import sprite.ISprite;
 import utile.Fleche;
@@ -117,7 +117,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 					
 					elem = c.getElement(clic);
 					
-					InformationElement.dessineInfosElement(elem);
+					InfosElement.dessineInfosElement(elem);
 					
 					// Si on a Selectionnee un heros et que l'on a effectuer un clic autre part alors on appelle jouerSoldat
 					if(elem instanceof Heros && estFiniAction) {

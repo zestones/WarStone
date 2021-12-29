@@ -10,8 +10,11 @@
 package infosgame;
 
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import carte.Camera;
 import carte.Carte;
@@ -41,6 +44,18 @@ public class MiniCarte extends JPanel implements IConfig {
 	public MiniCarte(Camera cam) {
 		this.c = cam.c;
 		this.cam = cam;
+		this.miniCarteEvent();
+	}
+	
+	private void miniCarteEvent() {
+		addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (SwingUtilities.isLeftMouseButton(e)) {
+					cam.setDx(e.getX()/MINI_NB_PIX_CASE);
+					cam.setDy(e.getY()/MINI_NB_PIX_CASE);
+				}
+			}
+		});
 	}
 	
 	/**
@@ -68,7 +83,7 @@ public class MiniCarte extends JPanel implements IConfig {
 	 * @param dy the dy
 	 */
 	// dessin de la carte entiere (les zones depassant l'ecran comprise)
-	private void dessineMiniCarte(Graphics g, int dx, int dy) {
+	private void dessineMiniCarte(Graphics g) {
 		// on dessine les heros et element a leur portee
 		for(int n = 0; n < this.c.listeHeros.size(); n++)
 			this.c.listeHeros.get(n).seDessinerMinia(g);
@@ -92,7 +107,7 @@ public class MiniCarte extends JPanel implements IConfig {
 		super.paintComponent(g);
 		g.drawImage(grass, 0, 0, LARGEUR_MINI_CARTE, HAUTEUR_MINI_CARTE, null);
 			
-		this.dessineMiniCarte(g, this.cam.getDx(), this.cam.getDy());
+		this.dessineMiniCarte(g);
 		this.dessineFocus(g, this.cam.getDx(), this.cam.getDy());
 
 	}

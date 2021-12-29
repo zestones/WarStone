@@ -24,7 +24,7 @@ import fenetrejeu.IFenetre;
  *
  * @author pc
  */
-public abstract class InformationElement implements IFenetre {
+public abstract class InfosElement implements IFenetre {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;

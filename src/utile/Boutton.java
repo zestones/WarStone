@@ -62,10 +62,12 @@ public class Boutton extends JButton implements IMenu{
     }
     
     public void setBouttonImage(String image){
+    	double coef =  0.69;
     	// chargement de l'image
     	ImageIcon icon = new ImageIcon("./res/img/background/menu/" + image + ".png");
+    	Image monImage = icon.getImage();
     	// Resize pour en fonction de la taille d'un boutton
-    	Image img = icon.getImage().getScaledInstance(LARGEUR_BOUTTON, HAUTEUR_BOUTTON, Image.SCALE_SMOOTH);
+    	Image img = monImage.getScaledInstance((int) (monImage.getWidth(this) * coef), (int) (monImage.getHeight(this) * coef), Image.SCALE_SMOOTH);
     		
     	// On creer le label qui va contenir l'image
 		JLabel label = new JLabel();

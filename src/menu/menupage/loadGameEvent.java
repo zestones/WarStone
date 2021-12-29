@@ -12,7 +12,7 @@ import utile.Boutton;
 public class loadGameEvent implements ISauvegarde, IMenu {
 	
 	public loadGameEvent() {
-		System.out.println(listeSauvegarde);
+		
 		for(int i = 0; i < listeBoutton.size(); i++) {
 			listeBoutton.get(i).addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -27,7 +27,6 @@ public class loadGameEvent implements ISauvegarde, IMenu {
 					// et on cree le paneau du jeu		
 					for(int j = 0; j < listeBoutton.size(); j++)
 						if(e.getSource() == listeBoutton.get(j)) {
-							System.out.println(" i -----> " + j);
 							new FenetreJeu(Sauvegarde.recupSauvegarde(j));						
 							frame.repaint();
 							break;
