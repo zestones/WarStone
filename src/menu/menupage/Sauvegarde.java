@@ -93,8 +93,9 @@ public class Sauvegarde implements ISauvegarde{
 	private static void deleteSauvegarde() {
 		try 
 		{
-            Files.delete(Paths.get(listeSauvegarde.get(MAX_SAUVEGARDE)));
+            Files.delete(Paths.get(chemin + listeSauvegarde.get(MAX_SAUVEGARDE - 1)));
             System.out.println("Supression du fichier : " + listeSauvegarde.get(MAX_SAUVEGARDE));
+            listeSauvegarde.remove(MAX_SAUVEGARDE - 1);
 		}
 		catch (IOException e) 
 		{

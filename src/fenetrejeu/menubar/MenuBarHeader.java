@@ -31,10 +31,6 @@ public class MenuBarHeader  implements IFenetre{
 		sauvegarde.setVisible(true);
 		menuBar.add(sauvegarde);
 		
-		reprendre.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
-		reprendre.setVisible(true);
-		menuBar.add(reprendre);
-		
 		restart.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
 		restart.setVisible(true);
 		menuBar.add(restart);

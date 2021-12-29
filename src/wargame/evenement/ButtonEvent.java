@@ -98,21 +98,5 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
     			new Sauvegarde(pj.c);
     		}
     	});
-		
-		// Bouton de recuperation de sauvegarde
-		reprendre.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				
-				pj.c = Sauvegarde.recupSauvegarde(listeBoutton.size() - 1);
-				
-				pj.c.nombreSoldatVivant(pj);
-				
-				// Mise a jour de la miniCarte
-				pj.majMiniCarte();
-				pj.flecheDirectionnelle = new Fleche(cam);
-				
-				pj.repaint();
-			}    		
-		});
 	}
 }

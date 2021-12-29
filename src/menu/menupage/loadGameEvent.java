@@ -10,7 +10,7 @@ import utile.Boutton;
 public class loadGameEvent implements ISauvegarde, IMenu {
 	
 	public loadGameEvent() {
-		
+		System.out.println(listeSauvegarde);
 		for(int i = 0; i < listeBoutton.size(); i++) {
 			listeBoutton.get(i).addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
