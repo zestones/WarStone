@@ -21,11 +21,11 @@ public class Boutton extends JButton implements IMenu{
 	
 	
 	public Boutton(int x, int y, int largeur, int hauteur){
-    	this.setSize(largeur, hauteur);
+    	
+		this.setSize(largeur, hauteur);
     	y = BOUTTON_POSITION_Y + (HAUTEUR_BOUTTON + HAUTEUR_BOUTTON/4 ) * NOMBRE_BOUTTON;
 
-    	this.setLocation(x, y);
-    	
+    	this.setLocation(x, y);  	
     	this.setOpaque(false);
     	this.setBorderPainted(false);
     	
@@ -35,8 +35,7 @@ public class Boutton extends JButton implements IMenu{
     @Override
     protected void paintComponent(Graphics g){
         g.setColor(couleur);
-        g.fillRoundRect(0, 0, getWidth(), getHeight(),  30, 30);
-        
+        g.fillRoundRect(0, 0, getWidth(), getHeight(),  30, 30); 
     }
     
     public void hoverBoutton(){
@@ -52,7 +51,7 @@ public class Boutton extends JButton implements IMenu{
     public void setBouttonText(String txt) {
     	// On creer le label qui va contenir l'image
     	JLabel label = new JLabel();
-    
+    	
     	label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setFont(new Font("Pushster", Font.BOLD, 20));
 		label.setText(txt);

@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
 import javax.swing.JLabel;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -12,13 +11,16 @@ import fenetrejeu.menubar.IMenuBar;
 import menu.IMenu;
 
 public interface IFenetre extends IMenuBar, IMenu{
+
+	// panelPrincipal de la fenetre
+	JPanel panelPrincipal = new JPanel(new BorderLayout());
 	
 	// Creation du panel principal qui contient la carte
 	JPanel panel = new JPanel();
 
-	// MenuBar Principal contenant les bouton
-	JMenuBar menuBar = new JMenuBar();
-	
+	// Creation d'un panel dans lequel on va mettre notre menu
+	JPanel header = new JPanel();	
+
 	JLabel footer = new JLabel("", SwingConstants.CENTER);	
 	// Panel contenant la carte miniature
 	JPanel carteMiniature = new JPanel();

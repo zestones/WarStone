@@ -61,11 +61,13 @@ public class Carte implements IConfig, ICarte {
 	public Carte() {
 		// Initialisation des listes
 		this.plateau = new Element[LARGEUR_CARTE_CASE][HAUTEUR_CARTE_CASE];
-	
+		
+		// les listes d'action 
 		this.listeActionAttaque = new ArrayList<>();
 		this.listeActionDeplacement = new ArrayList<>();
 		this.listeActionMort = new ArrayList<>();
 		
+		// liste de monstre et heros presenet sur la carte 
 		this.listeHeros = new ArrayList<>();
 		this.listeMonstres = new ArrayList<>();
 			

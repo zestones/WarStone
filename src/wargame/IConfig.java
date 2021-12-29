@@ -57,24 +57,21 @@ public interface IConfig extends java.io.Serializable {
 	int PADDING_VIE_CASE = PADDING_VIE_CASE_LARGEUR/2;
 		
 	// HAUTEUR et LARGEUR de la carte en NB DE CASE 
-	/** The hauteur carte case. */
 	// definit la taille en dehors de la fenetre si trop de case
 	int HAUTEUR_CARTE_CASE = (FEN_HAUTEUR / NB_PIX_CASE) + 1;
 	
-	/** The largeur carte case. */
+	/** largeur carte en nombre de case. */
 	int LARGEUR_CARTE_CASE = (FEN_LARGEUR / NB_PIX_CASE);
 	
-	/** The largeur infos panel. */
 	// On definit la largeur comme etant 1/4 de l'ecran de jeu
 	int LARGEUR_INFOS_PANEL = NB_PIX_CASE * LARGEUR_CARTE_CASE/4;	
 	
-	/** The hauteur nb soldat vivant. */
 	// Hauteur pour le label NB_SOLDAT_RESTANT
 	int HAUTEUR_NB_SOLDAT_VIVANT = LARGEUR_INFOS_PANEL/6;
 	
 	int PADDING_LARGEUR_MINI_CARTE = LARGEUR_INFOS_PANEL/16;
 	int PADDING_HAUTEUR_MINI_CARTE = PADDING_LARGEUR_MINI_CARTE;
-	/** The mini nb pix case. */
+
 	// Taille d'une case dans la miniCarte
 	int MINI_NB_PIX_CASE = Math.min((LARGEUR_INFOS_PANEL - LARGEUR_INFOS_PANEL/12) / HAUTEUR_CARTE_CASE, (LARGEUR_INFOS_PANEL - LARGEUR_INFOS_PANEL/8) / LARGEUR_CARTE_CASE);
 	
@@ -114,15 +111,11 @@ public interface IConfig extends java.io.Serializable {
 	/** The largeur icon element. */
 	int LARGEUR_ICON_ELEMENT = HAUTEUR_ICON_ELEMENT;
 	
-	/** The largeur case visible. */
 	int LARGEUR_CASE_VISIBLE = (LARGEUR_CARTE / NB_PIX_CASE);
-	
-	/** The hauteur case visible. */
 	int HAUTEUR_CASE_VISIBLE = (HAUTEUR_CARTE / NB_PIX_CASE);	
-	
-	
+		
 	// Definir le NB ELEMENT sur la carte
-	int NB_HEROS = (LARGEUR_CARTE_CASE * HAUTEUR_CARTE_CASE) / 20; 
+	int NB_HEROS = 1; 
 	int NB_MONSTRES = NB_HEROS * NB_HEROS/4; 
 	int NB_OBSTACLES = NB_HEROS * 2;
 	

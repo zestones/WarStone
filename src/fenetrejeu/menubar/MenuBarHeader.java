@@ -1,10 +1,11 @@
 package fenetrejeu.menubar;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 
 import javax.swing.JPanel;
+import javax.swing.border.MatteBorder;
 
 import fenetrejeu.IFenetre;
 
@@ -17,44 +18,54 @@ public class MenuBarHeader  implements IFenetre{
 	
 	private void initMenuBarHeader() {
 		
-		finTour.setSize(BOUTTON_LARGEUR, BOUTTON_HAUTEUR);
-		finTour.setVisible(true);
-        menuBar.add(finTour);
- 		
-        top.setBackground(COULEUR_MENUBAR);
-		top.setOpaque(true); 
-		top.setFont(new Font("Arial", Font.BOLD, 13));
-		top.setForeground(Color.WHITE);
-		menuBar.add(top); 
+		// Creation du menu qui contiendra les bouttons
+		menuBar.setBackground(COULEUR_MENUBAR); 
+		menuBar.setOpaque(true);
+		menuBar.setPreferredSize(new Dimension(MENUBAR_LARGEUR, MENUBAR_HAUTEUR));
+		menuBar.setLayout(new FlowLayout(FlowLayout.LEADING, 10, MENUBAR_HAUTEUR/4));  
 		
-		sauvegarde.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
+		menu.setVisible(true);
+		menuBar.add(menu);
+		
+		finTour.setVisible(true);
+		menuBar.add(finTour);		
+		
 		sauvegarde.setVisible(true);
 		menuBar.add(sauvegarde);
 		
-		restart.setSize(BOUTTON_LARGEUR/2, BOUTTON_HAUTEUR);
 		restart.setVisible(true);
 		menuBar.add(restart);
-			
-		JPanel fleche = new JPanel(new BorderLayout());
+				
+		JPanel fleche = new JPanel();
+		fleche.setOpaque(true);
+		fleche.setBackground(COULEUR_BOUTTON);
+		fleche.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, MENUBAR_HAUTEUR));
+		fleche.setBorder(new MatteBorder(0, 2, 2, 2, COULEUR_BORDURE));
 		
+		JPanel flecheContainer = new JPanel(new BorderLayout());
+		flecheContainer.setOpaque(true);
+		flecheContainer.setBackground(COULEUR_MENUBAR);
+		flecheContainer.setBorder(new MatteBorder(1, 1, 1, 1, COULEUR_GRILLE));
+		flecheContainer.setPreferredSize(new Dimension(MENUBAR_HAUTEUR - MENUBAR_HAUTEUR/4, MENUBAR_HAUTEUR - MENUBAR_HAUTEUR/4));
+
 		// Boutton descend Camera 
 		cameraBas.setVisible(true);
-		fleche.add(cameraBas, BorderLayout.SOUTH);
+		flecheContainer.add(cameraBas, BorderLayout.SOUTH);
 		
 		// Boutton monte Camera 
 		cameraHaut.setVisible(true);
-		fleche.add(cameraHaut, BorderLayout.NORTH);
+		flecheContainer.add(cameraHaut, BorderLayout.NORTH);
 		
 		// Boutton gauche Camera 
 		cameraGauche.setVisible(true);
-		fleche.add(cameraGauche, BorderLayout.WEST);
+		flecheContainer.add(cameraGauche, BorderLayout.WEST);
 		
 		// Boutton droit Camera 
 		cameraDroite.setVisible(true);
-		fleche.add(cameraDroite, BorderLayout.EAST);
+		flecheContainer.add(cameraDroite, BorderLayout.EAST);
 		
-		menuBar.add(fleche);
-		
+		fleche.add(flecheContainer);
+		header.add(fleche);		
 	}
 	
 }

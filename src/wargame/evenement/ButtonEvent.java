@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import carte.Camera;
 import carte.Carte;
 import fenetrejeu.IFenetre;
+import menu.MenuJeu;
 import menu.loadgame.ISauvegarde;
 import menu.loadgame.Sauvegarde;
 import sprite.SpriteController;
@@ -98,5 +99,26 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
     			new Sauvegarde(pj.c);
     		}
     	});
+		
+		menu.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){  	
+				// On suprime tout le contenu
+				panelPrincipal.removeAll();
+				// On valde les changements
+				panelPrincipal.revalidate();
+				
+				// On supprime le panneau que l'on va remplacer
+				frame.remove(panelPrincipal);
+				
+				//	pj = null;
+				//pj.c.listeHeros.clear();
+				
+				System.out.println("ok: ");
+				// Creation du menu
+				MenuJeu.initMenuJeu();
+				frame.repaint();
+				frame.pack();
+			}  
+		});  
 	}
 }

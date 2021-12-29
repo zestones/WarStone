@@ -41,6 +41,8 @@ public interface IMenu {
 	Boutton config = new Boutton(BOUTTON_POSITION_X, 0, LARGEUR_BOUTTON, HAUTEUR_BOUTTON);
 	Boutton quit = new Boutton(BOUTTON_POSITION_X, 0, LARGEUR_BOUTTON, HAUTEUR_BOUTTON);
 	
+	Boutton back = new Boutton(BOUTTON_POSITION_X - BOUTTON_POSITION_X + LARGEUR_BOUTTON/4, 0, LARGEUR_BOUTTON, HAUTEUR_BOUTTON);
+	
 	
 	String background = "./res/img/background/menu/background.png";
 	String backgroundMenu = "./res/img/background/menu/background-menu.png";

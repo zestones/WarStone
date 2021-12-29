@@ -30,12 +30,23 @@ import fenetrejeu.menubar.MenuBar;
  */
 public class MenuJeu implements IMenu {
 	
-	MenuJeu(){
+	public MenuJeu(){
 		
 		frame.setSize(MENU_LARGEUR, MENU_HAUTEUR);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(true);
 			
+		initMenuJeu();
+		
+		// On creer notre bar de menu secondaire
+		new MenuBar();
+		new MenuEvent();
+		
+		frame.pack();
+		frame.setVisible(true);  
+	}
+	
+	public static void initMenuJeu() {
 		panelMenu.setPreferredSize(new Dimension(MENU_LARGEUR, MENU_HAUTEUR));
 		
 		JPanel menuContainer = new JPanel(new FlowLayout());
@@ -53,9 +64,7 @@ public class MenuJeu implements IMenu {
 		
 		backgroundLabel.setIcon(new ImageIcon(img));	
 		menuContainer.add(backgroundLabel);	
-		
-		new MenuEvent();
-		
+				
 		frame.add(newGame); 
         frame.add(loadGame); 
         frame.add(config);
@@ -69,12 +78,6 @@ public class MenuJeu implements IMenu {
 		panelMenu.add(menuContainer);		
 		
 		frame.add(panelMenu);
-		
-		// On creer notre bar de menu secondaire
-		new MenuBar();
-		
-		frame.pack();
-		frame.setVisible(true);  
 	}
 	
 	public static void main(String[] args) {		

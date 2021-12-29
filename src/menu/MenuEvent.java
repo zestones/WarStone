@@ -75,7 +75,7 @@ public class MenuEvent extends JPanel implements IMenu{
 		});
 		
 		newGame.addActionListener(new ActionListener(){  
-			public void actionPerformed(ActionEvent e){			
+			public void actionPerformed(ActionEvent e){		
 				// On suprime tout le contenu
 				panelMenu.removeAll();
 				// On valde les changements
@@ -86,7 +86,6 @@ public class MenuEvent extends JPanel implements IMenu{
 				soundLauncher.clip.stop();
 				// lancement de la music du jeu
 				new SoundLauncher("game_music.wav");
-
 				// Supression des bouttons 
 				removeBoutton();
 				// On resize la fenetre pour la mettre en pleine ecran

@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 
 import fenetrejeu.FenetreJeu;
 import menu.IMenu;
+import menu.MenuJeu;
 import music.SoundLauncher;
 import utile.Boutton;
 
@@ -52,12 +53,35 @@ public class loadGameEvent implements ISauvegarde, IMenu {
 			});
 		}
 		
+		back.addMouseMotionListener(new MouseAdapter() { 
+			public void mouseMoved(MouseEvent e) {
+				back.hoverBoutton();
+			}
+		});
+		
+		back.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// On suprime tout le contenu
+				panelLoadGame.removeAll();
+				// On valde les changements
+				panelLoadGame.revalidate();
+				// On supprime le panneau que l'on va remplacer
+				frame.remove(panelLoadGame);
+				// Supression des bouttons 
+				removeBouton();	
+				MenuJeu.initMenuJeu();
+				frame.repaint();
+			}
+			
+		});
 		
 		frame.addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
 				for(int j = 0; j < listeBoutton.size(); j++) {
 					listeBoutton.get(j).unsetHoverBoutton();
 				}
+				back.unsetHoverBoutton();
 			}
 		});
 	}
@@ -66,5 +90,6 @@ public class loadGameEvent implements ISauvegarde, IMenu {
 	private void removeBouton() {
 			for(Boutton save : listeBoutton)
 				frame.remove(save);
+			frame.remove(back);
 	}
 }

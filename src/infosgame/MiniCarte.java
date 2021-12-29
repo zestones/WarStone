@@ -48,6 +48,7 @@ public class MiniCarte extends JPanel implements IConfig {
 	}
 	
 	private void miniCarteEvent() {
+			
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				if (SwingUtilities.isLeftMouseButton(e)) {

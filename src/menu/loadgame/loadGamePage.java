@@ -37,7 +37,8 @@ public class loadGamePage extends JPanel implements ISauvegarde, IMenu {
 		
 		backgroundLabel.setIcon(new ImageIcon(img));	
 		saveContainer.add(backgroundLabel);		
-			
+		
+		listeSauvegarde.clear();
 		initListeSauvegarde();
 		
 		int i = 0;
@@ -48,6 +49,9 @@ public class loadGamePage extends JPanel implements ISauvegarde, IMenu {
 			frame.add(listeBoutton.get(i));
 			i++;
 		}
+			
+		frame.add(back);
+		back.setBouttonText("BACK");
 		
 		new loadGameEvent();
 		

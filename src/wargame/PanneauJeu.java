@@ -58,7 +58,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	 * Instantiates a new panneau jeu.
 	 */
 	public PanneauJeu(Carte c) {	
-
+		
 		this.c = c;
 		this.cam = new Camera(c, 0, 0);
 		
@@ -231,13 +231,11 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
+
 		g.drawImage(grass, 0, 0, NB_PIX_CASE * LARGEUR_CASE_VISIBLE, NB_PIX_CASE * HAUTEUR_CASE_VISIBLE, null);
 		
 		this.c.toutDessiner(g, cam);
-		
-		// Affichage du label dans le menuBar
-		top.setText("Il reste " + nombreHeros + " Heros et " + nombreMonstre + " Monstres !");
+	
 		// Affichage du nombre de soldat restant
 		soldatRestant.setText("" + nombreHeros + " Heros VS " + nombreMonstre + " Monstre");
 		

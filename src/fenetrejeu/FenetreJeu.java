@@ -38,26 +38,17 @@ public class FenetreJeu extends JPanel implements IFenetre{
 	 */
 	public FenetreJeu(Carte c) {
 		
-		JPanel panelPrincipal = new JPanel(new BorderLayout());
 		panelPrincipal.setPreferredSize(new Dimension(FEN_LARGEUR, FEN_HAUTEUR));
 		panelPrincipal.setLayout(new BorderLayout());
 		panelPrincipal.setOpaque(true);	    		
-		
-		// Creation du menu qui contiendra les bouttons
-		menuBar.setBackground(COULEUR_MENUBAR); 
-        menuBar.setOpaque(true);
-		menuBar.setPreferredSize(new Dimension(MENUBAR_LARGEUR, MENUBAR_HAUTEUR));
-		menuBar.setLayout(new FlowLayout(FlowLayout.CENTER));  
+	
+		/* on retire l'espace cree par le flowLayout */
+		header.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
-		// Creation d'un panel dans lequel on va mettre notre menu
-		JPanel header = new JPanel();	
-
-		header.setPreferredSize(new Dimension(MENUBAR_LARGEUR, MENUBAR_HAUTEUR));
-        header.setLayout(new BorderLayout());
         header.setOpaque(true);	    		
 		
         // On ajoute le menu a notre HEADER
-        header.add(menuBar, BorderLayout.CENTER);
+        header.add(menuBar);
         	
 		panel.setPreferredSize(new Dimension(LARGEUR_CARTE, HAUTEUR_CARTE));
 		panel.setLayout(new BorderLayout());

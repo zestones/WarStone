@@ -37,7 +37,7 @@ public class SpriteController implements IConfig{
 	
 	public void lanceSpriteAction(Graphics g) {		
 		 pj.estFiniAction = false;
-		 
+					 
 		 lanceSpriteAttaque(g, pj.c.listeActionAttaque, pj.cam);
 		 lanceSpriteMort(g, pj.c.listeActionMort, pj.cam);
 		 lanceSpriteDeplacement(g, pj.c.listeActionDeplacement, pj.cam);
