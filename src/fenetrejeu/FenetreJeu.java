@@ -20,6 +20,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
 import carte.Carte;
+import fenetrejeu.menubar.MenuBarHeader;
 import infosgame.MiniCarte;
 import menu.loadgame.loadGamePage;
 import wargame.PanneauJeu;
@@ -32,6 +33,7 @@ public class FenetreJeu extends JPanel implements IFenetre{
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;	
+	public static final PanneauJeu panneau = new PanneauJeu(new Carte());
 	
 	/**
 	 * Instantiates a new fenetre jeu.
@@ -44,9 +46,8 @@ public class FenetreJeu extends JPanel implements IFenetre{
 	
 		/* on retire l'espace cree par le flowLayout */
 		header.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-
-        header.setOpaque(true);	    		
-		
+		header.setOpaque(true);	    		
+             
         // On ajoute le menu a notre HEADER
         header.add(menuBar);
         	
@@ -55,13 +56,9 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		panel.setBackground(COULEUR_FORET);
 		panel.setOpaque(true);	    
 		
-		// On cree notre panneau 
-		PanneauJeu panneau = new PanneauJeu(c);
+		// On charge la liste des sauvegardes 
 		loadGamePage.initListeSauvegarde();
-		
-		// On l'ajoute au panel principale	
-		panel.add(panneau);
-				
+						
 		// Creation d'un panel qui contient les infos du jeux
 		JPanel infosPanel = new JPanel(new FlowLayout());
 		
@@ -77,7 +74,6 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		infosPanel.setOpaque(true);	    	
 		infosPanel.setBorder(new MatteBorder(0, 2, 2, 2, COULEUR_BORDURE));
 		
-
 		// On cree un conteneur avec FlowLayout pour pouvoir centrer la miniCarte
 		JPanel miniCartePanel = new JPanel(new FlowLayout(FlowLayout.LEADING, PADDING_LARGEUR_MINI_CARTE, PADDING_HAUTEUR_MINI_CARTE));
 
@@ -176,6 +172,13 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		panelPrincipal.add(infosPanel, BorderLayout.EAST);
 		panelPrincipal.add(panel, BorderLayout.CENTER);
 			
+		// On cree notre panneau 
+		panneau.setPanneauJeu(c);
+		// On l'ajoute au panel principale	
+		panel.add(panneau);
+		
+		new MenuBarHeader();
+		
 		frame.add(panelPrincipal);
 		frame.pack();
 	}

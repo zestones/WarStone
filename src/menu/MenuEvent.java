@@ -5,15 +5,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import carte.Carte;
 import fenetrejeu.FenetreJeu;
 import menu.loadgame.loadGamePage;
-import music.SoundLauncher;
 
 public class MenuEvent extends JPanel implements IMenu{
 	private static final long serialVersionUID = 1L;
-	
+		
 	MenuEvent(){
 		this.evenementButton();
 	}
@@ -83,15 +84,15 @@ public class MenuEvent extends JPanel implements IMenu{
 				// On supprime le panneau que l'on va remplacer
 				frame.remove(panelMenu);
 				// Arret de la music du menu
-				soundLauncher.clip.stop();
+				menuMusic.clip.stop();
 				// lancement de la music du jeu
-				new SoundLauncher("game_music.wav");
+				gameMusic.clip.start();
 				// Supression des bouttons 
 				removeBoutton();
 				// On resize la fenetre pour la mettre en pleine ecran
-				//	frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+				frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 				// et on cree le paneau du jeu
-				new FenetreJeu();
+				new FenetreJeu(new Carte());
 				frame.repaint();
         	}			
         });  	

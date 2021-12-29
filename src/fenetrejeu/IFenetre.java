@@ -42,7 +42,9 @@ public interface IFenetre extends IMenuBar, IMenu{
 
 	// Label pour Nombre de soldat restant
 	JLabel soldatRestant = new JLabel();	
-		
+	
+	// panel contenant les fleches pour ce diriger sur la carte
+	JPanel fleche = new JPanel();
 	// Position de la fenetre
 	int POSITION_X = 100; int POSITION_Y = 50; 
 }

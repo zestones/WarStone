@@ -38,8 +38,8 @@ public class loadGamePage extends JPanel implements ISauvegarde, IMenu {
 		backgroundLabel.setIcon(new ImageIcon(img));	
 		saveContainer.add(backgroundLabel);		
 		
-		listeSauvegarde.clear();
 		initListeSauvegarde();
+		listeBoutton.clear();
 		
 		int i = 0;
 		Boutton.NOMBRE_BOUTTON = 0;
@@ -60,6 +60,10 @@ public class loadGamePage extends JPanel implements ISauvegarde, IMenu {
 	}
 	
 	public static void initListeSauvegarde() {
+		// On vide la liste
+		listeSauvegarde.clear();
+		System.out.println("recup");
+
 		File[] fichiers = new File(chemin).listFiles();
 
 		for(File monFichier : fichiers) {

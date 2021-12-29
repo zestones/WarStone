@@ -36,12 +36,13 @@ public class MenuBarHeader  implements IFenetre{
 		restart.setVisible(true);
 		menuBar.add(restart);
 				
-		JPanel fleche = new JPanel();
+	
 		fleche.setOpaque(true);
 		fleche.setBackground(COULEUR_BOUTTON);
 		fleche.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, MENUBAR_HAUTEUR));
 		fleche.setBorder(new MatteBorder(0, 2, 2, 2, COULEUR_BORDURE));
 		
+		// Panel contenant les fleche pour se diriger sur la carte
 		JPanel flecheContainer = new JPanel(new BorderLayout());
 		flecheContainer.setOpaque(true);
 		flecheContainer.setBackground(COULEUR_MENUBAR);

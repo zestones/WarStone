@@ -12,7 +12,6 @@ package wargame.evenement;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import carte.Camera;
 import carte.Carte;
 import fenetrejeu.IFenetre;
 import menu.MenuJeu;
@@ -24,14 +23,12 @@ import wargame.PanneauJeu;
 
 public class ButtonEvent implements IFenetre, ISauvegarde {
 	private static final long serialVersionUID = 1L;
-	private Camera cam;
 	private PanneauJeu pj;
 	public int tour;
 	private SpriteController spriteController;
 
 	public ButtonEvent(PanneauJeu pj) {
 		this.tour = 0;
-		this.cam = pj.cam;
 		this.pj = pj;
 		
 		this.spriteController = new SpriteController(pj);
@@ -44,22 +41,22 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 		// Boutton restart recharge une carte cree aleatoirement
 		cameraBas.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
-				cam.deplacement(0, 1);;
+				pj.cam.deplacement(0, 1);;
 			}  
 		});  
 		cameraHaut.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
-				cam.deplacement(0, -1);
+				pj.cam.deplacement(0, -1);
 			}  
 		});  
 		cameraGauche.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
-				cam.deplacement(-1, 0);
+				pj.cam.deplacement(-1, 0);
 			}  
 		});  
 		cameraDroite.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
-				cam.deplacement(1, 0);
+				pj.cam.deplacement(1, 0);
 			}  
 		}); 
 	}
@@ -71,7 +68,7 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 				pj.c = new Carte();
 				pj.majMiniCarte();
 				
-				pj.flecheDirectionnelle = new Fleche(cam);
+				pj.flecheDirectionnelle = new Fleche(pj.cam);
 								
 				tour = 0;
 				pj.herosSelectione = null;
@@ -104,24 +101,19 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 			public void actionPerformed(ActionEvent e){  	
 				// On suprime tout le contenu
 				panelPrincipal.removeAll();
-				// On valde les changements
 				panelPrincipal.revalidate();
 				
+				header.removeAll();
+				fleche.removeAll();
 				// On supprime le panneau que l'on va remplacer
 				frame.remove(panelPrincipal);
 				
-				pj.c.initCarteVide();
-				pj.c.listeHeros.clear();
-				pj.c.listeMonstres.clear();
-				//	pj = null;
-				//pj.c.listeHeros.clear();
-				
-				System.out.println("ok: ");
+				gameMusic.clip.stop();
 				// Creation du menu
 				MenuJeu.initMenuJeu();
 				frame.repaint();
 				frame.pack();
-			}  
+			} 	 
 		});  
 	}
 }

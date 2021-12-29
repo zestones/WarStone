@@ -71,8 +71,10 @@ public class Carte implements IConfig, ICarte {
 		this.listeHeros = new ArrayList<>();
 		this.listeMonstres = new ArrayList<>();
 			
-		initCarteVide();
-		
+		// On initialise le plateau vide
+		for(Element[] lignes : plateau)
+			Arrays.fill(lignes, null);
+			
 		// On position un soldat dans le focus de la camera
 		this.listeHeros.add(new Heros(this, Soldat.TypesH.getTypeHAlea(), "H", new Position(LARGEUR_CARTE_CASE/2, HAUTEUR_CARTE_CASE/2)));
 		
@@ -89,12 +91,6 @@ public class Carte implements IConfig, ICarte {
 		}
 	}
 	
-	public void initCarteVide() {
-		// On initialise le plateau vide
-		for(Element[] lignes : plateau)
-			Arrays.fill(lignes, null);
-	}
-
 	/**
 	 *  Fonction principale du jeu c'est ici que tout est g�re
 	 *  Les appels au autre methode .

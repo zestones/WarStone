@@ -32,9 +32,6 @@ public class SoundLauncher {
 		}
 
 	    clip.loop(-1);
-	    clip.start();
-	    clip.stop();
-	
 	}
 	
 	

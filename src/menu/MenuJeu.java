@@ -48,8 +48,10 @@ public class MenuJeu implements IMenu {
 	
 	public static void initMenuJeu() {
 		panelMenu.setPreferredSize(new Dimension(MENU_LARGEUR, MENU_HAUTEUR));
+		gameMusic.clip.stop();
+		menuMusic.clip.start();
 		
-		JPanel menuContainer = new JPanel(new FlowLayout());
+		JPanel menuContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		menuContainer.setOpaque(false);	
 				
 		BufferedImage backgroundImg = null;

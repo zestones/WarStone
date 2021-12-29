@@ -26,7 +26,6 @@ import carte.Carte;
 import element.Element;
 import element.Heros;
 import fenetrejeu.IFenetre;
-import fenetrejeu.menubar.MenuBarHeader;
 import infosgame.InfosElement;
 import infosgame.MiniCarte;
 import sprite.ISprite;
@@ -61,7 +60,6 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		
 		this.c = c;
 		this.cam = new Camera(c, 0, 0);
-		
 		this.flecheDirectionnelle = new Fleche(this.cam);
 		
 		this.herosSelectione = null;		
@@ -69,9 +67,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		this.elem = null;
 		this.dessineFleche = false;
 		this.estFiniAction = true;
-		
-		new MenuBarHeader();
-		
+				
 		this.creationElementPanneau();
 		
 		this.buttonEvent = new ButtonEvent(this);		
@@ -79,6 +75,20 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		
 		c.nombreSoldatVivant(this);
 	} 
+	
+	public void setPanneauJeu(Carte c) {
+		this.c = c;
+		this.majMiniCarte();
+		
+		this.flecheDirectionnelle = new Fleche(this.cam);
+		this.herosSelectione = null;		
+		
+		this.elem = null;
+		this.dessineFleche = false;
+		this.estFiniAction = true;
+			
+		c.nombreSoldatVivant(this);
+	}
 		
 	// FOOTER A Garder ?
 	private void creationElementPanneau() {
@@ -86,7 +96,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		footer.setPreferredSize(new Dimension(FOOTER_LARGEUR, FOOTER_HAUTEUR));
 		footer.setOpaque(true);
 		footer.setFont(new Font("Arial", Font.BOLD, 13));
-		footer.setForeground(Color.WHITE);
+		footer.setForeground(Color.WHITE);		
 	}
 		 
 	/**
@@ -94,11 +104,12 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	 */
 	public void gestionEvenement() {
 		PanneauJeu pj = this;
+		
 		// Actualisation des sprites
 		ISprite.spriteEngine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				carteMiniature.repaint();
-				pj.repaint();
+				repaint();
 			}
 		});
 		
@@ -109,11 +120,9 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 					clic = new Position(e.getX() / NB_PIX_CASE + cam.getDx(), e.getY() / NB_PIX_CASE + cam.getDy());
 					lastClic = new Position(e.getX() / NB_PIX_CASE + cam.getDx(), e.getY() / NB_PIX_CASE + cam.getDy());
 					
-					if(!c.estCaseVide(clic))
-						dessineFleche = false;
+					if(!c.estCaseVide(clic)) dessineFleche = false;
 											
-					if (!clic.estValide())
-						return;	
+					if(!clic.estValide()) return;	
 					
 					elem = c.getElement(clic);
 					
@@ -132,6 +141,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 				if (SwingUtilities.isLeftMouseButton(e)) {
 					dessineFleche = false;
 					releasedClic = new Position((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());
+					
 					// On recupere les clic lorsque la souris est egalement relache
 					lastClic = new Position((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());
 					// Si On a un heros de selectionner et que clic actuellement sur autre chose alors on appelle jouerSoldat
@@ -153,30 +163,22 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 					if(c.getElement(clic) == null && !clic.estIdentique(releasedClic) && c.estCaseVide(lastClic)) {
 						int distance = (int) clic.distance(releasedClic);
 						switch(clic.getPositionCardinal(releasedClic)) {
-						case NORD: 
-							cam.deplacement(0, -distance);
-							break;
-						case NORD_OUEST:
-							cam.deplacement(-distance, -distance);
-							break;
-						case OUEST:
-							cam.deplacement(-distance, 0);
-							break;
-						case SUD_OUEST:
-							cam.deplacement(-distance, distance);
-							break;
-						case SUD:
-							cam.deplacement(0, distance);
-							break;
-						case SUD_EST:
-							cam.deplacement(distance, distance);
-							break;
-						case EST:
-							cam.deplacement(distance, 0);
-							break;
-						case NORD_EST:
-							cam.deplacement(distance, -distance);
-							break;
+						case NORD: cam.deplacement(0, -distance);
+						break;
+						case NORD_OUEST: cam.deplacement(-distance, -distance);
+						break;
+						case OUEST: cam.deplacement(-distance, 0);
+						break;
+						case SUD_OUEST: cam.deplacement(-distance, distance);
+						break;
+						case SUD: cam.deplacement(0, distance);
+						break;
+						case SUD_EST: cam.deplacement(distance, distance);
+						break;
+						case EST: cam.deplacement(distance, 0);
+						break;
+						case NORD_EST: cam.deplacement(distance, -distance);
+						break;
 						default: break;
 						}
 					}
@@ -189,23 +191,20 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 			public void mouseDragged(MouseEvent e) {
 				clicDragged = new Position ((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());
 				draggedCam = new Position ((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());		
-				if(c.estCaseVide(clic))
-					dessineFleche = true;
-				else 
-					dessineFleche = false;
+				
+				if(c.estCaseVide(clic)) dessineFleche = true;
+				else dessineFleche = false;
 			}	
 			
 			public void mouseMoved(MouseEvent e) {
 				survol = new Position((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());
 
-				if(!survol.estValide())
-					return;
+				if(!survol.estValide()) return;
+					
 				elem = c.getElement(survol);
-		
-				/* Si le clic est relacher dans la case du heros on continue a memoriser les position */ 
-				if(herosSelectione != null)
-					clicDragged = new Position(survol.getX(), survol.getY());
 				
+				/* Si le clic est relacher dans la case du heros on continue a memoriser les position */ 
+				if(herosSelectione != null) clicDragged = new Position(survol.getX(), survol.getY());
 				// Ajouter un moyen de ne pas afficher les elements cache
 			}
 		});
@@ -219,7 +218,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		// Une supprime l'ancien conteneur
 		carteMiniature.removeAll();
 		// On valide les changement
-		carteMiniature.revalidate();
+		carteMiniature.revalidate();	
 		// Ajout de la nouvelle MiniCarte
 		carteMiniature.add(new MiniCarte(cam));
 	}

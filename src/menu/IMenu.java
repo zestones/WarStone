@@ -22,8 +22,9 @@ public interface IMenu {
 	// Parametre dessin de la fenetre
 	JFrame frame = new JFrame("WarStone");	
 
-	SoundLauncher soundLauncher = new SoundLauncher("menu_music.wav");
-
+	SoundLauncher menuMusic = new SoundLauncher("menu_music.wav");
+	SoundLauncher gameMusic = new SoundLauncher("game_music.wav");
+	
 	JPanel panelMenu = new JPanel();
 	
 	// HAUTEUR et LARGEUR de la Fenetre

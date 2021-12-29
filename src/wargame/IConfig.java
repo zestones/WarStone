@@ -38,22 +38,27 @@ public interface IConfig extends java.io.Serializable {
 	Image fleche = Toolkit.getDefaultToolkit().getImage("./res/img/pops/arrow.png");	
 	
 	Dimension taille = Toolkit.getDefaultToolkit().getScreenSize();	
+	
+	final int FEN_LARGEUR = (int)taille.getWidth();;
+	final int FEN_HAUTEUR = (int)taille.getHeight();;
 
-//	(int)taille.getWidth();
-//	(int)taille.getHeight();
-	
-	final int FEN_LARGEUR = 1200;
-	final int FEN_HAUTEUR = 800;
-	
-	/** The nb pix case. */
+	int LARGEUR_CASE_VISIBLE = 15;
+	int HAUTEUR_CASE_VISIBLE = 10;	
+	/** Varibale du footer dans le PanneauJeu */
+	final int FOOTER_HAUTEUR = 30;
+	final int FOOTER_LARGEUR = FEN_LARGEUR;
+
+	// On definit la largeur comme etant 1/4 de l'ecran de jeu
+	int LARGEUR_INFOS_PANEL = FEN_LARGEUR/4;	
+	// Hauteur du menuBar
+	int MENUBAR_HAUTEUR = 65;
+		
 	// Taille d'une case de la carte
-	int NB_PIX_CASE = 100;
+	int NB_PIX_CASE = Math.min((FEN_LARGEUR - LARGEUR_INFOS_PANEL)/LARGEUR_CASE_VISIBLE, (FEN_HAUTEUR - FOOTER_HAUTEUR - MENUBAR_HAUTEUR)/HAUTEUR_CASE_VISIBLE);
 	
-	/** The padding vie case largeur. */
 	// Constante pour centrer la barre de vie
 	int PADDING_VIE_CASE_LARGEUR = NB_PIX_CASE/8;
 	
-	/** The padding vie case. */
 	int PADDING_VIE_CASE = PADDING_VIE_CASE_LARGEUR/2;
 		
 	// HAUTEUR et LARGEUR de la carte en NB DE CASE 
@@ -63,8 +68,6 @@ public interface IConfig extends java.io.Serializable {
 	/** largeur carte en nombre de case. */
 	int LARGEUR_CARTE_CASE = (FEN_LARGEUR / NB_PIX_CASE);
 	
-	// On definit la largeur comme etant 1/4 de l'ecran de jeu
-	int LARGEUR_INFOS_PANEL = NB_PIX_CASE * LARGEUR_CARTE_CASE/4;	
 	
 	// Hauteur pour le label NB_SOLDAT_RESTANT
 	int HAUTEUR_NB_SOLDAT_VIVANT = LARGEUR_INFOS_PANEL/6;
@@ -110,12 +113,9 @@ public interface IConfig extends java.io.Serializable {
 	
 	/** The largeur icon element. */
 	int LARGEUR_ICON_ELEMENT = HAUTEUR_ICON_ELEMENT;
-	
-	int LARGEUR_CASE_VISIBLE = (LARGEUR_CARTE / NB_PIX_CASE);
-	int HAUTEUR_CASE_VISIBLE = (HAUTEUR_CARTE / NB_PIX_CASE);	
 		
 	// Definir le NB ELEMENT sur la carte
-	int NB_HEROS = 1; 
+	int NB_HEROS = 5; 
 	int NB_MONSTRES = NB_HEROS * NB_HEROS/4; 
 	int NB_OBSTACLES = NB_HEROS * 2;
 	

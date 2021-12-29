@@ -8,7 +8,6 @@ import java.awt.event.MouseEvent;
 import fenetrejeu.FenetreJeu;
 import menu.IMenu;
 import menu.MenuJeu;
-import music.SoundLauncher;
 import utile.Boutton;
 
 public class loadGameEvent implements ISauvegarde, IMenu {
@@ -30,9 +29,9 @@ public class loadGameEvent implements ISauvegarde, IMenu {
 					for(int j = 0; j < listeBoutton.size(); j++)
 						if(e.getSource() == listeBoutton.get(j)) {
 							// Arret de la music du menu
-							soundLauncher.clip.stop();
+							menuMusic.clip.stop();
 							// lancement de la music du jeu
-							new SoundLauncher("game_music.wav");
+							gameMusic.clip.start();
 							// creation de la carte avec les donnees recupere
 							new FenetreJeu(Sauvegarde.recupSauvegarde(j));						
 							frame.repaint();
@@ -70,6 +69,7 @@ public class loadGameEvent implements ISauvegarde, IMenu {
 				frame.remove(panelLoadGame);
 				// Supression des bouttons 
 				removeBouton();	
+				
 				MenuJeu.initMenuJeu();
 				frame.repaint();
 			}
