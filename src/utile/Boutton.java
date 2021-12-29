@@ -1,12 +1,14 @@
 package utile;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import menu.IMenu;
 
@@ -14,7 +16,7 @@ import menu.IMenu;
 public class Boutton extends JButton implements IMenu{
 	private static final long serialVersionUID = 1L;
 
-	private static int NOMBRE_BOUTTON = 0;
+	public static int NOMBRE_BOUTTON = 0;
 	private Color couleur = COULEUR_BOUTTON;
 	
 	
@@ -29,7 +31,7 @@ public class Boutton extends JButton implements IMenu{
     	
     	NOMBRE_BOUTTON++;
     }
-    
+	
     @Override
     protected void paintComponent(Graphics g){
         g.setColor(couleur);
@@ -47,6 +49,17 @@ public class Boutton extends JButton implements IMenu{
     	this.repaint();
     }
     
+    public void setBouttonText(String txt) {
+    	// On creer le label qui va contenir l'image
+    	JLabel label = new JLabel();
+    
+    	label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setFont(new Font("Pushster", Font.BOLD, 20));
+		label.setText(txt);
+		
+		// enfin ajout du label au boutton
+    	this.add(label);	
+    }
     
     public void setBouttonImage(String image){
     	// chargement de l'image

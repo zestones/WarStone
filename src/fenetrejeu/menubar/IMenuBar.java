@@ -12,7 +12,7 @@ public interface IMenuBar extends IConfig {
 	JButton finTour = new JButton("End Turn"); 
 	JLabel top = new JLabel("", SwingConstants.CENTER); 
 	JButton sauvegarde = new JButton("Save");   
-	JButton reprendre = new JButton("Resume");   
+	JButton reprendre = new JButton("reprendre");   
 	JButton restart = new JButton("ReStart");   
 
 	JButton cameraBas = new BasicArrowButton(BasicArrowButton.SOUTH);

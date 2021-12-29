@@ -21,11 +21,11 @@ public interface IConfig extends java.io.Serializable {
 	
 	/** The nb heros. */
 	// Definir le NB ELEMENT sur la carte
-	int NB_HEROS = 2; 
+	int NB_HEROS = 4; 
 	/** The nb monstres. */
-	int NB_MONSTRES = 1; 
+	int NB_MONSTRES = 0; 
 	/** The nb obstacles. */
-	int NB_OBSTACLES = 4;
+	int NB_OBSTACLES = 1;
 
 	Color COULEUR_VIDE = Color.white, COULEUR_INCONNU = Color.lightGray;
 	Color COULEUR_TEXTE = Color.black, COULEUR_MONSTRE = new Color(0, 0, 0, 60);

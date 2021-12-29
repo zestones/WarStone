@@ -53,12 +53,35 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	public Camera cam;
 	public Carte c;
 	public ButtonEvent buttonEvent;
-
 	/**
 	 * Instantiates a new panneau jeu.
 	 */
-	public PanneauJeu(){ 
+	public PanneauJeu() {
+
 		this.c = new Carte();
+		this.cam = new Camera(c, 0, 0);
+		
+		this.flecheDirectionnelle = new Fleche(cam);
+		
+		this.herosSelectione = null;		
+		
+		this.elem = null;
+		this.dessineFleche = false;
+		this.estFiniAction = true;
+		
+		new MenuBarHeader();
+		
+		this.creationElementPanneau();
+		
+		this.buttonEvent = new ButtonEvent(this);		
+		this.gestionEvenement();
+		
+		c.nombreSoldatVivant(this);
+		
+	}
+	public PanneauJeu(Carte c) {
+
+		this.c = c;
 		this.cam = new Camera(c, 0, 0);
 		
 		this.flecheDirectionnelle = new Fleche(cam);
@@ -101,6 +124,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 				pj.repaint();
 			}
 		});
+		
 		// Recuperation des clics a la souris
 		this.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {

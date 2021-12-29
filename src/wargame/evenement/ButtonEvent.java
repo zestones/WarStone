@@ -15,12 +15,13 @@ import java.awt.event.ActionListener;
 import carte.Camera;
 import carte.Carte;
 import fenetrejeu.IFenetre;
+import menu.menupage.ISauvegarde;
+import menu.menupage.Sauvegarde;
 import sprite.SpriteController;
 import utile.Fleche;
-import utile.Sauvegarde;
 import wargame.PanneauJeu;
 
-public class ButtonEvent implements IFenetre {
+public class ButtonEvent implements IFenetre, ISauvegarde {
 	private static final long serialVersionUID = 1L;
 	private Camera cam;
 	private PanneauJeu pj;
@@ -95,24 +96,23 @@ public class ButtonEvent implements IFenetre {
 		sauvegarde.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e){    			
     			new Sauvegarde(pj.c);
-    			pj.c.nombreSoldatVivant(pj);   		
     		}
     	});
 		
 		// Bouton de recuperation de sauvegarde
 		reprendre.addActionListener(new ActionListener(){
-    		public void actionPerformed(ActionEvent e){
-    			pj.c  = Sauvegarde.recupSauvegarde(pj.c);
-    			
-    			pj.c.nombreSoldatVivant(pj);
-    			
-    			// Mise a jour de la miniCarte
-    			pj.majMiniCarte();
-    			pj.flecheDirectionnelle = new Fleche(cam);
-								
-    			pj.repaint();
-    		}    		
-    	});
-		
+			public void actionPerformed(ActionEvent e){
+				
+				pj.c = Sauvegarde.recupSauvegarde(listeBoutton.size() - 1);
+				
+				pj.c.nombreSoldatVivant(pj);
+				
+				// Mise a jour de la miniCarte
+				pj.majMiniCarte();
+				pj.flecheDirectionnelle = new Fleche(cam);
+				
+				pj.repaint();
+			}    		
+		});
 	}
 }

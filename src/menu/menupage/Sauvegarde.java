@@ -8,13 +8,15 @@
  * 														utile		*
  * ******************************************************************/
 
-package utile;
+package menu.menupage;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import carte.Carte;
 
@@ -22,10 +24,7 @@ import carte.Carte;
 /**
  * The Class Sauvegarde.
  */
-public class Sauvegarde {
-	
-	/** The nom fichier. */
-	private static String nomFichier = "./res/wargame.ser";
+public class Sauvegarde implements ISauvegarde{
 	
 	/**
 	 * Instantiates a new sauvegarde.
@@ -33,10 +32,15 @@ public class Sauvegarde {
 	 * @param c the c
 	 */
 	// Creaction d'une nouvelle sauvegarde dans monFichier
-	public Sauvegarde(Carte c){
+	public Sauvegarde(Carte c){		
+		if(listeSauvegarde.size() <= MAX_SAUVEGARDE)
+			listeSauvegarde.add((chemin + "wargame-" + java.time.LocalDate.now() + "-"+ listeSauvegarde.size() + ".ser"));
+		else 
+			deleteSauvegarde();
+		
 		try
 		{   
-			FileOutputStream fichier = new FileOutputStream(nomFichier);
+			FileOutputStream fichier = new FileOutputStream(listeSauvegarde.get(listeSauvegarde.size() - 1));
 			ObjectOutputStream sortie = new ObjectOutputStream(fichier);
 			
 			sortie.writeObject(c);
@@ -59,10 +63,13 @@ public class Sauvegarde {
 	 * @return the carte
 	 */
 	// Chargement de la sauvegarde dans nomFichier
-	public static Carte recupSauvegarde(Carte c){
+	public static Carte recupSauvegarde(int index){
+		System.out.println("------------" + chemin + listeSauvegarde.get(index));
+		Carte c = null;
+		
 		try
 		{   
-			FileInputStream fichier = new FileInputStream(nomFichier);
+			FileInputStream fichier = new FileInputStream((chemin + listeSauvegarde.get(index)));
 			ObjectInputStream in = new ObjectInputStream(fichier);
 			
 			c = (Carte)in.readObject();
@@ -81,5 +88,19 @@ public class Sauvegarde {
 		}
 		
 		return c;
+	}
+	
+	private static void deleteSauvegarde() {
+		try 
+		{
+            Files.delete(Paths.get(listeSauvegarde.get(MAX_SAUVEGARDE)));
+            System.out.println("Supression du fichier : " + listeSauvegarde.get(MAX_SAUVEGARDE));
+		}
+		catch (IOException e) 
+		{
+			System.out.println("e : " + e);
+			e.printStackTrace();
+        }
+
 	}
 }

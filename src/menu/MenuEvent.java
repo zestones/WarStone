@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 
 import fenetrejeu.FenetreJeu;
+import menu.menupage.loadGamePage;
 
 public class MenuEvent extends JPanel implements IMenu{
 	private static final long serialVersionUID = 1L;
@@ -50,6 +51,21 @@ public class MenuEvent extends JPanel implements IMenu{
     		}	
 		});
 		
+		loadGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// On suprime tout le contenu
+				panelMenu.removeAll();
+				// On valde les changements
+				panelMenu.revalidate();
+				// On supprime le panneau que l'on va remplacer
+				frame.remove(panelMenu);
+				
+				removeBoutton();
+				new loadGamePage();
+				
+				frame.repaint();
+			}
+		});
 		
 		newGame.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){			
@@ -62,7 +78,7 @@ public class MenuEvent extends JPanel implements IMenu{
 				// Supression des bouttons 
 				removeBoutton();
 				// On resize la fenetre pour la mettre en pleine ecran
-//				frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+				//	frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 				// et on cree le paneau du jeu
 				new FenetreJeu();
 				frame.repaint();

@@ -34,7 +34,7 @@ public class MenuJeu implements IMenu {
 		
 		frame.setSize(MENU_LARGEUR, MENU_HAUTEUR);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
+		frame.setResizable(true);
 
 		panelMenu.setPreferredSize(new Dimension(MENU_LARGEUR, MENU_HAUTEUR));
 		
