@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 
 import fenetrejeu.FenetreJeu;
 import menu.IMenu;
+import music.SoundLauncher;
 import utile.Boutton;
 
 public class loadGameEvent implements ISauvegarde, IMenu {
@@ -27,6 +28,11 @@ public class loadGameEvent implements ISauvegarde, IMenu {
 					// et on cree le paneau du jeu		
 					for(int j = 0; j < listeBoutton.size(); j++)
 						if(e.getSource() == listeBoutton.get(j)) {
+							// Arret de la music du menu
+							soundLauncher.clip.stop();
+							// lancement de la music du jeu
+							new SoundLauncher("game_music.wav");
+							// creation de la carte avec les donnees recupere
 							new FenetreJeu(Sauvegarde.recupSauvegarde(j));						
 							frame.repaint();
 							break;

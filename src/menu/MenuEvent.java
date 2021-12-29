@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import fenetrejeu.FenetreJeu;
 import menu.loadgame.loadGamePage;
+import music.SoundLauncher;
 
 public class MenuEvent extends JPanel implements IMenu{
 	private static final long serialVersionUID = 1L;
@@ -81,6 +82,11 @@ public class MenuEvent extends JPanel implements IMenu{
 				panelMenu.revalidate();
 				// On supprime le panneau que l'on va remplacer
 				frame.remove(panelMenu);
+				// Arret de la music du menu
+				soundLauncher.clip.stop();
+				// lancement de la music du jeu
+				new SoundLauncher("game_music.wav");
+
 				// Supression des bouttons 
 				removeBoutton();
 				// On resize la fenetre pour la mettre en pleine ecran

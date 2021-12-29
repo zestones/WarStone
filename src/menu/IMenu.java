@@ -14,13 +14,16 @@ import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import music.SoundLauncher;
 import utile.Boutton;
 
 public interface IMenu {
 	
 	// Parametre dessin de la fenetre
 	JFrame frame = new JFrame("WarStone");	
-	
+
+	SoundLauncher soundLauncher = new SoundLauncher("menu_music.wav");
+
 	JPanel panelMenu = new JPanel();
 	
 	// HAUTEUR et LARGEUR de la Fenetre
