@@ -21,6 +21,7 @@ import javax.swing.border.MatteBorder;
 
 import carte.Carte;
 import infosgame.MiniCarte;
+import menu.loadgame.loadGamePage;
 import wargame.PanneauJeu;
 
 
@@ -65,7 +66,8 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		
 		// On cree notre panneau 
 		PanneauJeu panneau = new PanneauJeu(c);
-
+		loadGamePage.initListeSauvegarde();
+		
 		// On l'ajoute au panel principale	
 		panel.add(panneau);
 				

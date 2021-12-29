@@ -62,7 +62,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		this.c = c;
 		this.cam = new Camera(c, 0, 0);
 		
-		this.flecheDirectionnelle = new Fleche(cam);
+		this.flecheDirectionnelle = new Fleche(this.cam);
 		
 		this.herosSelectione = null;		
 		

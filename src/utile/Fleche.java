@@ -29,6 +29,7 @@ public class Fleche implements IConfig {
 	 * @param h the h
 	 * @param clic the clic
 	 */
+	
 	// https://stackoverflow.com/questions/2027613/how-to-draw-a-directed-arrow-line-in-java
 	public void dessineFleche(Graphics g, int x1, int y1, int x2, int y2, int d, int h, Position clic) {
 	    int dx = x2 - x1, dy = y2 - y1;
@@ -64,6 +65,7 @@ public class Fleche implements IConfig {
 	    g2.setStroke(new BasicStroke(2));
 	    
 	    g.setColor(COULEUR_EAU);
+	   
 	    // On recalcule le deuxieme point de la ligne de la fleche pour qu'il soit centre
 	    if(clic.getX() < Cx && clic.getY() == Cy) x2 -= d;
 	    else if(clic.getX() > Cx && clic.getY() == Cy) x2 += d;
@@ -81,6 +83,7 @@ public class Fleche implements IConfig {
 	    else if(clic.getX() < Cx && clic.getY() > Cy) {
 	    	x2 -= d/(distance+1); y2 += d/(distance+1);
 	    }
+	    
 	    g.drawLine(x1, y1, x2, y2);
 	   
 	    g.fillPolygon(xpoints, ypoints, 3);

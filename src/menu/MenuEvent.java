@@ -8,7 +8,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 
 import fenetrejeu.FenetreJeu;
-import menu.menupage.loadGamePage;
+import menu.loadgame.loadGamePage;
 
 public class MenuEvent extends JPanel implements IMenu{
 	private static final long serialVersionUID = 1L;

@@ -1,4 +1,4 @@
-package menu.menupage;
+package menu.loadgame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

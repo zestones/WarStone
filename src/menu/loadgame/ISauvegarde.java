@@ -1,4 +1,4 @@
-package menu.menupage;
+package menu.loadgame;
 
 import java.util.ArrayList;
 import java.util.List;

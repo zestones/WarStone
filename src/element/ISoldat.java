@@ -16,65 +16,65 @@ import sprite.ISprite;
 import utile.Position;
 	
 /**
- * The Interface ISoldat.
+ *  Interface ISoldat.
  */
 public interface ISoldat extends ISprite{
 	
-	/** The Elf miniature. */
+	/**  Elf miniature. */
 	//	Miniature des Heros
 	Image ElfMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/miniature/Elf.png");
 	
-	/** The Hobbit miniature. */
+	/**  Hobbit miniature. */
 	Image HobbitMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/miniature/Hobbit.png");
 	
-	/** The Humain miniature. */
+	/**  Humain miniature. */
 	Image HumainMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/miniature/Humain.png");
 	
-	/** The Nain miniature. */
+	/**  Nain miniature. */
 	Image NainMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/miniature/Nain.png");
 
-	/** The Gobelin miniature. */
+	/**  Gobelin miniature. */
 	// Miniature des Monstres
 	Image GobelinMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/miniature/Gobelin.png");
 	
-	/** The Orc miniature. */
+	/**  Orc miniature. */
 	Image OrcMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/miniature/Orc.png");
 	
-	/** The Troll miniature. */
+	/**  Troll miniature. */
 	Image TrollMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/miniature/Troll.png");
 	
 	/**
-	 * The Enum TypesH.
+	 *  Enum TypesH.
 	 */
 	static enum TypesH { 
 		
-		/** The humain. */
+		/**  humain. */
 		HUMAIN (40, 2, 10, 2, humain, HumainMiniature), 
-		/** The nain. */
+		/**  nain. */
 		NAIN (80, 1, 20, 0, nain, NainMiniature), 
-		/** The elf. */
+		/**  elf. */
 		ELF (70, 5, 10, 6, elf, ElfMiniature), 
-		/** The hobbit. */
+		/**  hobbit. */
 		HOBBIT (20, 3, 5, 2, hobbit, HobbitMiniature);
       
-		/** The tir. */
+		/**  tir. */
 		private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR;
       
-		/** The sprite. */
+		/**  sprite. */
 		private final String SPRITE;
       
-		/** The image. */
+		/**  image. */
 		private final Image IMAGE;
       
 		/**
 		 * Instantiates a new types H.
 		 *
-		 * @param points the points
-		 * @param portee the portee
-		 * @param puissance the puissance
-		 * @param tir the tir
-		 * @param spritePath the sprite path
-		 * @param imgMiniature the img miniature
+		 * @param points  points
+		 * @param portee  portee
+		 * @param puissance  puissance
+		 * @param tir  tir
+		 * @param spritePath  sprite path
+		 * @param imgMiniature  img miniature
 		 */
 		TypesH(int points, int portee, int puissance, int tir, String spritePath, Image imgMiniature) {
 			POINTS_DE_VIE = points; PORTEE_VISUELLE = portee;
@@ -84,51 +84,51 @@ public interface ISoldat extends ISprite{
 		}
       
       /**
-       * Gets the points.
+       * Gets  points.
        *
-       * @return the points
+       * @return  points
        */
       public int getPoints() { return POINTS_DE_VIE; }
       
       /**
-       * Gets the portee.
+       * Gets  portee.
        *
-       * @return the portee
+       * @return  portee
        */
       public int getPortee() { return PORTEE_VISUELLE; }
       
       /**
-       * Gets the puissance.
+       * Gets  puissance.
        *
-       * @return the puissance
+       * @return  puissance
        */
       public int getPuissance() { return PUISSANCE; }
       
       /**
-       * Gets the tir.
+       * Gets  tir.
        *
-       * @return the tir
+       * @return  tir
        */
       public int getTir() { return TIR; }
       
       /**
-       * Gets the sprite.
+       * Gets  sprite.
        *
-       * @return the sprite
+       * @return  sprite
        */
       public String getSprite() { return SPRITE; }
       
       /**
-       * Gets the image.
+       * Gets  image.
        *
-       * @return the image
+       * @return  image
        */
       public Image getImage() { return IMAGE; } 
       
       /**
-       * Gets the type H alea.
+       * Gets  type H alea.
        *
-       * @return the type H alea
+       * @return  type H alea
        */
       public static TypesH getTypeHAlea() {
          return values()[(int)(Math.random()*values().length)];
@@ -136,35 +136,35 @@ public interface ISoldat extends ISprite{
    }
    
    /**
-    * The Enum TypesM.
+    *  Enum TypesM.
     */
    public static enum TypesM {
       
-	   /** The troll. */
+	   /**  troll. */
 	   TROLL (100,1,30,0, troll, TrollMiniature), 
-	   /** The orc. */
+	   /**  orc. */
 	   ORC (40,2,10,3, orc, OrcMiniature), 
-	   /** The gobelin. */
+	   /**  gobelin. */
 	   GOBELIN (20,2,5,2, gobelin, GobelinMiniature);
       
-	   /** The tir. */
+	   /**  tir. */
 	   private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR;
 	   
-	   /** The sprite. */
+	   /**  sprite. */
 	   private final String SPRITE;
       
-	   /** The image. */
+	   /**  image. */
 	   private final Image IMAGE;
       
       /**
        * Instantiates a new types M.
        *
-       * @param points the points
-       * @param portee the portee
-       * @param puissance the puissance
-       * @param tir the tir
-       * @param spritePath the sprite path
-       * @param imgMiniature the img miniature
+       * @param points  points
+       * @param portee  portee
+       * @param puissance  puissance
+       * @param tir  tir
+       * @param spritePath  sprite path
+       * @param imgMiniature  img miniature
        */
 	   TypesM(int points, int portee, int puissance, int tir, String spritePath, Image imgMiniature) {
 		   POINTS_DE_VIE = points; PORTEE_VISUELLE = portee;
@@ -174,51 +174,51 @@ public interface ISoldat extends ISprite{
       }
       
       /**
-       * Gets the points.
+       * Gets  points.
        *
-       * @return the points
+       * @return  points
        */
       public int getPoints() { return POINTS_DE_VIE; }
       
       /**
-       * Gets the portee.
+       * Gets  portee.
        *
-       * @return the portee
+       * @return  portee
        */
       public int getPortee() { return PORTEE_VISUELLE; }
       
       /**
-       * Gets the puissance.
+       * Gets  puissance.
        *
-       * @return the puissance
+       * @return  puissance
        */
       public int getPuissance() { return PUISSANCE; }
       
       /**
-       * Gets the tir.
+       * Gets  tir.
        *
-       * @return the tir
+       * @return  tir
        */
       public int getTir() { return TIR; } 
       
       /**
-       * Gets the sprite.
+       * Gets  sprite.
        *
-       * @return the sprite
+       * @return  sprite
        */
       public String getSprite() { return SPRITE; }
       
       /**
-       * Gets the image.
+       * Gets  image.
        *
-       * @return the image
+       * @return  image
        */
       public Image getImage() { return IMAGE; } 
       
       /**
-       * Gets the type M alea.
+       * Gets  type M alea.
        *
-       * @return the type M alea
+       * @return  type M alea
        */
       public static TypesM getTypeMAlea() {
     	  return values()[(int)(Math.random()*values().length)];
@@ -226,30 +226,30 @@ public interface ISoldat extends ISprite{
    }
    
    /**
-    * Gets the points.
+    * Gets  points.
     *
-    * @return the points
+    * @return  points
     */
    int getPoints(); 
    
    /**
-    * Gets the portee.
+    * Gets  portee.
     *
-    * @return the portee
+    * @return  portee
     */
    int getPortee();
    
    /**
     * Se deplace.
     *
-    * @param newPos the new pos
+    * @param newPos  new pos
     */
    void seDeplace(Position newPos);
    
    /**
     * Combat.
     *
-    * @param soldat the soldat
+    * @param soldat  soldat
     * @return true, if successful
     */
    boolean combat(Soldat soldat);	

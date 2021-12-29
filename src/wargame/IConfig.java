@@ -19,14 +19,6 @@ import java.awt.Toolkit;
  */
 public interface IConfig extends java.io.Serializable {	
 	
-	/** The nb heros. */
-	// Definir le NB ELEMENT sur la carte
-	int NB_HEROS = 4; 
-	/** The nb monstres. */
-	int NB_MONSTRES = 0; 
-	/** The nb obstacles. */
-	int NB_OBSTACLES = 1;
-
 	Color COULEUR_VIDE = Color.white, COULEUR_INCONNU = Color.lightGray;
 	Color COULEUR_TEXTE = Color.black, COULEUR_MONSTRE = new Color(0, 0, 0, 60);
 	Color COULEUR_HEROS = Color.red, COULEUR_HEROS_DEJA_JOUE = new Color(175, 25, 75, 100);
@@ -127,4 +119,11 @@ public interface IConfig extends java.io.Serializable {
 	
 	/** The hauteur case visible. */
 	int HAUTEUR_CASE_VISIBLE = (HAUTEUR_CARTE / NB_PIX_CASE);	
+	
+	
+	// Definir le NB ELEMENT sur la carte
+	int NB_HEROS = (LARGEUR_CARTE_CASE * HAUTEUR_CARTE_CASE) / 20; 
+	int NB_MONSTRES = NB_HEROS * NB_HEROS/4; 
+	int NB_OBSTACLES = NB_HEROS * 2;
+	
 }

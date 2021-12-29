@@ -8,7 +8,7 @@
  * 														utile		*
  * ******************************************************************/
 
-package menu.menupage;
+package menu.loadgame;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -33,6 +33,7 @@ public class Sauvegarde implements ISauvegarde{
 	 */
 	// Creaction d'une nouvelle sauvegarde dans monFichier
 	public Sauvegarde(Carte c){		
+	
 		if(listeSauvegarde.size() <= MAX_SAUVEGARDE)
 			listeSauvegarde.add((chemin + "wargame-" + java.time.LocalDate.now() + "-"+ listeSauvegarde.size() + ".ser"));
 		else 

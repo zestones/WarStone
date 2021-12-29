@@ -1,4 +1,4 @@
-package menu.menupage;
+package menu.loadgame;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -37,14 +37,8 @@ public class loadGamePage extends JPanel implements ISauvegarde, IMenu {
 		
 		backgroundLabel.setIcon(new ImageIcon(img));	
 		saveContainer.add(backgroundLabel);		
-		
-		File[] fichiers = new File(chemin).listFiles();
-
-		for(File monFichier : fichiers) {
-		    if (monFichier.isFile()) {
-		        listeSauvegarde.add(chemin + monFichier.getName());
-		    }
-		}
+			
+		initListeSauvegarde();
 		
 		int i = 0;
 		Boutton.NOMBRE_BOUTTON = 0;
@@ -59,5 +53,15 @@ public class loadGamePage extends JPanel implements ISauvegarde, IMenu {
 		
 		panelLoadGame.add(saveContainer);		
 		frame.add(panelLoadGame);
+	}
+	
+	public static void initListeSauvegarde() {
+		File[] fichiers = new File(chemin).listFiles();
+
+		for(File monFichier : fichiers) {
+		    if (monFichier.isFile()) {
+		        listeSauvegarde.add(chemin + monFichier.getName());
+		    }
+		}
 	}
 }
