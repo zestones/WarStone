@@ -43,10 +43,10 @@ public interface IConfig extends java.io.Serializable {
 	
 	Image grass = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/grass.png");
 	Image range = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/range.jpg");
-	Image fleche = Toolkit.getDefaultToolkit().getImage("./res/img/pops/arrow.png");
-	
+	Image fleche = Toolkit.getDefaultToolkit().getImage("./res/img/pops/arrow.png");	
 	
 	Dimension taille = Toolkit.getDefaultToolkit().getScreenSize();	
+
 //	(int)taille.getWidth();
 //	(int)taille.getHeight();
 	

@@ -51,6 +51,12 @@ public class MenuEvent extends JPanel implements IMenu{
     		}	
 		});
 		
+		quit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(-1);
+			}
+		});
+		
 		loadGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// On suprime tout le contenu

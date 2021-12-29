@@ -27,7 +27,7 @@ public class loadGamePage extends JPanel implements ISauvegarde, IMenu {
 				
 		BufferedImage backgroundImg = null;
 		try {
-			backgroundImg = ImageIO.read(new File(background));
+			backgroundImg = ImageIO.read(new File(backgroundMenu));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -42,7 +42,7 @@ public class loadGamePage extends JPanel implements ISauvegarde, IMenu {
 
 		for(File monFichier : fichiers) {
 		    if (monFichier.isFile()) {
-		        listeSauvegarde.add(monFichier.getName());
+		        listeSauvegarde.add(chemin + monFichier.getName());
 		    }
 		}
 		
@@ -50,7 +50,7 @@ public class loadGamePage extends JPanel implements ISauvegarde, IMenu {
 		Boutton.NOMBRE_BOUTTON = 0;
 		for(String save : listeSauvegarde) {
 			listeBoutton.add(new Boutton(BOUTTON_POSITION_X - BOUTTON_POSITION_X/4, 0, LARGEUR_BOUTTON*2, HAUTEUR_BOUTTON));
-			listeBoutton.get(i).setBouttonText(save);
+			listeBoutton.get(i).setBouttonText(save.replace(chemin, ""));
 			frame.add(listeBoutton.get(i));
 			i++;
 		}

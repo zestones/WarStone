@@ -64,12 +64,12 @@ public class Sauvegarde implements ISauvegarde{
 	 */
 	// Chargement de la sauvegarde dans nomFichier
 	public static Carte recupSauvegarde(int index){
-		System.out.println("------------" + chemin + listeSauvegarde.get(index));
+		System.out.println("------------" + listeSauvegarde.get(index));
 		Carte c = null;
 		
 		try
 		{   
-			FileInputStream fichier = new FileInputStream((chemin + listeSauvegarde.get(index)));
+			FileInputStream fichier = new FileInputStream(listeSauvegarde.get(index));
 			ObjectInputStream in = new ObjectInputStream(fichier);
 			
 			c = (Carte)in.readObject();
@@ -93,8 +93,8 @@ public class Sauvegarde implements ISauvegarde{
 	private static void deleteSauvegarde() {
 		try 
 		{
-            Files.delete(Paths.get(chemin + listeSauvegarde.get(MAX_SAUVEGARDE - 1)));
-            System.out.println("Supression du fichier : " + listeSauvegarde.get(MAX_SAUVEGARDE));
+            Files.delete(Paths.get(listeSauvegarde.get(MAX_SAUVEGARDE - 1)));
+            System.out.println("Supression du fichier : " + listeSauvegarde.get(MAX_SAUVEGARDE - 1));
             listeSauvegarde.remove(MAX_SAUVEGARDE - 1);
 		}
 		catch (IOException e) 

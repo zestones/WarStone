@@ -40,6 +40,7 @@ public interface IMenu {
 	
 	
 	String background = "./res/img/background/menu/background.png";
+	String backgroundMenu = "./res/img/background/menu/background-menu.png";
 
 	Color COULEUR_BOUTTON  = new Color(0, 89, 154);
 	Color COULEUR_BOUTTON_HOVER = new Color(255, 165, 0);
