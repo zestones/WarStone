@@ -110,6 +110,9 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 				// On supprime le panneau que l'on va remplacer
 				frame.remove(panelPrincipal);
 				
+				pj.c.initCarteVide();
+				pj.c.listeHeros.clear();
+				pj.c.listeMonstres.clear();
 				//	pj = null;
 				//pj.c.listeHeros.clear();
 				
