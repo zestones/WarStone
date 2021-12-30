@@ -25,7 +25,7 @@ public class FinJeu implements IFenetre {
 	private static final long serialVersionUID = 1L;
 	
 	private static final String gameOverImg = background;
-	private static final String youWinImg = background;
+	private static final String youWinImg = "./res/img/background/menu/youWin.png";
 	
 	public FinJeu(int nombreHeros, int nombreMonstre) {		
 		String fond;
