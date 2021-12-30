@@ -44,7 +44,7 @@ public class loadGamePage extends JPanel implements ISauvegarde, IMenu {
 		int i = 0;
 		Boutton.NOMBRE_BOUTTON = 0;
 		for(String save : listeSauvegarde) {
-			listeBoutton.add(new Boutton(BOUTTON_POSITION_X - BOUTTON_POSITION_X/4, 0, LARGEUR_BOUTTON*2, HAUTEUR_BOUTTON));
+			listeBoutton.add(new Boutton(BOUTTON_POSITION_X, BOUTTON_POSITION_Y, LARGEUR_BOUTTON, HAUTEUR_BOUTTON));
 			listeBoutton.get(i).setBouttonText(save.replace(chemin, ""));
 			frame.add(listeBoutton.get(i));
 			i++;
@@ -62,7 +62,6 @@ public class loadGamePage extends JPanel implements ISauvegarde, IMenu {
 	public static void initListeSauvegarde() {
 		// On vide la liste
 		listeSauvegarde.clear();
-		System.out.println("recup");
 
 		File[] fichiers = new File(chemin).listFiles();
 

@@ -10,6 +10,8 @@
 package menu;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -27,22 +29,25 @@ public interface IMenu {
 	
 	JPanel panelMenu = new JPanel();
 	
-	// HAUTEUR et LARGEUR de la Fenetre
-	int MENU_LARGEUR = 800;
-	int MENU_HAUTEUR = 600;
 	
-	int LARGEUR_BOUTTON = 160;
-	int HAUTEUR_BOUTTON = 40;
+	Dimension taille = Toolkit.getDefaultToolkit().getScreenSize();	
+	
+	final int MENU_LARGEUR = (int)taille.getWidth();
+	final int MENU_HAUTEUR = (int)taille.getHeight();
+		
+	int LARGEUR_BOUTTON = 511;
+	int HAUTEUR_BOUTTON = 70;
 	
 	int BOUTTON_POSITION_X = MENU_LARGEUR / 2 - LARGEUR_BOUTTON/2;
 	int BOUTTON_POSITION_Y = MENU_HAUTEUR / 2 + HAUTEUR_BOUTTON/2;
 		
-	Boutton newGame = new Boutton(BOUTTON_POSITION_X, 0, LARGEUR_BOUTTON, HAUTEUR_BOUTTON);
-	Boutton loadGame = new Boutton(BOUTTON_POSITION_X, 0, LARGEUR_BOUTTON, HAUTEUR_BOUTTON);
-	Boutton config = new Boutton(BOUTTON_POSITION_X, 0, LARGEUR_BOUTTON, HAUTEUR_BOUTTON);
-	Boutton quit = new Boutton(BOUTTON_POSITION_X, 0, LARGEUR_BOUTTON, HAUTEUR_BOUTTON);
+	Boutton newGame = new Boutton(BOUTTON_POSITION_X, BOUTTON_POSITION_Y, LARGEUR_BOUTTON, HAUTEUR_BOUTTON);
+	Boutton loadGame = new Boutton(BOUTTON_POSITION_X, BOUTTON_POSITION_Y, LARGEUR_BOUTTON, HAUTEUR_BOUTTON);
+	Boutton config = new Boutton(BOUTTON_POSITION_X, BOUTTON_POSITION_Y, LARGEUR_BOUTTON, HAUTEUR_BOUTTON);
+	Boutton quit = new Boutton(BOUTTON_POSITION_X, BOUTTON_POSITION_Y, LARGEUR_BOUTTON, HAUTEUR_BOUTTON);
+	Boutton back = new Boutton(BOUTTON_POSITION_X - BOUTTON_POSITION_X + LARGEUR_BOUTTON/4, BOUTTON_POSITION_Y, LARGEUR_BOUTTON/2, HAUTEUR_BOUTTON);
 	
-	Boutton back = new Boutton(BOUTTON_POSITION_X - BOUTTON_POSITION_X + LARGEUR_BOUTTON/4, 0, LARGEUR_BOUTTON, HAUTEUR_BOUTTON);
+	Boutton backMenu = new Boutton(BOUTTON_POSITION_X, BOUTTON_POSITION_Y / 2, LARGEUR_BOUTTON, HAUTEUR_BOUTTON);
 	
 	
 	String background = "./res/img/background/menu/background.png";

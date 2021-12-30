@@ -69,13 +69,13 @@ public class SpriteSheetBuilder implements java.io.Serializable {
 	/**
 	 * With sprite size.
 	 *
-	 * @param Largeur the largeur
-	 * @param Hauteur the hauteur
+	 * @param largeur the largeur
+	 * @param hauteur the hauteur
 	 * @return the sprite sheet builder
 	 */
-	public SpriteSheetBuilder withSpriteSize(int Largeur, int Hauteur) {
-		this.spriteLargeur = Largeur;
-		this.spriteHauteur = Hauteur;
+	public SpriteSheetBuilder withSpriteSize(int largeur, int hauteur) {
+		this.spriteLargeur = largeur;
+		this.spriteHauteur = hauteur;
 		return this;
 	}
 
@@ -159,23 +159,23 @@ public class SpriteSheetBuilder implements java.io.Serializable {
 
 		BufferedImage sprite = getSpriteSheet();
 
-		int Largeur = getSpriteLargeur();
-		int Hauteur = getSpriteHauteur() + lignes;
+		int largeur = getSpriteLargeur();
+		int hauteur = getSpriteHauteur() + lignes;
 
-		if (Largeur == 0)
-			Largeur = sprite.getWidth() / cols;
+		if (largeur == 0)
+			largeur = sprite.getWidth() / cols;
 
-		if (Hauteur == 0)
-			Hauteur = sprite.getHeight() / lignes;
+		if (hauteur == 0)
+			hauteur = sprite.getHeight() / lignes;
 
 		int x = 0;
-		int y = lignes * Largeur;
+		int y = lignes * largeur;
 
 		List<BufferedImage> sprites = new ArrayList<>(nombre);
 
 		for (int index = 0; index < nombre; index++) {
-			sprites.add(sprite.getSubimage(x, y, Largeur, Hauteur));
-			x += Largeur;
+			sprites.add(sprite.getSubimage(x, y, largeur, hauteur));
+			x += largeur;
 		}
 
 		return new SpriteSheet(sprites);

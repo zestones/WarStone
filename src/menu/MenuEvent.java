@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import carte.Carte;
@@ -89,8 +88,6 @@ public class MenuEvent extends JPanel implements IMenu{
 				gameMusic.clip.start();
 				// Supression des bouttons 
 				removeBoutton();
-				// On resize la fenetre pour la mettre en pleine ecran
-				frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 				// et on cree le paneau du jeu
 				new FenetreJeu(new Carte());
 				frame.repaint();
@@ -101,6 +98,7 @@ public class MenuEvent extends JPanel implements IMenu{
 	
 	private void removeBoutton() {
 		frame.remove(newGame);
+		frame.remove(backMenu);
 		frame.remove(loadGame);
 		frame.remove(config);
 		frame.remove(quit);

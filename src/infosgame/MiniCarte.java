@@ -52,8 +52,8 @@ public class MiniCarte extends JPanel implements IConfig {
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				if (SwingUtilities.isLeftMouseButton(e)) {
-					cam.setDx(e.getX()/MINI_NB_PIX_CASE);
-					cam.setDy(e.getY()/MINI_NB_PIX_CASE);
+					cam.setDx(e.getX() / MINI_NB_PIX_CASE);
+					cam.setDx(e.getX() / MINI_NB_PIX_CASE);
 				}
 			}
 		});

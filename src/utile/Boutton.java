@@ -8,7 +8,6 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 
 import menu.IMenu;
 
@@ -18,19 +17,21 @@ public class Boutton extends JButton implements IMenu{
 
 	public static int NOMBRE_BOUTTON = 0;
 	private Color couleur = COULEUR_BOUTTON;
-	
-	
-	public Boutton(int x, int y, int largeur, int hauteur){
-    	
-		this.setSize(largeur, hauteur);
-    	y = BOUTTON_POSITION_Y + (HAUTEUR_BOUTTON + HAUTEUR_BOUTTON/4 ) * NOMBRE_BOUTTON;
+	private int largeur, hauteur;
+		
+	public Boutton(int x, int y, int largeur, int hauteur) {
+    	this.largeur = largeur;
+    	this.hauteur = hauteur;
+		
+    	this.setSize(largeur, hauteur);
+    	y = y + (hauteur + hauteur/4 ) * NOMBRE_BOUTTON;
 
     	this.setLocation(x, y);  	
     	this.setOpaque(false);
     	this.setBorderPainted(false);
     	
     	NOMBRE_BOUTTON++;
-    }
+	}
 	
     @Override
     protected void paintComponent(Graphics g){
@@ -52,7 +53,8 @@ public class Boutton extends JButton implements IMenu{
     	// On creer le label qui va contenir l'image
     	JLabel label = new JLabel();
     	
-    	label.setHorizontalAlignment(SwingConstants.CENTER);
+    	label.setHorizontalAlignment(JLabel.CENTER);
+    	label.setVerticalAlignment(JLabel.CENTER);
 		label.setFont(new Font("Pushster", Font.BOLD, 20));
 		label.setText(txt);
 		
@@ -61,12 +63,13 @@ public class Boutton extends JButton implements IMenu{
     }
     
     public void setBouttonImage(String image){
-    	double coef =  0.69;
+    	double coef =  0.89;
     	// chargement de l'image
     	ImageIcon icon = new ImageIcon("./res/img/background/menu/" + image + ".png");
     	Image monImage = icon.getImage();
+    	
     	// Resize pour en fonction de la taille d'un boutton
-    	Image img = monImage.getScaledInstance((int) (monImage.getWidth(this) * coef), (int) (monImage.getHeight(this) * coef), Image.SCALE_SMOOTH);
+    	Image img = monImage.getScaledInstance((int) (this.largeur * coef), (int) (this.hauteur * coef), Image.SCALE_SMOOTH);
     		
     	// On creer le label qui va contenir l'image
 		JLabel label = new JLabel();

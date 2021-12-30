@@ -112,7 +112,6 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 				// Creation du menu
 				MenuJeu.initMenuJeu();
 				frame.repaint();
-				frame.pack();
 			} 	 
 		});  
 	}

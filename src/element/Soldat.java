@@ -33,7 +33,7 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     public Position nouvellePos;
     public boolean deplacement, combat, mort;
     private Position[] champVisuelle = new Position[5];
-    
+    private Projectile fleche = null;
     protected int deplacementX;
     protected int deplacementY;
     
@@ -70,7 +70,9 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     	// On verifie que le solodat attaquer se trouve bien a sa portee
     	if(!this.estDedans(soldat.getPosition()))
     		return false;
-    	
+
+    	this.fleche = new Projectile(this.getPosition(), soldat.getPosition());
+
     	int puissance;
     
     	if (!this.getPosition().estVoisine(soldat.getPosition())) 
@@ -128,7 +130,12 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     	
     	BufferedImage sprite = this.dernierSprite.getSprite(spriteEngine.getCycleProgress()); 
 		g.drawImage(sprite, (this.pos.getX() * NB_PIX_CASE) - dx + this.deplacementX, (this.pos.getY() * NB_PIX_CASE) - dy + this.deplacementY, NB_PIX_CASE, NB_PIX_CASE, null);
-	
+		
+		if(this.fleche != null && this.combat) {
+			this.fleche.dessineProjectile(g, cam);
+				if(this.fleche.toucher) this.fleche = null;
+		}
+			
 		this.effectuerDeplacement();
     }
     
@@ -157,7 +164,7 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     		this.dernierSprite = this.soldatSprite.spriteStandByDroite;
     	}
     	   	
-    	if(!this.combat && !this.deplacement)
+    	if(!this.combat && !this.deplacement && !this.mort)
     		this.setStandBySprite(clic);
     	else if (this.combat)
     		this.setAttackSprite(clic);
@@ -166,6 +173,8 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     		this.activeDeplacement = true;
     		this.nouvellePos = clic;
     	}
+    	else if(this.mort)
+    		this.dernierSprite = this.soldatSprite.spriteMort;
     }
     
     private void setStandBySprite(Position clic) {
@@ -236,6 +245,7 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     /**
      * Clone un objet et le retourne sous forme d'objet de type soldat
      * Utiliser pour copier un soldat lors d'une action de type deplacement
+     * Dans la liste d'action 
      *
      * @return the object
      * @throws CloneNotSupportedException the clone not supported exception

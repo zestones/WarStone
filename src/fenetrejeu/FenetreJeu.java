@@ -40,7 +40,7 @@ public class FenetreJeu extends JPanel implements IFenetre{
 	 */
 	public FenetreJeu(Carte c) {
 		
-		panelPrincipal.setPreferredSize(new Dimension(FEN_LARGEUR, FEN_HAUTEUR));
+		//panelPrincipal.setPreferredSize(new Dimension(FEN_LARGEUR, FEN_HAUTEUR));
 		panelPrincipal.setLayout(new BorderLayout());
 		panelPrincipal.setOpaque(true);	    		
 	
@@ -137,7 +137,6 @@ public class FenetreJeu extends JPanel implements IFenetre{
 
 		// Couleur et taille du header dans ce panel
 		infosElementHeader.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, HAUTEUR_ICON_ELEMENT));
-		infosElementHeader.setBackground(COULEUR_MENUBAR);
 		infosElementPanel.setBorder(new MatteBorder(2, 2, 0, 2, COULEUR_BORDURE));
 		
 		// panel contenant l'icon
@@ -166,8 +165,6 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		infosPanel.add(infosElementPanel);
 		
 		// On ajoute tout les panels a la frame
-		
-		panelPrincipal.add(footer, BorderLayout.SOUTH);		
 		panelPrincipal.add(header, BorderLayout.NORTH);
 		panelPrincipal.add(infosPanel, BorderLayout.EAST);
 		panelPrincipal.add(panel, BorderLayout.CENTER);
@@ -176,7 +173,7 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		panneau.setPanneauJeu(c);
 		// On l'ajoute au panel principale	
 		panel.add(panneau);
-		
+			
 		new MenuBarHeader();
 		
 		frame.add(panelPrincipal);

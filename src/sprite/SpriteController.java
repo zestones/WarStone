@@ -46,7 +46,7 @@ public class SpriteController implements IConfig{
 		 if(pj.c.listeActionAttaque.isEmpty() && pj.c.listeActionDeplacement.isEmpty()) //&& pj.c.listeActionMort.isEmpty()
 			 tmps = 1;
 		 else 
-			 tmps = 5;
+			 tmps = (int) ((pj.c.listeActionAttaque.size() + pj.c.listeActionDeplacement.size()) * 0.2) + 4;
 		 
 		 new Chrono(tmps);
 	}

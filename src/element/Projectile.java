@@ -11,7 +11,7 @@ package element;
 
 import java.awt.Graphics;
 
-import carte.Carte;
+import carte.Camera;
 import utile.Position;
 import wargame.IConfig;
 
@@ -23,42 +23,42 @@ public class Projectile implements IConfig {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	/** The carte. */
-	private Carte carte;
-	
-	/** The origine. */
-	private Position origine;
-	
-	/** The arrive. */
+	private Position depart;
 	private Position arrive;
-	
-	private int coeff;
-	
-	/** The toucher. */
+	private Position pos;
+	private Position ou;
+
+	private int deplacementX;
+	private int deplacementY;
 	public boolean toucher;
 	
-	/**
-	 * Instantiates a new projectile.
-	 *
-	 * @param depart the depart
-	 * @param arrive the arrive
-	 * @param c the c
-	 */
-	Projectile(Position depart, Position arrive, Carte c){
-		this.origine = depart;
+	Projectile(Position depart, Position arrive) {
+		this.depart = depart;
 		this.arrive = arrive;
-		this.coeff = (this.arrive.getY() - this.origine.getY()) / (this.arrive.getX() - this.origine.getX());
-		this.carte = c;
+		this.pos = depart;
+		this.deplacementX = this.deplacementY = 0;
 		this.toucher = false;
 	}
-
-	/**
-	 * Dessine.
-	 *
-	 * @param g the g
-	 */
-	void dessineProjectile(Graphics g) {
-		System.out.println("origine  " + this.origine.toString());
-		g.drawImage(grass, this.origine.getX() * NB_PIX_CASE, this.origine.getY() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+	
+	void dessineProjectile(Graphics g, Camera cam) {
+		int dx = cam.getDx() * NB_PIX_CASE;
+    	int dy = cam.getDy() * NB_PIX_CASE;
+    	
+    	
+		g.drawImage(fleche, (this.pos.getX() * NB_PIX_CASE) - dx + this.deplacementX + NB_PIX_CASE/2, (this.pos.getY() * NB_PIX_CASE) - dy + this.deplacementY + NB_PIX_CASE/2, NB_PIX_CASE/2, NB_PIX_CASE/4, null);
+		
+		this.effectuerDeplacement(cam);
 	}
+    
+    private void effectuerDeplacement(Camera cam) {
+    	if(!this.toucher) {
+    		this.deplacementX += this.arrive.getX() - this.pos.getX();
+    		this.deplacementY += this.arrive.getY() - this.pos.getY();
+    		this.ou = new Position(this.pos.getX() + this.deplacementX / NB_PIX_CASE, this.pos.getY() + this.deplacementY / NB_PIX_CASE);
+    		if(!this.depart.estIdentique(this.ou) && this.ou.estIdentique(this.arrive)) {
+    			this.toucher = true;
+    		}
+    				
+    	}
+    }
 }

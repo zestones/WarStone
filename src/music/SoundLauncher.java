@@ -30,8 +30,9 @@ public class SoundLauncher {
 		} catch (LineUnavailableException | IOException e) {
 			e.printStackTrace();
 		}
-
+	    
 	    clip.loop(-1);
+	    clip.stop();
 	}
 	
 	

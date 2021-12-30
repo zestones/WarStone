@@ -21,6 +21,7 @@ import element.Monstre;
 import element.Obstacle;
 import element.Soldat;
 import fenetrejeu.menubar.IMenuBar;
+import finjeu.FinJeu;
 import utile.Position;
 import wargame.IConfig;
 import wargame.PanneauJeu;
@@ -120,6 +121,10 @@ public class Carte implements IConfig, ICarte {
 	public void nombreSoldatVivant(PanneauJeu pj) {
 		pj.nombreMonstre = this.listeMonstres.size();
 		pj.nombreHeros = this.listeHeros.size();
+		pj.repaint();
+		
+		if(pj.nombreHeros == 0 || pj.nombreMonstre == 0) 
+			new FinJeu(pj.nombreHeros, pj.nombreMonstre);		
 	}
 
 	/**

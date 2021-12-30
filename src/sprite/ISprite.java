@@ -93,4 +93,11 @@ public interface ISprite {
 
 	/** Le nb image move. */
 	int NB_IMAGE_DEPLACEMENT = 9;
+	
+	/** La ligne mort. */
+	int LIGNE_MORT= 20;
+
+	/** Le nb image mort. */
+	int NB_IMAGE_MORT = 6;
+	
 }

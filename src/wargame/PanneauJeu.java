@@ -86,11 +86,10 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		this.elem = null;
 		this.dessineFleche = false;
 		this.estFiniAction = true;
-			
+		
 		c.nombreSoldatVivant(this);
 	}
 		
-	// FOOTER A Garder ?
 	private void creationElementPanneau() {
 		footer.setBackground(COULEUR_FOOTER);
 		footer.setPreferredSize(new Dimension(FOOTER_LARGEUR, FOOTER_HAUTEUR));
@@ -125,7 +124,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 					if(!clic.estValide()) return;	
 					
 					elem = c.getElement(clic);
-					
+				
 					InfosElement.dessineInfosElement(elem);
 					
 					// Si on a Selectionnee un heros et que l'on a effectuer un clic autre part alors on appelle jouerSoldat
@@ -247,8 +246,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 			this.herosSelectione.dessineSelection(g, this.herosSelectione, clicDragged, cam);
 			this.herosSelectione.changeSprite(clicDragged, cam);
 	    }
-		    
-	   
+		       
 	    // On verifie si on doit dessiner la fleche ou non
 	    if(flecheDirectionnelle.estFlecheDessinable(herosSelectione, dessineFleche, draggedCam)) 
 	    	flecheDirectionnelle.dessineFleche(g, clic.getX() * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE + NB_PIX_CASE/2, 

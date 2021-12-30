@@ -34,7 +34,8 @@ public class MenuJeu implements IMenu {
 		
 		frame.setSize(MENU_LARGEUR, MENU_HAUTEUR);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(true);
+		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		frame.setUndecorated(false);
 			
 		initMenuJeu();
 		
@@ -48,6 +49,8 @@ public class MenuJeu implements IMenu {
 	
 	public static void initMenuJeu() {
 		panelMenu.setPreferredSize(new Dimension(MENU_LARGEUR, MENU_HAUTEUR));
+		panelMenu.setOpaque(false);
+			
 		gameMusic.clip.stop();
 		menuMusic.clip.start();
 		
@@ -66,7 +69,9 @@ public class MenuJeu implements IMenu {
 		
 		backgroundLabel.setIcon(new ImageIcon(img));	
 		menuContainer.add(backgroundLabel);	
-				
+		
+		frame.remove(backMenu);
+		
 		frame.add(newGame); 
         frame.add(loadGame); 
         frame.add(config);

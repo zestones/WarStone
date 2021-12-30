@@ -39,8 +39,8 @@ public interface IConfig extends java.io.Serializable {
 	
 	Dimension taille = Toolkit.getDefaultToolkit().getScreenSize();	
 	
-	final int FEN_LARGEUR = (int)taille.getWidth();;
-	final int FEN_HAUTEUR = (int)taille.getHeight();;
+	final int FEN_LARGEUR = (int)taille.getWidth();
+	final int FEN_HAUTEUR = (int)taille.getHeight();
 
 	int LARGEUR_CASE_VISIBLE = 15;
 	int HAUTEUR_CASE_VISIBLE = 10;	
@@ -88,7 +88,9 @@ public interface IConfig extends java.io.Serializable {
 		
 	/** The hauteur infos panel. */
 	// la hauteur = HAUTEUR_FEN - (HAUTEUR_MINI_CARTE - PADDING) - HAUTEUR_NB_SOLDAT_VIE - HAUTEUR_BORDURE
-	int HAUTEUR_INFOS_PANEL = FEN_HAUTEUR - HAUTEUR_MINI_CARTE - LARGEUR_INFOS_PANEL/4 - HAUTEUR_NB_SOLDAT_VIVANT - 2;
+	int HAUTEUR_INFOS_PANEL = HAUTEUR_CARTE_CASE * NB_PIX_CASE;
+	
+	int HAUTEUR_INFOS_PANEL_CONAINER = HAUTEUR_INFOS_PANEL - HAUTEUR_MINI_CARTE - LARGEUR_INFOS_PANEL/4 - HAUTEUR_NB_SOLDAT_VIVANT - 2;;
 		
 	/** The padding infos panel. */
 	int PADDING_INFOS_PANEL = MINI_NB_PIX_CASE;
@@ -116,7 +118,7 @@ public interface IConfig extends java.io.Serializable {
 		
 	// Definir le NB ELEMENT sur la carte
 	int NB_HEROS = 5; 
-	int NB_MONSTRES = NB_HEROS * NB_HEROS/4; 
+	int NB_MONSTRES = 5; 
 	int NB_OBSTACLES = NB_HEROS * 2;
 	
 }
