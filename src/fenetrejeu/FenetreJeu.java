@@ -10,6 +10,7 @@
 package fenetrejeu;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -39,11 +40,11 @@ public class FenetreJeu extends JPanel implements IFenetre{
 	 * Instantiates a new fenetre jeu.
 	 */
 	public FenetreJeu(Carte c) {
-		
-		//panelPrincipal.setPreferredSize(new Dimension(FEN_LARGEUR, FEN_HAUTEUR));
-		panelPrincipal.setLayout(new BorderLayout());
-		panelPrincipal.setOpaque(true);	    		
 	
+		panelPrincipal.setPreferredSize(new Dimension(FEN_LARGEUR, FEN_HAUTEUR));
+		panelPrincipal.setLayout(new BorderLayout());
+		panelPrincipal.setOpaque(false);	   	
+		
 		/* on retire l'espace cree par le flowLayout */
 		header.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		header.setOpaque(true);	    		
@@ -51,10 +52,8 @@ public class FenetreJeu extends JPanel implements IFenetre{
         // On ajoute le menu a notre HEADER
         header.add(menuBar);
         	
-		panel.setPreferredSize(new Dimension(LARGEUR_CARTE, HAUTEUR_CARTE));
 		panel.setLayout(new BorderLayout());
-		panel.setBackground(COULEUR_FORET);
-		panel.setOpaque(true);	    
+		panel.setOpaque(false);	    
 		
 		// On charge la liste des sauvegardes 
 		loadGamePage.initListeSauvegarde();
@@ -164,20 +163,31 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		
 		infosPanel.add(infosElementPanel);
 		
+		// On cree notre panneau 
+		panneau.setPanneauJeu(c);
+		panel.add(panneau);
+		
+		JPanel footerContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		footerContainer.setOpaque(true);
+		footerContainer.setBackground(COULEUR_EAU);
+
+		footer.setBackground(COULEUR_FOOTER);
+		footer.setPreferredSize(new Dimension(FOOTER_LARGEUR, FOOTER_HAUTEUR));
+		footer.setOpaque(true);
+		footer.setFont(new Font("Arial", Font.BOLD, 13));
+		footer.setForeground(Color.WHITE);				
+		
+		footerContainer.add(footer);
+		
 		// On ajoute tout les panels a la frame
 		panelPrincipal.add(header, BorderLayout.NORTH);
 		panelPrincipal.add(infosPanel, BorderLayout.EAST);
-		panelPrincipal.add(panel, BorderLayout.CENTER);
-			
-		// On cree notre panneau 
-		panneau.setPanneauJeu(c);
-		// On l'ajoute au panel principale	
-		panel.add(panneau);
-			
+		panelPrincipal.add(panel, BorderLayout.CENTER);		
+		panelPrincipal.add(footerContainer, BorderLayout.SOUTH);
+	
 		new MenuBarHeader();
 		
-		frame.add(panelPrincipal);
-		frame.pack();
+		frame.add(panelPrincipal);			
 	}
 	
 	public FenetreJeu(){	

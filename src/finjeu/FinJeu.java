@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import fenetrejeu.IFenetre;
+import menu.MenuEvent;
 import menu.MenuJeu;
 import music.SoundLauncher;
 
@@ -72,7 +73,7 @@ public class FinJeu implements IFenetre {
         frame.add(newGame); 
           
         newGame.setBouttonImage("new game");      
-        backMenu.setBouttonText("MENU");      
+        backMenu.setBouttonImage("menu");      
         
         frame.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
@@ -95,6 +96,12 @@ public class FinJeu implements IFenetre {
 				// On supprime le panneau que l'on va remplacer
 				frame.remove(panelOver);
 				removeBoutton();
+				
+				musicBoutton.removeAll();
+				musicBoutton.revalidate();
+				musicBoutton.setBouttonImage("unmute");
+				MenuEvent.estMusicActif = true;
+				menuMusic.clip.start();
 				// Creation du menu
 				MenuJeu.initMenuJeu();
 				frame.repaint();

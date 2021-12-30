@@ -35,9 +35,11 @@ public class MenuBarHeader  implements IFenetre{
 		
 		restart.setVisible(true);
 		menuBar.add(restart);
-				
-	
-		fleche.setOpaque(true);
+		
+        menuBar.add(musicOn); 
+        musicOn.setSelected(true);
+        
+        fleche.setOpaque(true);
 		fleche.setBackground(COULEUR_BOUTTON);
 		fleche.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, MENUBAR_HAUTEUR));
 		fleche.setBorder(new MatteBorder(0, 2, 2, 2, COULEUR_BORDURE));

@@ -9,9 +9,6 @@
  * ******************************************************************/
 package wargame;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -68,8 +65,6 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		this.dessineFleche = false;
 		this.estFiniAction = true;
 				
-		this.creationElementPanneau();
-		
 		this.buttonEvent = new ButtonEvent(this);		
 		this.gestionEvenement();
 		
@@ -88,15 +83,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		this.estFiniAction = true;
 		
 		c.nombreSoldatVivant(this);
-	}
-		
-	private void creationElementPanneau() {
-		footer.setBackground(COULEUR_FOOTER);
-		footer.setPreferredSize(new Dimension(FOOTER_LARGEUR, FOOTER_HAUTEUR));
-		footer.setOpaque(true);
-		footer.setFont(new Font("Arial", Font.BOLD, 13));
-		footer.setForeground(Color.WHITE);		
-	}
+	}		
 		 
 	/**
 	 * Gestion evenement : souris / boutton.
@@ -239,7 +226,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		
 		// Affichage du label en bas de la fenetre
 		if(this.elem != null)
-	    	footer.setText(" " + this.elem.toString());
+			footer.setText(" " + this.elem.toString());
 				
 	    // Affiche les deplacement possible du heros selectionne
 		if(this.herosSelectione != null && !this.herosSelectione.aJoue) {

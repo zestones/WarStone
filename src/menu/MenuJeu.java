@@ -34,11 +34,14 @@ public class MenuJeu implements IMenu {
 		
 		frame.setSize(MENU_LARGEUR, MENU_HAUTEUR);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		frame.setUndecorated(false);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+
+		frame.setUndecorated(true);
 			
 		initMenuJeu();
-		
+		menuMusic.clip.start();
+        musicBoutton.setBouttonImage("unmute");
+
 		// On creer notre bar de menu secondaire
 		new MenuBar();
 		new MenuEvent();
@@ -47,12 +50,13 @@ public class MenuJeu implements IMenu {
 		frame.setVisible(true);  
 	}
 	
+	// permet d'eviter de generer un deuxieme menu lorsque l'on revient sur le menu depuis une autre page
+	// les listeners sont donc genere qu'une seule fois 
 	public static void initMenuJeu() {
 		panelMenu.setPreferredSize(new Dimension(MENU_LARGEUR, MENU_HAUTEUR));
 		panelMenu.setOpaque(false);
 			
 		gameMusic.clip.stop();
-		menuMusic.clip.start();
 		
 		JPanel menuContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		menuContainer.setOpaque(false);	
@@ -72,6 +76,7 @@ public class MenuJeu implements IMenu {
 		
 		frame.remove(backMenu);
 		
+		frame.add(musicBoutton);
 		frame.add(newGame); 
         frame.add(loadGame); 
         frame.add(config);

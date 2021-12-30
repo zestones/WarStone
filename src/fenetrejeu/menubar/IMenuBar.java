@@ -1,6 +1,7 @@
 package fenetrejeu.menubar;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JMenuBar;
 import javax.swing.plaf.basic.BasicArrowButton;
 
@@ -20,6 +21,8 @@ public interface IMenuBar extends IConfig {
 	JButton cameraHaut = new BasicArrowButton(BasicArrowButton.NORTH);
 	JButton cameraGauche = new BasicArrowButton(BasicArrowButton.WEST);
 	JButton cameraDroite = new BasicArrowButton(BasicArrowButton.EAST); 
+	
+	JCheckBox musicOn = new JCheckBox("Music On/Off"); 
 
 	/** Variable du menuBar dans le PanneauJeu */
 	final int MENUBAR_LARGEUR = LARGEUR_CARTE;

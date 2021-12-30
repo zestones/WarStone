@@ -18,6 +18,7 @@ import java.util.TimerTask;
 import carte.Camera;
 import element.Element;
 import element.Soldat;
+import finjeu.FinJeu;
 import utile.Position;
 import wargame.IConfig;
 import wargame.PanneauJeu;
@@ -35,11 +36,15 @@ public class SpriteController implements IConfig{
 		this.pj = pj;
 	}
 	
-	public void lanceSpriteAction(Graphics g) {		
-		 pj.estFiniAction = false;
+	public void lanceSpriteAction(Graphics g) {				
+		pj.estFiniAction = false;
 					 
 		 lanceSpriteAttaque(g, pj.c.listeActionAttaque, pj.cam);
 		 lanceSpriteMort(g, pj.c.listeActionMort, pj.cam);
+		 if(pj.c.listeHeros.size() == 0 || pj.c.listeMonstres.size() == 0) {
+			 new FinJeu(pj.c.listeHeros.size(), pj.c.listeMonstres.size());
+			 return; 
+		 }
 		 lanceSpriteDeplacement(g, pj.c.listeActionDeplacement, pj.cam);
 		 
 		 int tmps;

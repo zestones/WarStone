@@ -45,7 +45,7 @@ public interface IConfig extends java.io.Serializable {
 	int LARGEUR_CASE_VISIBLE = 15;
 	int HAUTEUR_CASE_VISIBLE = 10;	
 	/** Varibale du footer dans le PanneauJeu */
-	final int FOOTER_HAUTEUR = 30;
+	final int FOOTER_HAUTEUR = 50;
 	final int FOOTER_LARGEUR = FEN_LARGEUR;
 
 	// On definit la largeur comme etant 1/4 de l'ecran de jeu
@@ -54,7 +54,7 @@ public interface IConfig extends java.io.Serializable {
 	int MENUBAR_HAUTEUR = 65;
 		
 	// Taille d'une case de la carte
-	int NB_PIX_CASE = Math.min((FEN_LARGEUR - LARGEUR_INFOS_PANEL)/LARGEUR_CASE_VISIBLE, (FEN_HAUTEUR - FOOTER_HAUTEUR - MENUBAR_HAUTEUR)/HAUTEUR_CASE_VISIBLE);
+	int NB_PIX_CASE = Math.min((FEN_LARGEUR - LARGEUR_INFOS_PANEL) / LARGEUR_CASE_VISIBLE, (FEN_HAUTEUR - FOOTER_HAUTEUR - MENUBAR_HAUTEUR) / HAUTEUR_CASE_VISIBLE);
 	
 	// Constante pour centrer la barre de vie
 	int PADDING_VIE_CASE_LARGEUR = NB_PIX_CASE/8;
@@ -88,10 +88,10 @@ public interface IConfig extends java.io.Serializable {
 		
 	/** The hauteur infos panel. */
 	// la hauteur = HAUTEUR_FEN - (HAUTEUR_MINI_CARTE - PADDING) - HAUTEUR_NB_SOLDAT_VIE - HAUTEUR_BORDURE
-	int HAUTEUR_INFOS_PANEL = HAUTEUR_CARTE_CASE * NB_PIX_CASE;
+	int HAUTEUR_INFOS_PANEL = HAUTEUR_CASE_VISIBLE * NB_PIX_CASE - HAUTEUR_MINI_CARTE - LARGEUR_INFOS_PANEL/4 - 6;
 	
-	int HAUTEUR_INFOS_PANEL_CONAINER = HAUTEUR_INFOS_PANEL - HAUTEUR_MINI_CARTE - LARGEUR_INFOS_PANEL/4 - HAUTEUR_NB_SOLDAT_VIVANT - 2;;
-		
+	
+//	HAUTEUR_INFOS_PANEL - HAUTEUR_MINI_CARTE - LARGEUR_INFOS_PANEL/4 - HAUTEUR_NB_SOLDAT_VIVANT - 2;
 	/** The padding infos panel. */
 	int PADDING_INFOS_PANEL = MINI_NB_PIX_CASE;
 

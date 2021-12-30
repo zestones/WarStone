@@ -35,7 +35,7 @@ public interface IMenu {
 	final int MENU_LARGEUR = (int)taille.getWidth();
 	final int MENU_HAUTEUR = (int)taille.getHeight();
 		
-	int LARGEUR_BOUTTON = 511;
+	int LARGEUR_BOUTTON = MENU_LARGEUR/4;
 	int HAUTEUR_BOUTTON = 70;
 	
 	int BOUTTON_POSITION_X = MENU_LARGEUR / 2 - LARGEUR_BOUTTON/2;
@@ -46,10 +46,11 @@ public interface IMenu {
 	Boutton config = new Boutton(BOUTTON_POSITION_X, BOUTTON_POSITION_Y, LARGEUR_BOUTTON, HAUTEUR_BOUTTON);
 	Boutton quit = new Boutton(BOUTTON_POSITION_X, BOUTTON_POSITION_Y, LARGEUR_BOUTTON, HAUTEUR_BOUTTON);
 	Boutton back = new Boutton(BOUTTON_POSITION_X - BOUTTON_POSITION_X + LARGEUR_BOUTTON/4, BOUTTON_POSITION_Y, LARGEUR_BOUTTON/2, HAUTEUR_BOUTTON);
-	
 	Boutton backMenu = new Boutton(BOUTTON_POSITION_X, BOUTTON_POSITION_Y / 2, LARGEUR_BOUTTON, HAUTEUR_BOUTTON);
 	
+	Boutton musicBoutton = new Boutton(MENU_LARGEUR - HAUTEUR_BOUTTON * 2, -BOUTTON_POSITION_Y/2 - HAUTEUR_BOUTTON * 3, LARGEUR_BOUTTON/4, HAUTEUR_BOUTTON);
 	
+
 	String background = "./res/img/background/menu/background.png";
 	String backgroundMenu = "./res/img/background/menu/background-menu.png";
 

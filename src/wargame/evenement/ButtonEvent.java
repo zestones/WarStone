@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 
 import carte.Carte;
 import fenetrejeu.IFenetre;
+import menu.MenuEvent;
 import menu.MenuJeu;
 import menu.loadgame.ISauvegarde;
 import menu.loadgame.Sauvegarde;
@@ -97,6 +98,15 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
     		}
     	});
 		
+		musicOn.addActionListener(new ActionListener(){
+    		public void actionPerformed(ActionEvent e){    			
+    			if(!musicOn.isSelected())
+    				gameMusic.clip.stop();
+    			else
+    				gameMusic.clip.start();
+    		}
+    	});
+		
 		menu.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  	
 				// On suprime tout le contenu
@@ -109,6 +119,12 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 				frame.remove(panelPrincipal);
 				
 				gameMusic.clip.stop();
+				menuMusic.clip.start();
+				
+				musicBoutton.removeAll();
+				musicBoutton.revalidate();
+				musicBoutton.setBouttonImage("unmute");
+				MenuEvent.estMusicActif = true;
 				// Creation du menu
 				MenuJeu.initMenuJeu();
 				frame.repaint();

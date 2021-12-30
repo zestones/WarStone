@@ -55,7 +55,8 @@ public class Boutton extends JButton implements IMenu{
     	
     	label.setHorizontalAlignment(JLabel.CENTER);
     	label.setVerticalAlignment(JLabel.CENTER);
-		label.setFont(new Font("Pushster", Font.BOLD, 20));
+    	label.setForeground(Color.white);
+		label.setFont(new Font("Oxygen", Font.BOLD, 30));
 		label.setText(txt);
 		
 		// enfin ajout du label au boutton

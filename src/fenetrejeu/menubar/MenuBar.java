@@ -32,14 +32,14 @@ public class MenuBar implements IFenetre {
 	 */
 	public MenuBar() {
 		JMenuBar menuBarSecondaire = new JMenuBar();
-
+		
 		ImageIcon exitIcon = new ImageIcon("./res/icon/exit.png");
 	
 		Image image = exitIcon.getImage();
 		Image newimg = image.getScaledInstance(LARGEUR_ICON_MENU, HAUTEUR_ICON_MENU, java.awt.Image.SCALE_SMOOTH);
 		
 		exitIcon = new ImageIcon(newimg);
-
+		
 		JMenu option = new JMenu("Option");
 		// Marche pas setFocusable ??
 		option.setMnemonic(KeyEvent.VK_F);

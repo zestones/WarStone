@@ -25,6 +25,9 @@ public class loadGameEvent implements ISauvegarde, IMenu {
 					frame.remove(panelLoadGame);
 					// Supression des bouttons 
 					removeBouton();
+					
+					frame.remove(musicBoutton);
+										
 					// et on cree le paneau du jeu		
 					for(int j = 0; j < listeBoutton.size(); j++)
 						if(e.getSource() == listeBoutton.get(j)) {
@@ -64,7 +67,7 @@ public class loadGameEvent implements ISauvegarde, IMenu {
 				// On suprime tout le contenu
 				panelLoadGame.removeAll();
 				// On valde les changements
-				panelLoadGame.revalidate();
+				panelLoadGame.revalidate();			
 				// On supprime le panneau que l'on va remplacer
 				frame.remove(panelLoadGame);
 				// Supression des bouttons 
