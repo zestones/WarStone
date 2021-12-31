@@ -46,14 +46,13 @@ public class Carte implements IConfig, ICarte {
 	/**  Cr�ation d'une liste de Monstres contenant les monstres pr�sent sur la carte. */
 	public List<Monstre> listeMonstres;
 	
-	/**
-	 * Il va y avoir 3 types d'animation a g�n�rer donc une liste de trois liste :
-	 * 	- Liste Attaque
-	 * 	- Liste Deplacement
-	 * 	- Liste de Mort
-	 */
+	/** Il va y avoir 3 types d'animation a g�n�rer donc une liste de trois liste : 	- Liste Attaque 	- Liste Deplacement 	- Liste de Mort. */
 	public List<Soldat> listeActionAttaque;
+	
+	/** The liste action deplacement. */
 	public List<Soldat> listeActionDeplacement;
+	
+	/** The liste action mort. */
 	public List<Soldat> listeActionMort;
 	
 	/**
@@ -97,6 +96,7 @@ public class Carte implements IConfig, ICarte {
 	 *  Les appels au autre methode .
 	 *
 	 * @param pj the pj
+	 * @param tour the tour
 	 */
 	public void jouerSoldats(PanneauJeu pj, int tour) {
 		// On met a jour le nombre de soldat restant sur la carte
@@ -154,8 +154,30 @@ public class Carte implements IConfig, ICarte {
 			}
 			/** Sinon il faut choisir un Heros et l'attaquer */
 			else {
-				Heros h = this.trouveHeros(listePorteeHeros);
-				this.actionMonstre(pj, this.listeMonstres.get(i).getPosition(), h.getPosition());
+				// On cherhce le meilleur choix parmis les heros a portee du monstre
+				Heros h = this.trouveHeros(this.listeMonstres.get(i).getPosition(), listePorteeHeros);
+				Monstre m = this.listeMonstres.get(i);
+				// on verifie la distance entre le heros et le monstre
+				int distance = (int) m.getPosition().distance(h.getPosition());	
+				// si le heros est voisin du monstre
+				if(distance == 1) {
+					// 1- prendre la fuite
+					if(m.getPoints() < h.getPuissance()) {
+						fuiteMonstre(h, m);
+					}
+				}
+				// 2- se rapprocher 
+				else {
+					if(m.getPoints() > h.getPoints() && m.getPuissance() > h.getPuissance()) {
+						raprocheMonstre(h, m);
+					}
+					// Si la vie du monstre atteint un seuil critique il fuit
+					else if(m.getPoints() < m.getPointsMax()/10) {
+						fuiteMonstre(h, m);
+					}
+				}
+				// 3 - si le monstre n'a toujours pas jouer alors il doit attaquer le heros trouver 
+				this.actionMonstre(pj, this.listeMonstres.get(i).getPosition(), h.getPosition());				
 			}
 		}
 		
@@ -165,7 +187,59 @@ public class Carte implements IConfig, ICarte {
 	}
 	
 	/**
-	 *  Methode qui gere les actions des Heros : Combat ou deplacement .
+	 * Raproche monstre.
+	 * Si le monstre est confiant il se rapproche du heros pour le combatre
+	 *
+	 * @param h the h
+	 * @param m the m
+	 * @return true, if successful
+	 */
+	private boolean raprocheMonstre(Heros h, Monstre m) {
+		List<Position> positionVoisine = this.positionAdjacente(m.getPosition());
+		Position pos = null;
+		int distance = Integer.MAX_VALUE;
+		
+		for(Position posVoisine : positionVoisine) {
+			if(distance > posVoisine.distance(h.getPosition())) {
+				pos = posVoisine;
+				distance = (int) posVoisine.distance(h.getPosition());
+			}
+		}
+		
+		if(pos == null) return false;
+		return this.deplaceSoldat(pos, m);
+	}
+	
+	/**
+	 * Fuite monstre.
+	 * Si le monstre n'est pas de taille face au heros alors il fuit
+	 * 
+	 * @param h the h
+	 * @param m the m
+	 * @return true, if successful
+	 */
+	private boolean fuiteMonstre(Heros h, Monstre m) {
+		List<Position> positionVoisine = this.positionAdjacente(m.getPosition());
+		Position posFuite = null;
+		int distance = 0;
+		// On cherche une position vide le plus eloigne du heros 
+		for(Position posVoisine : positionVoisine) {
+			if(h.getPosition().distance(posVoisine) > distance && this.getElement(posVoisine) == null) {
+				posFuite = posVoisine;
+				distance = (int) h.getPosition().distance(posVoisine);
+			}
+		}
+		
+		// Si on a trouver aucune position on a pas le choix
+		// Le monstre doit attaquer le heros
+		if(posFuite == null) return false;
+		
+		// sinon on prend la fuite
+		return deplaceSoldat(posFuite, m);
+	}
+	
+	/**
+	 *  Methode qui gere le combat des Monstres.
 	 *
 	 * @param pj the pj
 	 * @param pos the pos
@@ -281,12 +355,13 @@ public class Carte implements IConfig, ICarte {
 		}
 		return false;
 	}
+	
 	/**
 	 * Verification de la position a laquelle on veut se deplacer 
-	 * si plusieurs soldat veulent se deplacer sur la meme case on retourne false
-	 * 
-	 * @param pos
-	 * @return positionPrise boolean 
+	 * si plusieurs soldat veulent se deplacer sur la meme case on retourne false.
+	 *
+	 * @param pos the pos
+	 * @return positionPrise boolean
 	 */
 	private boolean estPrisePosition(Position pos) {
 		boolean positionPrise = false;
@@ -389,14 +464,42 @@ public class Carte implements IConfig, ICarte {
 	 * Prend en parametre une liste de heros et retourne un heros choisi aleatoirement dans cette liste
 	 * On utilise cette methode pour trouver un heros que le Monstre va attaquer durant le tour.
 	 *
+	 * @param pos the pos
 	 * @param herosTrouve the heros trouve
 	 * @return Heros
 	 */
-	public Heros trouveHeros(List<Heros> herosTrouve) {
-		int index = (int) (Math.random() * herosTrouve.size());
-		return herosTrouve.get(index);
+	public Heros trouveHeros(Position pos, List<Heros> herosTrouve) {
+		int minVie = Integer.MAX_VALUE;
+		Heros h = null;
+		
+		// On cherche le voisin du monstre avec le moins de vie 
+		for(Heros voisin : herosTrouve) {
+			if(minVie > voisin.getPoints() && pos.distance(voisin.getPosition()) == 1) {
+				h = voisin;
+				minVie = voisin.getPoints();				
+			}
+		}
+		// Si on a trouver un heros correspondant a nos attente on le revoie
+		if(h != null) return h;
+		
+		int attaque = minVie = Integer.MAX_VALUE;
+		
+		// sinon on cherche le heros a la portee du monstre avec le moins de vie
+		// Et la force d'attaque la plus faible (le tir car il n'y a pas de voisin)
+		for(Heros choixHeros : herosTrouve) {
+			if(minVie > choixHeros.getPoints() && attaque > choixHeros.getTir()) {
+				h = choixHeros;
+				minVie = choixHeros.getPoints();
+				attaque = choixHeros.getTir();
+			}
+		}
+		
+		return h;
 	}
 	
+	/**
+	 * Removes the all action.
+	 */
 	public void removeAllAction() {
 		this.listeActionAttaque.clear();
 		this.listeActionDeplacement.clear();

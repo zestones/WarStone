@@ -51,7 +51,7 @@ public interface ICarte {
 	 * @param herosTrouve
 	 * @return Heros
 	 */
-	Heros trouveHeros(List<Heros>herosTrouve); 
+	Heros trouveHeros(Position pos, List<Heros>herosTrouve); 
 	
 	/**
 	 * Deplace un soldat si possible et renvoie sont status (réussie ou non)
