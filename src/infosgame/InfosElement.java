@@ -19,6 +19,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.border.MatteBorder;
 
 import element.Element;
 import element.Obstacle.TypeObstacle;
@@ -38,6 +39,8 @@ public abstract class InfosElement implements IFenetre {
 	private static List<JLabel> listeLabelObstacle = new ArrayList<>();
 	private static List<TypeObstacle> listeObstacle = new ArrayList<>();
 	public static TypeObstacle obstacleSelectione;
+	private static int index;
+	
 	/**
 	 * Dessine infos element.
 	 *
@@ -55,10 +58,12 @@ public abstract class InfosElement implements IFenetre {
 		iconLabel.setIcon(imgIcon);
 		
 		String infos = "<html><font size=\"+1\">  " + e.getType() + "</font><FONT COLOR=RED><br><font size=\"-1\">  POS: " + e.getPosition()+"</font></FONT>";
+		
 		if(e instanceof Soldat)
 			infos += "<br><FONT COLOR=BLUE size=\"-1\">  HP: "+((Soldat) e).getPoints() + " / " + ((Soldat) e).getPointsMax() + "</FONT><br><font COLOR=GREEN size = \"-1\">  PV: "+((Soldat) e).getPuissance()+"</font></html>";
 		else
 			infos += "</html>";
+		
 		iconInfosLabel.setText(infos);
 	
 		iconPanel.add(iconLabel);
@@ -71,30 +76,65 @@ public abstract class InfosElement implements IFenetre {
 	}
 	
 	public static void dessineInfosElementBody() {
+		// On supprime le contenu des panels 
+		supprimeInfos();
 		
+		// Pour chque objet dans le type enum on recupere son image et on la met dans une liste de label
+		// une deuxieme liste est creer pour comparer les label au objet (ROCHER FORET...) 
 		for(TypeObstacle o : TypeObstacle.values()) {
 			JLabel ObstacleLabel = new JLabel();
-			Image img = o.getImage().getScaledInstance(NB_PIX_CASE, NB_PIX_CASE, Image.SCALE_SMOOTH);
+			Image img = o.getImage().getScaledInstance(LARGEUR_INFOS_PANEL / TypeObstacle.values().length, NB_PIX_CASE, Image.SCALE_SMOOTH);
 			ImageIcon imgIcon = new ImageIcon(img);
 			ObstacleLabel.setIcon(imgIcon);
+			ObstacleLabel.setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
 			infosElementBody.add(ObstacleLabel, BorderLayout.CENTER);
 			listeLabelObstacle.add(ObstacleLabel);
 			listeObstacle.add(o);
 		}
 		
+		// On creer un listener pour chaque label
+		// On recupere le type de l'element cliquer a l'aide de l'index de la liste de label
 		for(int i = 0; i < listeLabelObstacle.size(); i++) {
 			listeLabelObstacle.get(i).addMouseListener(new MouseAdapter() {
 				public void mousePressed(MouseEvent e) {
-					for(int j = 0; j < listeLabelObstacle.size(); j++)
+					for(int j = 0; j < listeLabelObstacle.size(); j++) {
 						if(e.getSource() == listeLabelObstacle.get(j)) {
 							obstacleSelectione = listeObstacle.get(j);
+							listeLabelObstacle.get(j).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_FORET));
 							System.out.println("Obstacle ; " + obstacleSelectione);
+							index = j;
 						}
+						else
+							listeLabelObstacle.get(j).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
+					}
 				}	
 			});
 		}
 		
+		header.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				obstacleSelectione = null;
+				listeLabelObstacle.get(index).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
+			}	
+		});
+		
+		infosElementPanel.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				obstacleSelectione = null;
+				listeLabelObstacle.get(index).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
+			}	
+		});
+		
+		System.out.println("dessin liste");
 		infosElementBody.repaint();
+	}
+	
+	public static void removeObstacleList() {
+		// On supprime les listes
+		listeLabelObstacle.clear();
+		listeObstacle.clear();
+		// et on remet oublie l'obstacle selectione au passage
+		obstacleSelectione = null;
 	}
 	
 	private static void supprimeInfos() {

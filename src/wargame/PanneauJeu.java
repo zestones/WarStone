@@ -68,6 +68,8 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		this.dessineFleche = false;
 		this.estFiniAction = true;
 				
+		this.deposeObstacle = null;
+		
 		this.buttonEvent = new ButtonEvent(this);		
 		this.gestionEvenement();
 		
@@ -76,14 +78,17 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	
 	public void setPanneauJeu(Carte c) {
 		this.c = c;
-		if(Carte.modeConf)
-			
-		System.out.println("listeHeros:  "+ c.listeHeros);
+		
+		System.out.println("============= PANNEAU : " +  Carte.modeConf);
+	
 		this.majMiniCarte();
 		
 		this.flecheDirectionnelle = new Fleche(this.cam);
 		this.herosSelectione = null;		
-		
+			
+		infosElementBody.removeAll();
+		infosElementBody.revalidate();
+				
 		this.elem = null;
 		this.dessineFleche = false;
 		this.estFiniAction = true;
@@ -93,15 +98,16 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	
 	public void setPanneauJeuConf(Carte c) {
 		this.c = c;
-		if(Carte.modeConf)
-			
-		System.out.println("listeHeros:  "+ c.listeHeros);
-		this.majMiniCarte();
 		
+		System.out.println("============= CONF : " +  Carte.modeConf);
+	
+		this.majMiniCarte();
+			
 		this.flecheDirectionnelle = new Fleche(this.cam);
 		this.herosSelectione = null;		
 		
 		this.elem = null;
+		
 		this.dessineFleche = false;
 		this.estFiniAction = false;
 	}		
@@ -143,6 +149,11 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 							c.jouerSoldats(pj, pj.buttonEvent.tour);
 					}
 				}
+				if (SwingUtilities.isRightMouseButton(e) && Carte.modeConf) {
+					Position delete = new Position(e.getX() / NB_PIX_CASE + cam.getDx(), e.getY() / NB_PIX_CASE + cam.getDy());
+					if(c.getElement(delete) != null)
+						c.setElementVide(delete);
+				}
 			}
 			
 			public void mouseReleased(MouseEvent e) {
@@ -167,9 +178,10 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 							herosSelectione = null;
 					/**
 					 * gestion des mouvements de la camera en fonction des position de la souris lorsqu'elle est dragged puis released
+					 * Cette option fonction uniquement dans le mode jeu et non en mode config
 					 *
 					 */
-					if(c.getElement(clic) == null && !clic.estIdentique(releasedClic) && c.estCaseVide(lastClic)) {
+					if(!Carte.modeConf && c.getElement(clic) == null && !clic.estIdentique(releasedClic) && c.estCaseVide(lastClic)) {
 						int distance = (int) clic.distance(releasedClic);
 						switch(clic.getPositionCardinal(releasedClic)) {
 						case NORD: cam.deplacement(0, -distance);
@@ -243,15 +255,15 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 			for(int i = cam.getDx(); i < LARGEUR_CASE_VISIBLE + cam.getDx(); i++) {
 				for(int j = cam.getDy(); j < HAUTEUR_CASE_VISIBLE + cam.getDy(); j++) {		
 					g.drawImage(range, i * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE, j  * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
-					if(this.c.getElement(new Position(i, j)) != null)
-						this.c.getElement(new Position(i, j)).seDessiner(g, this.cam);
-					
-					
+					if(this.c.getElement(new Position(i, j)) != null) {
+						this.c.getElement(new Position(i, j)).seDessiner(g, this.cam);	
+					}
+									
 					g.setColor(COULEUR_GRILLE);
 					g.drawRect(i * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE, j  * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
 				}
 			}
-			if(deposeObstacle != null) {
+			if(deposeObstacle != null && InfosElement.obstacleSelectione != null) {
 				c.setElement(new Obstacle(c, InfosElement.obstacleSelectione, deposeObstacle));
 			}
 			
@@ -271,16 +283,16 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 			if(this.herosSelectione != null && !this.herosSelectione.aJoue) {
 				this.herosSelectione.dessineSelection(g, this.herosSelectione, clicDragged, cam);
 				this.herosSelectione.changeSprite(clicDragged, cam);
-		    }
-		}
-		       
-	    // On verifie si on doit dessiner la fleche ou non
-	    if(flecheDirectionnelle.estFlecheDessinable(herosSelectione, dessineFleche, draggedCam)) 
-	    	flecheDirectionnelle.dessineFleche(g, clic.getX() * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE + NB_PIX_CASE/2, 
-	    			clic.getY() * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE + NB_PIX_CASE/2, 
-	    			draggedCam.getX() * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE + NB_PIX_CASE/2, 
-	    			draggedCam.getY() * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE + NB_PIX_CASE/2, 
-	    			NB_PIX_CASE/4, NB_PIX_CASE/6, clic);
-	    	
+			}
+		
+			 // On verifie si on doit dessiner la fleche ou non
+		    if(flecheDirectionnelle.estFlecheDessinable(herosSelectione, dessineFleche, draggedCam)) 
+		    	flecheDirectionnelle.dessineFleche(g, clic.getX() * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE + NB_PIX_CASE/2, 
+		    			clic.getY() * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE + NB_PIX_CASE/2, 
+		    			draggedCam.getX() * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE + NB_PIX_CASE/2, 
+		    			draggedCam.getY() * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE + NB_PIX_CASE/2, 
+		    			NB_PIX_CASE/4, NB_PIX_CASE/6, clic);
+		    
+		}   	
 	}
 }

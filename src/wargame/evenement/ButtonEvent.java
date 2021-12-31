@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 
 import carte.Carte;
 import fenetrejeu.IFenetre;
+import infosgame.InfosElement;
 import menu.MenuEvent;
 import menu.MenuJeu;
 import menu.loadgame.ISauvegarde;
@@ -85,7 +86,7 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 			public void actionPerformed(ActionEvent e){						
 				// On oublie le dernier heros selectionne
 				pj.herosSelectione = null;
-				
+				System.out.println("helloooo");
 				if(pj.estFiniAction) {
 					pj.c.joueTour(tour);
 					tour = tour == 0 ? 1 : 0; 
@@ -116,22 +117,35 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 				panelPrincipal.removeAll();
 				panelPrincipal.revalidate();
 				
+				// Suprime les listes des obstacle
+				InfosElement.removeObstacleList();
+				// On vide le panel
+				infosElementBody.removeAll();
+				infosElementBody.revalidate();
+				
+				// On supprime le header et les fleches
 				header.removeAll();
 				fleche.removeAll();
 				// On supprime le panneau que l'on va remplacer
 				frame.remove(panelPrincipal);
 				
+				// On supprime le boutton fin de tour pour qu'il n'aparaisse pas si une config est lancer
+				menuBar.remove(finTour);	
+				
+				// On arrete la music du jeux et on lance celle du menu
 				gameMusic.clip.stop();
 				menuMusic.clip.start();
-				
+				// On enleve le boutton de music
 				musicBoutton.removeAll();
 				musicBoutton.revalidate();
+				// et on le remplace par un nouveau
 				musicBoutton.setBouttonImage("unmute");
 				MenuEvent.estMusicActif = true;
+				
 				// Creation du menu
 				MenuJeu.initMenuJeu();
 				frame.repaint();
 			} 	 
 		});  
-	}
+	}	
 }

@@ -44,7 +44,6 @@ public class FenetreJeu extends JPanel implements IFenetre{
 	 * Instantiates a new fenetre jeu.
 	 */
 	public FenetreJeu(Carte c, boolean conf) {
-		System.out.println("config " + conf);
 		if(conf) {
 			c.setCarteVide();	
 			c.listeHeros.clear();
@@ -52,9 +51,10 @@ public class FenetreJeu extends JPanel implements IFenetre{
 			c.removeAllAction();
 			c.setElement(new Obstacle(c, Obstacle.TypeObstacle.FORET, new Position(0,0)));
 		}
+	
 		Carte.modeConf = conf;
 		
-		System.out.println("FenetreJeu Carte.conf" + Carte.modeConf);
+		System.out.println(" ------------ FenetreJeu conf" + Carte.modeConf);
 
 		panelPrincipal.setPreferredSize(new Dimension(FEN_LARGEUR, FEN_HAUTEUR));
 		panelPrincipal.setLayout(new BorderLayout());
@@ -175,14 +175,17 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		infosElementHeader.add(iconPanel, BorderLayout.WEST);
 		infosElementHeader.add(iconInfosLabel, BorderLayout.CENTER);
 		infosElementPanel.add(infosElementHeader, BorderLayout.NORTH);
+	
+		if(Carte.modeConf) {
+			infosElementBody.setOpaque(true);
+			infosElementBody.setLayout(new GridLayout(1, 0));
+			infosElementBody.setPreferredSize(new Dimension(LARGEUR_ELEMENT_BODY, HAUTEUR_ELEMENT_BODY));
+			infosElementBody.setBackground(COULEUR_EAU);
+			InfosElement.dessineInfosElementBody();
+		}
+			
 		
-		infosElementBody.setOpaque(true);
-		infosElementBody.setLayout(new GridLayout(1, 0));
-		infosElementBody.setPreferredSize(new Dimension(LARGEUR_ELEMENT_BODY, HAUTEUR_ELEMENT_BODY));
-		infosElementBody.setBackground(COULEUR_EAU);
 		infosElementPanel.add(infosElementBody, BorderLayout.SOUTH);
-		InfosElement.dessineInfosElementBody();
-		
 		infosPanel.add(infosElementPanel);
 		
 		// On cree notre panneau 
