@@ -24,10 +24,9 @@ public class Camera implements IConfig {
 	
 	/** Definition de la class camera et ses des methodes. */
 	public Carte c;
-	
 	/** The pos. */
 	private Position pos;
-
+		
 	/**
 	 * Le contructeur de camera prend la carte un indice de deplacement x et y.
 	 *

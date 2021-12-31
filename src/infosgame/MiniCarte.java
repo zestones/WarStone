@@ -36,7 +36,6 @@ public class MiniCarte extends JPanel implements IConfig {
 	
 	/** The cam. */
 	private Camera cam;
-	
 	private Position clic;
 	
 	/**
@@ -61,7 +60,7 @@ public class MiniCarte extends JPanel implements IConfig {
 					}
 					else if(clic.getX() > cam.getDx() - 1 + LARGEUR_CASE_VISIBLE) {
 						Position pos = new Position(clic.getX() + 1, 0);
-						cam.setDx((int) pos.distance(new Position((LARGEUR_CASE_VISIBLE), 0)));
+						cam.setDx((int) pos.distance(new Position(LARGEUR_CASE_VISIBLE, 0)));
 					}
 					if(clic.getY() < cam.getDy()) {
 						cam.setDy(clic.getY());
@@ -114,6 +113,15 @@ public class MiniCarte extends JPanel implements IConfig {
 		}
 	}
 	
+	private void dessineCarte(Graphics g) {
+		for(int i = 0; i < LARGEUR_CARTE_CASE; i++) {
+			for(int j = 0; j < HAUTEUR_CARTE_CASE; j++) {		
+				g.drawImage(range, i * MINI_NB_PIX_CASE, j  * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, null);
+				if(this.c.getElement(new Position(i, j)) != null)
+					this.c.getElement(new Position(i, j)).seDessinerMinia(g);
+			}
+		}
+	}
 	/**
 	 * Paint component.
 	 *
@@ -122,8 +130,12 @@ public class MiniCarte extends JPanel implements IConfig {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(grass, 0, 0, LARGEUR_MINI_CARTE, HAUTEUR_MINI_CARTE, null);
-			
+		
+		if(!Carte.modeConf)
+			g.drawImage(grass, 0, 0, LARGEUR_MINI_CARTE, HAUTEUR_MINI_CARTE, null);
+		else
+			dessineCarte(g);
+		
 		this.dessineMiniCarte(g);
 		this.dessineFocus(g, this.cam.getDx(), this.cam.getDy());
 

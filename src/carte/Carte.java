@@ -39,28 +39,26 @@ public class Carte implements IConfig, ICarte {
 	/** The plateau. */
 	private Element[][] plateau;
 	
-	/** Cr�ation d'une Liste de Heros contenant les heros pr�sent sur la carte. */
-	
+	/** Creation d'une Liste de Heros contenant les heros pr�sent sur la carte. */
 	public List<Heros> listeHeros;
 	
-	/**  Cr�ation d'une liste de Monstres contenant les monstres pr�sent sur la carte. */
+	/**  Creation d'une liste de Monstres contenant les monstres pr�sent sur la carte. */
 	public List<Monstre> listeMonstres;
 	
-	/** Il va y avoir 3 types d'animation a g�n�rer donc une liste de trois liste : 	- Liste Attaque 	- Liste Deplacement 	- Liste de Mort. */
 	public List<Soldat> listeActionAttaque;
-	
-	/** The liste action deplacement. */
+	/** liste action deplacement. */
 	public List<Soldat> listeActionDeplacement;
-	
-	/** The liste action mort. */
+	/** liste action mort. */
 	public List<Soldat> listeActionMort;
 	
+	public static boolean modeConf = false;
 	/**
 	 * Constructeur de la Carte.
 	 */
 	public Carte() {
 		// Initialisation des listes
 		this.plateau = new Element[LARGEUR_CARTE_CASE][HAUTEUR_CARTE_CASE];
+		
 		
 		// les listes d'action 
 		this.listeActionAttaque = new ArrayList<>();
@@ -71,9 +69,7 @@ public class Carte implements IConfig, ICarte {
 		this.listeHeros = new ArrayList<>();
 		this.listeMonstres = new ArrayList<>();
 			
-		// On initialise le plateau vide
-		for(Element[] lignes : plateau)
-			Arrays.fill(lignes, null);
+		this.setCarteVide();
 			
 		// On position un soldat dans le focus de la camera
 		this.listeHeros.add(new Heros(this, Soldat.TypesH.getTypeHAlea(), "H", new Position(LARGEUR_CARTE_CASE/2, HAUTEUR_CARTE_CASE/2)));
@@ -91,6 +87,27 @@ public class Carte implements IConfig, ICarte {
 		}
 	}
 	
+	public Carte(int obstacle) {
+		this.plateau = new Element[LARGEUR_CARTE_CASE][HAUTEUR_CARTE_CASE];
+		// les listes d'action 
+		this.listeActionAttaque = new ArrayList<>();
+		this.listeActionDeplacement = new ArrayList<>();
+		this.listeActionMort = new ArrayList<>();
+				
+		// liste de monstre et heros presenet sur la carte 
+		this.listeHeros = new ArrayList<>();
+		this.listeMonstres = new ArrayList<>();
+				
+		this.setCarteVide();
+	}
+	
+	
+	public void setCarteVide() {
+		// On initialise le plateau vide
+		for(Element[] lignes : plateau)
+			Arrays.fill(lignes, null);
+	}
+
 	/**
 	 *  Fonction principale du jeu c'est ici que tout est g�re
 	 *  Les appels au autre methode .

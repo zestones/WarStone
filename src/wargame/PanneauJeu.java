@@ -22,6 +22,7 @@ import carte.Camera;
 import carte.Carte;
 import element.Element;
 import element.Heros;
+import element.Obstacle;
 import fenetrejeu.IFenetre;
 import infosgame.InfosElement;
 import infosgame.MiniCarte;
@@ -40,15 +41,16 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	public Position clic, lastClic, clicDragged;
 	private Position draggedCam, releasedClic;
 	public int nombreHeros, nombreMonstre;
-	private boolean dessineFleche;
-	public boolean estFiniAction;
 	public Fleche flecheDirectionnelle;
+	public ButtonEvent buttonEvent;
+	private boolean dessineFleche;
 	public Heros herosSelectione;
+	public boolean estFiniAction;
 	private	Position survol;
 	public	Element elem;
 	public Camera cam;
 	public Carte c;
-	public ButtonEvent buttonEvent;
+	public Position deposeObstacle;
 
 	/**
 	 * Instantiates a new panneau jeu.
@@ -57,8 +59,9 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		
 		this.c = c;
 		this.cam = new Camera(c, 0, 0);
-		this.flecheDirectionnelle = new Fleche(this.cam);
 		
+		this.flecheDirectionnelle = new Fleche(this.cam);
+	
 		this.herosSelectione = null;		
 		
 		this.elem = null;
@@ -73,6 +76,9 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	
 	public void setPanneauJeu(Carte c) {
 		this.c = c;
+		if(Carte.modeConf)
+			
+		System.out.println("listeHeros:  "+ c.listeHeros);
 		this.majMiniCarte();
 		
 		this.flecheDirectionnelle = new Fleche(this.cam);
@@ -84,7 +90,22 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		
 		c.nombreSoldatVivant(this);
 	}		
-		 
+	
+	public void setPanneauJeuConf(Carte c) {
+		this.c = c;
+		if(Carte.modeConf)
+			
+		System.out.println("listeHeros:  "+ c.listeHeros);
+		this.majMiniCarte();
+		
+		this.flecheDirectionnelle = new Fleche(this.cam);
+		this.herosSelectione = null;		
+		
+		this.elem = null;
+		this.dessineFleche = false;
+		this.estFiniAction = false;
+	}		
+			 
 	/**
 	 * Gestion evenement : souris / boutton.
 	 */
@@ -105,6 +126,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 				if (SwingUtilities.isLeftMouseButton(e)) {
 					clic = new Position(e.getX() / NB_PIX_CASE + cam.getDx(), e.getY() / NB_PIX_CASE + cam.getDy());
 					lastClic = new Position(e.getX() / NB_PIX_CASE + cam.getDx(), e.getY() / NB_PIX_CASE + cam.getDy());
+					deposeObstacle = new Position(e.getX() / NB_PIX_CASE + cam.getDx(), e.getY() / NB_PIX_CASE + cam.getDy());
 					
 					if(!c.estCaseVide(clic)) dessineFleche = false;
 											
@@ -125,6 +147,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 			
 			public void mouseReleased(MouseEvent e) {
 				if (SwingUtilities.isLeftMouseButton(e)) {
+					deposeObstacle = null;
 					dessineFleche = false;
 					releasedClic = new Position((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());
 					
@@ -216,23 +239,40 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
-		g.drawImage(grass, 0, 0, NB_PIX_CASE * LARGEUR_CASE_VISIBLE, NB_PIX_CASE * HAUTEUR_CASE_VISIBLE, null);
+		if(Carte.modeConf) {
+			for(int i = cam.getDx(); i < LARGEUR_CASE_VISIBLE + cam.getDx(); i++) {
+				for(int j = cam.getDy(); j < HAUTEUR_CASE_VISIBLE + cam.getDy(); j++) {		
+					g.drawImage(range, i * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE, j  * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+					if(this.c.getElement(new Position(i, j)) != null)
+						this.c.getElement(new Position(i, j)).seDessiner(g, this.cam);
+					
+					
+					g.setColor(COULEUR_GRILLE);
+					g.drawRect(i * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE, j  * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
+				}
+			}
+			if(deposeObstacle != null) {
+				c.setElement(new Obstacle(c, InfosElement.obstacleSelectione, deposeObstacle));
+			}
+			
+		}
+		else {
+			g.drawImage(grass, 0, 0, NB_PIX_CASE * LARGEUR_CASE_VISIBLE, NB_PIX_CASE * HAUTEUR_CASE_VISIBLE, null);
+			this.c.toutDessiner(g, cam);
 		
-		this.c.toutDessiner(g, cam);
-	
-		// Affichage du nombre de soldat restant
-		soldatRestant.setText("" + nombreHeros + " Heros VS " + nombreMonstre + " Monstre");
-		
-		// Affichage du label en bas de la fenetre
-		if(this.elem != null)
-			footer.setText(" " + this.elem.toString());
-				
-	    // Affiche les deplacement possible du heros selectionne
-		if(this.herosSelectione != null && !this.herosSelectione.aJoue) {
-			this.herosSelectione.dessineSelection(g, this.herosSelectione, clicDragged, cam);
-			this.herosSelectione.changeSprite(clicDragged, cam);
-	    }
+			// Affichage du nombre de soldat restant
+			soldatRestant.setText("" + nombreHeros + " Heros VS " + nombreMonstre + " Monstre");
+			
+			// Affichage du label en bas de la fenetre
+			if(this.elem != null)
+				footer.setText(" " + this.elem.toString());
+					
+		    // Affiche les deplacement possible du heros selectionne
+			if(this.herosSelectione != null && !this.herosSelectione.aJoue) {
+				this.herosSelectione.dessineSelection(g, this.herosSelectione, clicDragged, cam);
+				this.herosSelectione.changeSprite(clicDragged, cam);
+		    }
+		}
 		       
 	    // On verifie si on doit dessiner la fleche ou non
 	    if(flecheDirectionnelle.estFlecheDessinable(herosSelectione, dessineFleche, draggedCam)) 

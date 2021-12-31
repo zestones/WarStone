@@ -123,6 +123,28 @@ public class MenuEvent extends JPanel implements IMenu{
         	}			
         });  	
 		
+		config.addActionListener(new ActionListener(){  
+			public void actionPerformed(ActionEvent e){		
+				// On suprime tout le contenu
+				panelMenu.removeAll();
+				// On valde les changements
+				panelMenu.revalidate();
+				// On supprime le panneau que l'on va remplacer
+				frame.remove(panelMenu);
+				frame.remove(musicBoutton);
+				// Arret de la music du menu
+				menuMusic.clip.stop();
+				// lancement de la music du jeu
+				//gameMusic.clip.start();
+				// Supression des bouttons 
+				removeBoutton();
+				// et on cree le paneau du jeu
+				new FenetreJeu(new Carte(), true);
+				frame.repaint();
+        	}			
+        });  	
+		
+		
 	}
 	
 	private void removeBoutton() {

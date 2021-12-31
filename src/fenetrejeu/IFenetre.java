@@ -40,6 +40,8 @@ public interface IFenetre extends IMenuBar, IMenu{
 	// Conteneur principal des infos sur les elements
 	JPanel infosElementPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, PADDING_INFOS_PANEL, PADDING_INFOS_PANEL));
 
+	JPanel infosElementBody = new JPanel();
+	
 	// Label pour Nombre de soldat restant
 	JLabel soldatRestant = new JLabel();	
 	

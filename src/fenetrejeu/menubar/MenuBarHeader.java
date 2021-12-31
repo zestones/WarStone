@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
+import carte.Carte;
 import fenetrejeu.IFenetre;
 
 public class MenuBarHeader  implements IFenetre{
@@ -26,10 +27,17 @@ public class MenuBarHeader  implements IFenetre{
 		
 		menu.setVisible(true);
 		menuBar.add(menu);
-		
-		finTour.setVisible(true);
-		menuBar.add(finTour);		
-		
+		System.out.println("MenuBar --> " + Carte.modeConf + "\n");
+
+		if(!Carte.modeConf) {
+			finTour.setVisible(true);
+			menuBar.add(finTour);		
+		}
+		else {
+			finTour.removeAll();
+			finTour.revalidate();
+		}
+			
 		sauvegarde.setVisible(true);
 		menuBar.add(sauvegarde);
 		

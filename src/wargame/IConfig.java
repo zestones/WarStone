@@ -115,6 +115,11 @@ public interface IConfig extends java.io.Serializable {
 	
 	/** The largeur icon element. */
 	int LARGEUR_ICON_ELEMENT = HAUTEUR_ICON_ELEMENT;
+	
+	// Dimension du panel infosElementBody
+	int LARGEUR_ELEMENT_BODY = LARGEUR_INFOS_PANEL - PADDING_INFOS_PANEL * 2;
+	int HAUTEUR_ELEMENT_BODY = HAUTEUR_INFOS_PANEL - HAUTEUR_ICON_ELEMENT - HAUTEUR_NB_SOLDAT_VIVANT - PADDING_INFOS_PANEL*2;
+	
 		
 	// Definir le NB ELEMENT sur la carte
 	int NB_HEROS = 5; 

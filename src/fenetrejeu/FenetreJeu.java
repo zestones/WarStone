@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -21,9 +22,12 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
 import carte.Carte;
+import element.Obstacle;
 import fenetrejeu.menubar.MenuBarHeader;
+import infosgame.InfosElement;
 import infosgame.MiniCarte;
 import menu.loadgame.loadGamePage;
+import utile.Position;
 import wargame.PanneauJeu;
 
 
@@ -39,8 +43,19 @@ public class FenetreJeu extends JPanel implements IFenetre{
 	/**
 	 * Instantiates a new fenetre jeu.
 	 */
-	public FenetreJeu(Carte c) {
-	
+	public FenetreJeu(Carte c, boolean conf) {
+		System.out.println("config " + conf);
+		if(conf) {
+			c.setCarteVide();	
+			c.listeHeros.clear();
+			c.listeMonstres.clear();
+			c.removeAllAction();
+			c.setElement(new Obstacle(c, Obstacle.TypeObstacle.FORET, new Position(0,0)));
+		}
+		Carte.modeConf = conf;
+		
+		System.out.println("FenetreJeu Carte.conf" + Carte.modeConf);
+
 		panelPrincipal.setPreferredSize(new Dimension(FEN_LARGEUR, FEN_HAUTEUR));
 		panelPrincipal.setLayout(new BorderLayout());
 		panelPrincipal.setOpaque(false);	   	
@@ -133,9 +148,9 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		// Couleur et taille du panel Principal contenant les infos sur les elements
 		infosElementPanel.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, HAUTEUR_INFOS_PANEL));
 		infosElementPanel.setBackground(COULEUR_HEROS);		
-
+		
 		// Couleur et taille du header dans ce panel
-		infosElementHeader.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, HAUTEUR_ICON_ELEMENT));
+		infosElementHeader.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL - PADDING_INFOS_PANEL*2, HAUTEUR_ICON_ELEMENT));
 		infosElementPanel.setBorder(new MatteBorder(2, 2, 0, 2, COULEUR_BORDURE));
 		
 		// panel contenant l'icon
@@ -161,10 +176,21 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		infosElementHeader.add(iconInfosLabel, BorderLayout.CENTER);
 		infosElementPanel.add(infosElementHeader, BorderLayout.NORTH);
 		
+		infosElementBody.setOpaque(true);
+		infosElementBody.setLayout(new GridLayout(1, 0));
+		infosElementBody.setPreferredSize(new Dimension(LARGEUR_ELEMENT_BODY, HAUTEUR_ELEMENT_BODY));
+		infosElementBody.setBackground(COULEUR_EAU);
+		infosElementPanel.add(infosElementBody, BorderLayout.SOUTH);
+		InfosElement.dessineInfosElementBody();
+		
 		infosPanel.add(infosElementPanel);
 		
 		// On cree notre panneau 
-		panneau.setPanneauJeu(c);
+		if(conf)
+			panneau.setPanneauJeuConf(c);
+		else
+			panneau.setPanneauJeu(c);	
+	
 		panel.add(panneau);
 		
 		JPanel footerContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -188,6 +214,10 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		new MenuBarHeader();
 		
 		frame.add(panelPrincipal);			
+	}
+	
+	public FenetreJeu(Carte c){	
+		this(c, false);
 	}
 	
 	public FenetreJeu(){	

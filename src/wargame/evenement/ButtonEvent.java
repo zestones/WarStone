@@ -66,7 +66,10 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 		// Boutton restart recharge une carte cree aleatoirement
 		restart.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  	
-				pj.c = new Carte();
+				if(Carte.modeConf)
+					pj.c = new Carte(5);
+				else 
+					pj.c = new Carte();
 				pj.majMiniCarte();
 				
 				pj.flecheDirectionnelle = new Fleche(pj.cam);
