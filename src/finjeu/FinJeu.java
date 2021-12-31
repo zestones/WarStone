@@ -24,7 +24,7 @@ import music.SoundLauncher;
 public class FinJeu implements IFenetre {
 	private static final long serialVersionUID = 1L;
 	
-	private static final String gameOverImg = background;
+	private static final String gameOverImg = "./res/img/background/menu/youLose.png";
 	private static final String youWinImg = "./res/img/background/menu/youWin.png";
 	
 	public FinJeu(int nombreHeros, int nombreMonstre) {		
@@ -96,11 +96,7 @@ public class FinJeu implements IFenetre {
 				// On supprime le panneau que l'on va remplacer
 				frame.remove(panelOver);
 				removeBoutton();
-				
-				musicBoutton.removeAll();
-				musicBoutton.revalidate();
-				musicBoutton.setBouttonImage("unmute");
-				MenuEvent.estMusicActif = true;
+				// On relance la music du menu
 				menuMusic.clip.start();
 				// Creation du menu
 				MenuJeu.initMenuJeu();
@@ -119,6 +115,10 @@ public class FinJeu implements IFenetre {
 	private void removeBoutton() {
 		frame.remove(backMenu);
 		frame.remove(newGame);
+		musicBoutton.removeAll();
+		musicBoutton.revalidate();
+		musicBoutton.setBouttonImage("unmute");
+		MenuEvent.estMusicActif = true;
 	}
 	
 }
