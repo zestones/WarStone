@@ -21,6 +21,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.border.MatteBorder;
 
+import carte.Carte;
 import element.Element;
 import element.Obstacle.TypeObstacle;
 import element.Soldat;
@@ -39,7 +40,7 @@ public abstract class InfosElement implements IFenetre {
 	private static List<JLabel> listeLabelObstacle = new ArrayList<>();
 	private static List<TypeObstacle> listeObstacle = new ArrayList<>();
 	public static TypeObstacle obstacleSelectione;
-	private static int index;
+	private static int index = 0;
 	
 	/**
 	 * Dessine infos element.
@@ -112,16 +113,20 @@ public abstract class InfosElement implements IFenetre {
 		
 		header.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				obstacleSelectione = null;
-				listeLabelObstacle.get(index).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
-			}	
+				if(Carte.modeConf) {
+					obstacleSelectione = null;
+					listeLabelObstacle.get(index).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
+				}
+			}
 		});
 		
 		infosElementPanel.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				obstacleSelectione = null;
-				listeLabelObstacle.get(index).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
-			}	
+				if(Carte.modeConf) {
+					obstacleSelectione = null;
+					listeLabelObstacle.get(index).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
+				}
+			}
 		});
 		
 		System.out.println("dessin liste");
