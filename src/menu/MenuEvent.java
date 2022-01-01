@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 import carte.Carte;
 import fenetrejeu.FenetreJeu;
-import menu.loadgame.loadGamePage;
+import menu.loadgame.LoadGamePage;
 
 public class MenuEvent extends JPanel implements IMenu{
 	private static final long serialVersionUID = 1L;
@@ -96,7 +96,7 @@ public class MenuEvent extends JPanel implements IMenu{
 				frame.remove(panelMenu);
 				
 				removeBoutton();
-				new loadGamePage();
+				new LoadGamePage();
 				
 				frame.repaint();
 			}

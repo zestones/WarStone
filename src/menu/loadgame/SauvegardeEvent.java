@@ -10,25 +10,11 @@ import javax.swing.SwingUtilities;
 
 import fenetrejeu.FenetreJeu;
 import menu.IMenu;
-import menu.MenuJeu;
 import utile.Boutton;
 
-public class loadGameEvent implements ISauvegarde, IMenu {
-	public static boolean estDeleteActif = false;
-	
-	public loadGameEvent() {
-	
-		frame.addMouseMotionListener(new MouseAdapter() {
-			public void mouseMoved(MouseEvent e) {
-				back.unsetHoverBoutton(COULEUR_BOUTTON_MENU);
-				
-				for(Boutton boutton : listeBoutton) {
-					boutton.unsetHoverBoutton(COULEUR_BOUTTON_MENU);
-				}
-				frame.repaint();
-			}
-		});
-		
+public class SauvegardeEvent implements ISauvegarde, IMenu {
+
+	public SauvegardeEvent() {
 		for(Boutton boutton : listeBoutton) {
 			boutton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -45,7 +31,7 @@ public class loadGameEvent implements ISauvegarde, IMenu {
 										
 					// et on cree le paneau du jeu		
 					for(int j = 0; j < listeBoutton.size(); j++)
-						if(e.getSource() == listeBoutton.get(j) && !estDeleteActif) {
+						if(e.getSource() == listeBoutton.get(j) && !LoadGameEvent.estDeleteActif) {
 							// Arret de la music du menu
 							menuMusic.clip.stop();
 							// lancement de la music du jeu
@@ -59,21 +45,7 @@ public class loadGameEvent implements ISauvegarde, IMenu {
 			});
 		}
 		
-		deleteSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				deleteSave.removeAll();
-				deleteSave.revalidate();
-				
-				estDeleteActif = !estDeleteActif;		
-				
-				if(estDeleteActif)
-					deleteSave.setBouttonImage("deleteOn");
-				else 
-					deleteSave.setBouttonImage("deleteOff");
-			}
-			
-		});
-	
+		
 		for(Boutton boutton : listeBoutton) {
 			boutton.addMouseMotionListener(new MouseAdapter() {
 				public void mouseMoved(MouseEvent e) {
@@ -89,10 +61,9 @@ public class loadGameEvent implements ISauvegarde, IMenu {
 		for(Boutton boutton : listeBoutton) {
 			boutton.addMouseListener(new MouseAdapter() {
 				public void mousePressed(MouseEvent e) {
-					if(SwingUtilities.isLeftMouseButton(e) && estDeleteActif) {
+					if(SwingUtilities.isLeftMouseButton(e) && LoadGameEvent.estDeleteActif) {
 						for(int j = 0; j < listeBoutton.size(); j++)
 							if(e.getSource() == listeBoutton.get(j)) {
-								System.out.println("\n....." + listeSauvegarde.get(j));
 								File file = new File(listeSauvegarde.get(j)); 
 								if(file.delete()){
 									frame.remove(listeBoutton.get(j));
@@ -106,7 +77,7 @@ public class loadGameEvent implements ISauvegarde, IMenu {
 									// Supression des bouttons 
 									removeBouton();						
 									// On recharge la page							
-									new loadGamePage();
+									new LoadGamePage();
 									
 									frame.repaint();							
 									break;
@@ -117,34 +88,26 @@ public class loadGameEvent implements ISauvegarde, IMenu {
 			});
 		}
 		
-		back.addMouseMotionListener(new MouseAdapter() { 
+		frame.addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
-				back.hoverBoutton(COULEUR_BOUTTON_HOVER_MENU);
-			}
-		});
-	
-		back.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// On suprime tout le contenu
-				panelLoadGame.removeAll();
-				// On valde les changements
-				panelLoadGame.revalidate();			
-				// On supprime le panneau que l'on va remplacer
-				frame.remove(panelLoadGame);
-				// Supression des bouttons 
-				removeBouton();	
-				MenuJeu.initMenuJeu();
+				back.unsetHoverBoutton(COULEUR_BOUTTON_MENU);
+				
+				for(Boutton boutton : listeBoutton) {
+					boutton.unsetHoverBoutton(COULEUR_BOUTTON_MENU);
+				}
 				
 				frame.repaint();
 			}
 		});
+		
+		
 	}
 	
 	private void removeBouton() {
-			for(Boutton save : listeBoutton)
-				frame.remove(save);
-			
-			frame.remove(back);
-			frame.remove(deleteSave);
-	}
+		for(Boutton save : listeBoutton)
+			frame.remove(save);
+		
+		frame.remove(back);
+		frame.remove(deleteSave);
+}
 }

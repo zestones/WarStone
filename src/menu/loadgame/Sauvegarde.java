@@ -17,6 +17,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import carte.Carte;
 
@@ -25,7 +27,7 @@ import carte.Carte;
  * The Class Sauvegarde.
  */
 public class Sauvegarde implements ISauvegarde{
-	
+	private static final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss");  	
 	/**
 	 * Instantiates a new sauvegarde.
 	 *
@@ -33,11 +35,14 @@ public class Sauvegarde implements ISauvegarde{
 	 */
 	// Creaction d'une nouvelle sauvegarde dans monFichier
 	public Sauvegarde(Carte c){		
-	
+		String nom = Carte.modeConf ? "WarConf " : "WarGame ";
+		
 		if(listeSauvegarde.size() <= MAX_SAUVEGARDE)
-			listeSauvegarde.add((chemin + "wargame-" + java.time.LocalDate.now() + "-"+ listeSauvegarde.size() + ".ser"));
-		else 
+				listeSauvegarde.add((chemin + nom + formatter.format(new Date()) + ".ser"));
+		else {
 			deleteSauvegarde();
+			listeSauvegarde.add((chemin + nom + formatter.format(new Date()) + ".ser"));
+		}
 		
 		try
 		{   
@@ -94,9 +99,9 @@ public class Sauvegarde implements ISauvegarde{
 	private static void deleteSauvegarde() {
 		try 
 		{
-            Files.delete(Paths.get(listeSauvegarde.get(MAX_SAUVEGARDE - 1)));
-            System.out.println("Supression du fichier : " + listeSauvegarde.get(MAX_SAUVEGARDE - 1));
-            listeSauvegarde.remove(MAX_SAUVEGARDE - 1);
+            Files.delete(Paths.get(listeSauvegarde.get(MAX_SAUVEGARDE)));
+            System.out.println("Supression du fichier : " + listeSauvegarde.get(MAX_SAUVEGARDE));
+            listeSauvegarde.remove(MAX_SAUVEGARDE);
 		}
 		catch (IOException e) 
 		{

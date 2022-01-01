@@ -15,10 +15,11 @@ import javax.swing.JPanel;
 import menu.IMenu;
 import utile.Boutton;
 
-public class loadGamePage extends JPanel implements ISauvegarde, IMenu {
+public class LoadGamePage extends JPanel implements ISauvegarde, IMenu {
 	private static final long serialVersionUID = 1L;
+	private static boolean premiereFois = true;
 	
-	public loadGamePage() {
+	public LoadGamePage() {
 		panelLoadGame.setPreferredSize(new Dimension(MENU_LARGEUR, MENU_HAUTEUR));
 		
 		JPanel saveContainer = new JPanel(new FlowLayout());
@@ -58,8 +59,14 @@ public class loadGamePage extends JPanel implements ISauvegarde, IMenu {
 		back.setBouttonText("BACK");
 		back.hoverBoutton(COULEUR_BOUTTON_MENU);		
 		
-		new loadGameEvent();		
-	
+		// On creer les evenements lors de la premiere visite de la page uniquement
+		if(premiereFois) {
+			new LoadGameEvent();		
+			premiereFois = false;
+		}
+		
+		new SauvegardeEvent();
+		
 		panelLoadGame.add(saveContainer);		
 		frame.add(panelLoadGame);
 	}

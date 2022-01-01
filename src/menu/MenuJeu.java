@@ -44,7 +44,7 @@ public class MenuJeu implements IMenu {
         // On creer notre bar de menu secondaire
 		new MenuBar();
 		new MenuEvent();
-		
+
 		frame.pack();
 		frame.setVisible(true);  
 	}

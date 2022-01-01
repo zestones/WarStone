@@ -25,7 +25,7 @@ import carte.Carte;
 import fenetrejeu.menubar.MenuBarHeader;
 import infosgame.InfosElement;
 import infosgame.MiniCarte;
-import menu.loadgame.loadGamePage;
+import menu.loadgame.LoadGamePage;
 import wargame.PanneauJeu;
 
 
@@ -51,8 +51,6 @@ public class FenetreJeu extends JPanel implements IFenetre{
 	
 		Carte.modeConf = conf;
 		
-		System.out.println(" ------------ FenetreJeu conf" + Carte.modeConf);
-
 		panelPrincipal.setPreferredSize(new Dimension(FEN_LARGEUR, FEN_HAUTEUR));
 		panelPrincipal.setLayout(new BorderLayout());
 		panelPrincipal.setOpaque(false);	   	
@@ -68,7 +66,7 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		panel.setOpaque(false);	    
 		
 		// On charge la liste des sauvegardes 
-		loadGamePage.initListeSauvegarde();
+		LoadGamePage.initListeSauvegarde();
 						
 		// Creation d'un panel qui contient les infos du jeux
 		JPanel infosPanel = new JPanel(new FlowLayout());
