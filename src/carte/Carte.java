@@ -74,7 +74,7 @@ public class Carte implements IConfig, ICarte {
 		// On position un soldat dans le focus de la camera
 		this.listeHeros.add(new Heros(this, Soldat.TypesH.getTypeHAlea(), "H", new Position(LARGEUR_CARTE_CASE/2, HAUTEUR_CARTE_CASE/2)));
 		
-		// Cration des Elements !!! Modifier les noms !!!
+		// Creation des Elements !!! Modifier les noms !!!
 		int inc = Math.max(NB_MONSTRES, Math.max(NB_OBSTACLES, NB_HEROS));
 		while (inc > 0) {
 			if (inc <= NB_MONSTRES)
@@ -101,6 +101,20 @@ public class Carte implements IConfig, ICarte {
 		this.setCarteVide();
 	}
 	
+	// Methode appeler lors de la config du plateau 
+	// Une fois les obstacles depose sur la carte on remplie la carte avec les heros et les monstres 
+	public void peupleCarte() {
+		
+		int inc = Math.max(NB_MONSTRES, NB_HEROS);
+		
+		while (inc > 0) {
+			if(inc <= NB_MONSTRES)
+				this.listeMonstres.add(new Monstre(this, Soldat.TypesM.getTypeMAlea(), "" + inc, this.trouvePositionVide()));
+			if(inc <= NB_HEROS)
+				this.listeHeros.add(new Heros(this, Soldat.TypesH.getTypeHAlea(), "H", this.trouvePositionVide()));
+			inc--;
+		}	
+	}
 	
 	public void setCarteVide() {
 		// On initialise le plateau vide
@@ -241,7 +255,7 @@ public class Carte implements IConfig, ICarte {
 		int distance = 0;
 		// On cherche une position vide le plus eloigne du heros 
 		for(Position posVoisine : positionVoisine) {
-			if(h.getPosition().distance(posVoisine) > distance && this.getElement(posVoisine) == null) {
+			if(h.getPosition().distance(posVoisine) > distance && posVoisine.estValide() && this.getElement(posVoisine) == null) {
 				posFuite = posVoisine;
 				distance = (int) h.getPosition().distance(posVoisine);
 			}

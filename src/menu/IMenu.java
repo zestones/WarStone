@@ -26,6 +26,8 @@ public interface IMenu {
 
 	SoundLauncher menuMusic = new SoundLauncher("menu_music.wav");
 	SoundLauncher gameMusic = new SoundLauncher("game_music.wav");
+	SoundLauncher configMusic = new SoundLauncher("config_music.wav");
+
 	
 	JPanel panelMenu = new JPanel();
 	
@@ -54,6 +56,6 @@ public interface IMenu {
 	String background = "./res/img/background/menu/background.png";
 	String backgroundMenu = "./res/img/background/menu/background-menu.png";
 
-	Color COULEUR_BOUTTON  = new Color(0, 89, 154);
-	Color COULEUR_BOUTTON_HOVER = new Color(255, 165, 0);
+	Color COULEUR_BOUTTON_MENU  = new Color(0, 89, 154);
+	Color COULEUR_BOUTTON_HOVER_MENU = new Color(255, 165, 0);
 }

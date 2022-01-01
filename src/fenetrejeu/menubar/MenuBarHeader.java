@@ -27,15 +27,14 @@ public class MenuBarHeader  implements IFenetre{
 		
 		menu.setVisible(true);
 		menuBar.add(menu);
-		System.out.println("MenuBar --> " + Carte.modeConf + "\n");
 
 		if(!Carte.modeConf) {
 			finTour.setVisible(true);
 			menuBar.add(finTour);		
 		}
 		else {
-			finTour.removeAll();
-			finTour.revalidate();
+			play.setVisible(true);
+			menuBar.add(play);
 		}
 			
 		sauvegarde.setVisible(true);
@@ -48,7 +47,7 @@ public class MenuBarHeader  implements IFenetre{
         musicOn.setSelected(true);
         
         fleche.setOpaque(true);
-		fleche.setBackground(COULEUR_BOUTTON);
+		fleche.setBackground(COULEUR_BOUTTON_MENU);
 		fleche.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, MENUBAR_HAUTEUR));
 		fleche.setBorder(new MatteBorder(0, 2, 2, 2, COULEUR_BORDURE));
 		

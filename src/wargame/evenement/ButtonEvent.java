@@ -9,10 +9,14 @@
  * ******************************************************************/
 package wargame.evenement;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import carte.Carte;
+import fenetrejeu.FenetreJeu;
 import fenetrejeu.IFenetre;
 import infosgame.InfosElement;
 import menu.MenuEvent;
@@ -37,6 +41,8 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 		
 		this.cameraEvent();
 		this.partieEvent();
+		
+		this.bouttonHover();
 	}
 	
 	private void cameraEvent() {
@@ -97,17 +103,62 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 		
 		// Boutton de sauvegarde de la partie
 		sauvegarde.addActionListener(new ActionListener(){
-    		public void actionPerformed(ActionEvent e){    			
-    			new Sauvegarde(pj.c);
+    		public void actionPerformed(ActionEvent e){    	
+    			if(!Carte.modeConf)
+    				new Sauvegarde(pj.c);
+    			else {
+    				pj.c.peupleCarte();
+    				new Sauvegarde(pj.c);
+    				menu.doClick();
+    			}
+    		}
+    	});
+		
+		play.addActionListener(new ActionListener(){
+    		public void actionPerformed(ActionEvent e){    	
+    				pj.c.peupleCarte();
+    				// On suprime tout le contenu
+    				panelPrincipal.removeAll();
+    				panelPrincipal.revalidate();
+    				
+    				// Suprime les listes des obstacle
+    				InfosElement.removeObstacleList();
+    				// On vide le panel
+    				infosElementBody.removeAll();
+    				infosElementBody.revalidate();
+    				
+    				// On supprime le header et les fleches
+    				header.removeAll();
+    				fleche.removeAll();
+    				// On supprime le panneau que l'on va remplacer
+    				frame.remove(panelPrincipal);
+    				
+    				// On supprime le boutton fin de tour pour qu'il n'aparaisse pas si une config est lancer
+    				menuBar.remove(finTour);	
+    				menuBar.remove(play);	
+    				// On arrete la music de conf et lance music jeux
+    				gameMusic.clip.start();
+    				
+    				new FenetreJeu(pj.c);
+    		
+    				frame.repaint();
     		}
     	});
 		
 		musicOn.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e){    			
-    			if(!musicOn.isSelected())
-    				gameMusic.clip.stop();
-    			else
-    				gameMusic.clip.start();
+    			if(!Carte.modeConf) {
+    				if(!musicOn.isSelected()) 
+    					gameMusic.clip.stop();
+    				else 
+    					gameMusic.clip.start();
+    			}
+    			else {
+    				if(!musicOn.isSelected()) 
+    					configMusic.clip.stop();
+    				else 
+    					configMusic.clip.start();
+    			}
     		}
     	});
 		
@@ -131,9 +182,8 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 				
 				// On supprime le boutton fin de tour pour qu'il n'aparaisse pas si une config est lancer
 				menuBar.remove(finTour);	
-				
-				// On arrete la music du jeux et on lance celle du menu
-				gameMusic.clip.stop();
+				menuBar.remove(play);
+				// On lance la music du menu	
 				menuMusic.clip.start();
 				// On enleve le boutton de music
 				musicBoutton.removeAll();
@@ -148,4 +198,58 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 			} 	 
 		});  
 	}	
+	
+	private void bouttonHover() {
+		play.addMouseMotionListener(new MouseAdapter() {
+    		public void mouseMoved(MouseEvent e) {
+    			play.setForeground(Color.WHITE);
+    			play.setBackground(Color.BLACK);
+    		}	
+		});
+		sauvegarde.addMouseMotionListener(new MouseAdapter() {
+    		public void mouseMoved(MouseEvent e) {
+    			sauvegarde.setForeground(Color.WHITE);
+    			sauvegarde.setBackground(Color.BLACK);
+    		}	
+		});
+		restart.addMouseMotionListener(new MouseAdapter() {
+    		public void mouseMoved(MouseEvent e) {
+    			restart.setForeground(Color.WHITE);
+    			restart.setBackground(Color.BLACK);
+    		}	
+		});
+		finTour.addMouseMotionListener(new MouseAdapter() {
+    		public void mouseMoved(MouseEvent e) {
+    			finTour.setForeground(Color.WHITE);
+    			finTour.setBackground(Color.BLACK);
+    		}	
+		});
+		menu.addMouseMotionListener(new MouseAdapter() {
+    		public void mouseMoved(MouseEvent e) {
+    			menu.setForeground(Color.WHITE);
+    			menu.setBackground(Color.BLACK);
+    		}	
+		});
+		
+		header.addMouseMotionListener(new MouseAdapter() {
+    		public void mouseMoved(MouseEvent e) {
+    			menu.setForeground(Color.BLACK);
+    			menu.setBackground(Color.WHITE);
+    			
+    			finTour.setForeground(Color.BLACK);
+    			finTour.setBackground(Color.WHITE);
+    			
+    			restart.setForeground(Color.BLACK);
+    			restart.setBackground(Color.WHITE);
+    			
+    			sauvegarde.setForeground(Color.BLACK);
+    			sauvegarde.setBackground(Color.WHITE);
+    			
+    			play.setForeground(Color.BLACK);
+    			play.setBackground(Color.WHITE);
+    		}	
+		});
+	}
+	
+	
 }

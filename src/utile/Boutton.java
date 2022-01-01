@@ -8,6 +8,10 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import menu.IMenu;
 
@@ -16,7 +20,7 @@ public class Boutton extends JButton implements IMenu{
 	private static final long serialVersionUID = 1L;
 
 	public static int NOMBRE_BOUTTON = 0;
-	private Color couleur = COULEUR_BOUTTON;
+	private Color couleur = COULEUR_BOUTTON_MENU;
 	private int largeur, hauteur;
 		
 	public Boutton(int x, int y, int largeur, int hauteur) {
@@ -39,13 +43,13 @@ public class Boutton extends JButton implements IMenu{
         g.fillRoundRect(0, 0, getWidth(), getHeight(),  30, 30); 
     }
     
-    public void hoverBoutton(){
-    	couleur = COULEUR_BOUTTON_HOVER;
+    public void hoverBoutton(Color c){
+    	couleur = c;
     	this.repaint();
     }
     
-    public void unsetHoverBoutton() {
-    	couleur = COULEUR_BOUTTON;
+    public void unsetHoverBoutton(Color c) {
+    	couleur = c;
     	this.repaint();
     }
     
@@ -79,4 +83,19 @@ public class Boutton extends JButton implements IMenu{
 		// enfin ajout du label au boutton
 		this.add(label);	
 	}
+    
+    public static JButton setBouttonStyle(String text) {
+    	JButton boutton = new JButton(text);
+
+    	boutton.setForeground(Color.BLACK);
+    	boutton.setBackground(Color.WHITE);
+
+    	Border line = new LineBorder(Color.BLACK);
+    	Border margin = new EmptyBorder(5, 15, 5, 15);
+    	Border compound = new CompoundBorder(line, margin);
+    	
+    	boutton.setBorder(compound);
+    	
+    	return boutton;
+    }       
 }

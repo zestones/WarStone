@@ -21,19 +21,16 @@ public class SoundLauncher {
 			e1.printStackTrace();
 		}  
 		try {
-			clip = AudioSystem.getClip();
+			this.clip = AudioSystem.getClip();
+			this.clip.loop(0);
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
 		}
 	    try {
-			clip.open(audioIn);
-		} catch (LineUnavailableException | IOException e) {
+	    	this.clip.open(audioIn);
+	    	this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+	    } catch (LineUnavailableException | IOException e) {
 			e.printStackTrace();
 		}
-	    
-	    clip.loop(-1);
-	    clip.stop();
 	}
-	
-	
 }

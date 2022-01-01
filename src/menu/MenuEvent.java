@@ -22,41 +22,41 @@ public class MenuEvent extends JPanel implements IMenu{
 	private void evenementButton() {
 		newGame.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			newGame.hoverBoutton();
+    			newGame.hoverBoutton(COULEUR_BOUTTON_HOVER_MENU);
     		}	
 		});
 		
 		loadGame.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			loadGame.hoverBoutton();
+    			loadGame.hoverBoutton(COULEUR_BOUTTON_HOVER_MENU);
     		}	
 		});
 		
 		config.addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
-				config.hoverBoutton();
+				config.hoverBoutton(COULEUR_BOUTTON_HOVER_MENU);
     		}	
 		});
 		
 		quit.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			quit.hoverBoutton();
+    			quit.hoverBoutton(COULEUR_BOUTTON_HOVER_MENU);
     		}	
 		});
 		
 		musicBoutton.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			musicBoutton.hoverBoutton();
+    			musicBoutton.hoverBoutton(COULEUR_BOUTTON_HOVER_MENU);
     		}	
 		});
 		
 		frame.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			newGame.unsetHoverBoutton();
-    			loadGame.unsetHoverBoutton();
-    			config.unsetHoverBoutton();
-    			quit.unsetHoverBoutton();
-    			musicBoutton.unsetHoverBoutton();
+    			newGame.unsetHoverBoutton(COULEUR_BOUTTON_MENU);
+    			loadGame.unsetHoverBoutton(COULEUR_BOUTTON_MENU);
+    			config.unsetHoverBoutton(COULEUR_BOUTTON_MENU);
+    			quit.unsetHoverBoutton(COULEUR_BOUTTON_MENU);
+    			musicBoutton.unsetHoverBoutton(COULEUR_BOUTTON_MENU);
     		}	
 		});
 		
@@ -134,8 +134,7 @@ public class MenuEvent extends JPanel implements IMenu{
 				frame.remove(musicBoutton);
 				// Arret de la music du menu
 				menuMusic.clip.stop();
-				// lancement de la music du jeu
-				//gameMusic.clip.start();
+				configMusic.clip.start();
 				// Supression des bouttons 
 				removeBoutton();
 				// et on cree le paneau du jeu

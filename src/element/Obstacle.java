@@ -48,7 +48,9 @@ public class Obstacle extends Element{
 		/** The foret. */
 		FORET (COULEUR_FORET, foret), 
 		/** The eau. */
-		EAU (COULEUR_EAU, water);
+		EAU (COULEUR_EAU, water),
+		
+		LAVE(COULEUR_LAVE, lave);
 		
 		/** The couleur. */
 		private final Color COULEUR;

@@ -22,12 +22,10 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
 import carte.Carte;
-import element.Obstacle;
 import fenetrejeu.menubar.MenuBarHeader;
 import infosgame.InfosElement;
 import infosgame.MiniCarte;
 import menu.loadgame.loadGamePage;
-import utile.Position;
 import wargame.PanneauJeu;
 
 
@@ -49,7 +47,6 @@ public class FenetreJeu extends JPanel implements IFenetre{
 			c.listeHeros.clear();
 			c.listeMonstres.clear();
 			c.removeAllAction();
-			c.setElement(new Obstacle(c, Obstacle.TypeObstacle.FORET, new Position(0,0)));
 		}
 	
 		Carte.modeConf = conf;
@@ -179,7 +176,7 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		if(Carte.modeConf) {
 			infosElementBody.setOpaque(true);
 			infosElementBody.setLayout(new GridLayout(1, 0));
-			infosElementBody.setPreferredSize(new Dimension(LARGEUR_ELEMENT_BODY, HAUTEUR_ELEMENT_BODY));
+			infosElementBody.setPreferredSize(new Dimension(LARGEUR_ELEMENT_BODY, NB_PIX_CASE));
 			infosElementBody.setBackground(COULEUR_EAU);
 			InfosElement.dessineInfosElementBody();
 		}

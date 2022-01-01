@@ -77,13 +77,13 @@ public class FinJeu implements IFenetre {
         
         frame.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			backMenu.unsetHoverBoutton();
+    			backMenu.unsetHoverBoutton(COULEUR_BOUTTON_MENU);
     		}	
 		});
         
         backMenu.addMouseMotionListener(new MouseAdapter() {
         	public void mouseMoved(MouseEvent e) {
-        		backMenu.hoverBoutton();
+        		backMenu.hoverBoutton(COULEUR_BOUTTON_HOVER_MENU);
     		}	
 		});
         
@@ -92,7 +92,9 @@ public class FinJeu implements IFenetre {
 				// On suprime tout le contenu
 				panelMenu.removeAll();
 				panelMenu.revalidate();
-				
+				// On supprime le boutton fin de tour pour qu'il n'aparaisse pas si une config est lancer
+				menuBar.remove(finTour);	
+				menuBar.remove(play);
 				// On supprime le panneau que l'on va remplacer
 				frame.remove(panelOver);
 				removeBoutton();

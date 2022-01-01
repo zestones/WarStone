@@ -49,7 +49,7 @@ public class loadGameEvent implements ISauvegarde, IMenu {
 				public void mouseMoved(MouseEvent e) {
 					for(int j = 0; j < listeBoutton.size(); j++)
 						if(e.getSource() == listeBoutton.get(j)) {
-							listeBoutton.get(j).hoverBoutton();
+							listeBoutton.get(j).hoverBoutton(COULEUR_BOUTTON_HOVER_MENU);
 						}
 				}	
 			});
@@ -57,7 +57,7 @@ public class loadGameEvent implements ISauvegarde, IMenu {
 		
 		back.addMouseMotionListener(new MouseAdapter() { 
 			public void mouseMoved(MouseEvent e) {
-				back.hoverBoutton();
+				back.hoverBoutton(COULEUR_BOUTTON_HOVER_MENU);
 			}
 		});
 		
@@ -82,9 +82,9 @@ public class loadGameEvent implements ISauvegarde, IMenu {
 		frame.addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
 				for(int j = 0; j < listeBoutton.size(); j++) {
-					listeBoutton.get(j).unsetHoverBoutton();
+					listeBoutton.get(j).unsetHoverBoutton(COULEUR_BOUTTON_MENU);
 				}
-				back.unsetHoverBoutton();
+				back.unsetHoverBoutton(COULEUR_BOUTTON_MENU);
 			}
 		});
 	}
