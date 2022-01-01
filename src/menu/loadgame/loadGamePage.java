@@ -19,7 +19,6 @@ public class loadGamePage extends JPanel implements ISauvegarde, IMenu {
 	private static final long serialVersionUID = 1L;
 	
 	public loadGamePage() {
-		
 		panelLoadGame.setPreferredSize(new Dimension(MENU_LARGEUR, MENU_HAUTEUR));
 		
 		JPanel saveContainer = new JPanel(new FlowLayout());
@@ -41,6 +40,9 @@ public class loadGamePage extends JPanel implements ISauvegarde, IMenu {
 		initListeSauvegarde();
 		listeBoutton.clear();
 		
+		frame.add(deleteSave);
+		frame.add(back);
+		
 		int i = 0;
 		Boutton.NOMBRE_BOUTTON = 0;
 		for(String save : listeSauvegarde) {
@@ -49,16 +51,18 @@ public class loadGamePage extends JPanel implements ISauvegarde, IMenu {
 			frame.add(listeBoutton.get(i));
 			i++;
 		}
-			
-		frame.add(back);
+		
+		deleteSave.setBouttonImage("deleteOff");
+		deleteSave.unsetHoverBoutton(COULEUR_DELETE);
+		
 		back.setBouttonText("BACK");
+		back.hoverBoutton(COULEUR_BOUTTON_MENU);		
 		
-		new loadGameEvent();
-		
+		new loadGameEvent();		
+	
 		panelLoadGame.add(saveContainer);		
 		frame.add(panelLoadGame);
 	}
-	
 	public static void initListeSauvegarde() {
 		// On vide la liste
 		listeSauvegarde.clear();

@@ -31,7 +31,6 @@ public interface IMenu {
 	
 	JPanel panelMenu = new JPanel();
 	
-	
 	Dimension taille = Toolkit.getDefaultToolkit().getScreenSize();	
 	
 	final int MENU_LARGEUR = (int)taille.getWidth();
@@ -49,13 +48,14 @@ public interface IMenu {
 	Boutton quit = new Boutton(BOUTTON_POSITION_X, BOUTTON_POSITION_Y, LARGEUR_BOUTTON, HAUTEUR_BOUTTON);
 	Boutton back = new Boutton(BOUTTON_POSITION_X - BOUTTON_POSITION_X + LARGEUR_BOUTTON/4, BOUTTON_POSITION_Y, LARGEUR_BOUTTON/2, HAUTEUR_BOUTTON);
 	Boutton backMenu = new Boutton(BOUTTON_POSITION_X, BOUTTON_POSITION_Y / 2, LARGEUR_BOUTTON, HAUTEUR_BOUTTON);
-	
 	Boutton musicBoutton = new Boutton(MENU_LARGEUR - HAUTEUR_BOUTTON * 2, -BOUTTON_POSITION_Y/2 - HAUTEUR_BOUTTON * 3, LARGEUR_BOUTTON/4, HAUTEUR_BOUTTON);
 	
-
+	Boutton deleteSave = new Boutton(MENU_LARGEUR - HAUTEUR_BOUTTON * 2, -BOUTTON_POSITION_Y/2 - HAUTEUR_BOUTTON * 3, LARGEUR_BOUTTON/4, HAUTEUR_BOUTTON);
+	
 	String background = "./res/img/background/menu/background.png";
 	String backgroundMenu = "./res/img/background/menu/background-menu.png";
 
 	Color COULEUR_BOUTTON_MENU  = new Color(0, 89, 154);
 	Color COULEUR_BOUTTON_HOVER_MENU = new Color(255, 165, 0);
+	Color COULEUR_DELETE = new Color(176, 176, 176);
 }

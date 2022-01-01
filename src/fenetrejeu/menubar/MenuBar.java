@@ -32,26 +32,39 @@ public class MenuBar implements IFenetre {
 	 */
 	public MenuBar() {
 		JMenuBar menuBarSecondaire = new JMenuBar();
-		
-		ImageIcon exitIcon = new ImageIcon("./res/icon/exit.png");
-	
-		Image image = exitIcon.getImage();
-		Image newimg = image.getScaledInstance(LARGEUR_ICON_MENU, HAUTEUR_ICON_MENU, java.awt.Image.SCALE_SMOOTH);
-		
-		exitIcon = new ImageIcon(newimg);
-		
 		JMenu option = new JMenu("Option");
+		
+		//ImageIcon menuIcon = new ImageIcon("./res/img/icon/menu.png");
+		JMenuItem menuItem = new JMenuItem("Menu");
+		
+		//Image imageMenu = menuIcon.getImage();
+		//Image menuImg = imageMenu.getScaledInstance(LARGEUR_ICON_MENU, HAUTEUR_ICON_MENU, java.awt.Image.SCALE_SMOOTH);
+		
+		//menuIcon = new ImageIcon(menuImg);
+		
+		menuItem.setToolTipText("Retour au menu");
+		menuItem.addActionListener(event -> menu.doClick());
+		option.add(menuItem);
+		
+		
+		ImageIcon exitIcon = new ImageIcon("./res/img/icon/exit.png");
+	
+		Image imageExit = exitIcon.getImage();
+		Image exitImg = imageExit.getScaledInstance(LARGEUR_ICON_MENU, HAUTEUR_ICON_MENU, java.awt.Image.SCALE_SMOOTH);
+		
+		exitIcon = new ImageIcon(exitImg);
 		// Marche pas setFocusable ??
 		option.setMnemonic(KeyEvent.VK_F);
 
-		JMenuItem menuItem = new JMenuItem("Quitter", exitIcon);
-		menuItem.setMnemonic(KeyEvent.VK_E);
-		menuItem.setToolTipText("Quitter le Jeu");
-		menuItem.addActionListener(event -> System.exit(0));
-
-		option.add(menuItem);
+		JMenuItem exitItem = new JMenuItem("Quitter", exitIcon);
+		exitItem.setMnemonic(KeyEvent.VK_E);
+		exitItem.setToolTipText("Quitter le Jeu");
+		exitItem.addActionListener(event -> System.exit(0));
+		
+		option.add(exitItem);
 		menuBarSecondaire.add(option);
-
+		
+		
 		frame.setJMenuBar(menuBarSecondaire);
 	}
 }

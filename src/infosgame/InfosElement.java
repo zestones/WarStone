@@ -101,7 +101,6 @@ public abstract class InfosElement implements IFenetre {
 						if(e.getSource() == listeLabelObstacle.get(j)) {
 							obstacleSelectione = listeObstacle.get(j);
 							listeLabelObstacle.get(j).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_FORET));
-							System.out.println("Obstacle ; " + obstacleSelectione);
 							index = j;
 						}
 						else

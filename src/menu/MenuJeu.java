@@ -40,8 +40,8 @@ public class MenuJeu implements IMenu {
 		initMenuJeu();
 		menuMusic.clip.start();
         musicBoutton.setBouttonImage("unmute");
-
-		// On creer notre bar de menu secondaire
+        
+        // On creer notre bar de menu secondaire
 		new MenuBar();
 		new MenuEvent();
 		

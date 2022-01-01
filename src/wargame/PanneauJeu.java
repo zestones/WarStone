@@ -145,7 +145,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 							c.jouerSoldats(pj, pj.buttonEvent.tour);
 					}
 				}
-				if (SwingUtilities.isRightMouseButton(e) && Carte.modeConf) {
+				if(SwingUtilities.isRightMouseButton(e) && Carte.modeConf) {
 					Position delete = new Position(e.getX() / NB_PIX_CASE + cam.getDx(), e.getY() / NB_PIX_CASE + cam.getDy());
 					if(c.getElement(delete) != null)
 						c.setElementVide(delete);
