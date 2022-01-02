@@ -53,7 +53,7 @@ public abstract class InfosElement implements IFenetre {
 			supprimeInfos();			
 			return;
 		}
-		// si nous ne somme pas en mode creatif on affixhe pas les infos des obstacles
+		// si nous ne somme pas en mode creatif on affiche pas les infos des obstacles
 		if(!Carte.modeConf) {
 			infosElementBody.removeAll();
 			infosElementBody.revalidate();
@@ -156,15 +156,25 @@ public abstract class InfosElement implements IFenetre {
 		// On supprime les listes
 		listeLabelObstacle.clear();
 		listeObstacle.clear();
-		// et on remet oublie l'obstacle selectione au passage
+		// et on oublie l'obstacle selectione au passage
 		obstacleSelectione = null;
 	}
 	
 	private static void supprimeInfos() {
+		// Suppression de l'icon
 		iconPanel.removeAll();
 		iconPanel.revalidate();
+		// On redefinie ses dimensions
 		iconPanel.setPreferredSize(new Dimension(LARGEUR_ICON_ELEMENT, HAUTEUR_ICON_ELEMENT));
 		iconInfosLabel.setText("");
+		// On redessine le panel
 		infosElementHeader.repaint();
+		// On supprime aussi les infos supp si nous ne somme pas en mode config
+		if(!Carte.modeConf) {
+			infosElementBody.removeAll();
+			infosElementBody.revalidate();
+			// On redessine le panel
+			infosElementBody.repaint();
+		}
 	}
 }

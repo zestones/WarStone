@@ -214,10 +214,15 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 			
 			public void mouseMoved(MouseEvent e) {
 				survol = new Position((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());
-
+				
+				elem = null;
+				
 				if(!survol.estValide()) return;
 					
-				elem = c.getElement(survol);
+				// Onj affiche les elements visible uniquement
+				for(Heros h : c.listeHeros)
+					if(h.estDedans(survol))
+						elem = c.getElement(survol);
 				
 				/* Si le clic est relacher dans la case du heros on continue a memoriser les position */ 
 				if(herosSelectione != null) clicDragged = new Position(survol.getX(), survol.getY());
@@ -286,8 +291,8 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	    			NB_PIX_CASE/4, NB_PIX_CASE/6, clic);
 	    
 	 // Affichage du label en bas de la fenetre
-	    if(this.elem != null)
-	    	footer.setText(" " + this.elem.toString());
+	    if(this.elem != null) footer.setText(" " + this.elem.toString());
+	    else footer.setText(" ");
 	 			
 	}	
 }

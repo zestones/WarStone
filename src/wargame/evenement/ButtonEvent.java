@@ -92,7 +92,6 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 			public void actionPerformed(ActionEvent e){						
 				// On oublie le dernier heros selectionne
 				pj.herosSelectione = null;
-				System.out.println("helloooo");
 				if(pj.estFiniAction) {
 					pj.c.joueTour(tour);
 					tour = tour == 0 ? 1 : 0; 
