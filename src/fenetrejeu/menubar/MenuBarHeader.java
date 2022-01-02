@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
 import carte.Carte;
@@ -20,11 +21,11 @@ public class MenuBarHeader  implements IFenetre{
 	private void initMenuBarHeader() {
 		
 		// Creation du menu qui contiendra les bouttons
-		menuBar.setBackground(COULEUR_MENUBAR); 
+		menuBar.setLayout(new FlowLayout());
 		menuBar.setOpaque(true);
-		menuBar.setPreferredSize(new Dimension(MENUBAR_LARGEUR, MENUBAR_HAUTEUR));
-		menuBar.setLayout(new FlowLayout(FlowLayout.LEADING, 10, MENUBAR_HAUTEUR/4));  
-	
+		menuBar.setBackground(COULEUR_MENUBAR);
+		menuBar.setBorder(new EmptyBorder(10, 10, 10, 10));
+
 		menu.setVisible(true);
 		menuBar.add(menu);
 
@@ -43,9 +44,11 @@ public class MenuBarHeader  implements IFenetre{
 		restart.setVisible(true);
 		menuBar.add(restart);
 		
-        menuBar.add(musicOn); 
+		menuBar.add(musicOn); 
         musicOn.setSelected(true);
         
+        header.add(menuBar, BorderLayout.CENTER);
+                
         fleche.setOpaque(true);
 		fleche.setBackground(COULEUR_BOUTTON_MENU);
 		fleche.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, MENUBAR_HAUTEUR));
@@ -75,7 +78,7 @@ public class MenuBarHeader  implements IFenetre{
 		flecheContainer.add(cameraDroite, BorderLayout.EAST);
 		
 		fleche.add(flecheContainer);
-		header.add(fleche);		
+		header.add(fleche, BorderLayout.EAST);		
 	}
 	
 }

@@ -58,12 +58,10 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		panelPrincipal.setOpaque(false);	   	
 		
 		/* on retire l'espace cree par le flowLayout */
-		header.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-		header.setOpaque(true);	    		
-             
-        // On ajoute le menu a notre HEADER
-        header.add(menuBar);
-        	
+		header.setLayout(new BorderLayout());
+		header.setOpaque(false);	    	
+		header.setPreferredSize(new Dimension(MENUBAR_LARGEUR, MENUBAR_HAUTEUR));
+		
 		panel.setLayout(new BorderLayout());
 		panel.setOpaque(false);	    
 		
@@ -210,7 +208,7 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		new MenuBarHeader();
 		new MenuBar();
 		
-		frame.add(panelPrincipal);			
+		frame.add(panelPrincipal);		
 	}
 	
 	public FenetreJeu(Carte c){	

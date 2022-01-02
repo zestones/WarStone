@@ -2,7 +2,7 @@ package fenetrejeu.menubar;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JMenuBar;
+import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicArrowButton;
 
 import utile.Boutton;
@@ -17,7 +17,7 @@ public interface IMenuBar extends IConfig {
 	JButton menu = Boutton.setBouttonStyle("Menu");;
 
 	// MenuBar Principal contenant les bouton
-	JMenuBar menuBar = new JMenuBar();
+	JPanel menuBar = new JPanel();
 	
 	JButton cameraBas = new BasicArrowButton(BasicArrowButton.SOUTH);
 	JButton cameraHaut = new BasicArrowButton(BasicArrowButton.NORTH);

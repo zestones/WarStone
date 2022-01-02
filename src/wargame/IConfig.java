@@ -24,7 +24,7 @@ public interface IConfig extends java.io.Serializable {
 	Color COULEUR_HEROS = Color.red, COULEUR_HEROS_DEJA_JOUE = new Color(175, 25, 75, 100);
 	Color COULEUR_EAU = Color.blue, COULEUR_FORET = Color.green, COULEUR_ROCHER = Color.gray;
 	Color COULEUR_GRILLE = Color.black; 
-	Color COULEUR_MENUBAR = Color.gray; 
+	Color COULEUR_MENUBAR = new Color(0, 70 ,85, 38); 
 	Color COULEUR_FOOTER = Color.black;
 	Color COULEUR_DEPLACEMENT = new Color(75, 25, 75, 100), COULEUR_PORTEE = new Color(20, 25, 25, 100);
 	Color COULEUR_VIE_R = Color.red, COULEUR_VIE_V = Color.green;
