@@ -24,7 +24,7 @@ public class MenuBarHeader  implements IFenetre{
 		menuBar.setOpaque(true);
 		menuBar.setPreferredSize(new Dimension(MENUBAR_LARGEUR, MENUBAR_HAUTEUR));
 		menuBar.setLayout(new FlowLayout(FlowLayout.LEADING, 10, MENUBAR_HAUTEUR/4));  
-		
+	
 		menu.setVisible(true);
 		menuBar.add(menu);
 

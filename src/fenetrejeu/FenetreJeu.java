@@ -22,6 +22,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
 import carte.Carte;
+import fenetrejeu.menubar.MenuBar;
 import fenetrejeu.menubar.MenuBarHeader;
 import infosgame.InfosElement;
 import infosgame.MiniCarte;
@@ -42,6 +43,7 @@ public class FenetreJeu extends JPanel implements IFenetre{
 	 * Instantiates a new fenetre jeu.
 	 */
 	public FenetreJeu(Carte c, boolean conf) {
+		
 		if(conf) {
 			c.setCarteVide();	
 			c.listeHeros.clear();
@@ -51,7 +53,7 @@ public class FenetreJeu extends JPanel implements IFenetre{
 	
 		Carte.modeConf = conf;
 		
-		panelPrincipal.setPreferredSize(new Dimension(FEN_LARGEUR, FEN_HAUTEUR));
+		panelPrincipal.setPreferredSize(new Dimension(FEN_LARGEUR, FEN_HAUTEUR - HAUTEUR_MENUBAR_SECONDAIRE - 2));
 		panelPrincipal.setLayout(new BorderLayout());
 		panelPrincipal.setOpaque(false);	   	
 		
@@ -171,15 +173,15 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		infosElementHeader.add(iconInfosLabel, BorderLayout.CENTER);
 		infosElementPanel.add(infosElementHeader, BorderLayout.NORTH);
 	
+		infosElementBody.setOpaque(true);
+		infosElementBody.setLayout(new GridLayout(1, 0));
+		infosElementBody.setPreferredSize(new Dimension(LARGEUR_ELEMENT_BODY, NB_PIX_CASE));
+		infosElementBody.setBackground(COULEUR_EAU);
+		
 		if(Carte.modeConf) {
-			infosElementBody.setOpaque(true);
-			infosElementBody.setLayout(new GridLayout(1, 0));
-			infosElementBody.setPreferredSize(new Dimension(LARGEUR_ELEMENT_BODY, NB_PIX_CASE));
-			infosElementBody.setBackground(COULEUR_EAU);
 			InfosElement.dessineInfosElementBody();
 		}
-			
-		
+				
 		infosElementPanel.add(infosElementBody, BorderLayout.SOUTH);
 		infosPanel.add(infosElementPanel);
 		
@@ -189,27 +191,23 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		else
 			panneau.setPanneauJeu(c);	
 	
-		panel.add(panneau);
+		panel.add(panneau, BorderLayout.CENTER);
 		
-		JPanel footerContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		footerContainer.setOpaque(true);
-		footerContainer.setBackground(COULEUR_EAU);
-
 		footer.setBackground(COULEUR_FOOTER);
 		footer.setPreferredSize(new Dimension(FOOTER_LARGEUR, FOOTER_HAUTEUR));
 		footer.setOpaque(true);
 		footer.setFont(new Font("Arial", Font.BOLD, 13));
 		footer.setForeground(Color.WHITE);				
 		
-		footerContainer.add(footer);
+		panel.add(footer, BorderLayout.SOUTH);
 		
 		// On ajoute tout les panels a la frame
 		panelPrincipal.add(header, BorderLayout.NORTH);
 		panelPrincipal.add(infosPanel, BorderLayout.EAST);
 		panelPrincipal.add(panel, BorderLayout.CENTER);		
-		panelPrincipal.add(footerContainer, BorderLayout.SOUTH);
-	
+		
 		new MenuBarHeader();
+		new MenuBar();
 		
 		frame.add(panelPrincipal);			
 	}

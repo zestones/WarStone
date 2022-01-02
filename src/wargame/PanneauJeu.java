@@ -8,7 +8,6 @@
  * 														wargame		*
  * ******************************************************************/
 package wargame;
-
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -247,7 +246,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if(Carte.modeConf) {
+		if(Carte.modeConf) {		
 			for(int i = cam.getDx(); i < LARGEUR_CASE_VISIBLE + cam.getDx(); i++) {
 				for(int j = cam.getDy(); j < HAUTEUR_CASE_VISIBLE + cam.getDy(); j++) {		
 					g.drawImage(range, i * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE, j  * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
@@ -270,11 +269,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		
 			// Affichage du nombre de soldat restant
 			soldatRestant.setText("" + nombreHeros + " Heros VS " + nombreMonstre + " Monstre");
-			
-			// Affichage du label en bas de la fenetre
-			if(this.elem != null)
-				footer.setText(" " + this.elem.toString());
-					
+								
 		    // Affiche les deplacement possible du heros selectionne
 			if(this.herosSelectione != null && !this.herosSelectione.aJoue) {
 				this.herosSelectione.dessineSelection(g, this.herosSelectione, clicDragged, cam);
@@ -290,5 +285,9 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	    			draggedCam.getY() * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE + NB_PIX_CASE/2, 
 	    			NB_PIX_CASE/4, NB_PIX_CASE/6, clic);
 	    
-	}
+	 // Affichage du label en bas de la fenetre
+	    if(this.elem != null)
+	    	footer.setText(" " + this.elem.toString());
+	 			
+	}	
 }

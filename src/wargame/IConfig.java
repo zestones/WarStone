@@ -40,14 +40,16 @@ public interface IConfig extends java.io.Serializable {
 	Image fleche = Toolkit.getDefaultToolkit().getImage("./res/img/pops/arrow.png");	
 	
 	Dimension taille = Toolkit.getDefaultToolkit().getScreenSize();	
-	
+
+	int HAUTEUR_MENUBAR_SECONDAIRE = 20;	
+
 	final int FEN_LARGEUR = (int)taille.getWidth();
 	final int FEN_HAUTEUR = (int)taille.getHeight();
 
 	int LARGEUR_CASE_VISIBLE = 15;
 	int HAUTEUR_CASE_VISIBLE = 10;	
 	/** Varibale du footer dans le PanneauJeu */
-	final int FOOTER_HAUTEUR = 50;
+	final int FOOTER_HAUTEUR = 35;
 	final int FOOTER_LARGEUR = FEN_LARGEUR;
 
 	// On definit la largeur comme etant 1/4 de l'ecran de jeu
@@ -55,6 +57,8 @@ public interface IConfig extends java.io.Serializable {
 	// Hauteur du menuBar
 	int MENUBAR_HAUTEUR = 65;
 		
+	int LARGEUR_MENUBAR_SECONDAIRE = FEN_LARGEUR;
+	
 	// Taille d'une case de la carte
 	int NB_PIX_CASE = Math.min((FEN_LARGEUR - LARGEUR_INFOS_PANEL) / LARGEUR_CASE_VISIBLE, (FEN_HAUTEUR - FOOTER_HAUTEUR - MENUBAR_HAUTEUR) / HAUTEUR_CASE_VISIBLE);
 	
@@ -88,23 +92,19 @@ public interface IConfig extends java.io.Serializable {
 	// HAUTEUR de la miniCarte + TAILLE_BORDURE
 	int HAUTEUR_MINI_CARTE = HAUTEUR_CARTE_CASE * MINI_NB_PIX_CASE + 6;
 		
-	/** The hauteur infos panel. */
-	// la hauteur = HAUTEUR_FEN - (HAUTEUR_MINI_CARTE - PADDING) - HAUTEUR_NB_SOLDAT_VIE - HAUTEUR_BORDURE
-	int HAUTEUR_INFOS_PANEL = HAUTEUR_CASE_VISIBLE * NB_PIX_CASE - HAUTEUR_MINI_CARTE - LARGEUR_INFOS_PANEL/4 - 6;
+	/** The hauteur carte. */
+	int HAUTEUR_CARTE = FEN_HAUTEUR - HAUTEUR_MENUBAR_SECONDAIRE - 2 - MENUBAR_HAUTEUR; 
 	
-	
-//	HAUTEUR_INFOS_PANEL - HAUTEUR_MINI_CARTE - LARGEUR_INFOS_PANEL/4 - HAUTEUR_NB_SOLDAT_VIVANT - 2;
 	/** The padding infos panel. */
 	int PADDING_INFOS_PANEL = MINI_NB_PIX_CASE;
+
+	/**hauteur infos panel. */
+	int HAUTEUR_INFOS_PANEL = HAUTEUR_CARTE - HAUTEUR_MINI_CARTE - HAUTEUR_NB_SOLDAT_VIVANT - PADDING_INFOS_PANEL * 3 + 2;
 
 	/** The largeur carte. */
 	// HAUTEUR et LARGEUR de la carte
 	int LARGEUR_CARTE = FEN_LARGEUR - LARGEUR_INFOS_PANEL;
-	
-	/** The hauteur carte. */
-	int HAUTEUR_CARTE = FEN_HAUTEUR; 
-
-	/** The hauteur icon menu. */
+		/** The hauteur icon menu. */
 	// HAUTEUR ET LARGEUR des icon dans le menuSecondaire
 	int HAUTEUR_ICON_MENU = 15;
 	

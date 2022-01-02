@@ -9,6 +9,7 @@
  * ******************************************************************/
 package fenetrejeu.menubar;
 
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 
@@ -32,6 +33,7 @@ public class MenuBar implements IFenetre {
 	 */
 	public MenuBar() {
 		JMenuBar menuBarSecondaire = new JMenuBar();
+		menuBarSecondaire.setPreferredSize(new Dimension(LARGEUR_MENUBAR_SECONDAIRE, HAUTEUR_MENUBAR_SECONDAIRE));
 		JMenu option = new JMenu("Option");
 		
 		//ImageIcon menuIcon = new ImageIcon("./res/img/icon/menu.png");
@@ -67,4 +69,5 @@ public class MenuBar implements IFenetre {
 		
 		frame.setJMenuBar(menuBarSecondaire);
 	}
+	
 }

@@ -13,10 +13,10 @@ import menu.IMenu;
 public interface IFenetre extends IMenuBar, IMenu{
 
 	// panelPrincipal de la fenetre
-	JPanel panelPrincipal = new JPanel(new BorderLayout());
+	JPanel panelPrincipal = new JPanel();
 	
 	// Creation du panel principal qui contient la carte
-	JPanel panel = new JPanel();
+	JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
 	// Creation d'un panel dans lequel on va mettre notre menu
 	JPanel header = new JPanel();	

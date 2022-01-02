@@ -32,10 +32,10 @@ public class MenuJeu implements IMenu {
 	
 	public MenuJeu(){
 		
-		frame.setSize(MENU_LARGEUR, MENU_HAUTEUR);
+		frame.setPreferredSize(new Dimension(MENU_LARGEUR, MENU_HAUTEUR));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		//frame.setUndecorated(true);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		frame.setUndecorated(true);
 			
 		initMenuJeu();
 		menuMusic.clip.start();

@@ -48,11 +48,18 @@ public abstract class InfosElement implements IFenetre {
 	 * @param e the e
 	 */
 	public static void dessineInfosElement(Element e) {
+		// On verifie qu'un element a ete cliquer sinon on nettoie le panel
 		if(e == null) {
-			supprimeInfos();
+			supprimeInfos();			
 			return;
 		}
-			
+		// si nous ne somme pas en mode creatif on affixhe pas les infos des obstacles
+		if(!Carte.modeConf) {
+			infosElementBody.removeAll();
+			infosElementBody.revalidate();
+			dessineInfosSupElements(e);
+		}	
+		
 		Image img = e.getImage().getScaledInstance(LARGEUR_ICON_ELEMENT, HAUTEUR_ICON_ELEMENT, Image.SCALE_SMOOTH);
 		ImageIcon imgIcon = new ImageIcon(img);
 		
@@ -76,10 +83,18 @@ public abstract class InfosElement implements IFenetre {
 		infosElementPanel.repaint();
 	}
 	
+	private static void dessineInfosSupElements(Element e) {
+		JLabel infosLabel = new JLabel();
+		
+		String infos = "<html><font size=\"+1\">  " + e.getType() + "</font><FONT COLOR=RED><br><font size=\"-1\">  POS: " + e.getPosition()+"</font></FONT>";
+		infosLabel.setText(infos);
+		infosElementBody.add(infosLabel);
+		infosElementBody.repaint();
+	}
+	
 	public static void dessineInfosElementBody() {
 		// On supprime le contenu des panels 
 		supprimeInfos();
-		
 		// Pour chque objet dans le type enum on recupere son image et on la met dans une liste de label
 		// une deuxieme liste est creer pour comparer les label au objet (ROCHER FORET...) 
 		for(TypeObstacle o : TypeObstacle.values()) {
@@ -93,6 +108,13 @@ public abstract class InfosElement implements IFenetre {
 			listeObstacle.add(o);
 		}
 		
+		dessinElementModeConfig();
+			
+		System.out.println("dessin liste");
+		infosElementBody.repaint();
+	}
+	
+	private static void dessinElementModeConfig() {
 		// On creer un listener pour chaque label
 		// On recupere le type de l'element cliquer a l'aide de l'index de la liste de label
 		for(int i = 0; i < listeLabelObstacle.size(); i++) {
@@ -119,7 +141,7 @@ public abstract class InfosElement implements IFenetre {
 				}
 			}
 		});
-		
+				
 		infosElementPanel.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				if(Carte.modeConf) {
@@ -128,9 +150,6 @@ public abstract class InfosElement implements IFenetre {
 				}
 			}
 		});
-		
-		System.out.println("dessin liste");
-		infosElementBody.repaint();
 	}
 	
 	public static void removeObstacleList() {
