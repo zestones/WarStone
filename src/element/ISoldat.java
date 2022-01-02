@@ -32,7 +32,9 @@ public interface ISoldat extends ISprite{
 	
 	/**  Nain miniature. */
 	Image NainMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/miniature/Nain.png");
-
+	
+	Image SorcierMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/miniature/Sorcier.png");
+	
 	/**  Gobelin miniature. */
 	// Miniature des Monstres
 	Image GobelinMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/miniature/Gobelin.png");
@@ -53,9 +55,11 @@ public interface ISoldat extends ISprite{
 		/**  nain. */
 		NAIN (80, 1, 20, 0, nain, NainMiniature), 
 		/**  elf. */
-		ELF (70, 5, 10, 6, elf, ElfMiniature), 
+		ELF (70, 4, 10, 6, elf, ElfMiniature), 
 		/**  hobbit. */
-		HOBBIT (20, 3, 5, 2, hobbit, HobbitMiniature);
+		HOBBIT (20, 3, 5, 2, hobbit, HobbitMiniature),
+		
+		SORCIER (30, 3, 1, 10, sorcier, SorcierMiniature);
       
 		/**  tir. */
 		private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR;

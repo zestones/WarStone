@@ -266,7 +266,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 			if(deposeObstacle != null && InfosElement.obstacleSelectione != null) {
 				c.setElement(new Obstacle(c, InfosElement.obstacleSelectione, deposeObstacle));
 			}
-			
+			soldatRestant.setText("" + InfosElement.nbElementDeposer + "  MAX : " + NB_OBSTACLES);	
 		}
 		else {
 			g.drawImage(grass, 0, 0, NB_PIX_CASE * LARGEUR_CASE_VISIBLE, NB_PIX_CASE * HAUTEUR_CASE_VISIBLE, null);

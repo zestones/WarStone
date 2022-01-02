@@ -15,7 +15,7 @@ public interface ISauvegarde {
 	/**le chemin des sauvegarde*/
 	String chemin = "./res/sauvegarde/";
 	/**NB MAX de partie */
-	int MAX_SAUVEGARDE = 4;
+	int MAX_SAUVEGARDE = 3;
 	
 	/** Panel principal pour la page loadgame */
 	JPanel panelLoadGame = new JPanel();

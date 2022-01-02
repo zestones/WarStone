@@ -34,6 +34,11 @@ public class SpriteInitializer implements IConfig, ISprite {
 	public transient SpriteSheet spriteAttackHaut;
 	public transient SpriteSheet spriteAttackBas;
 	
+	public transient SpriteSheet spriteAttackRangeGauche;
+	public transient SpriteSheet spriteAttackRangeDroite;
+	public transient SpriteSheet spriteAttackRangeHaut;
+	public transient SpriteSheet spriteAttackRangeBas;
+
 	public transient SpriteSheet spriteDeplaceGauche;
 	public transient SpriteSheet spriteDeplaceDroite;
 	public transient SpriteSheet spriteDeplaceHaut;
@@ -59,24 +64,29 @@ public class SpriteInitializer implements IConfig, ISprite {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		 
-		// Creation des sprites StandBy
+ 
+		// initialisation des sprites StandBy
 		spriteStandByGauche = initSprite(LIGNE_STANDBY_GAUCHE, NB_IMAGE_STANDBY);
 		spriteStandByDroite = initSprite(LIGNE_STANDBY_DROITE, NB_IMAGE_STANDBY);
 
 		spriteStandByHaut = initSprite(LIGNE_STANDBY_HAUT, NB_IMAGE_STANDBY);
 		spriteStandByBas = initSprite(LIGNE_STANDBY_BAS, NB_IMAGE_STANDBY);
 
-		// Creation des sprites Attaque
+		// initialisation des sprites Attaque a distance
 		spriteAttackGauche = initSprite(LIGNE_ATTACK_GAUCHE, NB_IMAGE_ATTACK);
 		spriteAttackDroite = initSprite(LIGNE_ATTACK_DROITE, NB_IMAGE_ATTACK);
-
 		spriteAttackHaut = initSprite(LIGNE_ATTACK_HAUT, NB_IMAGE_ATTACK);
 		spriteAttackBas = initSprite(LIGNE_ATTACK_BAS, NB_IMAGE_ATTACK);
-
+		
+		// initialisation des sprites Attaque voisin
+		spriteAttackRangeGauche = initSprite(LIGNE_ATTACK_RANGE_GAUCHE, NB_IMAGE_ATTACK_RANGE);
+		spriteAttackRangeDroite = initSprite(LIGNE_ATTACK_RANGE_DROITE, NB_IMAGE_ATTACK_RANGE);
+		spriteAttackRangeHaut = initSprite(LIGNE_ATTACK_RANGE_HAUT, NB_IMAGE_ATTACK_RANGE);
+		spriteAttackRangeBas = initSprite(LIGNE_ATTACK_RANGE_BAS, NB_IMAGE_ATTACK_RANGE);
+		
+		// initialisation des sprites deplacement
 		spriteDeplaceGauche = initSprite(LIGNE_DEPLACEMENT_GAUCHE, NB_IMAGE_DEPLACEMENT);
 		spriteDeplaceDroite = initSprite(LIGNE_DEPLACEMENT_DROITE, NB_IMAGE_DEPLACEMENT);
-		
 		spriteDeplaceHaut = initSprite(LIGNE_DEPLACEMENT_HAUT, NB_IMAGE_DEPLACEMENT);
 		spriteDeplaceBas = initSprite(LIGNE_DEPLACEMENT_BAS, NB_IMAGE_DEPLACEMENT);
 	}

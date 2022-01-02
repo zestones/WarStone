@@ -37,6 +37,10 @@ public class LoadGameEvent implements ISauvegarde, IMenu {
 	
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				if(estDeleteActif)
+					deleteSave.doClick();
+				
 				// On suprime tout le contenu
 				panelLoadGame.removeAll();
 				// On valde les changements

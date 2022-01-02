@@ -178,6 +178,7 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		infosElementBody.setPreferredSize(new Dimension(LARGEUR_ELEMENT_BODY, NB_PIX_CASE));
 		infosElementBody.setBackground(COULEUR_EAU);
 		
+		// En mode config on affiche les elements deposable
 		if(Carte.modeConf) {
 			InfosElement.dessineInfosElementBody();
 		}

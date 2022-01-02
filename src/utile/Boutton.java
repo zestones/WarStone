@@ -36,7 +36,18 @@ public class Boutton extends JButton implements IMenu{
     	
     	NOMBRE_BOUTTON++;
 	}
-	
+	public Boutton(int x, int y, int largeur, int hauteur, boolean pos) {
+    	this.largeur = largeur;
+    	this.hauteur = hauteur;
+		
+    	this.setSize(largeur, hauteur);
+    	
+    	this.setLocation(x, y);  	
+    	this.setOpaque(false);
+    	this.setBorderPainted(false);
+    	
+    	NOMBRE_BOUTTON++;
+	}
     @Override
     protected void paintComponent(Graphics g){
         g.setColor(couleur);

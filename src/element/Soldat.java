@@ -67,11 +67,13 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     }
     
    public boolean combat(Soldat soldat) {
-    	// On verifie que le solodat attaquer se trouve bien a sa portee
+    	// On verifie que le soldat attaquer se trouve bien a sa portee
     	if(!this.estDedans(soldat.getPosition()))
     		return false;
-
-    	this.fleche = new Projectile(this.getPosition(), soldat.getPosition());
+    	
+    	// On creer un projectile uniquement si l'ennemis n'est pas adjacent
+    	if(!this.getPosition().estVoisine(soldat.getPosition()))
+    		this.fleche = new Projectile(this.getPosition(), soldat.getPosition());
 
     	int puissance;
     
@@ -79,10 +81,7 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     		puissance = (int) (Math.random() * this.TIR);
 		else
 			puissance = (int) (Math.random() * this.PUISSANCE);
-    	
-//    	Projectile a = new Projectile(soldat.getPosition(), this.getPosition(), carte);
-//    	a.dessineProjectile(frame.getGraphics());
-    	
+   	
     	soldat.pointsDeVie -= puissance;
 
     	if(soldat.getPoints() <= 0){
@@ -192,15 +191,26 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     }
     
     private void setAttackSprite(Position clic) {
-    	if(clic.getX() < this.getPosition().getX()) 
+    	if(clic.getX() < this.getPosition().getX()) { 
     		this.dernierSprite = this.soldatSprite.spriteAttackGauche;
-    	else if(clic.getX() > this.getPosition().getX())
+    		if(this.getPosition().estVoisine(clic))
+    			this.dernierSprite = this.soldatSprite.spriteAttackRangeGauche;
+    	}
+    	else if(clic.getX() > this.getPosition().getX()) {
     		this.dernierSprite = this.soldatSprite.spriteAttackDroite;
-    	else if(clic.getY() > this.getPosition().getY())
+    		if(this.getPosition().estVoisine(clic))
+    			this.dernierSprite = this.soldatSprite.spriteAttackRangeDroite;
+    	}
+    	else if(clic.getY() > this.getPosition().getY()) {
     		this.dernierSprite = this.soldatSprite.spriteAttackHaut;
-    	else if(clic.getY() < this.getPosition().getY())
+    		if(this.getPosition().estVoisine(clic))
+    			this.dernierSprite = this.soldatSprite.spriteAttackRangeHaut;
+    	}
+    	else if(clic.getY() < this.getPosition().getY()) {
     		this.dernierSprite = this.soldatSprite.spriteAttackBas;
-    
+    		if(this.getPosition().estVoisine(clic))
+    			this.dernierSprite = this.soldatSprite.spriteAttackRangeBas;
+    	}
     	this.deplacementX = this.deplacementY = 0;
 		this.activeDeplacement = false;
     }

@@ -41,13 +41,14 @@ public interface IConfig extends java.io.Serializable {
 	
 	Dimension taille = Toolkit.getDefaultToolkit().getScreenSize();	
 
-	int HAUTEUR_MENUBAR_SECONDAIRE = 20;	
+	int HAUTEUR_MENUBAR_SECONDAIRE = 20;
 
 	final int FEN_LARGEUR = (int)taille.getWidth();
 	final int FEN_HAUTEUR = (int)taille.getHeight();
 
 	int LARGEUR_CASE_VISIBLE = 15;
 	int HAUTEUR_CASE_VISIBLE = 10;	
+	
 	/** Varibale du footer dans le PanneauJeu */
 	final int FOOTER_HAUTEUR = 35;
 	final int FOOTER_LARGEUR = FEN_LARGEUR;

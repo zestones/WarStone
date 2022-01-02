@@ -44,8 +44,7 @@ public class Projectile implements IConfig {
 		int dx = cam.getDx() * NB_PIX_CASE;
     	int dy = cam.getDy() * NB_PIX_CASE;
     	
-    	
-		g.drawImage(fleche, (this.pos.getX() * NB_PIX_CASE) - dx + this.deplacementX + NB_PIX_CASE/2, (this.pos.getY() * NB_PIX_CASE) - dy + this.deplacementY + NB_PIX_CASE/2, NB_PIX_CASE/2, NB_PIX_CASE/4, null);
+  		g.drawImage(fleche, (this.pos.getX() * NB_PIX_CASE) - dx + this.deplacementX + NB_PIX_CASE/2, (this.pos.getY() * NB_PIX_CASE) - dy + this.deplacementY + NB_PIX_CASE/2, NB_PIX_CASE/2, NB_PIX_CASE/4, null);
 		
 		this.effectuerDeplacement(cam);
 	}

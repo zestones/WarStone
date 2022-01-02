@@ -40,6 +40,8 @@ public abstract class InfosElement implements IFenetre {
 	private static List<JLabel> listeLabelObstacle = new ArrayList<>();
 	private static List<TypeObstacle> listeObstacle = new ArrayList<>();
 	public static TypeObstacle obstacleSelectione;
+	public static int nbElementDeposer = 0;
+	
 	private static int index = 0;
 	
 	/**
