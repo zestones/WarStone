@@ -1,11 +1,3 @@
-/********************************************************************
- * 							WarStone								*
- *  -------------------------------------------------------------	*
- * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
- *  -------------------------------------------------------------	*
- * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
- * 																	*
- * ******************************************************************/
 package element;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -15,60 +7,60 @@ import utile.Position;
 import wargame.IConfig;
 
 /**
- * The Class Element.
+ * Class Element.
  */
 public abstract class Element implements IConfig {	
 	
-	/** The Constant serialVersionUID. */
+	/** Constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * Se dessiner minia.
 	 *
-	 * @param g the g
+	 * @param g
 	 */
 	public abstract void seDessinerMinia(Graphics g);
 	
 	/**
 	 * Se dessiner.
 	 *
-	 * @param g the g
-	 * @param cam the cam
+	 * @param g 
+	 * @param cam
 	 */
 	public abstract void seDessiner(Graphics g, Camera cam);
 	
 	/**
 	 * Gets the position.
 	 *
-	 * @return the position
+	 * @return position
 	 */
 	public abstract Position getPosition();
 	
 	/**
 	 * To string.
 	 *
-	 * @return the string
+	 * @return string
 	 */
 	public abstract String toString();
 	
 	/**
 	 * Gets the image.
 	 *
-	 * @return the image
+	 * @return image
 	 */
 	public abstract Image getImage();
 	
 	/**
 	 * Gets the type.
 	 *
-	 * @return the type
+	 * @return type
 	 */
 	public abstract String getType();
 	
 	/**
-	 * Gets the histoire.
+	 * Gets histoire.
 	 *
-	 * @return the histoire
+	 * @return histoire
 	 */
 	public abstract String getHistoire();
 }

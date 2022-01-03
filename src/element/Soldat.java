@@ -1,12 +1,3 @@
-/********************************************************************
- * 							WarStone								*
- *  -------------------------------------------------------------	*
- * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
- *  -------------------------------------------------------------	*
- * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
- * 																	*
- * 														element		*
- * ******************************************************************/
 package element;
 
 import java.awt.Graphics;
@@ -18,27 +9,50 @@ import sprite.SpriteInitializer;
 import sprite.SpriteSheet;
 import utile.Position;
 
+/**
+ * Class Soldat.
+ */
 public abstract class Soldat extends Element implements ISoldat, Cloneable{
+	
+	/** Constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
 	private final int POINTS_DE_VIE_MAX, PUISSANCE, TIR, PORTEE_VISUELLE;
    
+	/** sprite soldat. */
 	protected transient SpriteInitializer soldatSprite;
 	public transient SpriteSheet dernierSprite;
 	
 	private int pointsDeVie;
+    
+    /** boolean sur le status du soldat. */
     public boolean aJoue;
-    private Position pos;    
-    public Carte carte;
+    
     public Position nouvellePos;
+    private Position pos;    
+    
+    public Carte carte;
+    
+    /** boolean informant sur le status des actions suivante */
     public boolean deplacement, combat, mort;
+    public boolean activeDeplacement;
+    
     private Position[] champVisuelle = new Position[5];
     private Projectile fleche = null;
+    
     protected int deplacementX;
     protected int deplacementY;
     
-    public boolean activeDeplacement;
-    
+    /**
+     * Instancie un nouveau soldat.
+     *
+     * @param carte
+     * @param pts 
+     * @param portee 
+     * @param puiss 
+     * @param tir 
+     * @param pos 
+     */
     public Soldat(Carte carte, int pts, int portee, int puiss, int tir, Position pos) {
     	this.carte = carte;
     	
@@ -54,6 +68,11 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     	this.activeDeplacement = false;     
     }
     
+   /**
+    * Se deplace.
+    *
+    * @param nouvPos nouv pos
+    */
    public void seDeplace(Position nouvPos) {
     	// Supression du soldat a sa position
 	   carte.setElementVide(this.getPosition());
@@ -66,6 +85,12 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     	carte.setElement(this);
     }
     
+   /**
+    * Combat.
+    *
+    * @param soldat soldat
+    * @return true, if successful
+    */
    public boolean combat(Soldat soldat) {
     	// On verifie que le soldat attaquer se trouve bien a sa portee
     	if(!this.estDedans(soldat.getPosition()))
@@ -93,6 +118,9 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     	return true;
     }
     
+    /**
+     * Inits champ visuelle.
+     */
     private void initChampVisuelle() {
     	this.champVisuelle[0] = new Position(this.getPosition().getX() - this.getPortee(), this.getPosition().getY() - this.getPortee());
     	this.champVisuelle[1] = new Position(this.getPosition().getX() + this.getPortee(), this.getPosition().getY() - this.getPortee());
@@ -100,6 +128,12 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
      	this.champVisuelle[3] = new Position(this.getPosition().getX() - this.getPortee(), this.getPosition().getY() + this.getPortee());
     }
     
+    /**
+     * Est dedans.
+     *
+     * @param p p
+     * @return true, if successful
+     */
     public boolean estDedans(Position p) {
     	int nbrCotes = this.champVisuelle.length - 1;
     	int[] listeAngle = new int[nbrCotes];
@@ -118,6 +152,12 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
 		return true;
    }
     
+    /**
+     * Dessine sprite.
+     *
+     * @param g g
+     * @param cam cam
+     */
     protected void dessineSprite(Graphics g, Camera cam) {
     	int dx = cam.getDx() * NB_PIX_CASE;
     	int dy = cam.getDy() * NB_PIX_CASE;
@@ -138,6 +178,9 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
 		this.effectuerDeplacement();
     }
     
+    /**
+     * Effectuer deplacement.
+     */
     private void effectuerDeplacement() {
     	if(this.activeDeplacement) {
     		this.deplacementX += this.nouvellePos.getX() - this.getPosition().getX();
@@ -146,6 +189,9 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     	}
     }
     
+    /**
+     * Fin deplacement.
+     */
     private void finDeplacement() {
     	if(Math.abs(this.deplacementX) >= NB_PIX_CASE || Math.abs(this.deplacementY) >= NB_PIX_CASE) {
 			this.deplacementX = this.deplacementY = 0;
@@ -154,6 +200,12 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     	}
     }
     
+    /**
+     * Change sprite.
+     *
+     * @param clic clic
+     * @param cam cam
+     */
     public void changeSprite(Position clic, Camera cam) {   	
     	if(clic == null)
     		return;
@@ -176,6 +228,11 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     		this.dernierSprite = this.soldatSprite.spriteMort;
     }
     
+    /**
+     * Sets stand by sprite.
+     *
+     * @param clic new stand by sprite
+     */
     private void setStandBySprite(Position clic) {
     	if(clic.getX() < this.getPosition().getX())
 			this.dernierSprite = this.soldatSprite.spriteStandByGauche;
@@ -190,6 +247,11 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     	this.activeDeplacement = false;
     }
     
+    /**
+     * Sets attack sprite.
+     *
+     * @param clic new attack sprite
+     */
     private void setAttackSprite(Position clic) {
     	if(clic.getX() < this.getPosition().getX()) { 
     		this.dernierSprite = this.soldatSprite.spriteAttackGauche;
@@ -215,6 +277,11 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
 		this.activeDeplacement = false;
     }
     
+    /**
+     * Sets deplacement sprite.
+     *
+     * @param clic new deplacement sprite
+     */
     private void setDeplacementSprite(Position clic) {
     	switch(clic.getPositionCardinal(this.getPosition())) {
 		case NORD: this.dernierSprite = this.soldatSprite.spriteDeplaceHaut;
@@ -238,6 +305,12 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     	}
     }
     
+    /**
+     * Dessin barre vie.
+     *
+     * @param g g
+     * @param cam cam
+     */
     public void dessinBarreVie(Graphics g, Camera cam) {
     	int dx = cam.getDx() * NB_PIX_CASE;
     	int dy = cam.getDy() * NB_PIX_CASE;
@@ -255,24 +328,89 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     /**
      * Clone un objet et le retourne sous forme d'objet de type soldat
      * Utiliser pour copier un soldat lors d'une action de type deplacement
-     * Dans la liste d'action 
+     * Dans la liste d'action .
      *
-     * @return the object
-     * @throws CloneNotSupportedException the clone not supported exception
+     * @return object
+     * @throws CloneNotSupportedException clone not supported exception
      */
     public Soldat clone() throws CloneNotSupportedException {	
     	return (Soldat) super.clone();
     }
     
+    /**
+     * Sets position.
+     *
+     * @param nouvPos new position
+     */
     public void setPosition(Position nouvPos) { pos = new Position(nouvPos.getX(), nouvPos.getY()); }
+    
+    /**
+     * Gets points max.
+     *
+     * @return points max
+     */
     public int getPointsMax() { return this.POINTS_DE_VIE_MAX; }
+    
+    /**
+     * Sets points.
+     *
+     * @param pts new points
+     */
     public void setPoints(int pts) { this.pointsDeVie = pts; } // Utilise pour les bonus (lorsque le heros ce repose)
+    
+    /**
+     * Gets portee.
+     *
+     * @return portee
+     */
     public int getPortee() { return this.PORTEE_VISUELLE; }
+    
+    /**
+     * Gets puissance.
+     *
+     * @return puissance
+     */
     public int getPuissance() { return this.PUISSANCE; }
+    
+    /**
+     * Gets points.
+     *
+     * @return points
+     */
     public int getPoints() { return this.pointsDeVie; }
+    
+    /**
+     * Gets position.
+     *
+     * @return position
+     */
     public Position getPosition() { return pos; }
+    
+    /**
+     * Gets tir.
+     *
+     * @return tir
+     */
     public int getTir() { return this.TIR; }
+    
+    /**
+     * Gets index soldat.
+     *
+     * @return index soldat
+     */
     public abstract int getIndexSoldat();
+    
+    /**
+     * Mort.
+     *
+     * @param index index
+     */
     public abstract void mort(int index);
+    
+    /**
+     * Gets sprite.
+     *
+     * @return sprite
+     */
     public abstract String getSprite();
 }
