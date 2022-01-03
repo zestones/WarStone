@@ -1,12 +1,3 @@
-/********************************************************************
- * 							WarStone							*
- *  -------------------------------------------------------------	*
- * |	 Universit� Jean-Monnet    L3-Infos 		    2022	 |	*
- *  -------------------------------------------------------------	*
- * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
- * 																	*
- * 													carte	*
- * ******************************************************************/
 package carte;
 
 import java.awt.Graphics;
@@ -60,7 +51,7 @@ public class Carte implements IConfig, ICarte {
 	 */
 	public Carte() {
 		// Initialisation des listes
-		this.plateau = new Element[LARGEUR_CARTE_CASE][HAUTEUR_CARTE_CASE];
+		this.plateau = new Element[NB_COLONNES][NB_LIGNES];
 		
 		// les listes d'action 
 		this.listeActionAttaque = new ArrayList<>();
@@ -216,7 +207,7 @@ public class Carte implements IConfig, ICarte {
 	private void rapprocheMonstre(Heros h, Monstre m) {
 		List<Position> positionVoisine = this.positionAdjacente(m.getPosition());
 		Position pos = null;
-        int distance = Math.max(LARGEUR_CARTE_CASE, HAUTEUR_CARTE_CASE);
+        int distance = Math.max(NB_COLONNES, NB_LIGNES);
 		
 		for(Position posVoisine : positionVoisine) {
             int distanceHeroPosVoisine = (int) posVoisine.distance(h.getPosition());
@@ -330,7 +321,6 @@ public class Carte implements IConfig, ICarte {
 	 *
 	 * @param perso the perso
 	 */
-	// A REVOIR 
 	public void mort(Soldat perso) { 
 		// On recupere l'index du soldat dans la liste
 		int index = perso.getIndexSoldat();
@@ -351,17 +341,17 @@ public class Carte implements IConfig, ICarte {
 	public boolean deplaceSoldat(Position pos, Soldat soldat) {
 		if (pos.estValide() && this.getElement(pos) == null && soldat.getPosition().estVoisine(pos) && !estPrisePosition(pos)) {
 			
-			Soldat cmp = null;
+			Soldat soldatCopie = null;
 			try {
-				cmp = soldat.clone();
+				soldatCopie = soldat.clone();
 			} catch (CloneNotSupportedException e) {
 				e.printStackTrace();
 			}
-			cmp.setPosition(pos);
+			soldatCopie.setPosition(pos);
 			
-			soldat.deplacement = true;
+			soldat.seDeplace = true;
 			soldat.aJoue = true; 
-			this.listeActionDeplacement.addAll(Arrays.asList(soldat, cmp));
+			this.listeActionDeplacement.addAll(Arrays.asList(soldat, soldatCopie));
 			
 			return true;
 		}
@@ -546,7 +536,7 @@ public class Carte implements IConfig, ICarte {
 	 * @param pos
 	 * @return boolean
 	 */
-	public boolean estCaseVide(Position pos) { return (this.getElement(pos)==null); }
+	public boolean estCaseVide(Position pos) { return (this.getElement(pos) == null); }
 	
 	/**
 	 * Methode de dessin principal.
@@ -561,10 +551,10 @@ public class Carte implements IConfig, ICarte {
 		}
 	
 		// On dessine la grille visible, donc les positions donnee par la camera	
-		for(int i = cam.getDx(); i < LARGEUR_CASE_VISIBLE + cam.getDx(); i++) {
-			for(int j = cam.getDy(); j < HAUTEUR_CASE_VISIBLE + cam.getDy(); j++) {		
+		for(int i = cam.getDx(); i < NB_COLONNES_VISIBLES + cam.getDx(); i++) {
+			for(int j = cam.getDy(); j < NB_LIGNES_VISIBLES + cam.getDy(); j++) {		
 				g.setColor(COULEUR_GRILLE);
-				g.drawRect(i * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE, j  * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
+				g.drawRect(i * TAILLE_CARREAU - cam.getDx() * TAILLE_CARREAU, j  * TAILLE_CARREAU - cam.getDy() * TAILLE_CARREAU, TAILLE_CARREAU, TAILLE_CARREAU); 
 			}
 		}
 			

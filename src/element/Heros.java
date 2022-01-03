@@ -36,8 +36,8 @@ public class Heros extends Soldat {
         carte.setElement(this);
        
         this.BONUS_REPOS = this.getPointsMax() / 10;
-        this.soldatSprite = new SpriteInitializer(this);
-        this.dernierSprite = this.soldatSprite.spriteStandByBas;
+        this.spriteSoldat = new SpriteInitializer(this);
+        this.dernierSprite = this.spriteSoldat.spriteReposBas;
     }
    
     /**
@@ -47,26 +47,26 @@ public class Heros extends Soldat {
      * @param cam 
      */
     private void dessinHeros(Graphics g, Camera cam) { 
-    	int dx = cam.getDx() * NB_PIX_CASE;
-    	int dy = cam.getDy() * NB_PIX_CASE;
+    	int dx = cam.getDx() * TAILLE_CARREAU;
+    	int dy = cam.getDy() * TAILLE_CARREAU;
     	
     	/** Dessin de la case du heros */
-    	g.drawImage(range, (this.getPosition().getX() * NB_PIX_CASE) - dx, (this.getPosition().getY() * NB_PIX_CASE) - dy, NB_PIX_CASE, NB_PIX_CASE, null);
+    	g.drawImage(range, (this.getPosition().getX() * TAILLE_CARREAU) - dx, (this.getPosition().getY() * TAILLE_CARREAU) - dy, TAILLE_CARREAU, TAILLE_CARREAU, null);
     	/** On dessine la grille de cette case */
     	g.setColor(COULEUR_GRILLE);
-		g.drawRect(this.getPosition().getX() * NB_PIX_CASE - dx, this.getPosition().getY() * NB_PIX_CASE - dy, NB_PIX_CASE, NB_PIX_CASE); 
+		g.drawRect(this.getPosition().getX() * TAILLE_CARREAU - dx, this.getPosition().getY() * TAILLE_CARREAU - dy, TAILLE_CARREAU, TAILLE_CARREAU); 
 		
 		/** Dessin du sprite du heros */
     	this.dessineSprite(g, cam);
     	
     	/** Si le heros a deja effectuer une action on lui ajoute une couleur */
-    	if(this.aJoue && !this.activeDeplacement) {
+    	if(this.aJoue && !this.estActifDeplacement) {
     		g.setColor(COULEUR_HEROS_DEJA_JOUE);
-    		g.fillRect((this.getPosition().getX() * NB_PIX_CASE) - dx + this.deplacementX, (this.getPosition().getY() * NB_PIX_CASE) - dy + this.deplacementY, NB_PIX_CASE, NB_PIX_CASE); 
+    		g.fillRect((this.getPosition().getX() * TAILLE_CARREAU) - dx + this.deplacementX, (this.getPosition().getY() * TAILLE_CARREAU) - dy + this.deplacementY, TAILLE_CARREAU, TAILLE_CARREAU); 
         }
         /** La barre de vie n'est pas dessiner si le heros se deplace */
-        if(!this.activeDeplacement)
-        	this.dessinBarreVie(g, cam);
+        if(!this.estActifDeplacement)
+        	this.dessineBarreVie(g, cam);
     }
     
     /**
@@ -77,17 +77,17 @@ public class Heros extends Soldat {
      */
     public void desssinerZone(Graphics g, Camera cam) {
     	int portee = this.getPortee();
-    	int dx = cam.getDx() * NB_PIX_CASE;
-    	int dy = cam.getDy() * NB_PIX_CASE;
+    	int dx = cam.getDx() * TAILLE_CARREAU;
+    	int dy = cam.getDy() * TAILLE_CARREAU;
     	    	
     	for(int i = 0; i <= portee * 2; i++) {
     		for(int j = 0; j <= portee * 2 ; j++) {
     			Position porteeVisuelle = new Position(this.getPosition().getX() + i - portee, this.getPosition().getY() + j - portee);
-    			if(porteeVisuelle.estValide() == false)
+    			if(!porteeVisuelle.estValide())
     				continue;
     			
     			if(carte.getElement(porteeVisuelle) == null) 
-    				g.drawImage(range, porteeVisuelle.getX() * NB_PIX_CASE  - dx, porteeVisuelle.getY() * NB_PIX_CASE - dy, NB_PIX_CASE, NB_PIX_CASE, null);
+    				g.drawImage(range, porteeVisuelle.getX() * TAILLE_CARREAU  - dx, porteeVisuelle.getY() * TAILLE_CARREAU - dy, TAILLE_CARREAU, TAILLE_CARREAU, null);
     			else if(carte.getElement(porteeVisuelle) instanceof Obstacle)
     				carte.getElement(porteeVisuelle).seDessiner(g, cam);   			
     		}
@@ -126,16 +126,16 @@ public class Heros extends Soldat {
      *
      * @param g 
      * @param herosSelectione
-     * @param clic
+     * @param clique
      * @param cam 
      */
-    private void dessineSpriteDeplacement(Graphics g, Heros herosSelectione, Position clic, Camera cam) {
-    	int dx = cam.getDx() * NB_PIX_CASE;
-    	int dy = cam.getDy() * NB_PIX_CASE;
+    private void dessineSpriteDeplacement(Graphics g, Heros herosSelectione, Position clique, Camera cam) {
+    	int dx = cam.getDx() * TAILLE_CARREAU;
+    	int dy = cam.getDy() * TAILLE_CARREAU;
     	
     	/** On dessine le sprite du heros selectione si la souris se trouve dans la zone de deplacement du heros et que la case est vide */
-    	if(clic != null && clic.estVoisine(herosSelectione.getPosition()) && carte.estCaseVide(clic))
-    		g.drawImage(herosSelectione.dernierSprite.getSprite(spriteEngine.getCycleProgress()), clic.getX() * NB_PIX_CASE - dx, clic.getY() * NB_PIX_CASE - dy, NB_PIX_CASE, NB_PIX_CASE, null);
+    	if(clique != null && clique.estVoisine(herosSelectione.getPosition()) && carte.estCaseVide(clique))
+    		g.drawImage(herosSelectione.dernierSprite.getSprite(spriteEngine.getCycleProgress()), clique.getX() * TAILLE_CARREAU - dx, clique.getY() * TAILLE_CARREAU - dy, TAILLE_CARREAU, TAILLE_CARREAU, null);
     }
 
 	/**
@@ -145,8 +145,8 @@ public class Heros extends Soldat {
 	 * @param cam 
 	 */
 	private void dessineDeplacement(Graphics g, Camera cam){
-    	int dx = cam.getDx() * NB_PIX_CASE;
-    	int dy = cam.getDy() * NB_PIX_CASE;
+    	int dx = cam.getDx() * TAILLE_CARREAU;
+    	int dy = cam.getDy() * TAILLE_CARREAU;
     	
     	for(int i = -1; i < 2; i++)
     		for(int j = -1; j < 2; j++) {
@@ -157,7 +157,7 @@ public class Heros extends Soldat {
     				
     				if(carte.estCaseVide(posVoisine)) {
     					g.setColor(COULEUR_DEPLACEMENT);
-    					g.fillRect((this.getPosition().getX() + i) * NB_PIX_CASE - dx + this.deplacementX, (this.getPosition().getY() + j) * NB_PIX_CASE - dy + this.deplacementY, NB_PIX_CASE, NB_PIX_CASE);
+    					g.fillRect((this.getPosition().getX() + i) * TAILLE_CARREAU - dx + this.deplacementX, (this.getPosition().getY() + j) * TAILLE_CARREAU - dy + this.deplacementY, TAILLE_CARREAU, TAILLE_CARREAU);
     				}
     			}
     		}   	  
@@ -171,8 +171,8 @@ public class Heros extends Soldat {
 	 */
 	private void dessinePorteeVisuelle(Graphics g, Camera cam) {
     	int portee = this.getPortee();
-    	int dx = cam.getDx() * NB_PIX_CASE;
-    	int dy = cam.getDy() * NB_PIX_CASE;
+    	int dx = cam.getDx() * TAILLE_CARREAU;
+    	int dy = cam.getDy() * TAILLE_CARREAU;
     
     	for(int i = 0; i <= portee * 2; i++) {
     		for(int j = 0; j <= portee  * 2 ; j++) {
@@ -182,15 +182,15 @@ public class Heros extends Soldat {
     			
     			if(carte.estCaseVide(porteeVisuelle)) {
     				g.setColor(COULEUR_PORTEE);
-    				g.fillRect(porteeVisuelle.getX() * NB_PIX_CASE - dx + this.deplacementX, porteeVisuelle.getY() * NB_PIX_CASE - dy + this.deplacementY, NB_PIX_CASE, NB_PIX_CASE); 
+    				g.fillRect(porteeVisuelle.getX() * TAILLE_CARREAU - dx + this.deplacementX, porteeVisuelle.getY() * TAILLE_CARREAU - dy + this.deplacementY, TAILLE_CARREAU, TAILLE_CARREAU); 
     			}
     			else if(carte.getElement(porteeVisuelle) instanceof Monstre) {
     				g.setColor(COULEUR_ENEMIS);
-    				g.fillRect(porteeVisuelle.getX() * NB_PIX_CASE - dx + this.deplacementX, porteeVisuelle.getY() * NB_PIX_CASE - dy + this.deplacementY, NB_PIX_CASE, NB_PIX_CASE); 
+    				g.fillRect(porteeVisuelle.getX() * TAILLE_CARREAU - dx + this.deplacementX, porteeVisuelle.getY() * TAILLE_CARREAU - dy + this.deplacementY, TAILLE_CARREAU, TAILLE_CARREAU); 
     			}
     			else if(carte.getElement(porteeVisuelle) instanceof Heros && carte.getElement(porteeVisuelle) != this) {
     				g.setColor(COULEUR_AMIS);
-    				g.fillRect(porteeVisuelle.getX() * NB_PIX_CASE - dx + this.deplacementX, porteeVisuelle.getY() * NB_PIX_CASE - dy + this.deplacementY, NB_PIX_CASE, NB_PIX_CASE); 
+    				g.fillRect(porteeVisuelle.getX() * TAILLE_CARREAU - dx + this.deplacementX, porteeVisuelle.getY() * TAILLE_CARREAU - dy + this.deplacementY, TAILLE_CARREAU, TAILLE_CARREAU); 
     			}
     		}
     	}
@@ -211,7 +211,7 @@ public class Heros extends Soldat {
     				continue;
     			
     			if(this.carte.estCaseVide(porteeVisuelle)) 
-    				g.drawImage(range, porteeVisuelle.getX() * MINI_NB_PIX_CASE, porteeVisuelle.getY() * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, null);
+    				g.drawImage(range, porteeVisuelle.getX() * TAILLE_CARREAU_MINI_CARTE, porteeVisuelle.getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);
     			else if (carte.getElement(porteeVisuelle) instanceof Monstre)
     				carte.getElement(porteeVisuelle).seDessinerMinia(g);
     			else if(carte.getElement(porteeVisuelle) instanceof Obstacle)
@@ -227,8 +227,8 @@ public class Heros extends Soldat {
      * @param g 
      */
     private void dessinHerosMinia(Graphics g) { 
-    	g.drawImage(range, this.getPosition().getX() * MINI_NB_PIX_CASE, this.getPosition().getY() * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, null);	
-    	g.drawImage(this.getImage(), this.getPosition().getX() * MINI_NB_PIX_CASE, this.getPosition().getY() * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, null);	
+    	g.drawImage(range, this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);	
+    	g.drawImage(this.getImage(), this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);	
     }
     
 	/**

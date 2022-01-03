@@ -51,7 +51,7 @@ public class MenuBarHeader  implements IFenetre{
                 
         fleche.setOpaque(true);
 		fleche.setBackground(COULEUR_BOUTTON_MENU);
-		fleche.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, MENUBAR_HAUTEUR));
+		fleche.setPreferredSize(new Dimension(INFOS_PANEL_LARGEUR, MENUBAR_HAUTEUR));
 		fleche.setBorder(new MatteBorder(0, 2, 2, 2, COULEUR_BORDURE));
 		
 		// Panel contenant les fleche pour se diriger sur la carte

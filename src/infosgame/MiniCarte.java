@@ -51,20 +51,20 @@ public class MiniCarte extends JPanel implements IConfig {
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				if (SwingUtilities.isLeftMouseButton(e)) {
-					clic = new Position(e.getX() / MINI_NB_PIX_CASE, e.getY() / MINI_NB_PIX_CASE);
+					clic = new Position(e.getX() / TAILLE_CARREAU_MINI_CARTE, e.getY() / TAILLE_CARREAU_MINI_CARTE);
 					if(clic.getX() < cam.getDx()) {
 						cam.setDx(clic.getX());
 					}
-					else if(clic.getX() > cam.getDx() - 1 + LARGEUR_CASE_VISIBLE) {
+					else if(clic.getX() > cam.getDx() - 1 + NB_COLONNES_VISIBLES) {
 						Position pos = new Position(clic.getX() + 1, 0);
-						cam.setDx((int) pos.distance(new Position(LARGEUR_CASE_VISIBLE, 0)));
+						cam.setDx((int) pos.distance(new Position(NB_COLONNES_VISIBLES, 0)));
 					}
 					if(clic.getY() < cam.getDy()) {
 						cam.setDy(clic.getY());
 					}
-					else if(clic.getY() > (cam.getDy() - 1  + HAUTEUR_CASE_VISIBLE)) {
+					else if(clic.getY() > (cam.getDy() - 1  + NB_LIGNES_VISIBLES)) {
 						Position pos = new Position(0, clic.getY() + 1);
-						cam.setDy((int) pos.distance(new Position(0, HAUTEUR_CASE_VISIBLE)));
+						cam.setDy((int) pos.distance(new Position(0, NB_LIGNES_VISIBLES)));
 					}
 				}
 			}
@@ -81,10 +81,10 @@ public class MiniCarte extends JPanel implements IConfig {
 	 * @param dy
 	 */
 	private void dessineFocus(Graphics g, int dx, int dy) {
-		for(int i = 0; i < LARGEUR_CASE_VISIBLE; i++) {
-			for(int j = 0; j < HAUTEUR_CASE_VISIBLE; j++) {
+		for(int i = 0; i < NB_COLONNES_VISIBLES; i++) {
+			for(int j = 0; j < NB_LIGNES_VISIBLES; j++) {
 				g.setColor(COULEUR_FOCUS);
-	    		g.fillRect(i * MINI_NB_PIX_CASE + dx * MINI_NB_PIX_CASE, j * MINI_NB_PIX_CASE + dy * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE); 
+	    		g.fillRect(i * TAILLE_CARREAU_MINI_CARTE + dx * TAILLE_CARREAU_MINI_CARTE, j * TAILLE_CARREAU_MINI_CARTE + dy * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE); 
 			}
 		}
 	}
@@ -100,10 +100,10 @@ public class MiniCarte extends JPanel implements IConfig {
 			this.c.listeHeros.get(n).seDessinerMinia(g);
 	
 		/** dessin de la grille */
-		for(int i = 0; i < LARGEUR_CARTE_CASE; i++) {
-			for(int j = 0; j < HAUTEUR_CARTE_CASE; j++) {
+		for(int i = 0; i < NB_COLONNES; i++) {
+			for(int j = 0; j < NB_LIGNES; j++) {
 				g.setColor(COULEUR_GRILLE);
-				g.drawRect(i * MINI_NB_PIX_CASE, j * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE); 
+				g.drawRect(i * TAILLE_CARREAU_MINI_CARTE, j * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE); 
 			}
 		}
 	}
@@ -114,9 +114,9 @@ public class MiniCarte extends JPanel implements IConfig {
 	 * @param g the g
 	 */
 	private void dessineCarte(Graphics g) {
-		for(int i = 0; i < LARGEUR_CARTE_CASE; i++) {
-			for(int j = 0; j < HAUTEUR_CARTE_CASE; j++) {		
-				g.drawImage(range, i * MINI_NB_PIX_CASE, j  * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, null);
+		for(int i = 0; i < NB_COLONNES; i++) {
+			for(int j = 0; j < NB_LIGNES; j++) {		
+				g.drawImage(range, i * TAILLE_CARREAU_MINI_CARTE, j  * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);
 				if(!this.c.estCaseVide(new Position(i, j)))
 					this.c.getElement(new Position(i, j)).seDessinerMinia(g);
 			}
@@ -132,7 +132,7 @@ public class MiniCarte extends JPanel implements IConfig {
 		super.paintComponent(g);
 		
 		if(!Carte.modeConf)
-			g.drawImage(grass, 0, 0, LARGEUR_MINI_CARTE, HAUTEUR_MINI_CARTE, null);
+			g.drawImage(grass, 0, 0, MINI_CARTE_LARGEUR, MINI_CARTE_HAUTEUR, null);
 		else
 			dessineCarte(g);
 		

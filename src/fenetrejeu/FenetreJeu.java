@@ -82,24 +82,24 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		layout.setVgap(0);
 		
 		/** infosPanel est le panel contenant les infos sur la partie en cours (miniCarte, nb Soldat Vivant...) */
-		infosPanel.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, HAUTEUR_INFOS_PANEL));
+		infosPanel.setPreferredSize(new Dimension(INFOS_PANEL_LARGEUR, INFOS_PANEL_HAUTEUR));
 		infosPanel.setBackground(COULEUR_INFOS_PANEL);
 
 		infosPanel.setOpaque(true);	    	
 		infosPanel.setBorder(new MatteBorder(0, 2, 2, 2, COULEUR_BORDURE));
 		
 		/** On cree un conteneur avec FlowLayout pour pouvoir centrer la miniCarte */
-		JPanel miniCartePanel = new JPanel(new FlowLayout(FlowLayout.LEADING, PADDING_LARGEUR_MINI_CARTE, PADDING_HAUTEUR_MINI_CARTE));
+		JPanel miniCartePanel = new JPanel(new FlowLayout(FlowLayout.LEADING, PADDING_MINI_CARTE_GAUCHE, PADDING_MINI_CARTE_HAUT));
 
 		/** On definie les dimensions et la couleurs du background */
-		miniCartePanel.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, HAUTEUR_MINI_CARTE + PADDING_HAUTEUR_MINI_CARTE * 2));
+		miniCartePanel.setPreferredSize(new Dimension(INFOS_PANEL_LARGEUR, MINI_CARTE_HAUTEUR + PADDING_MINI_CARTE_HAUT * 2));
 		miniCartePanel.setBackground(COULEUR_EAU);
 		miniCartePanel.setBorder(new MatteBorder(0, 2, 0, 2, COULEUR_BORDURE));
 
 		/** On centre le panel qui contient la carte dans le conteneur creer juste avant */
 		carteMiniature.setLayout(new BorderLayout());
 		/** On definie les dimensions */
-		carteMiniature.setPreferredSize(new Dimension(LARGEUR_MINI_CARTE, HAUTEUR_MINI_CARTE));
+		carteMiniature.setPreferredSize(new Dimension(MINI_CARTE_LARGEUR, MINI_CARTE_HAUTEUR));
 		
 		// On ajoute la carte au panel
 		carteMiniature.add(new MiniCarte(panneau.cam));	
@@ -129,7 +129,7 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		soldatRestant.setLayout(new BorderLayout());
 	
 		/** On definit la couleur et la taille */
-		soldatRestant.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, HAUTEUR_NB_SOLDAT_VIVANT));
+		soldatRestant.setPreferredSize(new Dimension(INFOS_PANEL_LARGEUR, ELEMENT_RESTANT_HAUTEUR));
 		
 		/** Couleur du text et Police */
 		soldatRestant.setForeground(COULEUR_GRILLE);
@@ -139,20 +139,20 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		
 		infosPanel.add(infosSoldatPanel);
 		
-		infosElementPanel.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, HAUTEUR_INFOS_ELEMENT_PANEL));
+		infosElementPanel.setPreferredSize(new Dimension(INFOS_PANEL_LARGEUR, INFOS_ELEMENT_PANEL_HAUTEUR));
 		infosElementPanel.setBackground(COULEUR_HEROS);		
 		
 		// Couleur et taille du header dans ce panel
-		infosElementHeader.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL - PADDING_INFOS_PANEL*2, HAUTEUR_ICON_ELEMENT));
+		infosElementHeader.setPreferredSize(new Dimension(INFOS_PANEL_LARGEUR - PADDING_INFOS_PANEL*2, ICON_ELEMENT_HAUTEUR));
 		infosElementPanel.setBorder(new MatteBorder(2, 2, 0, 2, COULEUR_BORDURE));
 		
 		// panel contenant l'icon
 		iconPanel.setBackground(COULEUR_GRILLE);
-		iconPanel.setPreferredSize(new Dimension(LARGEUR_ICON_ELEMENT, HAUTEUR_ICON_ELEMENT));
+		iconPanel.setPreferredSize(new Dimension(ICON_ELEMENT_LARGEUR, ICON_ELEMENT_HAUTEUR));
 		iconPanel.setBorder(new LineBorder(COULEUR_BORDURE, 2, true));
 		
 		// Taille du label contenant l'icon
-		iconLabel.setPreferredSize(new Dimension(LARGEUR_ICON_ELEMENT, HAUTEUR_ICON_ELEMENT));
+		iconLabel.setPreferredSize(new Dimension(ICON_ELEMENT_LARGEUR, ICON_ELEMENT_HAUTEUR));
 		
 		// Label contant les infos de l'elements
 		iconInfosLabel.setOpaque(true);
@@ -175,12 +175,12 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		
 		// En mode config on affiche les elements deposable
 		if(Carte.modeConf) {
-			infosElementBody.setPreferredSize(new Dimension(LARGEUR_ELEMENT_BODY, NB_PIX_CASE));
+			infosElementBody.setPreferredSize(new Dimension(ELEMENT_BODY_LARGEUR, TAILLE_CARREAU));
 			InfosElement.dessineInfosElementBody();
 		}
 		/** Sinon on affiche le panel avec le detail des elements clique */
 		else
-			infosElementBody.setPreferredSize(new Dimension(LARGEUR_ELEMENT_BODY, HAUTEUR_ELEMENT_BODY));
+			infosElementBody.setPreferredSize(new Dimension(ELEMENT_BODY_LARGEUR, ELEMENT_BODY_HAUTEUR));
 		
 		infosElementPanel.add(infosElementBody, BorderLayout.SOUTH);
 		infosPanel.add(infosElementPanel);

@@ -33,8 +33,8 @@ public class Monstre extends Soldat {
         super(carte, m.getPoints(), m.getPortee(), m.getPuissance(), m.getTir(), pos);
         this.m = m;
         this.combat = false;
-        this.soldatSprite = new SpriteInitializer(this);
-        this.dernierSprite = this.soldatSprite.spriteStandByBas;
+        this.spriteSoldat = new SpriteInitializer(this);
+        this.dernierSprite = this.spriteSoldat.spriteReposBas;
         carte.setElement(this);      
     }
 	
@@ -45,23 +45,23 @@ public class Monstre extends Soldat {
 	 * @param cam 
 	 */
 	public void seDessiner(Graphics g, Camera cam) { 
-    	int dx = cam.getDx() * NB_PIX_CASE;
-    	int dy = cam.getDy() * NB_PIX_CASE;
+    	int dx = cam.getDx() * TAILLE_CARREAU;
+    	int dy = cam.getDy() * TAILLE_CARREAU;
 
     	/** Dessin de la case du monstre */
-    	g.drawImage(range, (this.getPosition().getX() * NB_PIX_CASE) - dx, (this.getPosition().getY() * NB_PIX_CASE) - dy, NB_PIX_CASE, NB_PIX_CASE, null);
+    	g.drawImage(range, (this.getPosition().getX() * TAILLE_CARREAU) - dx, (this.getPosition().getY() * TAILLE_CARREAU) - dy, TAILLE_CARREAU, TAILLE_CARREAU, null);
     	/** On dessine la grille de cette case */
     	g.setColor(COULEUR_GRILLE);
-		g.drawRect(this.getPosition().getX() * NB_PIX_CASE - dx, this.getPosition().getY() * NB_PIX_CASE - dy, NB_PIX_CASE, NB_PIX_CASE); 
+		g.drawRect(this.getPosition().getX() * TAILLE_CARREAU - dx, this.getPosition().getY() * TAILLE_CARREAU - dy, TAILLE_CARREAU, TAILLE_CARREAU); 
 		    
 		/** Dessin du sprite du monstre */
     	this.dessineSprite(g, cam);
     	
     	/** Dessin de la barre de vie ainsi que le fond du monstre uniquement si le monstre ne se deplace pas */
-    	if(!this.activeDeplacement) {
-    		this.dessinBarreVie(g, cam);
+    	if(!this.estActifDeplacement) {
+    		this.dessineBarreVie(g, cam);
     		g.setColor(COULEUR_MONSTRE);
-    		g.fillRect((this.getPosition().getX()  * NB_PIX_CASE) - dx, (this.getPosition().getY() * NB_PIX_CASE) - dy, NB_PIX_CASE, NB_PIX_CASE);
+    		g.fillRect((this.getPosition().getX()  * TAILLE_CARREAU) - dx, (this.getPosition().getY() * TAILLE_CARREAU) - dy, TAILLE_CARREAU, TAILLE_CARREAU);
     	}
     }
     
@@ -71,12 +71,12 @@ public class Monstre extends Soldat {
    * @param g 
    */
   public void seDessinerMinia(Graphics g) { 
-    	g.drawImage(range, this.getPosition().getX() * MINI_NB_PIX_CASE, this.getPosition().getY() * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, null);   	
+    	g.drawImage(range, this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);   	
     	
-    	g.drawImage(this.getImage(), this.getPosition().getX() * MINI_NB_PIX_CASE, this.getPosition().getY() * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, null);   	
+    	g.drawImage(this.getImage(), this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);   	
 
     	g.setColor(COULEUR_MONSTRE);
-    	g.fillRect(this.getPosition().getX()  * MINI_NB_PIX_CASE , this.getPosition().getY() * MINI_NB_PIX_CASE , MINI_NB_PIX_CASE, MINI_NB_PIX_CASE);
+    	g.fillRect(this.getPosition().getX()  * TAILLE_CARREAU_MINI_CARTE , this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE , TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE);
 
     }
     

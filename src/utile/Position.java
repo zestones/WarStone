@@ -37,7 +37,7 @@ public class Position implements IConfig {
 	/**
 	 * Instancie une nouvelle position aleatoire.
 	 */
-	public Position() {this.x = (int) (Math.random() * LARGEUR_CARTE_CASE-1); this.y = (int) (Math.random() * HAUTEUR_CARTE_CASE-1); }
+	public Position() {this.x = (int) (Math.random() * NB_COLONNES-1); this.y = (int) (Math.random() * NB_LIGNES-1); }
 	
 	/**
 	 * Gets x.
@@ -107,7 +107,7 @@ public class Position implements IConfig {
 	 * @return true, if successful
 	 */
 	public boolean estValide() {
-		if (x<0 || x>=LARGEUR_CARTE_CASE || y<0 || y>=HAUTEUR_CARTE_CASE) return false; else return true;
+		if (x<0 || x>=NB_COLONNES || y<0 || y>=NB_LIGNES) return false; else return true;
 	}
 	
 	/**

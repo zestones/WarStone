@@ -18,9 +18,9 @@ public class Camera implements IConfig {
 	/**
 	 * Le contructeur de camera prend la carte un indice de deplacement x et y.
 	 *
-	 * @param c the c
-	 * @param dx the dx
-	 * @param dy the dy
+	 * @param c
+	 * @param dx
+	 * @param dy
 	 */
 	public Camera(Carte c, int dx, int dy) {
 		this.c = c ;
@@ -34,21 +34,21 @@ public class Camera implements IConfig {
 	public void estValideDeplacement() {
 		if(this.getDx() < 0) 
 			this.setDx(0);
-		else if(this.getDx() > LARGEUR_CARTE_CASE - LARGEUR_CASE_VISIBLE)
-			this.setDx(LARGEUR_CARTE_CASE - LARGEUR_CASE_VISIBLE);
+		else if(this.getDx() > NB_COLONNES - NB_COLONNES_VISIBLES)
+			this.setDx(NB_COLONNES - NB_COLONNES_VISIBLES);
 		
 		if(this.getDy() < 0) 
 			this.setDy(0);
-		else if(this.getDy() > HAUTEUR_CARTE_CASE - HAUTEUR_CASE_VISIBLE)	
-			this.setDy(HAUTEUR_CARTE_CASE - HAUTEUR_CASE_VISIBLE);
+		else if(this.getDy() > NB_LIGNES - NB_LIGNES_VISIBLES)	
+			this.setDy(NB_LIGNES - NB_LIGNES_VISIBLES);
 	}
 	
 	/**
 	 * Positionement de la camera au centre de notre carte.
 	 */
 	private void centreCamera() {
-		this.setDx(LARGEUR_CASE_VISIBLE/2);
-		this.setDy(HAUTEUR_CASE_VISIBLE/2);
+		this.setDx(NB_COLONNES_VISIBLES/2);
+		this.setDy(NB_LIGNES_VISIBLES/2);
 		estValideDeplacement();
 	}
 	

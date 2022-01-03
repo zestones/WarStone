@@ -33,7 +33,7 @@ public class MenuBar implements IFenetre {
 	 */
 	public MenuBar() {
 		JMenuBar menuBarSecondaire = new JMenuBar();
-		menuBarSecondaire.setPreferredSize(new Dimension(LARGEUR_MENUBAR_SECONDAIRE, HAUTEUR_MENUBAR_SECONDAIRE));
+		menuBarSecondaire.setPreferredSize(new Dimension(LARGEUR_MENUBAR_SECONDAIRE, MENUBAR_SECONDAIRE_HAUTEUR));
 		JMenu option = new JMenu("Option");
 		
 		//ImageIcon menuIcon = new ImageIcon("./res/img/icon/menu.png");
@@ -52,7 +52,7 @@ public class MenuBar implements IFenetre {
 		ImageIcon exitIcon = new ImageIcon("./res/img/icon/exit.png");
 	
 		Image imageExit = exitIcon.getImage();
-		Image exitImg = imageExit.getScaledInstance(LARGEUR_ICON_MENU, HAUTEUR_ICON_MENU, java.awt.Image.SCALE_SMOOTH);
+		Image exitImg = imageExit.getScaledInstance(ICON_MENUBAR_SECONDAIRE_LARGEUR, ICON_MENUBAR_SECONDAIRE_HAUTEUR, java.awt.Image.SCALE_SMOOTH);
 		
 		exitIcon = new ImageIcon(exitImg);
 		// Marche pas setFocusable ??

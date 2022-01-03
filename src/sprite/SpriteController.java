@@ -108,7 +108,7 @@ public class SpriteController implements IConfig{
 				continue;
 			}
 			listeRepos.get(i).combat = false; 
-			listeRepos.get(i).deplacement = false;
+			listeRepos.get(i).seDeplace = false;
 			if(listeRepos.get(i).getPoints() <= 0) {
 				i++;
 				continue;
@@ -130,7 +130,7 @@ public class SpriteController implements IConfig{
 			Element e = pj.c.getElement(listePosition.get(i + 1));
 			if(e instanceof Soldat) {
 				Soldat s = (Soldat) e;
-				s.deplacement = false; 
+				s.seDeplace = false; 
 				s.changeSprite(listePosition.get(i), pj.cam);
 			}
 			i++;

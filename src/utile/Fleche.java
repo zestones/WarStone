@@ -65,11 +65,11 @@ public class Fleche implements IConfig {
 
 	    // On recupre les positions des point X2, Y2
 	    // Pour enlever le bout de ligne debordant de la fleche
-	    int Cx = x2 / NB_PIX_CASE + cam.getDx(); 
-	    int Cy = y2 / NB_PIX_CASE + cam.getDy();
+	    int Cx = x2 / TAILLE_CARREAU + cam.getDx(); 
+	    int Cy = y2 / TAILLE_CARREAU + cam.getDy();
 	    	
 	    // On recupere la distance entre les deux point   
-	    Position pos2 = new Position((x1/NB_PIX_CASE + cam.getDx()), (y1/NB_PIX_CASE + cam.getDy()));
+	    Position pos2 = new Position((x1/TAILLE_CARREAU + cam.getDx()), (y1/TAILLE_CARREAU + cam.getDy()));
 	    Position pos1 = new Position(Cx, Cy);
 	    
 	    int distance = (int) pos1.distance(pos2);

@@ -118,8 +118,8 @@ public class Obstacle extends Element{
 	 */
 	/* Dessin de l'obstacle */
 	public void seDessiner(Graphics g, Camera cam) {
-		g.drawImage(obstacle, (this.getPosition().getX() * NB_PIX_CASE) - cam.getDx() * NB_PIX_CASE, (this.getPosition().getY() * NB_PIX_CASE) - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
-		g.drawImage(this.TYPE.getImage(), (this.getPosition().getX() * NB_PIX_CASE) - cam.getDx() * NB_PIX_CASE, (this.getPosition().getY() * NB_PIX_CASE) - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+		g.drawImage(obstacle, (this.getPosition().getX() * TAILLE_CARREAU) - cam.getDx() * TAILLE_CARREAU, (this.getPosition().getY() * TAILLE_CARREAU) - cam.getDy() * TAILLE_CARREAU, TAILLE_CARREAU, TAILLE_CARREAU, null);
+		g.drawImage(this.TYPE.getImage(), (this.getPosition().getX() * TAILLE_CARREAU) - cam.getDx() * TAILLE_CARREAU, (this.getPosition().getY() * TAILLE_CARREAU) - cam.getDy() * TAILLE_CARREAU, TAILLE_CARREAU, TAILLE_CARREAU, null);
 	}
 	
 	/**
@@ -129,8 +129,8 @@ public class Obstacle extends Element{
 	 */
 	/* Dessin de l'obstacle */
 	public void seDessinerMinia(Graphics g) {
-		g.drawImage(obstacle, this.getPosition().getX() * MINI_NB_PIX_CASE, this.getPosition().getY() * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, null);
-		g.drawImage(this.TYPE.getImage(), this.getPosition().getX() * MINI_NB_PIX_CASE, this.getPosition().getY() * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, null);
+		g.drawImage(obstacle, this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);
+		g.drawImage(this.TYPE.getImage(), this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);
 	}
 	
 	/**

@@ -24,25 +24,25 @@ import wargame.IConfig;
 public class SpriteInitializer implements IConfig, ISprite {
 	private static final long serialVersionUID = 1L;
 
-	public transient SpriteSheet spriteStandByGauche;
-	public transient SpriteSheet spriteStandByDroite;
-	public transient SpriteSheet spriteStandByHaut;
-	public transient SpriteSheet spriteStandByBas;
+	public transient SpriteSheet spriteReposGauche;
+	public transient SpriteSheet spriteReposDroit;
+	public transient SpriteSheet spriteReposHaut;
+	public transient SpriteSheet spriteReposBas;
 	
-	public transient SpriteSheet spriteAttackGauche;
-	public transient SpriteSheet spriteAttackDroite;
-	public transient SpriteSheet spriteAttackHaut;
-	public transient SpriteSheet spriteAttackBas;
+	public transient SpriteSheet spriteAttaqueGauche;
+	public transient SpriteSheet spriteAttaqueDroit;
+	public transient SpriteSheet spriteAttaqueHaut;
+	public transient SpriteSheet spriteAttaqueBas;
 	
-	public transient SpriteSheet spriteAttackRangeGauche;
-	public transient SpriteSheet spriteAttackRangeDroite;
-	public transient SpriteSheet spriteAttackRangeHaut;
-	public transient SpriteSheet spriteAttackRangeBas;
+	public transient SpriteSheet spriteAttaqueAdjacentGauche;
+	public transient SpriteSheet spriteAttaqueAdjacentDroit;
+	public transient SpriteSheet spriteAttaqueAdjacentHaut;
+	public transient SpriteSheet spriteAttaqueAdjacentBas;
 
-	public transient SpriteSheet spriteDeplaceGauche;
-	public transient SpriteSheet spriteDeplaceDroite;
-	public transient SpriteSheet spriteDeplaceHaut;
-	public transient SpriteSheet spriteDeplaceBas;
+	public transient SpriteSheet spriteDeplacementGauche;
+	public transient SpriteSheet spriteDeplacementDroit;
+	public transient SpriteSheet spriteDeplacementHaut;
+	public transient SpriteSheet spriteDeplacementBas;
 	
 	public transient SpriteSheet spriteMort;
 	
@@ -66,29 +66,29 @@ public class SpriteInitializer implements IConfig, ISprite {
 		}
  
 		// initialisation des sprites StandBy
-		spriteStandByGauche = initSprite(LIGNE_STANDBY_GAUCHE, NB_IMAGE_STANDBY);
-		spriteStandByDroite = initSprite(LIGNE_STANDBY_DROITE, NB_IMAGE_STANDBY);
+		spriteReposGauche = initSprite(LIGNE_REPOS_GAUCHE, NB_IMAGE_REPOS);
+		spriteReposDroit = initSprite(LIGNE_REPOS_DROIT, NB_IMAGE_REPOS);
 
-		spriteStandByHaut = initSprite(LIGNE_STANDBY_HAUT, NB_IMAGE_STANDBY);
-		spriteStandByBas = initSprite(LIGNE_STANDBY_BAS, NB_IMAGE_STANDBY);
+		spriteReposHaut = initSprite(LIGNE_REPOS_HAUT, NB_IMAGE_REPOS);
+		spriteReposBas = initSprite(LIGNE_REPOS_BAS, NB_IMAGE_REPOS);
 
 		// initialisation des sprites Attaque a distance
-		spriteAttackGauche = initSprite(LIGNE_ATTACK_GAUCHE, NB_IMAGE_ATTACK);
-		spriteAttackDroite = initSprite(LIGNE_ATTACK_DROITE, NB_IMAGE_ATTACK);
-		spriteAttackHaut = initSprite(LIGNE_ATTACK_HAUT, NB_IMAGE_ATTACK);
-		spriteAttackBas = initSprite(LIGNE_ATTACK_BAS, NB_IMAGE_ATTACK);
+		spriteAttaqueGauche = initSprite(LIGNE_ATTAQUE_GAUCHE, NB_IMAGE_ATTAQUE);
+		spriteAttaqueDroit = initSprite(LIGNE_ATTAQUE_DROIT, NB_IMAGE_ATTAQUE);
+		spriteAttaqueHaut = initSprite(LIGNE_ATTAQUE_HAUT, NB_IMAGE_ATTAQUE);
+		spriteAttaqueBas = initSprite(LIGNE_ATTAQUE_BAS, NB_IMAGE_ATTAQUE);
 		
 		// initialisation des sprites Attaque voisin
-		spriteAttackRangeGauche = initSprite(LIGNE_ATTACK_RANGE_GAUCHE, NB_IMAGE_ATTACK_RANGE);
-		spriteAttackRangeDroite = initSprite(LIGNE_ATTACK_RANGE_DROITE, NB_IMAGE_ATTACK_RANGE);
-		spriteAttackRangeHaut = initSprite(LIGNE_ATTACK_RANGE_HAUT, NB_IMAGE_ATTACK_RANGE);
-		spriteAttackRangeBas = initSprite(LIGNE_ATTACK_RANGE_BAS, NB_IMAGE_ATTACK_RANGE);
+		spriteAttaqueAdjacentGauche = initSprite(LIGNE_ATTAQUE_ADJACENT_GAUCHE, NB_IMAGE_ATTAQUE_ADJACENT);
+		spriteAttaqueAdjacentDroit = initSprite(LIGNE_ATTAQUE_ADJACENT_DROIT, NB_IMAGE_ATTAQUE_ADJACENT);
+		spriteAttaqueAdjacentHaut = initSprite(LIGNE_ATTAQUE_ADJACENT_HAUT, NB_IMAGE_ATTAQUE_ADJACENT);
+		spriteAttaqueAdjacentBas = initSprite(LIGNE_ATTAQUE_ADJACENT_BAS, NB_IMAGE_ATTAQUE_ADJACENT);
 		
 		// initialisation des sprites deplacement
-		spriteDeplaceGauche = initSprite(LIGNE_DEPLACEMENT_GAUCHE, NB_IMAGE_DEPLACEMENT);
-		spriteDeplaceDroite = initSprite(LIGNE_DEPLACEMENT_DROITE, NB_IMAGE_DEPLACEMENT);
-		spriteDeplaceHaut = initSprite(LIGNE_DEPLACEMENT_HAUT, NB_IMAGE_DEPLACEMENT);
-		spriteDeplaceBas = initSprite(LIGNE_DEPLACEMENT_BAS, NB_IMAGE_DEPLACEMENT);
+		spriteDeplacementGauche = initSprite(LIGNE_DEPLACEMENT_GAUCHE, NB_IMAGE_DEPLACEMENT);
+		spriteDeplacementDroit = initSprite(LIGNE_DEPLACEMENT_DROIT, NB_IMAGE_DEPLACEMENT);
+		spriteDeplacementHaut = initSprite(LIGNE_DEPLACEMENT_HAUT, NB_IMAGE_DEPLACEMENT);
+		spriteDeplacementBas = initSprite(LIGNE_DEPLACEMENT_BAS, NB_IMAGE_DEPLACEMENT);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class SpriteInitializer implements IConfig, ISprite {
 		spriteSheet = new SpriteSheetBuilder()
 				.withSheet(this.sprite)
 				.withColumns(0)
-				.withSpriteSize(LARGEUR_IMAGE, HAUTEUR_IMAGE)
+				.withSpriteSize(IMAGE_LARGEUR, IMAGE_HAUTEUR)
 				.withRows(ligne)
 				.withSpriteCount(nbImage)
 				.build();

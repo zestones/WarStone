@@ -27,7 +27,7 @@ public interface IMenuBar extends IConfig {
 	JCheckBox musicOn = new JCheckBox("Music On/Off"); 
 
 	/** Variable du menuBar dans le PanneauJeu */
-	final int MENUBAR_LARGEUR = LARGEUR_CARTE;
+	final int MENUBAR_LARGEUR = CARTE_LARGEUR;
 	int BOUTTON_HAUTEUR = MENUBAR_HAUTEUR/2;
 	int BOUTTON_LARGEUR = MENUBAR_LARGEUR/6;
 }

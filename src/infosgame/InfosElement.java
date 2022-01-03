@@ -60,7 +60,7 @@ public abstract class InfosElement implements IFenetre {
 			dessineInfosSupElements(e);
 		}	
 		
-		Image img = e.getImage().getScaledInstance(LARGEUR_ICON_ELEMENT, HAUTEUR_ICON_ELEMENT, Image.SCALE_SMOOTH);
+		Image img = e.getImage().getScaledInstance(ICON_ELEMENT_LARGEUR, ICON_ELEMENT_HAUTEUR, Image.SCALE_SMOOTH);
 		ImageIcon imgIcon = new ImageIcon(img);
 		
 		iconLabel.setIcon(imgIcon);
@@ -110,7 +110,7 @@ public abstract class InfosElement implements IFenetre {
 		// une deuxieme liste est creer pour comparer les label au objet (ROCHER FORET...) 
 		for(TypeObstacle o : TypeObstacle.values()) {
 			JLabel ObstacleLabel = new JLabel();
-			Image img = o.getImage().getScaledInstance(LARGEUR_INFOS_PANEL / TypeObstacle.values().length, NB_PIX_CASE, Image.SCALE_SMOOTH);
+			Image img = o.getImage().getScaledInstance(INFOS_PANEL_LARGEUR / TypeObstacle.values().length, TAILLE_CARREAU, Image.SCALE_SMOOTH);
 			ImageIcon imgIcon = new ImageIcon(img);
 			ObstacleLabel.setIcon(imgIcon);
 			ObstacleLabel.setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
@@ -186,7 +186,7 @@ public abstract class InfosElement implements IFenetre {
 		iconPanel.removeAll();
 		iconPanel.revalidate();
 		// On redefinie ses dimensions
-		iconPanel.setPreferredSize(new Dimension(LARGEUR_ICON_ELEMENT, HAUTEUR_ICON_ELEMENT));
+		iconPanel.setPreferredSize(new Dimension(ICON_ELEMENT_LARGEUR, ICON_ELEMENT_HAUTEUR));
 		iconInfosLabel.setText("");
 		// On redessine le panel
 		infosElementHeader.repaint();

@@ -1,12 +1,3 @@
-/********************************************************************
- * 							WarStone								*
- *  -------------------------------------------------------------	*
- * |	 Universit� Jean-Monnet    L3-Infos 		    2021	 |	*
- *  -------------------------------------------------------------	*
- * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
- * 																	*
- * 														wargame		*
- * ******************************************************************/
 package wargame;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -32,13 +23,13 @@ import wargame.evenement.ButtonEvent;
 
 
 /**
- * The Class PanneauJeu.
+ * Class PanneauJeu.
  */
 public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	private static final long serialVersionUID = 1L;
 
-	public Position clic, dernierClique, clicDragged;
-	private Position draggedCam, releasedClic;
+	public Position clique, dernierClique, cliqueDragged;
+	private Position draggedCam, cliqueRelache;
 	public int nombreHeros, nombreMonstre;
 	public Fleche flecheDirectionnelle;
 	public ButtonEvent buttonEvent;
@@ -46,7 +37,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	public Heros herosSelectione;
 	public boolean estFiniAction;
 	private	Position survol;
-	public	Element elem;
+	public Element elem;
 	public Camera cam;
 	public Carte c;
 	public Position deposeObstacle;
@@ -125,15 +116,15 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		this.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				if (SwingUtilities.isLeftMouseButton(e)) {
-					clic = new Position(e.getX() / NB_PIX_CASE + cam.getDx(), e.getY() / NB_PIX_CASE + cam.getDy());
-					dernierClique = new Position(e.getX() / NB_PIX_CASE + cam.getDx(), e.getY() / NB_PIX_CASE + cam.getDy());
-					deposeObstacle = new Position(e.getX() / NB_PIX_CASE + cam.getDx(), e.getY() / NB_PIX_CASE + cam.getDy());
+					clique = new Position(e.getX() / TAILLE_CARREAU + cam.getDx(), e.getY() / TAILLE_CARREAU + cam.getDy());
+					dernierClique = new Position(e.getX() / TAILLE_CARREAU + cam.getDx(), e.getY() / TAILLE_CARREAU + cam.getDy());
+					deposeObstacle = new Position(e.getX() / TAILLE_CARREAU + cam.getDx(), e.getY() / TAILLE_CARREAU + cam.getDy());
 					
-					if(!c.estCaseVide(clic)) dessineFleche = false;
+					if(!c.estCaseVide(clique)) dessineFleche = false;
 											
-					if(!clic.estValide()) return;	
+					if(!clique.estValide()) return;	
 					
-					elem = c.getElement(clic);
+					elem = c.getElement(clique);
 				
 					InfosElement.dessineInfosElement(elem);
 					
@@ -145,7 +136,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 					}
 				}
 				if(SwingUtilities.isRightMouseButton(e) && Carte.modeConf) {
-					Position delete = new Position(e.getX() / NB_PIX_CASE + cam.getDx(), e.getY() / NB_PIX_CASE + cam.getDy());
+					Position delete = new Position(e.getX() / TAILLE_CARREAU + cam.getDx(), e.getY() / TAILLE_CARREAU + cam.getDy());
 					if(c.getElement(delete) != null)
 						c.setElementVide(delete);
 				}
@@ -155,10 +146,10 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 				if (SwingUtilities.isLeftMouseButton(e)) {
 					deposeObstacle = null;
 					dessineFleche = false;
-					releasedClic = new Position((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());
+					cliqueRelache = new Position((int)e.getX() / TAILLE_CARREAU + cam.getDx(), (int)e.getY() / TAILLE_CARREAU + cam.getDy());
 					
 					// On recupere les clic lorsque la souris est egalement relache
-					dernierClique = new Position((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());
+					dernierClique = new Position((int)e.getX() / TAILLE_CARREAU + cam.getDx(), (int)e.getY() / TAILLE_CARREAU + cam.getDy());
 					// Si On a un heros de selectionner et que clic actuellement sur autre chose alors on appelle jouerSoldat
 					if(dernierClique != null && herosSelectione != null && estFiniAction)
 						c.jouerSoldats(pj, pj.buttonEvent.tour);
@@ -176,9 +167,9 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 					 * Cette option fonction uniquement dans le mode jeu et non en mode config
 					 *
 					 */
-					if(deposeObstacle == null && c.getElement(clic) == null && !clic.estIdentique(releasedClic) && c.estCaseVide(dernierClique)) {
-						int distance = (int) clic.distance(releasedClic);
-						switch(clic.getPositionCardinal(releasedClic)) {
+					if(deposeObstacle == null && c.getElement(clique) == null && !clique.estIdentique(cliqueRelache) && c.estCaseVide(dernierClique)) {
+						int distance = (int) clique.distance(cliqueRelache);
+						switch(clique.getPositionCardinal(cliqueRelache)) {
 						case NORD: cam.deplacement(0, -distance);
 						break;
 						case NORD_OUEST: cam.deplacement(-distance, -distance);
@@ -205,15 +196,15 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		/* Affiche les infos des elements survole avec la souris */
 		addMouseMotionListener(new MouseAdapter() {
 			public void mouseDragged(MouseEvent e) {
-				clicDragged = new Position ((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());
-				draggedCam = new Position ((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());		
+				cliqueDragged = new Position ((int)e.getX() / TAILLE_CARREAU + cam.getDx(), (int)e.getY() / TAILLE_CARREAU + cam.getDy());
+				draggedCam = new Position ((int)e.getX() / TAILLE_CARREAU + cam.getDx(), (int)e.getY() / TAILLE_CARREAU + cam.getDy());		
 				
-				if(c.estCaseVide(clic)) dessineFleche = true;
+				if(c.estCaseVide(clique)) dessineFleche = true;
 				else dessineFleche = false;
 			}	
 			
 			public void mouseMoved(MouseEvent e) {
-				survol = new Position((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());
+				survol = new Position((int)e.getX() / TAILLE_CARREAU + cam.getDx(), (int)e.getY() / TAILLE_CARREAU + cam.getDy());
 				
 				elem = null;
 				
@@ -225,7 +216,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 						elem = c.getElement(survol);
 				
 				/* Si le clic est relacher dans la case du heros on continue a memoriser les position */ 
-				if(herosSelectione != null) clicDragged = new Position(survol.getX(), survol.getY());
+				if(herosSelectione != null) cliqueDragged = new Position(survol.getX(), survol.getY());
 				// Ajouter un moyen de ne pas afficher les elements cache
 			}
 		});
@@ -252,15 +243,15 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if(Carte.modeConf) {		
-			for(int i = cam.getDx(); i < LARGEUR_CASE_VISIBLE + cam.getDx(); i++) {
-				for(int j = cam.getDy(); j < HAUTEUR_CASE_VISIBLE + cam.getDy(); j++) {		
-					g.drawImage(range, i * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE, j  * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE, null);
+			for(int i = cam.getDx(); i < NB_COLONNES_VISIBLES + cam.getDx(); i++) {
+				for(int j = cam.getDy(); j < NB_LIGNES_VISIBLES + cam.getDy(); j++) {		
+					g.drawImage(range, i * TAILLE_CARREAU - cam.getDx() * TAILLE_CARREAU, j  * TAILLE_CARREAU - cam.getDy() * TAILLE_CARREAU, TAILLE_CARREAU, TAILLE_CARREAU, null);
 					if(this.c.getElement(new Position(i, j)) != null) {
 						this.c.getElement(new Position(i, j)).seDessiner(g, this.cam);	
 					}
 									
 					g.setColor(COULEUR_GRILLE);
-					g.drawRect(i * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE, j  * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE, NB_PIX_CASE, NB_PIX_CASE); 
+					g.drawRect(i * TAILLE_CARREAU - cam.getDx() * TAILLE_CARREAU, j  * TAILLE_CARREAU - cam.getDy() * TAILLE_CARREAU, TAILLE_CARREAU, TAILLE_CARREAU); 
 				}
 			}
 			if(deposeObstacle != null && InfosElement.obstacleSelectione != null) {
@@ -269,7 +260,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 			soldatRestant.setText("" + InfosElement.nbElementDeposer + "  MAX : " + NB_OBSTACLES);	
 		}
 		else {
-			g.drawImage(grass, 0, 0, NB_PIX_CASE * LARGEUR_CASE_VISIBLE, NB_PIX_CASE * HAUTEUR_CASE_VISIBLE, null);
+			g.drawImage(grass, 0, 0, TAILLE_CARREAU * NB_COLONNES_VISIBLES, TAILLE_CARREAU * NB_LIGNES_VISIBLES, null);
 			this.c.toutDessiner(g, cam);
 		
 			// Affichage du nombre de soldat restant
@@ -277,18 +268,18 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 								
 		    // Affiche les deplacement possible du heros selectionne
 			if(this.herosSelectione != null && !this.herosSelectione.aJoue) {
-				this.herosSelectione.dessineSelection(g, this.herosSelectione, clicDragged, cam);
-				this.herosSelectione.changeSprite(clicDragged, cam);
+				this.herosSelectione.dessineSelection(g, this.herosSelectione, cliqueDragged, cam);
+				this.herosSelectione.changeSprite(cliqueDragged, cam);
 			}
 		}
 		
 		 // On verifie si on doit dessiner la fleche ou non
 	    if(flecheDirectionnelle.estFlecheDessinable(herosSelectione, dessineFleche, draggedCam)) 
-	    	flecheDirectionnelle.dessineFleche(g, clic.getX() * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE + NB_PIX_CASE/2, 
-	    			clic.getY() * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE + NB_PIX_CASE/2, 
-	    			draggedCam.getX() * NB_PIX_CASE - cam.getDx() * NB_PIX_CASE + NB_PIX_CASE/2, 
-	    			draggedCam.getY() * NB_PIX_CASE - cam.getDy() * NB_PIX_CASE + NB_PIX_CASE/2, 
-	    			NB_PIX_CASE/4, NB_PIX_CASE/6, clic);
+	    	flecheDirectionnelle.dessineFleche(g, clique.getX() * TAILLE_CARREAU - cam.getDx() * TAILLE_CARREAU + TAILLE_CARREAU/2, 
+	    			clique.getY() * TAILLE_CARREAU - cam.getDy() * TAILLE_CARREAU + TAILLE_CARREAU/2, 
+	    			draggedCam.getX() * TAILLE_CARREAU - cam.getDx() * TAILLE_CARREAU + TAILLE_CARREAU/2, 
+	    			draggedCam.getY() * TAILLE_CARREAU - cam.getDy() * TAILLE_CARREAU + TAILLE_CARREAU/2, 
+	    			TAILLE_CARREAU/4, TAILLE_CARREAU/6, clique);
 	    
 	 // Affichage du label en bas de la fenetre
 	    if(this.elem != null) footer.setText(" " + this.elem.toString());

@@ -20,7 +20,7 @@ import wargame.IConfig;
  */
 public class Projectile implements IConfig {
 	
-	/** The Constant serialVersionUID. */
+	/** Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
 	private Position depart;
@@ -28,6 +28,7 @@ public class Projectile implements IConfig {
 	private Position pos;
 	private Position ou;
 
+	
 	private int deplacementX;
 	private int deplacementY;
 	public boolean toucher;
@@ -41,10 +42,10 @@ public class Projectile implements IConfig {
 	}
 	
 	void dessineProjectile(Graphics g, Camera cam) {
-		int dx = cam.getDx() * NB_PIX_CASE;
-    	int dy = cam.getDy() * NB_PIX_CASE;
+		int dx = cam.getDx() * TAILLE_CARREAU;
+    	int dy = cam.getDy() * TAILLE_CARREAU;
     	
-  		g.drawImage(fleche, (this.pos.getX() * NB_PIX_CASE) - dx + this.deplacementX + NB_PIX_CASE/2, (this.pos.getY() * NB_PIX_CASE) - dy + this.deplacementY + NB_PIX_CASE/2, NB_PIX_CASE/2, NB_PIX_CASE/4, null);
+  		g.drawImage(fleche, (this.pos.getX() * TAILLE_CARREAU) - dx + this.deplacementX + TAILLE_CARREAU/2, (this.pos.getY() * TAILLE_CARREAU) - dy + this.deplacementY + TAILLE_CARREAU/2, TAILLE_CARREAU/2, TAILLE_CARREAU/4, null);
 		
 		this.effectuerDeplacement(cam);
 	}
@@ -53,7 +54,7 @@ public class Projectile implements IConfig {
     	if(!this.toucher) {
     		this.deplacementX += this.arrive.getX() - this.pos.getX();
     		this.deplacementY += this.arrive.getY() - this.pos.getY();
-    		this.ou = new Position(this.pos.getX() + this.deplacementX / NB_PIX_CASE, this.pos.getY() + this.deplacementY / NB_PIX_CASE);
+    		this.ou = new Position(this.pos.getX() + this.deplacementX / TAILLE_CARREAU, this.pos.getY() + this.deplacementY / TAILLE_CARREAU);
     		if(!this.depart.estIdentique(this.ou) && this.ou.estIdentique(this.arrive)) {
     			this.toucher = true;
     		}
