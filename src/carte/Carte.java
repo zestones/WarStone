@@ -155,7 +155,7 @@ public class Carte implements IConfig, ICarte {
 			if(this.listeMonstres.get(i).aJoue) continue;
 			
 			/**  On initialise une liste de heros a la portee du monstre */
-			listePorteeHeros = this.listeMonstres.get(i).getListHerosInRange();
+			listePorteeHeros = this.listeMonstres.get(i).getListHerosDansPortee();
 			
 			/** Si la liste est vide (i.e aucun Heros n'est a la porter du monstre) alors on deplace le monstre */
 			if(listePorteeHeros.isEmpty()) {

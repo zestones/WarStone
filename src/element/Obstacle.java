@@ -1,15 +1,5 @@
-/********************************************************************
- * 							WarStone								*
- *  -------------------------------------------------------------	*
- * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
- *  -------------------------------------------------------------	*
- * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
- * 																	*
- * 														element		*
- * ******************************************************************/
 package element;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -19,89 +9,65 @@ import carte.Carte;
 import utile.Position;
 
 /**
- * The Class Obstacle.
+ * Class Obstacle.
  */
 public class Obstacle extends Element{
 	
-	/** The Constant serialVersionUID. */
+	/** Constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	/** The rocher. */
+	/**  Les images des Obstacles */
 	private static Image rocher = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/rocher.png");
-	
-	/** The water. */
-	private static Image water = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/water.png");
-	
-	/** The foret. */
+	private static Image eau = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/water.png");
 	private static Image foret = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/foret.png");
 	
-	/** The obstacle. */
-	private static Image obstacle = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/obstacle.jpg");
+	/** Image permettant de changer le fond de l'obstacle */
+	private static Image fondObstacle = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/fondObstacle.jpg");
 	
 	/**
-	 * The Enum TypeObstacle.
+	 * Enum TypeObstacle.
 	 */
 	public enum TypeObstacle {	
 		
-		/** The rocher. */
-		ROCHER (COULEUR_ROCHER, rocher), 
-		/** The foret. */
-		FORET (COULEUR_FORET, foret), 
-		/** The eau. */
-		EAU (COULEUR_EAU, water),
+		ROCHER (rocher), FORET (foret), EAU (eau), LAVE(lave);
 		
-		LAVE(COULEUR_LAVE, lave);
-		
-		/** The couleur. */
-		private final Color COULEUR;
-		
-		/** The image. */
 		private final Image IMAGE;
 		
 		/**
-		 * Gets the couleur.
+		 * Instancie un nouveau type d'obstacle.
 		 *
-		 * @return the couleur
+		 * @param couleur 
+		 * @param img 
 		 */
-		public Color getCouleur() { return COULEUR; }  
+		TypeObstacle(Image img) { IMAGE = img; }
 		
 		/**
-		 * Instantiates a new type obstacle.
+		 * Gets image de l'obstacle.
 		 *
-		 * @param couleur the couleur
-		 * @param img the img
-		 */
-		TypeObstacle(Color couleur, Image img) { COULEUR  = couleur; IMAGE = img; }
-		
-		/**
-		 * Gets the image.
-		 *
-		 * @return the image
+		 * @return image
 		 */
 		public Image getImage() { return IMAGE; } 
 		
 		/**
-		 * Gets the obstacle alea.
+		 * Gets un obstacle aleatoire.
 		 *
-		 * @return the obstacle alea
+		 * @return obstacle
 		 */
 		public static TypeObstacle getObstacleAlea() {
 			return values()[(int)(Math.random()*values().length)];
 		}
 	}
 	
-	/** The type. */
+	/** le type. */
 	private TypeObstacle TYPE;
-	
-	/** The pos. */
 	private Position pos;
 	
 	/**
-	 * Instantiates a new obstacle.
+	 * Instancie un nouvelle obstacle.
 	 *
-	 * @param carte the carte
-	 * @param type the type
-	 * @param pos the pos
+	 * @param carte
+	 * @param type 
+	 * @param pos 
 	 */
 	public Obstacle(Carte carte, TypeObstacle type, Position pos) {
 		this.pos = pos;
@@ -111,58 +77,53 @@ public class Obstacle extends Element{
 
 	
 	/**
-	 * Se dessiner.
+	 * Se dessiner dessine l'obstacle
 	 *
-	 * @param g the g
-	 * @param cam the cam
+	 * @param g
+	 * @param cam 
 	 */
-	/* Dessin de l'obstacle */
 	public void seDessiner(Graphics g, Camera cam) {
-		g.drawImage(obstacle, (this.getPosition().getX() * TAILLE_CARREAU) - cam.getDx() * TAILLE_CARREAU, (this.getPosition().getY() * TAILLE_CARREAU) - cam.getDy() * TAILLE_CARREAU, TAILLE_CARREAU, TAILLE_CARREAU, null);
+		g.drawImage(fondObstacle, (this.getPosition().getX() * TAILLE_CARREAU) - cam.getDx() * TAILLE_CARREAU, (this.getPosition().getY() * TAILLE_CARREAU) - cam.getDy() * TAILLE_CARREAU, TAILLE_CARREAU, TAILLE_CARREAU, null);
 		g.drawImage(this.TYPE.getImage(), (this.getPosition().getX() * TAILLE_CARREAU) - cam.getDx() * TAILLE_CARREAU, (this.getPosition().getY() * TAILLE_CARREAU) - cam.getDy() * TAILLE_CARREAU, TAILLE_CARREAU, TAILLE_CARREAU, null);
 	}
 	
 	/**
-	 * Se dessiner minia.
+	 * se dessiner MiniCarte dessine l'obstacle sur la miniCarte.
 	 *
-	 * @param g the g
+	 * @param g
 	 */
-	/* Dessin de l'obstacle */
-	public void seDessinerMinia(Graphics g) {
-		g.drawImage(obstacle, this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);
+	public void seDessinerMiniCarte(Graphics g) {
+		g.drawImage(fondObstacle, this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);
 		g.drawImage(this.TYPE.getImage(), this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);
 	}
 	
 	/**
 	 * To string.
 	 *
-	 * @return the string
+	 * @return string
 	 */
 	public String toString() { return ""+TYPE; }
 	
 	/**
-	 * Gets the position.
+	 * Gets position.
 	 *
-	 * @return the position
+	 * @return position
 	 */
 	public Position getPosition() {	return pos;	}
 
 	/**
-	 * Gets the image.
+	 * Gets image.
 	 *
-	 * @return the image
+	 * @return image
 	 */
 	public Image getImage() { return this.TYPE.getImage(); }
 
-	
-	@Override
 	public String getHistoire() {return null;}
 	
 	/**
-	 * Gets the type.
+	 * Gets type.
 	 *
-	 * @return the type
+	 * @return type
 	 */
-	@Override
 	public String getType() { return ""+this.TYPE.name(); }
 }

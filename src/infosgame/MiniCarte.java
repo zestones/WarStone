@@ -97,7 +97,7 @@ public class MiniCarte extends JPanel implements IConfig {
 	private void dessineMiniCarte(Graphics g) {
 		/** on dessine les heros et element a leur portee */
 		for(int n = 0; n < this.c.listeHeros.size(); n++)
-			this.c.listeHeros.get(n).seDessinerMinia(g);
+			this.c.listeHeros.get(n).seDessinerMiniCarte(g);
 	
 		/** dessin de la grille */
 		for(int i = 0; i < NB_COLONNES; i++) {
@@ -116,9 +116,9 @@ public class MiniCarte extends JPanel implements IConfig {
 	private void dessineCarte(Graphics g) {
 		for(int i = 0; i < NB_COLONNES; i++) {
 			for(int j = 0; j < NB_LIGNES; j++) {		
-				g.drawImage(range, i * TAILLE_CARREAU_MINI_CARTE, j  * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);
+				g.drawImage(terre, i * TAILLE_CARREAU_MINI_CARTE, j  * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);
 				if(!this.c.estCaseVide(new Position(i, j)))
-					this.c.getElement(new Position(i, j)).seDessinerMinia(g);
+					this.c.getElement(new Position(i, j)).seDessinerMiniCarte(g);
 			}
 		}
 	}
@@ -132,7 +132,7 @@ public class MiniCarte extends JPanel implements IConfig {
 		super.paintComponent(g);
 		
 		if(!Carte.modeConf)
-			g.drawImage(grass, 0, 0, MINI_CARTE_LARGEUR, MINI_CARTE_HAUTEUR, null);
+			g.drawImage(herbe, 0, 0, MINI_CARTE_LARGEUR, MINI_CARTE_HAUTEUR, null);
 		else
 			dessineCarte(g);
 		

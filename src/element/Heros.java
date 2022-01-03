@@ -51,7 +51,7 @@ public class Heros extends Soldat {
     	int dy = cam.getDy() * TAILLE_CARREAU;
     	
     	/** Dessin de la case du heros */
-    	g.drawImage(range, (this.getPosition().getX() * TAILLE_CARREAU) - dx, (this.getPosition().getY() * TAILLE_CARREAU) - dy, TAILLE_CARREAU, TAILLE_CARREAU, null);
+    	g.drawImage(terre, (this.getPosition().getX() * TAILLE_CARREAU) - dx, (this.getPosition().getY() * TAILLE_CARREAU) - dy, TAILLE_CARREAU, TAILLE_CARREAU, null);
     	/** On dessine la grille de cette case */
     	g.setColor(COULEUR_GRILLE);
 		g.drawRect(this.getPosition().getX() * TAILLE_CARREAU - dx, this.getPosition().getY() * TAILLE_CARREAU - dy, TAILLE_CARREAU, TAILLE_CARREAU); 
@@ -87,7 +87,7 @@ public class Heros extends Soldat {
     				continue;
     			
     			if(carte.getElement(porteeVisuelle) == null) 
-    				g.drawImage(range, porteeVisuelle.getX() * TAILLE_CARREAU  - dx, porteeVisuelle.getY() * TAILLE_CARREAU - dy, TAILLE_CARREAU, TAILLE_CARREAU, null);
+    				g.drawImage(terre, porteeVisuelle.getX() * TAILLE_CARREAU  - dx, porteeVisuelle.getY() * TAILLE_CARREAU - dy, TAILLE_CARREAU, TAILLE_CARREAU, null);
     			else if(carte.getElement(porteeVisuelle) instanceof Obstacle)
     				carte.getElement(porteeVisuelle).seDessiner(g, cam);   			
     		}
@@ -201,7 +201,7 @@ public class Heros extends Soldat {
 	 *
 	 * @param g 
 	 */
-	public void seDessinerMinia(Graphics g) {
+	public void seDessinerMiniCarte(Graphics g) {
 		int portee = h.getPortee();
 		
     	for(int i = 0; i <= portee * 2; i++) {
@@ -211,14 +211,14 @@ public class Heros extends Soldat {
     				continue;
     			
     			if(this.carte.estCaseVide(porteeVisuelle)) 
-    				g.drawImage(range, porteeVisuelle.getX() * TAILLE_CARREAU_MINI_CARTE, porteeVisuelle.getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);
+    				g.drawImage(terre, porteeVisuelle.getX() * TAILLE_CARREAU_MINI_CARTE, porteeVisuelle.getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);
     			else if (carte.getElement(porteeVisuelle) instanceof Monstre)
-    				carte.getElement(porteeVisuelle).seDessinerMinia(g);
+    				carte.getElement(porteeVisuelle).seDessinerMiniCarte(g);
     			else if(carte.getElement(porteeVisuelle) instanceof Obstacle)
-    				carte.getElement(porteeVisuelle).seDessinerMinia(g);
+    				carte.getElement(porteeVisuelle).seDessinerMiniCarte(g);
     		}
     	} 
-    	this.dessinHerosMinia(g);
+    	this.dessineHerosMiniCarte(g);
     }
     
     /**
@@ -226,8 +226,8 @@ public class Heros extends Soldat {
      *
      * @param g 
      */
-    private void dessinHerosMinia(Graphics g) { 
-    	g.drawImage(range, this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);	
+    private void dessineHerosMiniCarte(Graphics g) { 
+    	g.drawImage(terre, this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);	
     	g.drawImage(this.getImage(), this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);	
     }
     

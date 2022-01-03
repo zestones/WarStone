@@ -245,7 +245,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		if(Carte.modeConf) {		
 			for(int i = cam.getDx(); i < NB_COLONNES_VISIBLES + cam.getDx(); i++) {
 				for(int j = cam.getDy(); j < NB_LIGNES_VISIBLES + cam.getDy(); j++) {		
-					g.drawImage(range, i * TAILLE_CARREAU - cam.getDx() * TAILLE_CARREAU, j  * TAILLE_CARREAU - cam.getDy() * TAILLE_CARREAU, TAILLE_CARREAU, TAILLE_CARREAU, null);
+					g.drawImage(terre, i * TAILLE_CARREAU - cam.getDx() * TAILLE_CARREAU, j  * TAILLE_CARREAU - cam.getDy() * TAILLE_CARREAU, TAILLE_CARREAU, TAILLE_CARREAU, null);
 					if(this.c.getElement(new Position(i, j)) != null) {
 						this.c.getElement(new Position(i, j)).seDessiner(g, this.cam);	
 					}
@@ -260,7 +260,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 			soldatRestant.setText("" + InfosElement.nbElementDeposer + "  MAX : " + NB_OBSTACLES);	
 		}
 		else {
-			g.drawImage(grass, 0, 0, TAILLE_CARREAU * NB_COLONNES_VISIBLES, TAILLE_CARREAU * NB_LIGNES_VISIBLES, null);
+			g.drawImage(herbe, 0, 0, TAILLE_CARREAU * NB_COLONNES_VISIBLES, TAILLE_CARREAU * NB_LIGNES_VISIBLES, null);
 			this.c.toutDessiner(g, cam);
 		
 			// Affichage du nombre de soldat restant

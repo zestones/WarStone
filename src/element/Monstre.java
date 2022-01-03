@@ -49,7 +49,7 @@ public class Monstre extends Soldat {
     	int dy = cam.getDy() * TAILLE_CARREAU;
 
     	/** Dessin de la case du monstre */
-    	g.drawImage(range, (this.getPosition().getX() * TAILLE_CARREAU) - dx, (this.getPosition().getY() * TAILLE_CARREAU) - dy, TAILLE_CARREAU, TAILLE_CARREAU, null);
+    	g.drawImage(terre, (this.getPosition().getX() * TAILLE_CARREAU) - dx, (this.getPosition().getY() * TAILLE_CARREAU) - dy, TAILLE_CARREAU, TAILLE_CARREAU, null);
     	/** On dessine la grille de cette case */
     	g.setColor(COULEUR_GRILLE);
 		g.drawRect(this.getPosition().getX() * TAILLE_CARREAU - dx, this.getPosition().getY() * TAILLE_CARREAU - dy, TAILLE_CARREAU, TAILLE_CARREAU); 
@@ -70,8 +70,8 @@ public class Monstre extends Soldat {
    *
    * @param g 
    */
-  public void seDessinerMinia(Graphics g) { 
-    	g.drawImage(range, this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);   	
+  public void seDessinerMiniCarte(Graphics g) { 
+    	g.drawImage(terre, this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);   	
     	
     	g.drawImage(this.getImage(), this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);   	
 
@@ -87,14 +87,14 @@ public class Monstre extends Soldat {
    *
    * @return list heros in range
    */
-  public List<Heros> getListHerosInRange(){
+  public List<Heros> getListHerosDansPortee(){
 		List<Heros> listeHeros = new ArrayList<>();
 		int portee = this.getPortee();
 
 		for(int i = 0; i <= portee * 2; i++) {
 			for(int j = 0; j <= portee * 2 ; j++) {
 				Position porteeVisuelle = new Position(this.getPosition().getX() + i - portee, this.getPosition().getY() + j - portee);
-				if(porteeVisuelle.estValide() == false)
+				if(!porteeVisuelle.estValide())
     				continue; 
 				if(carte.getElement(porteeVisuelle) instanceof Heros) 
 					listeHeros.add((Heros)carte.getElement(porteeVisuelle));

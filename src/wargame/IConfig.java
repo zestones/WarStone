@@ -25,8 +25,8 @@ public interface IConfig extends java.io.Serializable {
 	Color COULEUR_FOCUS = new Color(145, 145, 145, 95);
 	Color COULEUR_LAVE = Color.yellow;
 	
-	Image grass = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/grass.png");
-	Image range = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/range.jpg");
+	Image herbe = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/grass.png");
+	Image terre = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/range.jpg");
 	Image lave = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/lave.jpg");
 	Image fleche = Toolkit.getDefaultToolkit().getImage("./res/img/pops/arrow.png");	
 	

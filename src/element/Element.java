@@ -19,7 +19,7 @@ public abstract class Element implements IConfig {
 	 *
 	 * @param g
 	 */
-	public abstract void seDessinerMinia(Graphics g);
+	public abstract void seDessinerMiniCarte(Graphics g);
 	
 	/**
 	 * Se dessiner.
