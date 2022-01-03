@@ -1,5 +1,6 @@
 package menu.loadgame;
 
+import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,6 @@ public interface ISauvegarde {
 	int MAX_SAUVEGARDE = 3;
 	
 	/** Panel principal pour la page loadgame */
-	JPanel panelLoadGame = new JPanel();
+	JPanel panelLoadGame = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
 }

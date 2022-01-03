@@ -172,6 +172,7 @@ public class Heros extends Soldat {
 
 	public int getIndexSoldat() { return carte.listeHeros.indexOf(this); }
 	public int getPointsMax() { return this.h.getPoints(); }
+	public String getHistoire() {return this.h.getHistoire();}
 	public void mort(int index) { carte.listeHeros.remove(index); }  
     public String getSprite() { return h.getSprite(); }
 	public Image getImage() {return this.h.getImage(); }

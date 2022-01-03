@@ -154,7 +154,10 @@ public class Obstacle extends Element{
 	 */
 	public Image getImage() { return this.TYPE.getImage(); }
 
-
+	
+	@Override
+	public String getHistoire() {return null;}
+	
 	/**
 	 * Gets the type.
 	 *

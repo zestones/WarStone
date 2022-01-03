@@ -11,7 +11,6 @@ package menu;
 
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -21,7 +20,6 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import fenetrejeu.menubar.MenuBar;
 
@@ -36,7 +34,7 @@ public class MenuJeu implements IMenu {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		frame.setUndecorated(true);
-			
+					
 		initMenuJeu();
 		menuMusic.clip.start();
         musicBoutton.setBouttonImage("unmute");
@@ -44,7 +42,7 @@ public class MenuJeu implements IMenu {
         // On creer notre bar de menu secondaire
 		new MenuBar();
 		new MenuEvent();
-
+		
 		frame.pack();
 		frame.setVisible(true);  
 	}
@@ -53,14 +51,12 @@ public class MenuJeu implements IMenu {
 	// les listeners sont donc genere qu'une seule fois 
 	public static void initMenuJeu() {
 		panelMenu.setPreferredSize(new Dimension(MENU_LARGEUR, MENU_HAUTEUR));
-		panelMenu.setOpaque(false);
+		panelMenu.setOpaque(true);
+		panelMenu.setBackground(COULEUR_BOUTTON_HOVER_MENU);
 			
 		gameMusic.clip.stop();
 		configMusic.clip.stop();
-		
-		JPanel menuContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		menuContainer.setOpaque(false);	
-				
+			
 		BufferedImage backgroundImg = null;
 		try {
 			backgroundImg = ImageIO.read(new File(background));
@@ -72,7 +68,7 @@ public class MenuJeu implements IMenu {
 		Image img = backgroundImg.getScaledInstance(MENU_LARGEUR, MENU_HAUTEUR, Image.SCALE_SMOOTH);
 		
 		backgroundLabel.setIcon(new ImageIcon(img));	
-		menuContainer.add(backgroundLabel);	
+		panelMenu.add(backgroundLabel);	
 		
 		frame.remove(backMenu);
 		
@@ -86,8 +82,6 @@ public class MenuJeu implements IMenu {
         loadGame.setBouttonImage("load game");
         config.setBouttonImage("config");
         quit.setBouttonImage("quit");
-		
-		panelMenu.add(menuContainer);		
 		
 		frame.add(panelMenu);
 	}

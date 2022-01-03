@@ -40,93 +40,78 @@ public interface IConfig extends java.io.Serializable {
 	Image fleche = Toolkit.getDefaultToolkit().getImage("./res/img/pops/arrow.png");	
 	
 	Dimension taille = Toolkit.getDefaultToolkit().getScreenSize();	
-
-	int HAUTEUR_MENUBAR_SECONDAIRE = 20;
-
-	final int FEN_LARGEUR = (int)taille.getWidth();
-	final int FEN_HAUTEUR = (int)taille.getHeight();
-
-	int LARGEUR_CASE_VISIBLE = 15;
-	int HAUTEUR_CASE_VISIBLE = 10;	
 	
-	/** Varibale du footer dans le PanneauJeu */
-	final int FOOTER_HAUTEUR = 35;
-	final int FOOTER_LARGEUR = FEN_LARGEUR;
-
-	// On definit la largeur comme etant 1/4 de l'ecran de jeu
-	int LARGEUR_INFOS_PANEL = FEN_LARGEUR/4;	
-	// Hauteur du menuBar
-	int MENUBAR_HAUTEUR = 65;
+	/** Dimension de la fenetre de jeux */
+	int FEN_LARGEUR = (int)taille.getWidth();
+	int FEN_HAUTEUR = (int)taille.getHeight();
 		
+	/** Dimension de la barre de menu */
+	int HAUTEUR_MENUBAR_SECONDAIRE = 20;
 	int LARGEUR_MENUBAR_SECONDAIRE = FEN_LARGEUR;
 	
-	// Taille d'une case de la carte
-	int NB_PIX_CASE = Math.min((FEN_LARGEUR - LARGEUR_INFOS_PANEL) / LARGEUR_CASE_VISIBLE, (FEN_HAUTEUR - FOOTER_HAUTEUR - MENUBAR_HAUTEUR) / HAUTEUR_CASE_VISIBLE);
+	/** Hauteur du header */
+	int MENUBAR_HAUTEUR = 65;
 	
-	// Constante pour centrer la barre de vie
-	int PADDING_VIE_CASE_LARGEUR = NB_PIX_CASE/8;
+	/** Definition du nombre de case visible sur la carte */
+	int LARGEUR_CASE_VISIBLE = 16;
+	int HAUTEUR_CASE_VISIBLE = 10;	
 	
-	int PADDING_VIE_CASE = PADDING_VIE_CASE_LARGEUR/2;
-		
-	// HAUTEUR et LARGEUR de la carte en NB DE CASE 
-	// definit la taille en dehors de la fenetre si trop de case
+	int FOOTER_HAUTEUR = 35;
+	
+	/** Dimension d'une case de la carte */
+	int NB_PIX_CASE = Math.min(FEN_LARGEUR / LARGEUR_CASE_VISIBLE, (FEN_HAUTEUR - FOOTER_HAUTEUR - MENUBAR_HAUTEUR - HAUTEUR_MENUBAR_SECONDAIRE) / HAUTEUR_CASE_VISIBLE);
+	
+	/** Dimension de la cartz. */
+	int HAUTEUR_CARTE = HAUTEUR_CASE_VISIBLE * NB_PIX_CASE; 
+	int LARGEUR_CARTE = LARGEUR_CASE_VISIBLE * NB_PIX_CASE;	
+	/** Dimension Total de la carte en Nombre de case */
 	int HAUTEUR_CARTE_CASE = (FEN_HAUTEUR / NB_PIX_CASE) + 1;
-	
-	/** largeur carte en nombre de case. */
 	int LARGEUR_CARTE_CASE = (FEN_LARGEUR / NB_PIX_CASE);
-	
-	
-	// Hauteur pour le label NB_SOLDAT_RESTANT
-	int HAUTEUR_NB_SOLDAT_VIVANT = LARGEUR_INFOS_PANEL/6;
-	
-	int PADDING_LARGEUR_MINI_CARTE = LARGEUR_INFOS_PANEL/16;
-	int PADDING_HAUTEUR_MINI_CARTE = PADDING_LARGEUR_MINI_CARTE;
 
-	// Taille d'une case dans la miniCarte
-	int MINI_NB_PIX_CASE = Math.min((LARGEUR_INFOS_PANEL - LARGEUR_INFOS_PANEL/12) / HAUTEUR_CARTE_CASE, (LARGEUR_INFOS_PANEL - LARGEUR_INFOS_PANEL/8) / LARGEUR_CARTE_CASE);
-	
-	/** The largeur mini carte. */
-	// Definit la largeur de la minicarte + TAILLE_BORDURE
-	int LARGEUR_MINI_CARTE = LARGEUR_CARTE_CASE * MINI_NB_PIX_CASE + 6;
-	
-	/** The hauteur mini carte. */
-	// HAUTEUR de la miniCarte + TAILLE_BORDURE
-	int HAUTEUR_MINI_CARTE = HAUTEUR_CARTE_CASE * MINI_NB_PIX_CASE + 6;
+	/** Dimension du panel INFOS */
+	int LARGEUR_INFOS_PANEL = FEN_LARGEUR - LARGEUR_CASE_VISIBLE * NB_PIX_CASE - 2;
+	int HAUTEUR_INFOS_PANEL = HAUTEUR_CARTE + FOOTER_HAUTEUR;
 		
-	/** The hauteur carte. */
-	int HAUTEUR_CARTE = FEN_HAUTEUR - HAUTEUR_MENUBAR_SECONDAIRE - 2 - MENUBAR_HAUTEUR; 
+	/** Dimension d'une case pour la miniCarte */
+	int MINI_NB_PIX_CASE = Math.min((LARGEUR_INFOS_PANEL - LARGEUR_INFOS_PANEL/12) / HAUTEUR_CARTE_CASE, (LARGEUR_INFOS_PANEL - LARGEUR_INFOS_PANEL/8) / LARGEUR_CARTE_CASE);
+		
+	/** Dimension de la miniCarte */
+	int LARGEUR_MINI_CARTE = LARGEUR_CARTE_CASE * MINI_NB_PIX_CASE + 6;
+	int HAUTEUR_MINI_CARTE = HAUTEUR_CARTE_CASE * MINI_NB_PIX_CASE + 6;
 	
-	/** The padding infos panel. */
+	/** Taille du padding autour de la miniCarte */
+	int PADDING_LARGEUR_MINI_CARTE = (LARGEUR_INFOS_PANEL - LARGEUR_MINI_CARTE)/2;
+	int PADDING_HAUTEUR_MINI_CARTE = HAUTEUR_MINI_CARTE/16;
+	
+	/** Hauteur du label decrivant le nombre de soldat restant */
+	int HAUTEUR_NB_SOLDAT_VIVANT = NB_PIX_CASE;
+	
+	/** Hauteur infos panel. */
+	int HAUTEUR_INFOS_ELEMENT_PANEL = HAUTEUR_INFOS_PANEL - HAUTEUR_NB_SOLDAT_VIVANT - HAUTEUR_MINI_CARTE - PADDING_HAUTEUR_MINI_CARTE * 2 - 2;
+	
+	/** Padding infos panel. */
 	int PADDING_INFOS_PANEL = MINI_NB_PIX_CASE;
 
-	/**hauteur infos panel. */
-	int HAUTEUR_INFOS_PANEL = HAUTEUR_CARTE - HAUTEUR_MINI_CARTE - HAUTEUR_NB_SOLDAT_VIVANT - PADDING_INFOS_PANEL * 3 + 2;
-
-	/** The largeur carte. */
-	// HAUTEUR et LARGEUR de la carte
-	int LARGEUR_CARTE = FEN_LARGEUR - LARGEUR_INFOS_PANEL;
-		/** The hauteur icon menu. */
-	// HAUTEUR ET LARGEUR des icon dans le menuSecondaire
-	int HAUTEUR_ICON_MENU = 15;
-	
-	/** The largeur icon menu. */
-	int LARGEUR_ICON_MENU = 15;
-	
-	/** The hauteur icon element. */
-	// HAUTEUR et LARGEUR des icon cliquer sur la cart
-	int HAUTEUR_ICON_ELEMENT = LARGEUR_INFOS_PANEL/3;
-	
-	/** The largeur icon element. */
+	/** Dimension de l'icon affichant l'element clique sur la carte */
+	int HAUTEUR_ICON_ELEMENT = Math.max(66, HAUTEUR_INFOS_ELEMENT_PANEL/4);
 	int LARGEUR_ICON_ELEMENT = HAUTEUR_ICON_ELEMENT;
-	
-	// Dimension du panel infosElementBody
+			/** Dimension du panel affichant les infos de l'element clique */
 	int LARGEUR_ELEMENT_BODY = LARGEUR_INFOS_PANEL - PADDING_INFOS_PANEL * 2;
-	int HAUTEUR_ELEMENT_BODY = HAUTEUR_INFOS_PANEL - HAUTEUR_ICON_ELEMENT - HAUTEUR_NB_SOLDAT_VIVANT - PADDING_INFOS_PANEL*2;
+	int HAUTEUR_ELEMENT_BODY = HAUTEUR_INFOS_ELEMENT_PANEL - HAUTEUR_ICON_ELEMENT - PADDING_INFOS_PANEL * 3;
 	
+	/** Largeur du footer */
+	int FOOTER_LARGEUR = FEN_LARGEUR - LARGEUR_INFOS_PANEL;
+		
+	/** Dimension des icons dans lea barre de menu */
+	int HAUTEUR_ICON_MENU = 15;
+	int LARGEUR_ICON_MENU = 15;
+
+	// Constante pour centrer la barre de vie
+	int PADDING_VIE_CASE_LARGEUR = NB_PIX_CASE/8;
+	int PADDING_VIE_CASE = PADDING_VIE_CASE_LARGEUR/2;
 		
 	// Definir le NB ELEMENT sur la carte
 	int NB_HEROS = 5; 
 	int NB_MONSTRES = 5; 
 	int NB_OBSTACLES = NB_HEROS * 2;
-	
 }

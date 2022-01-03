@@ -11,6 +11,7 @@ package menu;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
@@ -21,24 +22,27 @@ import utile.Boutton;
 
 public interface IMenu {
 	
-	// Parametre dessin de la fenetre
+	/** Fenetre du jeu */
 	JFrame frame = new JFrame("WarStone");	
-
+	
+	/** Music */
 	SoundLauncher menuMusic = new SoundLauncher("menu_music.wav");
 	SoundLauncher gameMusic = new SoundLauncher("game_music.wav");
 	SoundLauncher configMusic = new SoundLauncher("config_music.wav");
-
-	JPanel panelMenu = new JPanel();
 	
+	/** panel principal du menu */
+	JPanel panelMenu = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+	/** recuperation de la taille de l'ecran */
 	Dimension taille = Toolkit.getDefaultToolkit().getScreenSize();	
 	
-	final int MENU_LARGEUR = (int)taille.getWidth();
-	final int MENU_HAUTEUR = (int)taille.getHeight();
-		
-	// Dimension des boutton du menu
+	/** Dimension de la fenetre du menu */
+	int MENU_LARGEUR = (int)taille.getWidth();
+	int MENU_HAUTEUR = (int)taille.getHeight();
+	
+	/** Largeur des boutton */
 	int LARGEUR_BOUTTON = MENU_LARGEUR/4;
 	
-	// Position des bouttons
+	/**  Position des boutton */
 	int BOUTTON_POSITION_X = MENU_LARGEUR / 2 - LARGEUR_BOUTTON/2;
 	
 	// On recupere la hauteur libre pour placer 4 boutton dans la moitier de l'ecran

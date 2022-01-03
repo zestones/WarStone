@@ -64,4 +64,11 @@ public abstract class Element implements IConfig {
 	 * @return the type
 	 */
 	public abstract String getType();
+	
+	/**
+	 * Gets the histoire.
+	 *
+	 * @return the histoire
+	 */
+	public abstract String getHistoire();
 }

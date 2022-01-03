@@ -84,7 +84,8 @@ public class Monstre extends Soldat {
   public String toString() { 
 	  return this.getPosition().toString() + " " + this.m.name() + " " + this.nom + " (" + this.m.getPoints() + "PV /" + this.getPoints() + ")";
   } 
-    
+  
+  public String getHistoire() {return this.m.getHistoire();}
   public String getSprite() { return this.m.getSprite(); }     
   public Image getImage() { return this.m.getImage(); }
   public String getType() { return this.m.name(); }

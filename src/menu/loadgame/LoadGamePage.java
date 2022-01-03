@@ -1,7 +1,6 @@
 package menu.loadgame;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -22,8 +21,6 @@ public class LoadGamePage extends JPanel implements ISauvegarde, IMenu {
 	public LoadGamePage() {
 		panelLoadGame.setPreferredSize(new Dimension(MENU_LARGEUR, MENU_HAUTEUR));
 		
-		JPanel saveContainer = new JPanel(new FlowLayout());
-		saveContainer.setOpaque(false);	
 				
 		BufferedImage backgroundImg = null;
 		try {
@@ -36,7 +33,7 @@ public class LoadGamePage extends JPanel implements ISauvegarde, IMenu {
 		Image img = backgroundImg.getScaledInstance(MENU_LARGEUR, MENU_HAUTEUR, Image.SCALE_SMOOTH);
 		
 		backgroundLabel.setIcon(new ImageIcon(img));	
-		saveContainer.add(backgroundLabel);		
+		panelLoadGame.add(backgroundLabel);		
 		
 		initListeSauvegarde();
 		listeBoutton.clear();
@@ -67,7 +64,6 @@ public class LoadGamePage extends JPanel implements ISauvegarde, IMenu {
 		
 		new SauvegardeEvent();
 		
-		panelLoadGame.add(saveContainer);		
 		frame.add(panelLoadGame);
 	}
 	public static void initListeSauvegarde() {

@@ -32,11 +32,11 @@ public interface ISoldat extends ISprite{
 	
 	/**  Nain miniature. */
 	Image NainMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/miniature/Nain.png");
-	
+
 	Image SorcierMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/miniature/Sorcier.png");
+
 	
 	/**  Gobelin miniature. */
-	// Miniature des Monstres
 	Image GobelinMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/miniature/Gobelin.png");
 	
 	/**  Orc miniature. */
@@ -44,22 +44,64 @@ public interface ISoldat extends ISprite{
 	
 	/**  Troll miniature. */
 	Image TrollMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/miniature/Troll.png");
+		
+	/** histoire Nain*/
+	String histoireNain = "Puisqu'ils vivent essentiellement sous terre, les Nains sont peu férus d'agriculture \r\n"
+			+ "et d'élevage, préférant commercer avec les autres races pour obtenir ces biens. \r\n"
+			+ "Ils sont dits être des amis loyaux, mais des adversaires rancuniers \r\n"
+			+ "et tenaces, qui n'oublient jamais ni une insulte, ni une bonne action.";
+	
+	/** The histoire humain. */
+	String histoireHumain = "Des creatures intelligentes et mallines \r\n"
+			+"leur point fort est ce qu'on appelle le cerveau \r\n"
+			+"et c'est avec ca qu'ils ont pu conquerir le monde\r\n"
+			+"ils sont capables d'utiliser des differentes armes et techniques de magie";
+	
+	/** The histoire elf. */
+	String histoireElf = "Créature légendaire anthropomorphe \r\n"
+			+ "vivant le plus souvent dans des forêts \r\n"
+			+ "considérés comme immortels et dotés de pouvoirs magiques";
+	
+	/** The histoire hobbit. */
+	String histoireHobbit = "Créatures apparentées aux Hommes caractérisées par leur petite taille \r\n"
+			+"leur pieds à l'abondante pilosité, leurs oreilles légèrement pointues et leur visage rubicond\r\n"
+			+"vivant Au cœur de l'Eriador";
+	
+	/** The histoire goblin. */
+	String histoireGoblin = "Créature légendaire, anthropomorphe et de petite taille,\r\n"
+			+"issue du folklore médiéval européen.Ils vivent généralement en groupe dans les cavernes.\r\n"
+			+"On les trouve en grand nombre dans la Moria.";
+	
+	/** The histoire troll. */
+	String histoireTroll = "Un être de la mythologie nordique, \r\n"
+			+ "incarnant les forces naturelles ou la magie, \r\n"
+			+ "caractérisé principalement par son opposition aux hommes\r\n"
+			+ "Ils vivent dans le dangereux Pays des Trolls, \r\n"
+			+ "un lieu peuplé de nombreuses créatures tout aussi dangereuses,";
+	
+	/** The histoire orc. */
+	String histoireOrc = "Les Orks vivent en symbiose avec des champignons et algues qui leur donnent leur couleur verte, \r\n"
+			+ "et leur incroyable résistance et potentiel de régénération. \r\n"
+			+ "Leur culture est semblable : les plus forts dirigent, et deviennent plus grands et plus forts \r\n"
+			+ "grâce à l’énergie psychique des Orks sous leur commandement.";
+	
 	
 	/**
-	 *  Enum TypesH.
+	 * The Enum TypesH.
 	 */
 	static enum TypesH { 
 		
 		/**  humain. */
-		HUMAIN (40, 2, 10, 2, humain, HumainMiniature), 
-		/**  nain. */
-		NAIN (80, 1, 20, 0, nain, NainMiniature), 
-		/**  elf. */
-		ELF (70, 4, 10, 6, elf, ElfMiniature), 
-		/**  hobbit. */
-		HOBBIT (20, 3, 5, 2, hobbit, HobbitMiniature),
 		
-		SORCIER (30, 3, 1, 10, sorcier, SorcierMiniature);
+		HUMAIN (40, 2, 10, 2, humain, HumainMiniature, histoireHumain), 
+		/**  nain. */
+		NAIN (80, 1, 20, 0, nain, NainMiniature, histoireNain), 
+		/**  elf. */
+		ELF (70, 5, 10, 6, elf, ElfMiniature, histoireElf), 
+		/**  hobbit. */
+		HOBBIT (20, 3, 5, 2, hobbit, HobbitMiniature, histoireHobbit),
+		
+		SORCIER (30, 3, 1, 10, sorcier, SorcierMiniature, "");
       
 		/**  tir. */
 		private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR;
@@ -69,6 +111,10 @@ public interface ISoldat extends ISprite{
       
 		/**  image. */
 		private final Image IMAGE;
+		
+		/**  histoire. */
+		private final String HISTOIRE;
+
       
 		/**
 		 * Instantiates a new types H.
@@ -79,12 +125,14 @@ public interface ISoldat extends ISprite{
 		 * @param tir  tir
 		 * @param spritePath  sprite path
 		 * @param imgMiniature  img miniature
+		 * @param histoire the histoire
 		 */
-		TypesH(int points, int portee, int puissance, int tir, String spritePath, Image imgMiniature) {
+		TypesH(int points, int portee, int puissance, int tir, String spritePath, Image imgMiniature, String histoire) {
 			POINTS_DE_VIE = points; PORTEE_VISUELLE = portee;
 			PUISSANCE = puissance; TIR = tir;
 			SPRITE = spritePath;
 			IMAGE = imgMiniature;
+			HISTOIRE = histoire;
 		}
       
       /**
@@ -129,6 +177,13 @@ public interface ISoldat extends ISprite{
        */
       public Image getImage() { return IMAGE; } 
       
+      
+      /**
+       * Gets the histoire.
+       *
+       * @return the histoire
+       */
+      public String getHistoire() { return HISTOIRE; } 
       /**
        * Gets  type H alea.
        *
@@ -145,11 +200,11 @@ public interface ISoldat extends ISprite{
    public static enum TypesM {
       
 	   /**  troll. */
-	   TROLL (100,1,30,0, troll, TrollMiniature), 
+	   TROLL (100,1,30,0, troll, TrollMiniature, histoireTroll), 
 	   /**  orc. */
-	   ORC (40,2,10,3, orc, OrcMiniature), 
+	   ORC (40,2,10,3, orc, OrcMiniature, histoireOrc), 
 	   /**  gobelin. */
-	   GOBELIN (20,2,5,2, gobelin, GobelinMiniature);
+	   GOBELIN (20,2,5,2, gobelin, GobelinMiniature, histoireGoblin);
       
 	   /**  tir. */
 	   private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR;
@@ -160,6 +215,9 @@ public interface ISoldat extends ISprite{
 	   /**  image. */
 	   private final Image IMAGE;
       
+	   /**  histoire. */
+	   private final String HISTOIRE;
+      
       /**
        * Instantiates a new types M.
        *
@@ -169,12 +227,14 @@ public interface ISoldat extends ISprite{
        * @param tir  tir
        * @param spritePath  sprite path
        * @param imgMiniature  img miniature
+       * @param histoire the histoire
        */
-	   TypesM(int points, int portee, int puissance, int tir, String spritePath, Image imgMiniature) {
+	   TypesM(int points, int portee, int puissance, int tir, String spritePath, Image imgMiniature,String histoire) {
 		   POINTS_DE_VIE = points; PORTEE_VISUELLE = portee;
 		   PUISSANCE = puissance; TIR = tir;
 		   SPRITE = spritePath;
 		   IMAGE = imgMiniature;
+		   HISTOIRE = histoire;
       }
       
       /**
@@ -219,6 +279,12 @@ public interface ISoldat extends ISprite{
        */
       public Image getImage() { return IMAGE; } 
       
+      /**
+       * Gets  histoire.
+       *
+       * @return  String
+       */
+      public String getHistoire() { return HISTOIRE; } 
       /**
        * Gets  type M alea.
        *

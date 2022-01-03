@@ -44,31 +44,35 @@ public class FenetreJeu extends JPanel implements IFenetre{
 	 */
 	public FenetreJeu(Carte c, boolean conf) {
 		
+		/** Si le joueur lance une partie en mode config on nettoie la carte */
 		if(conf) {
+			/** On vide la carte */
 			c.setCarteVide();	
+			/**Nettoie les listes de soldat */
 			c.listeHeros.clear();
 			c.listeMonstres.clear();
+			/** Supprime toute les actions des listes */
 			c.removeAllAction();
 		}
-	
+		
+		/** On change le mode de jeux en fonction du choix du joueur */
 		Carte.modeConf = conf;
 		
-		panelPrincipal.setPreferredSize(new Dimension(FEN_LARGEUR, FEN_HAUTEUR - HAUTEUR_MENUBAR_SECONDAIRE - 2));
+		/** On initialise le panel principal */
+		panelPrincipal.setPreferredSize(new Dimension(FEN_LARGEUR, FEN_HAUTEUR));
 		panelPrincipal.setLayout(new BorderLayout());
 		panelPrincipal.setOpaque(false);	   	
 		
-		/* on retire l'espace cree par le flowLayout */
 		header.setLayout(new BorderLayout());
 		header.setOpaque(false);	    	
-		header.setPreferredSize(new Dimension(MENUBAR_LARGEUR, MENUBAR_HAUTEUR));
-		
+	
 		panel.setLayout(new BorderLayout());
 		panel.setOpaque(false);	    
 		
-		// On charge la liste des sauvegardes 
+		/** On charge la liste des sauvegardes */
 		LoadGamePage.initListeSauvegarde();
 						
-		// Creation d'un panel qui contient les infos du jeux
+		/** Creation d'un panel qui contient les infos du jeux */
 		JPanel infosPanel = new JPanel(new FlowLayout());
 		
 		/* on retire l'espace cree par le flowLayout entre la miniCarte et infosPanel 
@@ -77,24 +81,24 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		FlowLayout layout = (FlowLayout)infosPanel.getLayout();
 		layout.setVgap(0);
 		
+		/** infosPanel est le panel contenant les infos sur la partie en cours (miniCarte, nb Soldat Vivant...) */
 		infosPanel.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, HAUTEUR_INFOS_PANEL));
 		infosPanel.setBackground(COULEUR_INFOS_PANEL);
 
 		infosPanel.setOpaque(true);	    	
 		infosPanel.setBorder(new MatteBorder(0, 2, 2, 2, COULEUR_BORDURE));
 		
-		// On cree un conteneur avec FlowLayout pour pouvoir centrer la miniCarte
+		/** On cree un conteneur avec FlowLayout pour pouvoir centrer la miniCarte */
 		JPanel miniCartePanel = new JPanel(new FlowLayout(FlowLayout.LEADING, PADDING_LARGEUR_MINI_CARTE, PADDING_HAUTEUR_MINI_CARTE));
 
-		// On definie les dimensions et la couleurs du background
+		/** On definie les dimensions et la couleurs du background */
 		miniCartePanel.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, HAUTEUR_MINI_CARTE + PADDING_HAUTEUR_MINI_CARTE * 2));
 		miniCartePanel.setBackground(COULEUR_EAU);
 		miniCartePanel.setBorder(new MatteBorder(0, 2, 0, 2, COULEUR_BORDURE));
 
-		// On centre le panel qui contient la carte dans le conteneur creer juste avant
+		/** On centre le panel qui contient la carte dans le conteneur creer juste avant */
 		carteMiniature.setLayout(new BorderLayout());
-		
-		// On definie les dimensions
+		/** On definie les dimensions */
 		carteMiniature.setPreferredSize(new Dimension(LARGEUR_MINI_CARTE, HAUTEUR_MINI_CARTE));
 		
 		// On ajoute la carte au panel
@@ -103,45 +107,39 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		// On Met des bordure autour de la carte
 		carteMiniature.setBorder(new MatteBorder(5, 5, 5, 5, COULEUR_MENUBAR));
 		
-		// On rajoute ce panel au conteneur miniCartePanel
+		/** On rajoute ce panel au conteneur miniCartePanel */
 		miniCartePanel.add(carteMiniature);
 		
-		// On ajoute enfin on conteneur principal
+		/** On ajoute enfin on conteneur principal */
 		infosPanel.add(miniCartePanel);
 			 
-		// On affiche le nombre de soldant restant sur la carte
+		/** On affiche le nombre de soldant restant sur la carte */
 		JPanel infosSoldatPanel = new JPanel(new FlowLayout());
 		
-		// On retire l'espace creer par le flow Layout pour que la bordure prenne bien toute la Hauteur du panel
+		/** On retire l'espace creer par le flow Layout pour que la bordure prenne bien toute la Hauteur du panel */
 		FlowLayout infosSoldatLayout = (FlowLayout)infosSoldatPanel.getLayout();
 		infosSoldatLayout.setVgap(0);
 	
 		infosSoldatPanel.setBackground(COULEUR_FORET);
 		
-		// Alignement du text		
+		/** Alignement du text */		
 		soldatRestant.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		// On centre le label avec BorderLayou.CENTER
+		/** On centre le label avec BorderLayou.CENTER */
 		soldatRestant.setLayout(new BorderLayout());
 	
-		// On definit la couleur et la taille
+		/** On definit la couleur et la taille */
 		soldatRestant.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, HAUTEUR_NB_SOLDAT_VIVANT));
 		
-		// Couleur du text et Police
+		/** Couleur du text et Police */
 		soldatRestant.setForeground(COULEUR_GRILLE);
 		soldatRestant.setFont(new Font("Pushster", Font.BOLD, 15));
-		
-		// On rajoute une La bordure gauche et droite
 		soldatRestant.setBorder(new MatteBorder(2, 2, 0, 2, COULEUR_BORDURE));
-		
-		// On ajoute le label au panel
 		infosSoldatPanel.add(soldatRestant);
 		
-		// On aoute le conteneur dans la panel principal 
 		infosPanel.add(infosSoldatPanel);
 		
-		// Couleur et taille du panel Principal contenant les infos sur les elements
-		infosElementPanel.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, HAUTEUR_INFOS_PANEL));
+		infosElementPanel.setPreferredSize(new Dimension(LARGEUR_INFOS_PANEL, HAUTEUR_INFOS_ELEMENT_PANEL));
 		infosElementPanel.setBackground(COULEUR_HEROS);		
 		
 		// Couleur et taille du header dans ce panel
@@ -173,18 +171,21 @@ public class FenetreJeu extends JPanel implements IFenetre{
 	
 		infosElementBody.setOpaque(true);
 		infosElementBody.setLayout(new GridLayout(1, 0));
-		infosElementBody.setPreferredSize(new Dimension(LARGEUR_ELEMENT_BODY, NB_PIX_CASE));
 		infosElementBody.setBackground(COULEUR_EAU);
 		
 		// En mode config on affiche les elements deposable
 		if(Carte.modeConf) {
+			infosElementBody.setPreferredSize(new Dimension(LARGEUR_ELEMENT_BODY, NB_PIX_CASE));
 			InfosElement.dessineInfosElementBody();
 		}
-				
+		/** Sinon on affiche le panel avec le detail des elements clique */
+		else
+			infosElementBody.setPreferredSize(new Dimension(LARGEUR_ELEMENT_BODY, HAUTEUR_ELEMENT_BODY));
+		
 		infosElementPanel.add(infosElementBody, BorderLayout.SOUTH);
 		infosPanel.add(infosElementPanel);
 		
-		// On cree notre panneau 
+		/** le panneau existe deja on le modifie */
 		if(conf)
 			panneau.setPanneauJeuConf(c);
 		else
@@ -208,7 +209,7 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		new MenuBarHeader();
 		new MenuBar();
 		
-		frame.add(panelPrincipal);		
+		frame.add(panelPrincipal);	
 	}
 	
 	public FenetreJeu(Carte c){	

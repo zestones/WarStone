@@ -11,6 +11,7 @@ package infosgame;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -88,8 +89,11 @@ public abstract class InfosElement implements IFenetre {
 	private static void dessineInfosSupElements(Element e) {
 		JLabel infosLabel = new JLabel();
 		
-		String infos = "<html><font size=\"+1\">  " + e.getType() + "</font><FONT COLOR=RED><br><font size=\"-1\">  POS: " + e.getPosition()+"</font></FONT>";
+		String infos = "<html><font COLOR=RED text-shadow: 3px 2px #000 size=\"+4\" > <center> " + e.getType() + "</center></font><br><font size=\"+1\"><center>" +e.getHistoire() + "</center></font>";
+		
 		infosLabel.setText(infos);
+		infosLabel.setFont(new Font("Pushster", Font.BOLD, 15));
+		infosLabel.setBorder(new MatteBorder(0, 0, 0, 2, COULEUR_BORDURE));
 		infosElementBody.add(infosLabel);
 		infosElementBody.repaint();
 	}

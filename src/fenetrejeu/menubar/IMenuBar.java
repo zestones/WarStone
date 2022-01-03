@@ -28,6 +28,6 @@ public interface IMenuBar extends IConfig {
 
 	/** Variable du menuBar dans le PanneauJeu */
 	final int MENUBAR_LARGEUR = LARGEUR_CARTE;
-	final int BOUTTON_HAUTEUR = MENUBAR_HAUTEUR/2;
-	final int BOUTTON_LARGEUR = MENUBAR_LARGEUR/6;
+	int BOUTTON_HAUTEUR = MENUBAR_HAUTEUR/2;
+	int BOUTTON_LARGEUR = MENUBAR_LARGEUR/6;
 }
