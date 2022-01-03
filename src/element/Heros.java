@@ -18,10 +18,7 @@ public class Heros extends Soldat {
 	
     /** bonus repos. */
     private int BONUS_REPOS;
-    
-    /** nom. */
-    String nom;
-	
+    	
 	/** le type. */
 	private TypesH h;
 	
@@ -33,10 +30,9 @@ public class Heros extends Soldat {
      * @param nom 
      * @param pos 
      */
-    public Heros(Carte carte, TypesH h, String nom, Position pos){
+    public Heros(Carte carte, TypesH h, Position pos){
     	super(carte, h.getPoints(), h.getPortee(), h.getPuissance(), h.getTir(), pos);
         this.h = h;
-    	this.nom = nom;
         carte.setElement(this);
        
         this.BONUS_REPOS = this.getPointsMax() / 10;
@@ -302,6 +298,6 @@ public class Heros extends Soldat {
 	 * @return string
 	 */
 	public String toString() {
-		return this.getPosition().toString() + " " + this.h.name() + " " + this.nom + " (" + this.h.getPoints() + "PV /" + this.getPoints() + ")";
+		return this.getPosition().toString() + " " + this.h.name() + " (" + this.h.getPoints() + "PV /" + this.getPoints() + ")";
 	}
 }

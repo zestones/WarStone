@@ -1,7 +1,7 @@
 /********************************************************************
  * 							WarStone								*
  *  -------------------------------------------------------------	*
- * |	 Université Jean-Monnet   		 L3-Infos 		   2021	 |	*
+ * |	 Universitï¿½ Jean-Monnet   		 L3-Infos 		   2021	 |	*
  *  -------------------------------------------------------------	*
  * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
  * 																	*
@@ -73,10 +73,7 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 		// Boutton restart recharge une carte cree aleatoirement
 		restart.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  	
-				if(Carte.modeConf)
-					pj.c = new Carte(5);
-				else 
-					pj.c = new Carte();
+				pj.c = new Carte();
 				pj.majMiniCarte();
 				
 				pj.flecheDirectionnelle = new Fleche(pj.cam);
@@ -106,7 +103,7 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
     			if(!Carte.modeConf)
     				new Sauvegarde(pj.c);
     			else {
-    				pj.c.peupleCarte();
+    				pj.c.genereSoldats();
     				new Sauvegarde(pj.c);
     				menu.doClick();
     			}
@@ -115,7 +112,7 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 		
 		play.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e){    	
-    				pj.c.peupleCarte();
+    				pj.c.genereSoldats();
     				// On suprime tout le contenu
     				panelPrincipal.removeAll();
     				panelPrincipal.revalidate();

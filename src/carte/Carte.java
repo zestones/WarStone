@@ -1,7 +1,7 @@
 /********************************************************************
  * 							WarStone							*
  *  -------------------------------------------------------------	*
- * |	 Université Jean-Monnet    L3-Infos 		    2022	 |	*
+ * |	 Universitï¿½ Jean-Monnet    L3-Infos 		    2022	 |	*
  *  -------------------------------------------------------------	*
  * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
  * 																	*
@@ -54,6 +54,7 @@ public class Carte implements IConfig, ICarte {
 	/**  Boolean indiquant le mode de jeu. */
 	public static boolean modeConf = false;
 	
+
 	/**
 	 * Instancie une nouvelle Carte.
 	 */
@@ -61,7 +62,6 @@ public class Carte implements IConfig, ICarte {
 		// Initialisation des listes
 		this.plateau = new Element[LARGEUR_CARTE_CASE][HAUTEUR_CARTE_CASE];
 		
-		
 		// les listes d'action 
 		this.listeActionAttaque = new ArrayList<>();
 		this.listeActionDeplacement = new ArrayList<>();
@@ -72,61 +72,34 @@ public class Carte implements IConfig, ICarte {
 		this.listeMonstres = new ArrayList<>();
 			
 		this.setCarteVide();
-			
-		// On position un soldat dans le focus de la camera
-		this.listeHeros.add(new Heros(this, Soldat.TypesH.getTypeHAlea(), "H", new Position(LARGEUR_CARTE_CASE/2, HAUTEUR_CARTE_CASE/2)));
 		
-		// Creation des Elements !!! Modifier les noms !!!
-		int inc = Math.max(NB_MONSTRES, Math.max(NB_OBSTACLES, NB_HEROS));
-		while (inc > 0) {
-			if (inc <= NB_MONSTRES)
-				this.listeMonstres.add(new Monstre(this, Soldat.TypesM.getTypeMAlea(), "" + inc, this.trouvePositionVide()));
-			if (inc < NB_HEROS)
-				this.listeHeros.add(new Heros(this, Soldat.TypesH.getTypeHAlea(), "H", this.trouvePositionVide()));
-			if (inc <= NB_OBSTACLES)
-				new Obstacle(this, Obstacle.TypeObstacle.getObstacleAlea(), this.trouvePositionVide());
-			inc--;
+		// Creation des Elements
+        if(!Carte.modeConf) {
+            this.genereSoldats();
+            this.genereObstacles();
+        }
+	}
+
+    private void genereObstacles() {
+        for (int i = 0; i < NB_OBSTACLES; i++) {
+            new Obstacle(this, Obstacle.TypeObstacle.getObstacleAlea(), this.trouvePositionVide());
 		}
-	}
-	
-	/**
-	 *  Instancie une nouvelle carte en mode config.
-	 *
-	 * @param obstacle 
-	 */
-	public Carte(int obstacle) {
-		this.plateau = new Element[LARGEUR_CARTE_CASE][HAUTEUR_CARTE_CASE];
-		// les listes d'action 
-		this.listeActionAttaque = new ArrayList<>();
-		this.listeActionDeplacement = new ArrayList<>();
-		this.listeActionMort = new ArrayList<>();
-				
-		// liste de monstre et heros presenet sur la carte 
-		this.listeHeros = new ArrayList<>();
-		this.listeMonstres = new ArrayList<>();
-				
-		this.setCarteVide();
-	}
+    }
+
+    public void genereSoldats() {
+        int nbMaxSoldats = Math.max(NB_MONSTRES, NB_HEROS);
 		
-	/**
-	 * Peuple carte.
-	 * 
-	 * Methode appeler lors de la config du plateau 
-	 * Une fois les obstacles depose sur la carte on remplie la carte avec les heros et les monstres 
-	 * 
-	 */
-	public void peupleCarte() {
-		
-		int inc = Math.max(NB_MONSTRES, NB_HEROS);
-		
-		while (inc > 0) {
-			if(inc <= NB_MONSTRES)
-				this.listeMonstres.add(new Monstre(this, Soldat.TypesM.getTypeMAlea(), "" + inc, this.trouvePositionVide()));
-			if(inc <= NB_HEROS)
-				this.listeHeros.add(new Heros(this, Soldat.TypesH.getTypeHAlea(), "H", this.trouvePositionVide()));
-			inc--;
-		}	
-	}
+		for (int i = 0; i < nbMaxSoldats; i++) {
+			if(i < NB_MONSTRES) {
+				Monstre m = new Monstre(this, Soldat.TypesM.getTypeMAlea(), this.trouvePositionVide());
+				this.listeMonstres.add(m);
+			}
+			if(i < NB_HEROS) {
+				Heros h = new Heros(this, Soldat.TypesH.getTypeHAlea(), this.trouvePositionVide());
+				this.listeHeros.add(h);
+			}
+		}
+    }
 	
 	/**
 	 * Sets the carte vide.
@@ -215,7 +188,7 @@ public class Carte implements IConfig, ICarte {
 				// 2- se rapprocher 
 				else {
 					if(m.getPoints() > h.getPoints() && m.getPuissance() > h.getPuissance()) {
-						raprocheMonstre(h, m);
+						rapprocheMonstre(h, m);
 					}
 					// Si la vie du monstre atteint un seuil critique il fuit
 					else if(m.getPoints() < m.getPointsMax()/10) {
@@ -240,20 +213,20 @@ public class Carte implements IConfig, ICarte {
 	 * @param m 
 	 * @return true, if successful
 	 */
-	private boolean raprocheMonstre(Heros h, Monstre m) {
+	private void rapprocheMonstre(Heros h, Monstre m) {
 		List<Position> positionVoisine = this.positionAdjacente(m.getPosition());
 		Position pos = null;
-		int distance = Integer.MAX_VALUE;
+        int distance = Math.max(LARGEUR_CARTE_CASE, HAUTEUR_CARTE_CASE);
 		
 		for(Position posVoisine : positionVoisine) {
-			if(distance > posVoisine.distance(h.getPosition())) {
+            int distanceHeroPosVoisine = (int) posVoisine.distance(h.getPosition());
+			if(distance > distanceHeroPosVoisine) {
 				pos = posVoisine;
-				distance = (int) posVoisine.distance(h.getPosition());
+				distance = distanceHeroPosVoisine;
 			}
 		}
 		
-		if(pos == null) return false;
-		return this.deplaceSoldat(pos, m);
+		if(pos != null) this.deplaceSoldat(pos, m);
 	}
 	
 	/**
@@ -264,7 +237,7 @@ public class Carte implements IConfig, ICarte {
 	 * @param m
 	 * @return true, if successful
 	 */
-	private boolean fuiteMonstre(Heros h, Monstre m) {
+	private void fuiteMonstre(Heros h, Monstre m) {
 		List<Position> positionVoisine = this.positionAdjacente(m.getPosition());
 		Position posFuite = null;
 		int distance = 0;
@@ -278,10 +251,7 @@ public class Carte implements IConfig, ICarte {
 		
 		// Si on a trouver aucune position on a pas le choix
 		// Le monstre doit attaquer le heros
-		if(posFuite == null) return false;
-		
-		// sinon on prend la fuite
-		return deplaceSoldat(posFuite, m);
+		if(posFuite != null) this.deplaceSoldat(posFuite, m);
 	}
 	
 	/**
@@ -292,19 +262,16 @@ public class Carte implements IConfig, ICarte {
 	 * @param pos2 
 	 * @return boolean
 	 */
-	public boolean actionMonstre(PanneauJeu pj, Position pos, Position pos2) {
+	public void actionMonstre(PanneauJeu pj, Position pos, Position pos2) {
 		Monstre m = (Monstre) this.getElement(pos);
 		// On verifie que le Monstre n'a pas deja jouer et que la position d'attaque (pos2) n'est pas un autre Monstre
-		if (m == null || this.getElement(pos2) instanceof Monstre || m.aJoue) 
-			return false;
+		if (m == null || !(this.getElement(pos2) instanceof Heros) || m.aJoue)
+            return;
+
 		// Si un Heros est present en pos2 alors on fait combatre notre monstre
-		if (this.getElement(pos2) instanceof Heros) {
-			Heros h = (Heros)this.getElement(pos2);
-			m.combat = h.combat = true;
-			this.listeActionAttaque.addAll(Arrays.asList(m, h, h, m));
-			
-		}
-		return true;
+        Heros h = (Heros) this.getElement(pos2);
+        m.combat = h.combat = true;
+        this.listeActionAttaque.addAll(Arrays.asList(m, h, h, m));
 	}
 
 	/**
@@ -314,15 +281,14 @@ public class Carte implements IConfig, ICarte {
 	 */
 	private void joueTourHeros(PanneauJeu pj) {
 		// On verifie qu'un Heros a ete selectionne et qu'un deuxieme clic a ete enregistre
-		if (pj.herosSelectione == null || pj.lastClic == null)
-			return;
+		if (pj.herosSelectione == null || pj.dernierClique == null)
+            return;
 		
-		int index;
 		// Si la position du heros selectionne et la position du dernier clic sont differente alors on effectue une action
-		if (!(pj.herosSelectione.getPosition().estIdentique(pj.lastClic))) {
+		if (!(pj.herosSelectione.getPosition().estIdentique(pj.dernierClique))) {
 			// On recupere l'index du Heros pour le mettre a jour la listeHeros
-			index = this.listeHeros.indexOf(pj.herosSelectione);
-			if ((this.actionHeros(pj, pj.herosSelectione.getPosition(), pj.lastClic))) {
+			int index = this.listeHeros.indexOf(pj.herosSelectione);
+			if ((this.actionHeros(pj, pj.herosSelectione.getPosition(), pj.dernierClique))) {
 				// Met a jour le heros dans la liste et on "oublie" le heros selectione
 				this.listeHeros.set(index, pj.herosSelectione);
 		    	pj.herosSelectione.aJoue = true;
@@ -343,7 +309,7 @@ public class Carte implements IConfig, ICarte {
 		Heros h = (Heros) this.plateau[pos.getX()][pos.getY()];
 		
 		// Si l'element a attaquer est un heros ou que le heros selectionner a deja jouer alors on ne fait rien
-		if (h == null || this.getElement(pos2) instanceof Heros || h.aJoue) // Ajout : pos.estVoisine(pos2) ==
+		if (h == null || this.getElement(pos2) instanceof Heros || h.aJoue)
 			return false;
 		
 		// Si l'element a la position pos2 est un Monstre et que ce monstre est a la porte du Heros alors il attaque

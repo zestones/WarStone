@@ -1,7 +1,7 @@
 /********************************************************************
  * 							WarStone								*
  *  -------------------------------------------------------------	*
- * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
+ * |	 Universitï¿½ Jean-Monnet    L3-Infos 		    2021	 |	*
  *  -------------------------------------------------------------	*
  * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
  * 																	*
@@ -37,7 +37,7 @@ import wargame.evenement.ButtonEvent;
 public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	private static final long serialVersionUID = 1L;
 
-	public Position clic, lastClic, clicDragged;
+	public Position clic, dernierClique, clicDragged;
 	private Position draggedCam, releasedClic;
 	public int nombreHeros, nombreMonstre;
 	public Fleche flecheDirectionnelle;
@@ -126,7 +126,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 			public void mousePressed(MouseEvent e) {
 				if (SwingUtilities.isLeftMouseButton(e)) {
 					clic = new Position(e.getX() / NB_PIX_CASE + cam.getDx(), e.getY() / NB_PIX_CASE + cam.getDy());
-					lastClic = new Position(e.getX() / NB_PIX_CASE + cam.getDx(), e.getY() / NB_PIX_CASE + cam.getDy());
+					dernierClique = new Position(e.getX() / NB_PIX_CASE + cam.getDx(), e.getY() / NB_PIX_CASE + cam.getDy());
 					deposeObstacle = new Position(e.getX() / NB_PIX_CASE + cam.getDx(), e.getY() / NB_PIX_CASE + cam.getDy());
 					
 					if(!c.estCaseVide(clic)) dessineFleche = false;
@@ -140,7 +140,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 					// Si on a Selectionnee un heros et que l'on a effectuer un clic autre part alors on appelle jouerSoldat
 					if(elem instanceof Heros && estFiniAction) {
 						herosSelectione = (Heros)elem;
-						if(lastClic != null)
+						if(dernierClique != null)
 							c.jouerSoldats(pj, pj.buttonEvent.tour);
 					}
 				}
@@ -158,9 +158,9 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 					releasedClic = new Position((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());
 					
 					// On recupere les clic lorsque la souris est egalement relache
-					lastClic = new Position((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());
+					dernierClique = new Position((int)e.getX() / NB_PIX_CASE + cam.getDx(), (int)e.getY() / NB_PIX_CASE + cam.getDy());
 					// Si On a un heros de selectionner et que clic actuellement sur autre chose alors on appelle jouerSoldat
-					if(lastClic != null && herosSelectione != null && estFiniAction)
+					if(dernierClique != null && herosSelectione != null && estFiniAction)
 						c.jouerSoldats(pj, pj.buttonEvent.tour);
 					
 					/** 
@@ -168,15 +168,15 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 					 *	Si le clic est relacher dans la case du heros alors on "memorise" le heros selectionner
 					 *	Sinon si le clic est relacher sur un enemis ou sur case de deplacement alors laction est effectuer
 					 */
-					if(herosSelectione != null && lastClic != null)
-						if(!lastClic.estIdentique(herosSelectione.getPosition()))
+					if(herosSelectione != null && dernierClique != null)
+						if(!dernierClique.estIdentique(herosSelectione.getPosition()))
 							herosSelectione = null;
 					/**
 					 * gestion des mouvements de la camera en fonction des position de la souris lorsqu'elle est dragged puis released
 					 * Cette option fonction uniquement dans le mode jeu et non en mode config
 					 *
 					 */
-					if(deposeObstacle == null && c.getElement(clic) == null && !clic.estIdentique(releasedClic) && c.estCaseVide(lastClic)) {
+					if(deposeObstacle == null && c.getElement(clic) == null && !clic.estIdentique(releasedClic) && c.estCaseVide(dernierClique)) {
 						int distance = (int) clic.distance(releasedClic);
 						switch(clic.getPositionCardinal(releasedClic)) {
 						case NORD: cam.deplacement(0, -distance);

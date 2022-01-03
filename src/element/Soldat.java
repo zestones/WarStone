@@ -135,17 +135,17 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
      * @return true, if successful
      */
     public boolean estDedans(Position p) {
-    	int nbrCotes = this.champVisuelle.length - 1;
-    	int[] listeAngle = new int[nbrCotes];
+    	int nbCotes = this.champVisuelle.length - 1;
+    	int[] listeAngle = new int[nbCotes];
 			
 		this.initChampVisuelle();
-		for(int i = 0; i < nbrCotes - 1; i++)
+		for(int i = 0; i < nbCotes - 1; i++)
 			listeAngle[i] = p.signeAngle(this.champVisuelle[i], this.champVisuelle[i + 1]);
 		
-		listeAngle[nbrCotes - 1] = p.signeAngle(this.champVisuelle[nbrCotes - 1], this.champVisuelle[0]);
+		listeAngle[nbCotes - 1] = p.signeAngle(this.champVisuelle[nbCotes - 1], this.champVisuelle[0]);
 		
 		for(int k = 0; k < listeAngle.length; k++) {
-			for(int j = 1; j < nbrCotes - 1; j++)
+			for(int j = 1; j < nbCotes - 1; j++)
 				if(listeAngle[k] != listeAngle[j])
 					return false;
 		}
@@ -216,9 +216,9 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     	}
     	   	
     	if(!this.combat && !this.deplacement && !this.mort)
-    		this.setStandBySprite(clic);
+    		this.setSpriteRepos(clic);
     	else if (this.combat)
-    		this.setAttackSprite(clic);
+    		this.setSpriteAttaque(clic);
     	else if(this.deplacement) {
     		this.setDeplacementSprite(clic);
     		this.activeDeplacement = true;
@@ -233,7 +233,7 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
      *
      * @param clic new stand by sprite
      */
-    private void setStandBySprite(Position clic) {
+    private void setSpriteRepos(Position clic) {
     	if(clic.getX() < this.getPosition().getX())
 			this.dernierSprite = this.soldatSprite.spriteStandByGauche;
     	else if(clic.getX() > this.getPosition().getX())
@@ -252,7 +252,7 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
      *
      * @param clic new attack sprite
      */
-    private void setAttackSprite(Position clic) {
+    private void setSpriteAttaque(Position clic) {
     	if(clic.getX() < this.getPosition().getX()) { 
     		this.dernierSprite = this.soldatSprite.spriteAttackGauche;
     		if(this.getPosition().estVoisine(clic))

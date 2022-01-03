@@ -21,9 +21,6 @@ public class Monstre extends Soldat {
 	/** le type. */
 	TypesM m;
     
-    /** nom. */
-    String nom;
-    
 	/**
 	 * Instancie un nouveau monstre.
 	 *
@@ -32,10 +29,9 @@ public class Monstre extends Soldat {
 	 * @param nom 
 	 * @param pos
 	 */
-	public Monstre(Carte carte, TypesM m, String nom,Position pos){
+	public Monstre(Carte carte, TypesM m, Position pos){
         super(carte, m.getPoints(), m.getPortee(), m.getPuissance(), m.getTir(), pos);
         this.m = m;
-        this.nom = nom;
         this.combat = false;
         this.soldatSprite = new SpriteInitializer(this);
         this.dernierSprite = this.soldatSprite.spriteStandByBas;
@@ -129,7 +125,7 @@ public class Monstre extends Soldat {
    * @return string
    */
   public String toString() { 
-	  return this.getPosition().toString() + " " + this.m.name() + " " + this.nom + " (" + this.m.getPoints() + "PV /" + this.getPoints() + ")";
+	  return this.getPosition().toString() + " " + this.m.name() + " (" + this.m.getPoints() + "PV /" + this.getPoints() + ")";
   } 
   
   /**

@@ -171,5 +171,4 @@ public class Position implements IConfig {
 		}
 		return POINT_CARDINAUX.MILIEU;
 	}
-	
 }
