@@ -1,13 +1,3 @@
-/********************************************************************
- * 							WarStone								*
- *  -------------------------------------------------------------	*
- * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
- *  -------------------------------------------------------------	*
- * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
- * 																	*
- * 														utile		*
- * ******************************************************************/
-
 package menu.loadgame;
 
 import java.io.FileInputStream;
@@ -23,29 +13,36 @@ import java.util.Date;
 import carte.Carte;
 
 
-/**
- * The Class Sauvegarde.
+/** 
+ * Class Sauvegarde.
+ * 
+ * Gestion des sauvegardes du jeu
+ * 
  */
 public class Sauvegarde implements ISauvegarde{
-	private static final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss");  	
+	
+	/** Constante separateur. */
+	private static final SimpleDateFormat separateur = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss");  	
 	/**
-	 * Instantiates a new sauvegarde.
+	 * Instancieune nouvelle sauvegarde.
 	 *
-	 * @param c the c
+	 * @param c la Carte
 	 */
-	// Creaction d'une nouvelle sauvegarde dans monFichier
 	public Sauvegarde(Carte c){		
+		/** nom de la sauvegarde different en fonction du mode */
 		String nom = Carte.modeConf ? "WarConf " : "WarGame ";
 		
+		/** Si il reste de la place on creer une nouvelle sauvegarde */
 		if(listeSauvegarde.size() <= MAX_SAUVEGARDE)
-				listeSauvegarde.add((chemin + nom + formatter.format(new Date()) + ".ser"));
+				listeSauvegarde.add((chemin + nom + separateur.format(new Date()) + ".ser"));
+		/** Sinon on supprime la derniere on on rajoute la nouvelle */
 		else {
 			deleteSauvegarde();
-			listeSauvegarde.add((chemin + nom + formatter.format(new Date()) + ".ser"));
+			listeSauvegarde.add((chemin + nom + separateur.format(new Date()) + ".ser"));
 		}
 		
-		try
-		{   
+		try {   
+			/** On recupere la derniere sauvegarde dans la liste */
 			FileOutputStream fichier = new FileOutputStream(listeSauvegarde.get(listeSauvegarde.size() - 1));
 			ObjectOutputStream sortie = new ObjectOutputStream(fichier);
 			
@@ -54,27 +51,22 @@ public class Sauvegarde implements ISauvegarde{
 			sortie.flush(); // Pour le buffer
 			
 			fichier.close();  
-		}
-		catch(IOException ex)
-		{
+		} catch(IOException ex) {
 			System.out.println("IOException : " + ex);
 			ex.printStackTrace();
 		}
 	}
 	
 	/**
-	 * Recup sauvegarde.
+	 * recuperation d'une sauvegarde.
 	 *
-	 * @param c the c
-	 * @return the carte
+	 * @param index : index de la sauvegarde que l'on veut charger
+	 * @return carte
 	 */
-	// Chargement de la sauvegarde dans nomFichier
 	public static Carte recupSauvegarde(int index){
-		System.out.println("------------" + listeSauvegarde.get(index));
 		Carte c = null;
 		
-		try
-		{   
+		try {   
 			FileInputStream fichier = new FileInputStream(listeSauvegarde.get(index));
 			ObjectInputStream in = new ObjectInputStream(fichier);
 			
@@ -82,20 +74,19 @@ public class Sauvegarde implements ISauvegarde{
 			
 			in.close();
 			fichier.close();
-		}
-		catch(IOException ex)
-		{
+		} catch(IOException ex) {
 			System.out.println("IOException : " + ex + " -> ");
 			ex.printStackTrace();
-		}    	        
-		catch(ClassNotFoundException ex)
-		{
+		} catch(ClassNotFoundException ex) {
 			System.out.println("ClassNotFoundException : " + ex);
 		}
 		
 		return c;
 	}
 	
+	/**
+	 * Supression d'une sauvegarde.
+	 */
 	private static void deleteSauvegarde() {
 		try 
 		{

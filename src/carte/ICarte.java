@@ -33,8 +33,8 @@ public interface ICarte {
 	Position trouvePositionVide();
 	
 	/**
-	 *  Trouve une position vide choisie
-	 *	aléatoirement parmi les 8 positions adjacentes de pos
+	 * Trouve une position vide choisie
+	 * aléatoirement parmi les 8 positions adjacentes de pos
 	 * @param pos
 	 * @return Position
 	 */
@@ -46,8 +46,8 @@ public interface ICarte {
 	Heros trouveHeros(); 
 	
 	/**
-	 *  Trouve un héros choisi aléatoirement
-	 *  parmi les 8 positions adjacentes de pos
+	 * Trouve un héros choisi aléatoirement
+	 * parmi les 8 positions adjacentes de pos
 	 * @param herosTrouve
 	 * @return Heros
 	 */

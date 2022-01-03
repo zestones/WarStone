@@ -1,12 +1,3 @@
-/********************************************************************
- * 							WarStone								*
- *  -------------------------------------------------------------	*
- * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
- *  -------------------------------------------------------------	*
- * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
- * 																	*
- * 														utile		*
- * ******************************************************************/
 package utile;
 
 import static java.lang.Math.pow;
@@ -14,29 +5,20 @@ import static java.lang.Math.pow;
 import wargame.IConfig;
 
 /**
- * Class Position.
+ * Class Position. 
  */
 public class Position implements IConfig {
 	
-	/** Constant serialVersionUID. */
+	/** Constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
 	/**  x, y. */
 	public int x, y;
 	
 	/**
-	 * The Enum POINT_CARDINAUX.
+	 * Enum POINT_CARDINAUX.
 	 */
-	public enum POINT_CARDINAUX {/** The nord. */
-NORD, /** The sud. */
- SUD, /** The est. */
- EST, /** The ouest. */
- OUEST, /** The nord est. */
- NORD_EST, /** The nord ouest. */
- NORD_OUEST, /** The sud est. */
- SUD_EST, /** The sud ouest. */
- SUD_OUEST, /** The milieu. */
- MILIEU};
+	public enum POINT_CARDINAUX {NORD, SUD, EST, OUEST, NORD_EST, NORD_OUEST, SUD_EST, SUD_OUEST, MILIEU};
 	
 	/** sam aligne. */
 	private static final int SAM_ALIGNE = 1;
@@ -45,15 +27,15 @@ NORD, /** The sud. */
 	private static final int SIAM = -1; 
 	
 	/**
-	 * Instantiates a new position.
+	 * Instancie une nouvelle position.
 	 *
-	 * @param x x
-	 * @param y y
+	 * @param x
+	 * @param y
 	 */
 	public Position(int x, int y) { this.x = x; this.y = y; }
 	
 	/**
-	 * Instantiates a new position.
+	 * Instancie une nouvelle position aleatoire.
 	 */
 	public Position() {this.x = (int) (Math.random() * LARGEUR_CARTE_CASE-1); this.y = (int) (Math.random() * HAUTEUR_CARTE_CASE-1); }
 	
@@ -95,7 +77,7 @@ NORD, /** The sud. */
 	/**
 	 * Distance.
 	 *
-	 * @param p p
+	 * @param p la position
 	 * @return double
 	 */
 	public double distance(Position p) { return Math.sqrt(pow(this.x-p.x,2)+pow(this.y-p.y,2)); }
@@ -103,18 +85,17 @@ NORD, /** The sud. */
 	/**
 	 * Est identique.
 	 *
-	 * @param p p
+	 * @param p
 	 * @return true, if successful
 	 */
 	public boolean estIdentique(Position p) { return (this.distance(p) == 0); }
 
 	/**
-	 * Translater.
+	 * Translater une position.
 	 *
-	 * @param dx dx
-	 * @param dy dy
+	 * @param dx 
+	 * @param dy 
 	 */
-	// Translater un point 
 	public void translater(int dx, int dy) {
 		this.x += dx;  
 		this.y += dy;
@@ -132,7 +113,7 @@ NORD, /** The sud. */
 	/**
 	 * Est voisine.
 	 *
-	 * @param pos pos
+	 * @param pos
 	 * @return true, if successful
 	 */
 	public boolean estVoisine(Position pos) {
@@ -146,9 +127,9 @@ NORD, /** The sud. */
 	 * car le premier point de la zone du champ visuelle est le meme point que l'element chercher si la portee est egale a 1 
 	 * ou si l'element est adjacent a la limite de la portee 
 	 *
-	 * @param b b
-	 * @param c c
-	 * @return int
+	 * @param b
+	 * @param c
+	 * @return signe angle
 	 */
 	public int signeAngle(Position b, Position c) {
 		double angle = (b.getX() - this.getX()) * (c.getY() - this.getY()) - (c.getX() - this.getX()) * (b.getY() - this.getY());
@@ -160,7 +141,7 @@ NORD, /** The sud. */
 	/**
 	 * Gets position cardinal.
 	 *
-	 * @param pos the pos
+	 * @param pos
 	 * @return pointCardinal
 	 */
 	public POINT_CARDINAUX getPositionCardinal(Position pos) {

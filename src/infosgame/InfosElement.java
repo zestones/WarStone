@@ -1,12 +1,3 @@
-/********************************************************************
- * 							WarStone								*
- *  -------------------------------------------------------------	*
- * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
- *  -------------------------------------------------------------	*
- * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
- * 																	*
- * 														infosgame	*
- * ******************************************************************/
 package infosgame;
 
 import java.awt.BorderLayout;
@@ -29,34 +20,40 @@ import element.Soldat;
 import fenetrejeu.IFenetre;
 
 /**
- * The Class InformationElement.
- *
- * @author pc
+ * Class InformationElement.
  */
 public abstract class InfosElement implements IFenetre {
 	
-	/** The Constant serialVersionUID. */
+	/** Constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	 
+	/** liste label obstacle. */
 	private static List<JLabel> listeLabelObstacle = new ArrayList<>();
+	
+	/** liste obstacle. */
 	private static List<TypeObstacle> listeObstacle = new ArrayList<>();
+	
+	/** obstacle selectione. */
 	public static TypeObstacle obstacleSelectione;
+	
+	/** nb element deposer. */
 	public static int nbElementDeposer = 0;
 	
+	/** index des listes. */
 	private static int index = 0;
 	
 	/**
 	 * Dessine infos element.
 	 *
-	 * @param e the e
+	 * @param e 
 	 */
 	public static void dessineInfosElement(Element e) {
-		// On verifie qu'un element a ete cliquer sinon on nettoie le panel
+		/** On verifie qu'un element a ete cliquer sinon on nettoie le panel */
 		if(e == null) {
 			supprimeInfos();			
 			return;
 		}
-		// si nous ne somme pas en mode creatif on affiche pas les infos des obstacles
+		/** si nous ne somme pas en mode creatif on affiche pas les infos des obstacles */
 		if(!Carte.modeConf) {
 			infosElementBody.removeAll();
 			infosElementBody.revalidate();
@@ -86,6 +83,11 @@ public abstract class InfosElement implements IFenetre {
 		infosElementPanel.repaint();
 	}
 	
+	/**
+	 * Dessine infos sup elements.
+	 *
+	 * @param e
+	 */
 	private static void dessineInfosSupElements(Element e) {
 		JLabel infosLabel = new JLabel();
 		
@@ -98,6 +100,9 @@ public abstract class InfosElement implements IFenetre {
 		infosElementBody.repaint();
 	}
 	
+	/**
+	 * Dessine infos element body.
+	 */
 	public static void dessineInfosElementBody() {
 		// On supprime le contenu des panels 
 		supprimeInfos();
@@ -120,6 +125,9 @@ public abstract class InfosElement implements IFenetre {
 		infosElementBody.repaint();
 	}
 	
+	/**
+	 * Dessin element mode config.
+	 */
 	private static void dessinElementModeConfig() {
 		// On creer un listener pour chaque label
 		// On recupere le type de l'element cliquer a l'aide de l'index de la liste de label
@@ -139,6 +147,7 @@ public abstract class InfosElement implements IFenetre {
 			});
 		}
 		
+		/** Un clique sur le header ou le panel infosElement deselectione l'objet */
 		header.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				if(Carte.modeConf) {
@@ -158,6 +167,9 @@ public abstract class InfosElement implements IFenetre {
 		});
 	}
 	
+	/**
+	 * Supression des listes.
+	 */
 	public static void removeObstacleList() {
 		// On supprime les listes
 		listeLabelObstacle.clear();
@@ -166,6 +178,9 @@ public abstract class InfosElement implements IFenetre {
 		obstacleSelectione = null;
 	}
 	
+	/**
+	 * Supprime les infos du panel
+	 */
 	private static void supprimeInfos() {
 		// Suppression de l'icon
 		iconPanel.removeAll();

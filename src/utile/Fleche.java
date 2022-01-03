@@ -8,11 +8,25 @@ import carte.Camera;
 import element.Soldat;
 import wargame.IConfig;
 
+/**
+ * Class Fleche.
+ * 
+ * Creation de la fleche
+ * 
+ */
 public class Fleche implements IConfig {
+	
+	/** Constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
+	/** The cam. */
 	private Camera cam;
 	
+	/**
+	 * Instantiates a new fleche.
+	 *
+	 * @param cam the cam
+	 */
 	public Fleche(Camera cam) {
 		this.cam = cam;		
 	}
@@ -92,6 +106,9 @@ public class Fleche implements IConfig {
 	/**
 	 * Dessine deplacement.
 	 *
+	 * @param herosSelectione le heros selectione
+	 * @param dessineFleche 
+	 * @param draggedCam la position
 	 * @return true, if successful
 	 */
 	public boolean estFlecheDessinable(Soldat herosSelectione, boolean dessineFleche, Position draggedCam) {

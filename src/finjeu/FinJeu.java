@@ -21,12 +21,26 @@ import menu.MenuJeu;
 import music.SoundLauncher;
 
 
+/**
+ * Class FinJeu.
+ */
 public class FinJeu implements IFenetre {
+	
+	/** Constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
+	/** Chemin gameOverImg. */
 	private static final String gameOverImg = "./res/img/background/menu/youLose.png";
+	
+	/** Chemin youWinImg. */
 	private static final String youWinImg = "./res/img/background/menu/youWin.png";
 	
+	/**
+	 * Instancie une nouvelle page fin jeu.
+	 *
+	 * @param nombreHeros 
+	 * @param nombreMonstre 
+	 */
 	public FinJeu(int nombreHeros, int nombreMonstre) {		
 		String fond;
 		gameMusic.clip.stop();
@@ -114,6 +128,9 @@ public class FinJeu implements IFenetre {
 		
 	}
 	
+	/**
+	 * Suppresion des bouttons.
+	 */
 	private void removeBoutton() {
 		frame.remove(backMenu);
 		frame.remove(newGame);

@@ -12,6 +12,11 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class SoundLauncher {
 	public Clip clip;
 	 
+	/**
+	 * Instancie un nouveau sound launcher.
+	 *
+	 * @param fichier le nom du fichier
+	 */
 	public SoundLauncher(String fichier) {
 		File f = new File("./res/sound/" + fichier);
 		AudioInputStream audioIn = null;

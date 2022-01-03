@@ -1,30 +1,18 @@
-/********************************************************************
- * 							WarStone								*
- *  -------------------------------------------------------------	*
- * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
- *  -------------------------------------------------------------	*
- * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
- * 																	*
- * 														carte		*
- * ******************************************************************/
 package carte;
 
 import utile.Position;
 import wargame.IConfig;
 
 /**
- * The Class Camera.
- *
- * @author Islem, Antoine, Idriss
+ * Class Camera.
  */
 public class Camera implements IConfig {
 	
-	/** The Constant serialVersionUID. */
+	/** Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
 	/** Definition de la class camera et ses des methodes. */
 	public Carte c;
-	/** The pos. */
 	private Position pos;
 		
 	/**

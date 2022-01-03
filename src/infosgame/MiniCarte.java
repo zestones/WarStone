@@ -1,12 +1,3 @@
-/********************************************************************
- * 							WarStone								*
- *  -------------------------------------------------------------	*
- * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
- *  -------------------------------------------------------------	*
- * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
- * 																	*
- * 														infosgame	*
- * ******************************************************************/
 package infosgame;
 
 import java.awt.Graphics;
@@ -22,26 +13,26 @@ import utile.Position;
 import wargame.IConfig;
 
 /**
- * The Class MiniCarte.
- *
- * @author pc
+ * Class MiniCarte.
  */
 public class MiniCarte extends JPanel implements IConfig {
 	
-	/** The Constant serialVersionUID. */
+	/** Constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	/** The c. */
+	/** La Carte. */
 	private Carte c;
 	
-	/** The cam. */
+	/** La camera. */
 	private Camera cam;
+	
+	/** La pos du clic sur la miniCarte. */
 	private Position clic;
 	
 	/**
-	 * Instantiates a new mini carte.
+	 * Instancie une nouvelle mini carte.
 	 *
-	 * @param cam the cam
+	 * @param cam 
 	 */
 	public MiniCarte(Camera cam) {
 		this.c = cam.c;
@@ -49,6 +40,12 @@ public class MiniCarte extends JPanel implements IConfig {
 		this.miniCarteEvent();
 	}
 	
+	/**
+	 * Mini carte event.
+	 * 
+	 * deplacement de la carte en fonctions des cliques sur la mini Carte
+	 * 
+	 */
 	private void miniCarteEvent() {
 			
 		addMouseListener(new MouseAdapter() {
@@ -77,11 +74,12 @@ public class MiniCarte extends JPanel implements IConfig {
 	/**
 	 * Dessine focus.
 	 *
-	 * @param g the g
-	 * @param dx the dx
-	 * @param dy the dy
+	 * Dessin de la zone visible sur la carte
+	 *
+	 * @param g 
+	 * @param dx 
+	 * @param dy
 	 */
-	// Dessin de la zone visible sur la carte
 	private void dessineFocus(Graphics g, int dx, int dy) {
 		for(int i = 0; i < LARGEUR_CASE_VISIBLE; i++) {
 			for(int j = 0; j < HAUTEUR_CASE_VISIBLE; j++) {
@@ -94,17 +92,14 @@ public class MiniCarte extends JPanel implements IConfig {
 	/**
 	 * Dessine mini carte.
 	 *
-	 * @param g the g
-	 * @param dx the dx
-	 * @param dy the dy
+	 * @param g
 	 */
-	// dessin de la carte entiere (les zones depassant l'ecran comprise)
 	private void dessineMiniCarte(Graphics g) {
-		// on dessine les heros et element a leur portee
+		/** on dessine les heros et element a leur portee */
 		for(int n = 0; n < this.c.listeHeros.size(); n++)
 			this.c.listeHeros.get(n).seDessinerMinia(g);
 	
-		// dessin de la grille
+		/** dessin de la grille */
 		for(int i = 0; i < LARGEUR_CARTE_CASE; i++) {
 			for(int j = 0; j < HAUTEUR_CARTE_CASE; j++) {
 				g.setColor(COULEUR_GRILLE);
@@ -113,11 +108,16 @@ public class MiniCarte extends JPanel implements IConfig {
 		}
 	}
 	
+	/**
+	 * Dessine carte.
+	 *
+	 * @param g the g
+	 */
 	private void dessineCarte(Graphics g) {
 		for(int i = 0; i < LARGEUR_CARTE_CASE; i++) {
 			for(int j = 0; j < HAUTEUR_CARTE_CASE; j++) {		
 				g.drawImage(range, i * MINI_NB_PIX_CASE, j  * MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, MINI_NB_PIX_CASE, null);
-				if(this.c.getElement(new Position(i, j)) != null)
+				if(!this.c.estCaseVide(new Position(i, j)))
 					this.c.getElement(new Position(i, j)).seDessinerMinia(g);
 			}
 		}

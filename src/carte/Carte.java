@@ -1,13 +1,12 @@
 /********************************************************************
- * 							WarStone								*
+ * 							WarStone							*
  *  -------------------------------------------------------------	*
- * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
+ * |	 Université Jean-Monnet    L3-Infos 		    2022	 |	*
  *  -------------------------------------------------------------	*
- * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU IDRISS		*
+ * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
  * 																	*
- * 														carte		*
+ * 													carte	*
  * ******************************************************************/
-
 package carte;
 
 import java.awt.Graphics;
@@ -28,32 +27,35 @@ import wargame.PanneauJeu;
 
 /**
  * Class implementant la carte du jeu ainsi que ses methodes.
- *
- * @author Islem, Antoine, Idriss
  */
 public class Carte implements IConfig, ICarte {
 	
-	/** The Constant serialVersionUID. */
+	/** Constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	/** The plateau. */
+	/** Le plateau. */
 	private Element[][] plateau;
 	
-	/** Creation d'une Liste de Heros contenant les heros prï¿½sent sur la carte. */
+	/** Creation d'une Liste de Heros contenant les heros present sur la carte. */
 	public List<Heros> listeHeros;
 	
-	/**  Creation d'une liste de Monstres contenant les monstres prï¿½sent sur la carte. */
+	/** Creation d'une liste de Monstres contenant les monstres present sur la carte. */
 	public List<Monstre> listeMonstres;
 	
+	/**  Liste  contenant les actions a realiser lors d'un tour. */
 	public List<Soldat> listeActionAttaque;
-	/** liste action deplacement. */
-	public List<Soldat> listeActionDeplacement;
-	/** liste action mort. */
-	public List<Soldat> listeActionMort;
 	
+	/** The liste action deplacement. */
+	public List<Soldat> listeActionDeplacement;
+	
+	/** The liste action mort. */
+	public List<Soldat> listeActionMort;
+		
+	/**  Boolean indiquant le mode de jeu. */
 	public static boolean modeConf = false;
+	
 	/**
-	 * Constructeur de la Carte.
+	 * Instancie une nouvelle Carte.
 	 */
 	public Carte() {
 		// Initialisation des listes
@@ -87,6 +89,11 @@ public class Carte implements IConfig, ICarte {
 		}
 	}
 	
+	/**
+	 *  Instancie une nouvelle carte en mode config.
+	 *
+	 * @param obstacle 
+	 */
 	public Carte(int obstacle) {
 		this.plateau = new Element[LARGEUR_CARTE_CASE][HAUTEUR_CARTE_CASE];
 		// les listes d'action 
@@ -100,9 +107,14 @@ public class Carte implements IConfig, ICarte {
 				
 		this.setCarteVide();
 	}
-	
-	// Methode appeler lors de la config du plateau 
-	// Une fois les obstacles depose sur la carte on remplie la carte avec les heros et les monstres 
+		
+	/**
+	 * Peuple carte.
+	 * 
+	 * Methode appeler lors de la config du plateau 
+	 * Une fois les obstacles depose sur la carte on remplie la carte avec les heros et les monstres 
+	 * 
+	 */
 	public void peupleCarte() {
 		
 		int inc = Math.max(NB_MONSTRES, NB_HEROS);
@@ -116,6 +128,9 @@ public class Carte implements IConfig, ICarte {
 		}	
 	}
 	
+	/**
+	 * Sets the carte vide.
+	 */
 	public void setCarteVide() {
 		// On initialise le plateau vide
 		for(Element[] lignes : plateau)
@@ -123,11 +138,11 @@ public class Carte implements IConfig, ICarte {
 	}
 
 	/**
-	 *  Fonction principale du jeu c'est ici que tout est gï¿½re
-	 *  Les appels au autre methode .
+	 * Fonction principale du jeu c'est ici que tout est gere
+	 * Les appels au autre methode .
 	 *
-	 * @param pj the pj
-	 * @param tour the tour
+	 * @param pj
+	 * @param tour
 	 */
 	public void jouerSoldats(PanneauJeu pj, int tour) {
 		// On met a jour le nombre de soldat restant sur la carte
@@ -147,7 +162,7 @@ public class Carte implements IConfig, ICarte {
 	/**
 	 * Calcule du nombre de soldats encore present sur la carte.
 	 *
-	 * @param pj the pj
+	 * @param pj
 	 */
 	public void nombreSoldatVivant(PanneauJeu pj) {
 		pj.nombreMonstre = this.listeMonstres.size();
@@ -159,9 +174,9 @@ public class Carte implements IConfig, ICarte {
 	}
 
 	/**
-	 *  On effectue une action pour chaque monstre .
+	 * On effectue une action pour chaque monstre .
 	 *
-	 * @param pj the pj
+	 * @param pj
 	 */
 	private void joueTourMonstre(PanneauJeu pj) {
 		// Tour du monstre 
@@ -221,8 +236,8 @@ public class Carte implements IConfig, ICarte {
 	 * Raproche monstre.
 	 * Si le monstre est confiant il se rapproche du heros pour le combatre
 	 *
-	 * @param h the h
-	 * @param m the m
+	 * @param h
+	 * @param m 
 	 * @return true, if successful
 	 */
 	private boolean raprocheMonstre(Heros h, Monstre m) {
@@ -245,8 +260,8 @@ public class Carte implements IConfig, ICarte {
 	 * Fuite monstre.
 	 * Si le monstre n'est pas de taille face au heros alors il fuit
 	 * 
-	 * @param h the h
-	 * @param m the m
+	 * @param h
+	 * @param m
 	 * @return true, if successful
 	 */
 	private boolean fuiteMonstre(Heros h, Monstre m) {
@@ -255,7 +270,7 @@ public class Carte implements IConfig, ICarte {
 		int distance = 0;
 		// On cherche une position vide le plus eloigne du heros 
 		for(Position posVoisine : positionVoisine) {
-			if(h.getPosition().distance(posVoisine) > distance && posVoisine.estValide() && this.getElement(posVoisine) == null) {
+			if(h.getPosition().distance(posVoisine) > distance && posVoisine.estValide() && this.estCaseVide(posVoisine)) {
 				posFuite = posVoisine;
 				distance = (int) h.getPosition().distance(posVoisine);
 			}
@@ -272,9 +287,9 @@ public class Carte implements IConfig, ICarte {
 	/**
 	 *  Methode qui gere le combat des Monstres.
 	 *
-	 * @param pj the pj
-	 * @param pos the pos
-	 * @param pos2 the pos 2
+	 * @param pj
+	 * @param pos 
+	 * @param pos2 
 	 * @return boolean
 	 */
 	public boolean actionMonstre(PanneauJeu pj, Position pos, Position pos2) {
@@ -295,7 +310,7 @@ public class Carte implements IConfig, ICarte {
 	/**
 	 *  Le generale joueur decide quelle action rï¿½aliser.
 	 *
-	 * @param pj the pj
+	 * @param pj
 	 */
 	private void joueTourHeros(PanneauJeu pj) {
 		// On verifie qu'un Heros a ete selectionne et qu'un deuxieme clic a ete enregistre
@@ -319,9 +334,9 @@ public class Carte implements IConfig, ICarte {
 	/**
 	 *  Methode qui gere les actions des Heros .
 	 *
-	 * @param pj the pj
-	 * @param pos the pos
-	 * @param pos2 the pos 2
+	 * @param pj
+	 * @param pos
+	 * @param pos2 
 	 * @return boolean
 	 */
 	public boolean actionHeros(PanneauJeu pj, Position pos, Position pos2) {
@@ -437,7 +452,7 @@ public class Carte implements IConfig, ICarte {
 	 */
 	public Position trouvePositionVide() {
 		Position pos = new Position();
-		if (pos.estValide() && this.getElement(pos) == null)
+		if (pos.estValide() && this.estCaseVide(pos))
 			return pos;
 		return this.trouvePositionVide();
 	}
@@ -468,7 +483,7 @@ public class Carte implements IConfig, ICarte {
 		
 		// On retire les position deja prise sur la carte et les position non valides
 		for(int i = 0; i < listePos.size(); i++)
-			if(listePos.get(i).estValide() == false || this.getElement(listePos.get(i)) != null) 
+			if(listePos.get(i).estValide() == false || !this.estCaseVide(listePos.get(i))) 
 				listePos.remove(i);
 		
 		// Si toute les position adjacente sont prise alors on revoie la meme pos
@@ -555,14 +570,14 @@ public class Carte implements IConfig, ICarte {
 	/**
 	 *  Met une position donnee vide .
 	 *
-	 * @param pos the new element vide
+	 * @param pos
 	 */
 	public void setElementVide(Position pos) { this.plateau[pos.getX()][pos.getY()] = null; }
 	
 	/**
-	 *  Renvoie true si la case est vide sinon false .
+	 * Renvoie true si la case est vide sinon false .
 	 *
-	 * @param pos the pos
+	 * @param pos
 	 * @return boolean
 	 */
 	public boolean estCaseVide(Position pos) { return (this.getElement(pos)==null); }
@@ -570,8 +585,8 @@ public class Carte implements IConfig, ICarte {
 	/**
 	 * Methode de dessin principal.
 	 *
-	 * @param g the g
-	 * @param cam the cam
+	 * @param g
+	 * @param cam
 	 */
 	public void toutDessiner(Graphics g, Camera cam) {	
 		// dessin de la zone a la portee des heros
