@@ -30,7 +30,7 @@ public abstract class Element implements IConfig {
 	public abstract void seDessiner(Graphics g, Camera cam);
 	
 	/**
-	 * Gets the position.
+	 * Gets  position.
 	 *
 	 * @return position
 	 */
@@ -44,14 +44,14 @@ public abstract class Element implements IConfig {
 	public abstract String toString();
 	
 	/**
-	 * Gets the image.
+	 * Gets  image.
 	 *
 	 * @return image
 	 */
 	public abstract Image getImage();
 	
 	/**
-	 * Gets the type.
+	 * Gets  type.
 	 *
 	 * @return type
 	 */

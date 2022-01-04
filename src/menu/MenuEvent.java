@@ -17,7 +17,7 @@ import menu.loadgame.LoadGamePage;
  * Cree des listeners pour chaque boutton present sur la page
  * 
  */
-public class MenuEvent extends JPanel implements IMenu{
+public class MenuEvent extends JPanel implements IMenu {
 	
 	/** Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -39,36 +39,36 @@ public class MenuEvent extends JPanel implements IMenu{
 		/** Pour chaque boutton s'il est survoler on change la couleur de fond */
 		newGame.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			newGame.hoverBoutton(COULEUR_BOUTTON_HOVER_MENU);
+    			newGame.hoverBoutton(COULEUR_BOUTON_HOVER_MENU);
     		}	
 		});
 		
 		loadGame.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			loadGame.hoverBoutton(COULEUR_BOUTTON_HOVER_MENU);
+    			loadGame.hoverBoutton(COULEUR_BOUTON_HOVER_MENU);
     		}	
 		});
 		
 		config.addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
-				config.hoverBoutton(COULEUR_BOUTTON_HOVER_MENU);
+				config.hoverBoutton(COULEUR_BOUTON_HOVER_MENU);
     		}	
 		});
 		
 		quit.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			quit.hoverBoutton(COULEUR_BOUTTON_HOVER_MENU);
+    			quit.hoverBoutton(COULEUR_BOUTON_HOVER_MENU);
     		}	
 		});
 		
 		/** Si la frame est survoler on change la couleur des boutton */
 		frame.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			newGame.unsetHoverBoutton(COULEUR_BOUTTON_MENU);
-    			loadGame.unsetHoverBoutton(COULEUR_BOUTTON_MENU);
-    			config.unsetHoverBoutton(COULEUR_BOUTTON_MENU);
-    			quit.unsetHoverBoutton(COULEUR_BOUTTON_MENU);
-    			musicBoutton.unsetHoverBoutton(COULEUR_BOUTTON_MENU);
+    			newGame.unsetHoverBoutton(COULEUR_BOUTON_MENU);
+    			loadGame.unsetHoverBoutton(COULEUR_BOUTON_MENU);
+    			config.unsetHoverBoutton(COULEUR_BOUTON_MENU);
+    			quit.unsetHoverBoutton(COULEUR_BOUTON_MENU);
+    			musiqueBouton.unsetHoverBoutton(COULEUR_BOUTON_MENU);
     		}	
 		});
 		
@@ -80,22 +80,22 @@ public class MenuEvent extends JPanel implements IMenu{
 		});
 		
 		/** On change l'etat du boutton Music */
-		musicBoutton.addActionListener(new ActionListener() {
+		musiqueBouton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				/** Si la music est active on la stop et on change l'image */
 				if(estMusicActif) {
-					musicBoutton.removeAll();
-					musicBoutton.revalidate();
+					musiqueBouton.removeAll();
+					musiqueBouton.revalidate();
 					
-					musicBoutton.setBouttonImage("mute");
+					musiqueBouton.setBoutonImage("mute");
 					menuMusic.clip.stop();
 				}
 				/** Sinon on relance la music et on change l'image */
 				else {
-					musicBoutton.removeAll();
-					musicBoutton.revalidate();
+					musiqueBouton.removeAll();
+					musiqueBouton.revalidate();
 					
-					musicBoutton.setBouttonImage("unmute");
+					musiqueBouton.setBoutonImage("unmute");
 					menuMusic.clip.start();
 				}
 				/** On met a jour la variable */				
@@ -131,7 +131,7 @@ public class MenuEvent extends JPanel implements IMenu{
 				/** On supprime le panneau que l'on va remplacer */
 				frame.remove(panelMenu);
 				/** Suppression du boutton music */
-				frame.remove(musicBoutton);
+				frame.remove(musiqueBouton);
 				/** Arret de la music du menu */
 				menuMusic.clip.stop();
 				/** lancement de la music du jeu */
@@ -155,7 +155,7 @@ public class MenuEvent extends JPanel implements IMenu{
 				/** On supprime le panneau que l'on va remplacer */
 				frame.remove(panelMenu);
 				/** Supression du boutton Music */
-				frame.remove(musicBoutton);
+				frame.remove(musiqueBouton);
 				/** Arret de la music du menu */
 				menuMusic.clip.stop();
 				/** Lancement de la music config */
@@ -177,7 +177,7 @@ public class MenuEvent extends JPanel implements IMenu{
 	 */
 	private void removeBoutton() {
 		frame.remove(newGame);
-		frame.remove(backMenu);
+		frame.remove(retourMenu);
 		frame.remove(loadGame);
 		frame.remove(config);
 		frame.remove(quit);

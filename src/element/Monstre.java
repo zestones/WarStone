@@ -7,7 +7,7 @@ import java.util.List;
 
 import carte.Camera;
 import carte.Carte;
-import sprite.SpriteInitializer;
+import sprite.InitialiseurSprite;
 import utile.Position;
 
 /**
@@ -33,7 +33,7 @@ public class Monstre extends Soldat {
         super(carte, m.getPoints(), m.getPortee(), m.getPuissance(), m.getTir(), pos);
         this.m = m;
         this.combat = false;
-        this.spriteSoldat = new SpriteInitializer(this);
+        this.spriteSoldat = new InitialiseurSprite(this);
         this.dernierSprite = this.spriteSoldat.spriteReposBas;
         carte.setElement(this);      
     }
@@ -140,14 +140,14 @@ public class Monstre extends Soldat {
    *
    * @return sprite
    */
-  public String getSprite() { return this.m.getSprite(); }     
+  public String getCheminSprite() { return this.m.getCheminSprite(); }     
   
   /**
    * Gets image.
    *
    * @return image
    */
-  public Image getImage() { return this.m.getImage(); }
+  public Image getImage() { return this.m.getMiniature(); }
   
   /**
    * Gets type.

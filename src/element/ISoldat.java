@@ -90,47 +90,32 @@ public interface ISoldat extends ISprite{
 	 * The Enum TypesH.
 	 */
 	static enum TypesH { 
-		
-		/**  humain. */
-		
 		HUMAIN (40, 2, 10, 2, humain, HumainMiniature, histoireHumain), 
-		/**  nain. */
 		NAIN (80, 1, 20, 0, nain, NainMiniature, histoireNain), 
-		/**  elf. */
 		ELF (70, 5, 10, 6, elf, ElfMiniature, histoireElf), 
-		/**  hobbit. */
 		HOBBIT (20, 3, 5, 2, hobbit, HobbitMiniature, histoireHobbit),
-		
 		SORCIER (30, 3, 1, 10, sorcier, SorcierMiniature, "");
       
-		/**  tir. */
-		private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR;
-      
-		/**  sprite. */
+		private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR;	
 		private final String SPRITE;
-      
-		/**  image. */
 		private final Image IMAGE;
-		
-		/**  histoire. */
 		private final String HISTOIRE;
-
-      
+    
 		/**
-		 * Instantiates a new types H.
+		 * instancie un nouveau TypesH.
 		 *
-		 * @param points  points
-		 * @param portee  portee
-		 * @param puissance  puissance
-		 * @param tir  tir
-		 * @param spritePath  sprite path
-		 * @param imgMiniature  img miniature
-		 * @param histoire the histoire
+		 * @param points
+		 * @param portee
+		 * @param puissance 
+		 * @param tir 
+		 * @param cheminSprite 
+		 * @param imgMiniature  
+		 * @param histoire
 		 */
-		TypesH(int points, int portee, int puissance, int tir, String spritePath, Image imgMiniature, String histoire) {
+		TypesH(int points, int portee, int puissance, int tir, String cheminSprite, Image imgMiniature, String histoire) {
 			POINTS_DE_VIE = points; PORTEE_VISUELLE = portee;
 			PUISSANCE = puissance; TIR = tir;
-			SPRITE = spritePath;
+			SPRITE = cheminSprite;
 			IMAGE = imgMiniature;
 			HISTOIRE = histoire;
 		}
@@ -168,14 +153,14 @@ public interface ISoldat extends ISprite{
        *
        * @return  sprite
        */
-      public String getSprite() { return SPRITE; }
+      public String getCheminSprite() { return SPRITE; }
       
       /**
        * Gets  image.
        *
        * @return  image
        */
-      public Image getImage() { return IMAGE; } 
+      public Image getMiniature() { return IMAGE; } 
       
       
       /**
@@ -198,41 +183,30 @@ public interface ISoldat extends ISprite{
     *  Enum TypesM.
     */
    public static enum TypesM {
-      
-	   /**  troll. */
-	   TROLL (100,1,30,0, troll, TrollMiniature, histoireTroll), 
-	   /**  orc. */
+       TROLL (100,1,30,0, troll, TrollMiniature, histoireTroll), 
 	   ORC (40,2,10,3, orc, OrcMiniature, histoireOrc), 
-	   /**  gobelin. */
 	   GOBELIN (20,2,5,2, gobelin, GobelinMiniature, histoireGoblin);
       
-	   /**  tir. */
 	   private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR;
-	   
-	   /**  sprite. */
 	   private final String SPRITE;
-      
-	   /**  image. */
-	   private final Image IMAGE;
-      
-	   /**  histoire. */
-	   private final String HISTOIRE;
+       private final Image IMAGE;
+       private final String HISTOIRE;
       
       /**
-       * Instantiates a new types M.
+       * Instancie un nouveau TypesM.
        *
-       * @param points  points
-       * @param portee  portee
-       * @param puissance  puissance
-       * @param tir  tir
-       * @param spritePath  sprite path
-       * @param imgMiniature  img miniature
-       * @param histoire the histoire
+       * @param points
+       * @param portee 
+       * @param puissance 
+       * @param tir 
+       * @param cheminSprite 
+       * @param imgMiniature 
+       * @param histoire
        */
-	   TypesM(int points, int portee, int puissance, int tir, String spritePath, Image imgMiniature,String histoire) {
+	   TypesM(int points, int portee, int puissance, int tir, String cheminSprite, Image imgMiniature,String histoire) {
 		   POINTS_DE_VIE = points; PORTEE_VISUELLE = portee;
 		   PUISSANCE = puissance; TIR = tir;
-		   SPRITE = spritePath;
+		   SPRITE = cheminSprite;
 		   IMAGE = imgMiniature;
 		   HISTOIRE = histoire;
       }
@@ -270,14 +244,14 @@ public interface ISoldat extends ISprite{
        *
        * @return  sprite
        */
-      public String getSprite() { return SPRITE; }
+      public String getCheminSprite() { return SPRITE; }
       
       /**
        * Gets  image.
        *
        * @return  image
        */
-      public Image getImage() { return IMAGE; } 
+      public Image getMiniature() { return IMAGE; } 
       
       /**
        * Gets  histoire.

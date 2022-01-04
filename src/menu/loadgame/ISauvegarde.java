@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import utile.Boutton;
+import utile.Bouton;
 
 /**
  * Interface ISauvegarde.
@@ -14,7 +14,7 @@ import utile.Boutton;
 public interface ISauvegarde {
 	
 	/**  Liste de boutton des parties sauvegarder. */
-	List<Boutton> listeBoutton = new ArrayList<>();
+	List<Bouton> listeBoutton = new ArrayList<>();
 	
 	/**  Liste des chemins des parties sauvegarder. */
 	List<String> listeSauvegarde = new ArrayList<>();

@@ -14,7 +14,7 @@ import wargame.IConfig;
  * Creation de la fleche
  * 
  */
-public class Fleche implements IConfig {
+public class FlecheDirectionnelle implements IConfig {
 	
 	/** Constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -27,7 +27,7 @@ public class Fleche implements IConfig {
 	 *
 	 * @param cam the cam
 	 */
-	public Fleche(Camera cam) {
+	public FlecheDirectionnelle(Camera cam) {
 		this.cam = cam;		
 	}
 	
@@ -41,11 +41,11 @@ public class Fleche implements IConfig {
 	 * @param y2 the y 2
 	 * @param d the d
 	 * @param h the h
-	 * @param clic the clic
+	 * @param clique the clic
 	 */
 	
 	// https://stackoverflow.com/questions/2027613/how-to-draw-a-directed-arrow-line-in-java
-	public void dessineFleche(Graphics g, int x1, int y1, int x2, int y2, int d, int h, Position clic) {
+	public void dessineFlecheDirectionnelle(Graphics g, int x1, int y1, int x2, int y2, int d, int h, Position clique) {
 	    int dx = x2 - x1, dy = y2 - y1;
 	    double D = Math.sqrt(dx*dx + dy*dy);
 	    double xm = D - d, xn = xm, ym = h, yn = -h, x;
@@ -64,7 +64,6 @@ public class Fleche implements IConfig {
 
 
 	    // On recupre les positions des point X2, Y2
-	    // Pour enlever le bout de ligne debordant de la fleche
 	    int Cx = x2 / TAILLE_CARREAU + cam.getDx(); 
 	    int Cy = y2 / TAILLE_CARREAU + cam.getDy();
 	    	
@@ -72,7 +71,7 @@ public class Fleche implements IConfig {
 	    Position pos2 = new Position((x1/TAILLE_CARREAU + cam.getDx()), (y1/TAILLE_CARREAU + cam.getDy()));
 	    Position pos1 = new Position(Cx, Cy);
 	    
-	    int distance = (int) pos1.distance(pos2);
+	    int distance = pos1.getDistance(pos2);
 	    
 	    // SetStroke utilisable uniquement avec Graphicd2D
 	    Graphics2D g2 = (Graphics2D) g;
@@ -81,20 +80,20 @@ public class Fleche implements IConfig {
 	    g.setColor(COULEUR_EAU);
 	   
 	    // On recalcule le deuxieme point de la ligne de la fleche pour qu'il soit centre
-	    if(clic.getX() < Cx && clic.getY() == Cy) x2 -= d;
-	    else if(clic.getX() > Cx && clic.getY() == Cy) x2 += d;
-	    if(clic.getX() == Cx && clic.getY() > Cy) y2 += d;
-	    else if(clic.getX() == Cx && clic.getY() < Cy) y2 -= d;
-	    if(clic.getX() > Cx && clic.getY() < Cy) {
+	    if(clique.getX() < Cx && clique.getY() == Cy) x2 -= d;
+	    else if(clique.getX() > Cx && clique.getY() == Cy) x2 += d;
+	    if(clique.getX() == Cx && clique.getY() > Cy) y2 += d;
+	    else if(clique.getX() == Cx && clique.getY() < Cy) y2 -= d;
+	    if(clique.getX() > Cx && clique.getY() < Cy) {
 	    	x2 += d/(distance+1); y2 -= d/(distance+1);
 	    }
-	    else if(clic.getX() > Cx && clic.getY() > Cy) {
+	    else if(clique.getX() > Cx && clique.getY() > Cy) {
 	    	x2 += d/(distance+1); y2 += d/(distance+1);
 	    }
-	    else if(clic.getX() < Cx && clic.getY() < Cy) {
+	    else if(clique.getX() < Cx && clique.getY() < Cy) {
 	    	x2 -= d/(distance+1); y2 -= d/(distance+1);
 	    }
-	    else if(clic.getX() < Cx && clic.getY() > Cy) {
+	    else if(clique.getX() < Cx && clique.getY() > Cy) {
 	    	x2 -= d/(distance+1); y2 += d/(distance+1);
 	    }
 	    

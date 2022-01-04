@@ -1,12 +1,3 @@
-/********************************************************************
- * 							WarStone							    *
- *  -------------------------------------------------------------	*
- * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
- *  -------------------------------------------------------------	*
- * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
- * 																	*
- * 													   sprite	    *
- * ******************************************************************/
 package sprite;
 
 import java.awt.image.BufferedImage;
@@ -21,30 +12,30 @@ import wargame.IConfig;
 /**
  * La Class SpriteInitializer.
  */
-public class SpriteInitializer implements IConfig, ISprite {
+public class InitialiseurSprite implements IConfig, ISprite {
 	private static final long serialVersionUID = 1L;
 
-	public transient SpriteSheet spriteReposGauche;
-	public transient SpriteSheet spriteReposDroit;
-	public transient SpriteSheet spriteReposHaut;
-	public transient SpriteSheet spriteReposBas;
+	public transient Sprite spriteReposGauche;
+	public transient Sprite spriteReposDroit;
+	public transient Sprite spriteReposHaut;
+	public transient Sprite spriteReposBas;
 	
-	public transient SpriteSheet spriteAttaqueGauche;
-	public transient SpriteSheet spriteAttaqueDroit;
-	public transient SpriteSheet spriteAttaqueHaut;
-	public transient SpriteSheet spriteAttaqueBas;
+	public transient Sprite spriteAttaqueGauche;
+	public transient Sprite spriteAttaqueDroit;
+	public transient Sprite spriteAttaqueHaut;
+	public transient Sprite spriteAttaqueBas;
 	
-	public transient SpriteSheet spriteAttaqueAdjacentGauche;
-	public transient SpriteSheet spriteAttaqueAdjacentDroit;
-	public transient SpriteSheet spriteAttaqueAdjacentHaut;
-	public transient SpriteSheet spriteAttaqueAdjacentBas;
+	public transient Sprite spriteAttaqueAdjacentGauche;
+	public transient Sprite spriteAttaqueAdjacentDroit;
+	public transient Sprite spriteAttaqueAdjacentHaut;
+	public transient Sprite spriteAttaqueAdjacentBas;
 
-	public transient SpriteSheet spriteDeplacementGauche;
-	public transient SpriteSheet spriteDeplacementDroit;
-	public transient SpriteSheet spriteDeplacementHaut;
-	public transient SpriteSheet spriteDeplacementBas;
+	public transient Sprite spriteDeplacementGauche;
+	public transient Sprite spriteDeplacementDroit;
+	public transient Sprite spriteDeplacementHaut;
+	public transient Sprite spriteDeplacementBas;
 	
-	public transient SpriteSheet spriteMort;
+	public transient Sprite spriteMort;
 	
 	private transient final Soldat soldat;
 	private transient BufferedImage sprite;
@@ -55,9 +46,9 @@ public class SpriteInitializer implements IConfig, ISprite {
 	 * est charge depuis une sauvegarde, on recharge les sprites en fonction du type
 	 * (Aucun sprite est enregistre dans la sauvegarde !)
 	 */
-	public SpriteInitializer(Soldat s) {
+	public InitialiseurSprite(Soldat s) {
 		this.soldat = s;
-		this.chemin = this.soldat.getSprite();
+		this.chemin = this.soldat.getCheminSprite();
 		
 		try {
 			this.sprite = ImageIO.read(new File(this.chemin));
@@ -94,20 +85,15 @@ public class SpriteInitializer implements IConfig, ISprite {
 	/**
 	 * Inits Le sprite.
 	 *
-	 * @param ligne   la ligne
-	 * @param nbImage le nb image
-	 * @return spriteSheet le sprite Sheet
+	 * @param ligne
+	 * @param nbImage
+	 * @return spriteSheet
 	 */
 	/* Genere un Sprite a l'aide du numero de ligne et le nombre d'image */
-	private SpriteSheet initSprite(int ligne, int nbImage) {
-		SpriteSheet spriteSheet = null;
-		spriteSheet = new SpriteSheetBuilder()
-				.withSheet(this.sprite)
-				.withColumns(0)
-				.withSpriteSize(IMAGE_LARGEUR, IMAGE_HAUTEUR)
-				.withRows(ligne)
-				.withSpriteCount(nbImage)
-				.build();
+	private Sprite initSprite(int ligne, int nbImage) {
+		ConstructeurSprite consSprite = new ConstructeurSprite(this.sprite, ligne, nbImage);
+		Sprite spriteSheet = consSprite.genereSprite();
+		
 		spriteEngine.start();
 		return spriteSheet;
 	}

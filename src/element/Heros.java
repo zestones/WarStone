@@ -5,7 +5,7 @@ import java.awt.Image;
 
 import carte.Camera;
 import carte.Carte;
-import sprite.SpriteInitializer;
+import sprite.InitialiseurSprite;
 import utile.Position;
 
 /**
@@ -36,7 +36,7 @@ public class Heros extends Soldat {
         carte.setElement(this);
        
         this.BONUS_REPOS = this.getPointsMax() / 10;
-        this.spriteSoldat = new SpriteInitializer(this);
+        this.spriteSoldat = new InitialiseurSprite(this);
         this.dernierSprite = this.spriteSoldat.spriteReposBas;
     }
    
@@ -135,7 +135,7 @@ public class Heros extends Soldat {
     	
     	/** On dessine le sprite du heros selectione si la souris se trouve dans la zone de deplacement du heros et que la case est vide */
     	if(clique != null && clique.estVoisine(herosSelectione.getPosition()) && carte.estCaseVide(clique))
-    		g.drawImage(herosSelectione.dernierSprite.getSprite(spriteEngine.getCycleProgress()), clique.getX() * TAILLE_CARREAU - dx, clique.getY() * TAILLE_CARREAU - dy, TAILLE_CARREAU, TAILLE_CARREAU, null);
+    		g.drawImage(herosSelectione.dernierSprite.getImageSprite(spriteEngine.getProgression()), clique.getX() * TAILLE_CARREAU - dx, clique.getY() * TAILLE_CARREAU - dy, TAILLE_CARREAU, TAILLE_CARREAU, null);
     }
 
 	/**
@@ -276,14 +276,14 @@ public class Heros extends Soldat {
      *
      * @return sprite
      */
-    public String getSprite() { return h.getSprite(); }
+    public String getCheminSprite() { return h.getCheminSprite(); }
 	
 	/**
 	 * Gets image.
 	 *
 	 * @return image
 	 */
-	public Image getImage() {return this.h.getImage(); }
+	public Image getImage() {return this.h.getMiniature(); }
 	
 	/**
 	 * Gets type.

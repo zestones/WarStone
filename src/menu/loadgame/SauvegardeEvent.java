@@ -8,7 +8,7 @@ import java.io.File;
 
 import fenetrejeu.FenetreJeu;
 import menu.IMenu;
-import utile.Boutton;
+import utile.Bouton;
 
 /**
  * 
@@ -25,7 +25,7 @@ public class SauvegardeEvent implements ISauvegarde, IMenu {
 	public SauvegardeEvent() {
 		
 		/** Pour chaque sauvegarde on creer un listener : Boutton clique */
-		for(Boutton boutton : listeBoutton) {
+		for(Bouton boutton : listeBoutton) {
 			boutton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					/** On suprime tout le contenu */
@@ -43,7 +43,7 @@ public class SauvegardeEvent implements ISauvegarde, IMenu {
 						if(e.getSource() == listeBoutton.get(j)) 
 							if(!LoadGameEvent.estDeleteActif) {
 								/** Supression du boutton music */
-								frame.remove(musicBoutton);
+								frame.remove(musiqueBouton);
 								/** Arret de la music du menu */
 								menuMusic.clip.stop();
 								/** lancement de la music du jeu */
@@ -80,14 +80,14 @@ public class SauvegardeEvent implements ISauvegarde, IMenu {
 		}
 		
 		/** Boutton sauvegarde : Mouvement Souris */
-		for(Boutton boutton : listeBoutton) {
+		for(Bouton boutton : listeBoutton) {
 			boutton.addMouseMotionListener(new MouseAdapter() {
 				public void mouseMoved(MouseEvent e) {
 					/** On cherche sur quelle boutton la souris a ete deplace */
 					for(int j = 0; j < listeBoutton.size(); j++)
 						if(e.getSource() == listeBoutton.get(j)) {
 							/** On change la couleur du boutton */
-							listeBoutton.get(j).hoverBoutton(COULEUR_BOUTTON_HOVER_MENU);
+							listeBoutton.get(j).hoverBoutton(COULEUR_BOUTON_HOVER_MENU);
 							break;
 						}
 				}	
@@ -97,10 +97,10 @@ public class SauvegardeEvent implements ISauvegarde, IMenu {
 		/** Pour tout les bouttons on change la couleur lorsque la souris est deplacer sur la frame */
 		frame.addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
-				back.unsetHoverBoutton(COULEUR_BOUTTON_MENU);
+				retour.unsetHoverBoutton(COULEUR_BOUTON_MENU);
 				
-				for(Boutton boutton : listeBoutton) {
-					boutton.unsetHoverBoutton(COULEUR_BOUTTON_MENU);
+				for(Bouton boutton : listeBoutton) {
+					boutton.unsetHoverBoutton(COULEUR_BOUTON_MENU);
 				}
 				
 				frame.repaint();
@@ -114,10 +114,10 @@ public class SauvegardeEvent implements ISauvegarde, IMenu {
 	 * Suppression des bouttons.
 	 */
 	private void removeBouton() {
-		for(Boutton save : listeBoutton)
+		for(Bouton save : listeBoutton)
 			frame.remove(save);
 		
-		frame.remove(back);
-		frame.remove(deleteSave);
+		frame.remove(retour);
+		frame.remove(supprimeSauvegarde);
 }
 }

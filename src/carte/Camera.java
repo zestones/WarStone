@@ -16,22 +16,20 @@ public class Camera implements IConfig {
 	private Position pos;
 		
 	/**
-	 * Le contructeur de camera prend la carte un indice de deplacement x et y.
+	 * Le contructeur de camera prend la carte.
 	 *
 	 * @param c
-	 * @param dx
-	 * @param dy
 	 */
-	public Camera(Carte c, int dx, int dy) {
+	public Camera(Carte c) {
 		this.c = c ;
-		this.pos = new Position(dx, dy);
+		this.pos = new Position(0,0);
 		this.centreCamera();
 	}
 	
 	/**
 	 * Verification que le deplacement ne sorte pas de la carte.
 	 */ 
-	public void estValideDeplacement() {
+	public void verifDeplacement() {
 		if(this.getDx() < 0) 
 			this.setDx(0);
 		else if(this.getDx() > NB_COLONNES - NB_COLONNES_VISIBLES)
@@ -49,18 +47,18 @@ public class Camera implements IConfig {
 	private void centreCamera() {
 		this.setDx(NB_COLONNES_VISIBLES/2);
 		this.setDy(NB_LIGNES_VISIBLES/2);
-		estValideDeplacement();
+		verifDeplacement();
 	}
 	
 	/**
-	 *  Translatation des points.
+	 *  Translatation des Positions.
 	 *
 	 * @param x : int
 	 * @param y : int
 	 */
-	public void deplacement(int x, int y) {
+	public void deplaceCamera(int x, int y) {
 		this.pos.translater(x, y);
-		estValideDeplacement();
+		verifDeplacement();
 	}
 	
 	/**
@@ -82,12 +80,12 @@ public class Camera implements IConfig {
 	 *
 	 * @param dx : int
 	 */
-	public void setDx(int dx) { this.pos.setX(dx); estValideDeplacement(); }
+	public void setDx(int dx) { this.pos.setX(dx); verifDeplacement(); }
 	
 	/**
 	 * Modification de la valeur de deplacement en Y.
 	 *
 	 * @param dy : int
 	 */
-	public void setDy(int dy) { this.pos.setY(dy); estValideDeplacement(); }
+	public void setDy(int dy) { this.pos.setY(dy); verifDeplacement(); }
 }

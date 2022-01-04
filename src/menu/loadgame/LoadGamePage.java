@@ -1,6 +1,5 @@
 package menu.loadgame;
 
-import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -12,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import menu.IMenu;
-import utile.Boutton;
+import utile.Bouton;
 
 /**
  * Class LoadGamePage.
@@ -33,19 +32,19 @@ public class LoadGamePage extends JPanel implements ISauvegarde, IMenu {
 	 */
 	public LoadGamePage() {
 		/** Creation d'un panel principal */
-		panelLoadGame.setPreferredSize(new Dimension(MENU_LARGEUR, MENU_HAUTEUR));
+		panelLoadGame.setPreferredSize(DIM_MENU);
 		
 	
 		BufferedImage backgroundImg = null;
 		try {
-			backgroundImg = ImageIO.read(new File(backgroundMenu));
+			backgroundImg = ImageIO.read(new File(fondEcranMenu));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		
 		/** Creation d'un label pour deposer l'image */		
 		JLabel backgroundLabel = new JLabel();
-		Image img = backgroundImg.getScaledInstance(MENU_LARGEUR, MENU_HAUTEUR, Image.SCALE_SMOOTH);
+		Image img = backgroundImg.getScaledInstance((int) DIM_MENU.getWidth(), (int) DIM_MENU.getHeight(), Image.SCALE_SMOOTH);
 		
 		/** Ajout de l'image au label */
 		backgroundLabel.setIcon(new ImageIcon(img));	
@@ -58,26 +57,26 @@ public class LoadGamePage extends JPanel implements ISauvegarde, IMenu {
 		listeBoutton.clear();
 		
 		/** Ajout des bouttons a la frame */
-		frame.add(deleteSave);
-		frame.add(back);
+		frame.add(supprimeSauvegarde);
+		frame.add(retour);
 		
 		int i = 0;
 		/** Nombre de boutton est repasser a 0 pour avoir la position y calculer dans l'interface */
-		Boutton.NOMBRE_BOUTTON = 0;
+		Bouton.NOMBRE_BOUTON = 0;
 		/** Pour chaque sauvegarde on creer un boutton que l'on met dans une liste de bouttons */
 		for(String save : listeSauvegarde) {
-			listeBoutton.add(new Boutton(BOUTTON_POSITION_X, BOUTTON_POSITION_Y, LARGEUR_BOUTTON, HAUTEUR_BOUTTON));
+			listeBoutton.add(new Bouton(BOUTTON_POSITION_X, BOUTTON_POSITION_Y, BOUTON_LARGEUR, BOUTON_HAUTEUR));
 			listeBoutton.get(i).setBouttonText(save.replace(chemin, ""));
 			frame.add(listeBoutton.get(i));
 			i++;
 		}
 		
 		/** Ajout d'une image / couleur au boutton */
-		deleteSave.setBouttonImage("deleteOff");
-		deleteSave.unsetHoverBoutton(COULEUR_DELETE);
+		supprimeSauvegarde.setBoutonImage("deleteOff");
+		supprimeSauvegarde.unsetHoverBoutton(COULEUR_SUPPRIME);
 		/** Ajout de text / couleur au boutton  */
-		back.setBouttonText("BACK");
-		back.hoverBoutton(COULEUR_BOUTTON_MENU);		
+		retour.setBouttonText("BACK");
+		retour.hoverBoutton(COULEUR_BOUTON_MENU);		
 		
 		/** Creation des listeners des bouttons delete et back une seule fois */
 		if(premiereFois) {

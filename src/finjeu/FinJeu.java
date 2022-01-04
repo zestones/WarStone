@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import fenetrejeu.IFenetre;
 import menu.MenuEvent;
 import menu.MenuJeu;
-import music.SoundLauncher;
+import musique.Musique;
 
 
 /**
@@ -48,69 +48,69 @@ public class FinJeu implements IFenetre {
 		panelPrincipal.removeAll();
 		panelPrincipal.revalidate();
 		
-		header.removeAll();
-		fleche.removeAll();
+		headerPanel.removeAll();
+		flecheMiniCartePanel.removeAll();
 		// On supprime le panneau que l'on va remplacer
 		frame.remove(panelPrincipal);
 		
-		JPanel panelOver = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		panelOver.setOpaque(false);	
+		JPanel panelFinJeu = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		panelFinJeu.setOpaque(false);	
 		
-		BufferedImage backgroundImg = null;
+		BufferedImage fondEcranImg = null;
 		
 		if(nombreHeros == 0) {
-			SoundLauncher gameOver = new SoundLauncher("gameOver.wav");
+			Musique gameOver = new Musique("gameOver.wav");
 			fond = gameOverImg;
 			gameOver.clip.start();
 			gameOver.clip.loop(0);
 		}
 		else {
-			SoundLauncher youWin = new SoundLauncher("youWin.wav");
+			Musique youWin = new Musique("youWin.wav");
 			youWin.clip.start();
 			youWin.clip.loop(0);
 			fond = youWinImg;
 		}
 		
 		try {
-			backgroundImg = ImageIO.read(new File(fond));
+			fondEcranImg = ImageIO.read(new File(fond));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		
-		JLabel backgroundLabel = new JLabel();
-		Image img = backgroundImg.getScaledInstance(FEN_LARGEUR, FEN_HAUTEUR, Image.SCALE_SMOOTH);
+		JLabel fondEcranLabel = new JLabel();
+		Image img = fondEcranImg.getScaledInstance(CARTE_LARGEUR, CARTE_HAUTEUR, Image.SCALE_SMOOTH);
 		
-		backgroundLabel.setIcon(new ImageIcon(img));	
-		panelOver.add(backgroundLabel);	
+		fondEcranLabel.setIcon(new ImageIcon(img));	
+		panelFinJeu.add(fondEcranLabel);	
 						
-		frame.add(backMenu); 
+		frame.add(retourMenu); 
         frame.add(newGame); 
           
-        newGame.setBouttonImage("new game");      
-        backMenu.setBouttonImage("menu");      
+        newGame.setBoutonImage("new game");      
+        retourMenu.setBoutonImage("menu");      
         
         frame.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			backMenu.unsetHoverBoutton(COULEUR_BOUTTON_MENU);
+    			retourMenu.unsetHoverBoutton(COULEUR_BOUTON_MENU);
     		}	
 		});
         
-        backMenu.addMouseMotionListener(new MouseAdapter() {
+        retourMenu.addMouseMotionListener(new MouseAdapter() {
         	public void mouseMoved(MouseEvent e) {
-        		backMenu.hoverBoutton(COULEUR_BOUTTON_HOVER_MENU);
+        		retourMenu.hoverBoutton(COULEUR_BOUTON_HOVER_MENU);
     		}	
 		});
         
-    	backMenu.addActionListener(new ActionListener(){  
+    	retourMenu.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  	
 				// On suprime tout le contenu
 				panelMenu.removeAll();
 				panelMenu.revalidate();
 				// On supprime le boutton fin de tour pour qu'il n'aparaisse pas si une config est lancer
 				menuBar.remove(finTour);	
-				menuBar.remove(play);
+				menuBar.remove(jouer);
 				// On supprime le panneau que l'on va remplacer
-				frame.remove(panelOver);
+				frame.remove(panelFinJeu);
 				removeBoutton();
 				// On relance la music du menu
 				menuMusic.clip.start();
@@ -120,7 +120,7 @@ public class FinJeu implements IFenetre {
 			} 	 
 		});  
     	
-    	panelMenu.add(panelOver);
+    	panelMenu.add(panelFinJeu);
     	frame.add(panelMenu);
     	
     	frame.setVisible(true);
@@ -132,11 +132,11 @@ public class FinJeu implements IFenetre {
 	 * Suppresion des bouttons.
 	 */
 	private void removeBoutton() {
-		frame.remove(backMenu);
+		frame.remove(retourMenu);
 		frame.remove(newGame);
-		musicBoutton.removeAll();
-		musicBoutton.revalidate();
-		musicBoutton.setBouttonImage("unmute");
+		musiqueBouton.removeAll();
+		musiqueBouton.revalidate();
+		musiqueBouton.setBoutonImage("unmute");
 		MenuEvent.estMusicActif = true;
 	}
 	

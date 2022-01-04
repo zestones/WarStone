@@ -6,7 +6,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 
 /**
- * The Interface IConfig.
+ * Interface IConfig.
  */
 public interface IConfig extends java.io.Serializable {	
 	
@@ -30,12 +30,12 @@ public interface IConfig extends java.io.Serializable {
 	Image lave = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/lave.jpg");
 	Image fleche = Toolkit.getDefaultToolkit().getImage("./res/img/pops/arrow.png");	
 	
-	Dimension taille = Toolkit.getDefaultToolkit().getScreenSize();	
-	
 	/** Dimension de la fenetre de jeux */
+	Dimension taille = Toolkit.getDefaultToolkit().getScreenSize();	
+
 	int FEN_LARGEUR = (int)taille.getWidth();
 	int FEN_HAUTEUR = (int)taille.getHeight();
-		
+	
 	/** Dimension de la barre de menu */
 	int MENUBAR_SECONDAIRE_HAUTEUR = 20;
 	int LARGEUR_MENUBAR_SECONDAIRE = FEN_LARGEUR;
@@ -58,11 +58,14 @@ public interface IConfig extends java.io.Serializable {
 	
 	/** Dimension Total de la carte en Nombre de case */
 	int NB_LIGNES = (FEN_HAUTEUR / TAILLE_CARREAU) + 1;
-	int NB_COLONNES = (FEN_LARGEUR / TAILLE_CARREAU);
+	int NB_COLONNES = (FEN_LARGEUR / TAILLE_CARREAU) + 1;
 
 	/** Dimension du panel INFOS */
 	int INFOS_PANEL_LARGEUR = FEN_LARGEUR - NB_COLONNES_VISIBLES * TAILLE_CARREAU - 2;
 	int INFOS_PANEL_HAUTEUR = CARTE_HAUTEUR + FOOTER_HAUTEUR;
+	
+	/** Largeur du footer */
+	int FOOTER_LARGEUR = (int) (FEN_LARGEUR - INFOS_PANEL_LARGEUR);
 		
 	/** Dimension d'une case pour la miniCarte */
 	int TAILLE_CARREAU_MINI_CARTE = Math.min((INFOS_PANEL_LARGEUR - INFOS_PANEL_LARGEUR/12) / NB_LIGNES, (INFOS_PANEL_LARGEUR - INFOS_PANEL_LARGEUR/8) / NB_COLONNES);
@@ -90,10 +93,7 @@ public interface IConfig extends java.io.Serializable {
 			/** Dimension du panel affichant les infos de l'element clique */
 	int ELEMENT_BODY_LARGEUR = INFOS_PANEL_LARGEUR - PADDING_INFOS_PANEL * 2;
 	int ELEMENT_BODY_HAUTEUR = INFOS_ELEMENT_PANEL_HAUTEUR - ICON_ELEMENT_HAUTEUR - PADDING_INFOS_PANEL * 3;
-	
-	/** Largeur du footer */
-	int FOOTER_LARGEUR = FEN_LARGEUR - INFOS_PANEL_LARGEUR;
-		
+			
 	/** Dimension des icons dans lea barre de menu */
 	int ICON_MENUBAR_SECONDAIRE_HAUTEUR = 15;
 	int ICON_MENUBAR_SECONDAIRE_LARGEUR = 15;

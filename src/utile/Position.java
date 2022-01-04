@@ -11,8 +11,6 @@ public class Position implements IConfig {
 	
 	/** Constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	
-	/**  x, y. */
 	public int x, y;
 	
 	/**
@@ -20,10 +18,10 @@ public class Position implements IConfig {
 	 */
 	public enum POINT_CARDINAUX {NORD, SUD, EST, OUEST, NORD_EST, NORD_OUEST, SUD_EST, SUD_OUEST, MILIEU};
 	
-	/** sam aligne. */
+	/** sens aiguille d'une montre et aligne. */
 	private static final int SAM_ALIGNE = 1;
 	
-	/** siam. */
+	/** sens inverse des aiguilles d'une montre. */
 	private static final int SIAM = -1; 
 	
 	/**
@@ -80,7 +78,7 @@ public class Position implements IConfig {
 	 * @param p la position
 	 * @return double
 	 */
-	public double distance(Position p) { return Math.sqrt(pow(this.x-p.x,2)+pow(this.y-p.y,2)); }
+	public int getDistance(Position p) { return (int) Math.sqrt(pow(this.x-p.x,2)+pow(this.y-p.y,2)); }
 	
 	/**
 	 * Est identique.
@@ -88,7 +86,7 @@ public class Position implements IConfig {
 	 * @param p
 	 * @return true, if successful
 	 */
-	public boolean estIdentique(Position p) { return (this.distance(p) == 0); }
+	public boolean estIdentique(Position p) { return (this.getDistance(p) == 0); }
 
 	/**
 	 * Translater une position.
@@ -102,7 +100,7 @@ public class Position implements IConfig {
 	}
 	
 	/**
-	 * Est valide.
+	 * Est position valide.
 	 *
 	 * @return true, if successful
 	 */
@@ -111,7 +109,7 @@ public class Position implements IConfig {
 	}
 	
 	/**
-	 * Est voisine.
+	 * Est position voisine.
 	 *
 	 * @param pos
 	 * @return true, if successful
@@ -131,7 +129,7 @@ public class Position implements IConfig {
 	 * @param c
 	 * @return signe angle
 	 */
-	public int signeAngle(Position b, Position c) {
+	public int getSigneAngle(Position b, Position c) {
 		double angle = (b.getX() - this.getX()) * (c.getY() - this.getY()) - (c.getX() - this.getX()) * (b.getY() - this.getY());
 		if (angle < 0)
 			return SIAM;

@@ -42,10 +42,10 @@ public interface ISprite {
 	String gobelin = "./res/img/soldat/monstres/sprite/gobelin.png";
 
 	/** frequence des image pour la lecture des sprites. */
-	public SpriteEngine spriteEngine = new SpriteEngine(33);
+	public AnimateurSprite spriteEngine = new AnimateurSprite(33);
 
 	int IMAGE_LARGEUR = 64;
-	int IMAGE_HAUTEUR = 58;
+	int IMAGE_HAUTEUR = 64;
 
 	int LIGNE_REPOS_HAUT = 0;
 	int LIGNE_REPOS_GAUCHE = 1;

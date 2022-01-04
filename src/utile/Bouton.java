@@ -5,13 +5,13 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
 import menu.IMenu;
 
@@ -22,16 +22,16 @@ import menu.IMenu;
  * Cree des bouttons
  * 
  */
-public class Boutton extends JButton implements IMenu{
+public class Bouton extends JButton implements IMenu{
 	
 	/** Constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/** le nombre boutton cree. */
-	public static int NOMBRE_BOUTTON = 0;
+	public static int NOMBRE_BOUTON = 0;
 	
 	/** la couleur. */
-	private Color couleur = COULEUR_BOUTTON_MENU;
+	private Color couleur = COULEUR_BOUTON_MENU;
 	
 	/** les dimensions. */
 	private int largeur, hauteur;
@@ -44,31 +44,31 @@ public class Boutton extends JButton implements IMenu{
 	 * @param largeur la largeur
 	 * @param hauteur la hauteur
 	 */
-	public Boutton(int x, int y, int largeur, int hauteur) {
+	public Bouton(int x, int y, int largeur, int hauteur) {
     	this.largeur = largeur;
     	this.hauteur = hauteur;
 		
     	this.setSize(largeur, hauteur);
-    	y = y + (hauteur + hauteur/4 ) * NOMBRE_BOUTTON;
+    	y = y + (hauteur + hauteur/4 ) * NOMBRE_BOUTON;
 
     	this.setLocation(x, y);  	
     	this.setOpaque(false);
     	this.setBorderPainted(false);
     	
-    	NOMBRE_BOUTTON++;
+    	NOMBRE_BOUTON++;
 	}
 	
 	/**
 	 * Instancie un nouveau boutton.
 	 * Sans le placement en y
 	 *
-	 * @param x la pos x
-	 * @param y la pos y
-	 * @param largeur la largeur
-	 * @param hauteur la hauteur
+	 * @param x 
+	 * @param y 
+	 * @param largeur 
+	 * @param hauteur 
 	 * @param boolean
 	 */
-	public Boutton(int x, int y, int largeur, int hauteur, boolean posY) {
+	public Bouton(int x, int y, int largeur, int hauteur, boolean faux) {
     	this.largeur = largeur;
     	this.hauteur = hauteur;
 		
@@ -82,7 +82,7 @@ public class Boutton extends JButton implements IMenu{
 	/**
 	 * Paintcomponent.
 	 *
-	 * @param g the g
+	 * @param g
 	 */
 	protected void paintComponent(Graphics g){
         g.setColor(couleur);
@@ -112,7 +112,7 @@ public class Boutton extends JButton implements IMenu{
     /**
      * Sets boutton text.
      *
-     * @param txt le text du boutton
+     * @param txt
      */
     public void setBouttonText(String txt) {
     	/** On creer le label qui va contenir l'image */
@@ -131,9 +131,9 @@ public class Boutton extends JButton implements IMenu{
     /**
      * Sets boutton image.
      *
-     * @param image le noù de l'image
+     * @param image
      */
-    public void setBouttonImage(String image){
+    public void setBoutonImage(String image){
     	double coef =  0.89;
     	/** chargement de l'image */
     	ImageIcon icon = new ImageIcon("./res/img/background/menu/" + image + ".png");
@@ -148,26 +148,27 @@ public class Boutton extends JButton implements IMenu{
 		label.setIcon(new ImageIcon(img));
 		/** enfin ajout du label au boutton */
 		this.add(label);	
-	}
+	}   
     
     /**
      * Sets boutton style.
      *
-     * @param text le text
+     * @param text
      * @return button
      */
-    public static JButton setBouttonStyle(String text) {
-    	JButton boutton = new JButton(text);
+    public static JButton setBoutonStyle(String text) {
+    	JButton bouton = new JButton(text);
 
-    	boutton.setForeground(Color.BLACK);
-    	boutton.setBackground(Color.WHITE);
+    	bouton.setForeground(Color.BLACK);
+    	bouton.setBackground(Color.WHITE);
 
-    	Border line = new LineBorder(Color.BLACK);
+    	Border bordure = BorderFactory.createLineBorder(Color.GRAY, 2);;
     	Border margin = new EmptyBorder(5, 15, 5, 15);
-    	Border compound = new CompoundBorder(line, margin);
+
+    	Border compound = new CompoundBorder(bordure, margin);
     	
-    	boutton.setBorder(compound);
-    	
-    	return boutton;
-    }       
+    	bouton.setBorder(compound);
+    	    	
+    	return bouton;
+    }  
 }

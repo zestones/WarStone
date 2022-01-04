@@ -21,7 +21,7 @@ public class MenuBarHeader  implements IFenetre{
 	private void initMenuBarHeader() {
 		
 		// Creation du menu qui contiendra les bouttons
-		menuBar.setLayout(new FlowLayout());
+		menuBar.setLayout(new FlowLayout(FlowLayout.CENTER, 25, 10));
 		menuBar.setOpaque(true);
 		menuBar.setBackground(COULEUR_MENUBAR);
 		menuBar.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -34,25 +34,25 @@ public class MenuBarHeader  implements IFenetre{
 			menuBar.add(finTour);		
 		}
 		else {
-			play.setVisible(true);
-			menuBar.add(play);
+			jouer.setVisible(true);
+			menuBar.add(jouer);
 		}
 			
 		sauvegarde.setVisible(true);
 		menuBar.add(sauvegarde);
 		
-		restart.setVisible(true);
-		menuBar.add(restart);
+		recommencer.setVisible(true);
+		menuBar.add(recommencer);
 		
 		menuBar.add(musicOn); 
         musicOn.setSelected(true);
         
-        header.add(menuBar, BorderLayout.CENTER);
+        headerPanel.add(menuBar, BorderLayout.CENTER);
                 
-        fleche.setOpaque(true);
-		fleche.setBackground(COULEUR_BOUTTON_MENU);
-		fleche.setPreferredSize(new Dimension(INFOS_PANEL_LARGEUR, MENUBAR_HAUTEUR));
-		fleche.setBorder(new MatteBorder(0, 2, 2, 2, COULEUR_BORDURE));
+        flecheMiniCartePanel.setOpaque(true);
+		flecheMiniCartePanel.setBackground(COULEUR_BOUTON_MENU);
+		flecheMiniCartePanel.setPreferredSize(new Dimension(INFOS_PANEL_LARGEUR, MENUBAR_HAUTEUR));
+		flecheMiniCartePanel.setBorder(new MatteBorder(0, 2, 2, 2, COULEUR_BORDURE));
 		
 		// Panel contenant les fleche pour se diriger sur la carte
 		JPanel flecheContainer = new JPanel(new BorderLayout());
@@ -77,8 +77,8 @@ public class MenuBarHeader  implements IFenetre{
 		cameraDroite.setVisible(true);
 		flecheContainer.add(cameraDroite, BorderLayout.EAST);
 		
-		fleche.add(flecheContainer);
-		header.add(fleche, BorderLayout.EAST);		
+		flecheMiniCartePanel.add(flecheContainer);
+		headerPanel.add(flecheMiniCartePanel, BorderLayout.EAST);		
 	}
 	
 }

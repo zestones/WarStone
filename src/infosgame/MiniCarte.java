@@ -9,13 +9,15 @@ import javax.swing.SwingUtilities;
 
 import carte.Camera;
 import carte.Carte;
+import fenetrejeu.IFenetre;
 import utile.Position;
 import wargame.IConfig;
+import wargame.PanneauJeu;
 
 /**
  * Class MiniCarte.
  */
-public class MiniCarte extends JPanel implements IConfig {
+public class MiniCarte extends JPanel implements IConfig, IFenetre {
 	
 	/** Constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -27,7 +29,7 @@ public class MiniCarte extends JPanel implements IConfig {
 	private Camera cam;
 	
 	/** La pos du clic sur la miniCarte. */
-	private Position clic;
+	private Position clique;
 	
 	/**
 	 * Instancie une nouvelle mini carte.
@@ -41,6 +43,21 @@ public class MiniCarte extends JPanel implements IConfig {
 	}
 	
 	/**
+	 * Maj mini carte.
+	 *
+	 * @param pj
+	 */
+	public static void majMiniCarte(PanneauJeu pj) {
+		pj.cam = new Camera(pj.c);
+		// Une supprime l'ancien conteneur
+		carteMiniaturePanel.removeAll();
+		// On valide les changement
+		carteMiniaturePanel.revalidate();	
+		// Ajout de la nouvelle MiniCarte
+		carteMiniaturePanel.add(new MiniCarte(pj.cam));
+	}
+	
+	/**
 	 * Mini carte event.
 	 * 
 	 * deplacement de la carte en fonctions des cliques sur la mini Carte
@@ -51,20 +68,20 @@ public class MiniCarte extends JPanel implements IConfig {
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				if (SwingUtilities.isLeftMouseButton(e)) {
-					clic = new Position(e.getX() / TAILLE_CARREAU_MINI_CARTE, e.getY() / TAILLE_CARREAU_MINI_CARTE);
-					if(clic.getX() < cam.getDx()) {
-						cam.setDx(clic.getX());
+					clique = new Position(e.getX() / TAILLE_CARREAU_MINI_CARTE, e.getY() / TAILLE_CARREAU_MINI_CARTE);
+					if(clique.getX() < cam.getDx()) {
+						cam.setDx(clique.getX());
 					}
-					else if(clic.getX() > cam.getDx() - 1 + NB_COLONNES_VISIBLES) {
-						Position pos = new Position(clic.getX() + 1, 0);
-						cam.setDx((int) pos.distance(new Position(NB_COLONNES_VISIBLES, 0)));
+					else if(clique.getX() > cam.getDx() - 1 + NB_COLONNES_VISIBLES) {
+						Position pos = new Position(clique.getX() + 1, 0);
+						cam.setDx(pos.getDistance(new Position(NB_COLONNES_VISIBLES, 0)));
 					}
-					if(clic.getY() < cam.getDy()) {
-						cam.setDy(clic.getY());
+					if(clique.getY() < cam.getDy()) {
+						cam.setDy(clique.getY());
 					}
-					else if(clic.getY() > (cam.getDy() - 1  + NB_LIGNES_VISIBLES)) {
-						Position pos = new Position(0, clic.getY() + 1);
-						cam.setDy((int) pos.distance(new Position(0, NB_LIGNES_VISIBLES)));
+					else if(clique.getY() > (cam.getDy() - 1  + NB_LIGNES_VISIBLES)) {
+						Position pos = new Position(0, clique.getY() + 1);
+						cam.setDy(pos.getDistance(new Position(0, NB_LIGNES_VISIBLES)));
 					}
 				}
 			}
@@ -72,7 +89,7 @@ public class MiniCarte extends JPanel implements IConfig {
 	}
 	
 	/**
-	 * Dessine focus.
+	 * Dessine le focus.
 	 *
 	 * Dessin de la zone visible sur la carte
 	 *

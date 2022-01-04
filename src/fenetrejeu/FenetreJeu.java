@@ -1,12 +1,3 @@
-/********************************************************************
- * 							WarStone								*
- *  -------------------------------------------------------------	*
- * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
- *  -------------------------------------------------------------	*
- * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
- * 																	*
- * 														wargame		*
- * ******************************************************************/
 package fenetrejeu;
 
 import java.awt.BorderLayout;
@@ -31,16 +22,16 @@ import wargame.PanneauJeu;
 
 
 /**
- * The Class FenetreJeu.
+ * Class FenetreJeu.
  */
 public class FenetreJeu extends JPanel implements IFenetre{
 	
-	/** The Constant serialVersionUID. */
+	/** Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;	
 	public static final PanneauJeu panneau = new PanneauJeu(new Carte());
 	
 	/**
-	 * Instantiates a new fenetre jeu.
+	 * Instancie une nouvelle fenetre jeu.
 	 */
 	public FenetreJeu(Carte c, boolean conf) {
 		
@@ -59,15 +50,15 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		Carte.modeConf = conf;
 		
 		/** On initialise le panel principal */
-		panelPrincipal.setPreferredSize(new Dimension(FEN_LARGEUR, FEN_HAUTEUR));
+		panelPrincipal.setPreferredSize(taille);
 		panelPrincipal.setLayout(new BorderLayout());
 		panelPrincipal.setOpaque(false);	   	
 		
-		header.setLayout(new BorderLayout());
-		header.setOpaque(false);	    	
+		headerPanel.setLayout(new BorderLayout());
+		headerPanel.setOpaque(false);	    	
 	
-		panel.setLayout(new BorderLayout());
-		panel.setOpaque(false);	    
+		cartePanel.setLayout(new BorderLayout());
+		cartePanel.setOpaque(false);	    
 		
 		/** On charge la liste des sauvegardes */
 		LoadGamePage.initListeSauvegarde();
@@ -97,18 +88,18 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		miniCartePanel.setBorder(new MatteBorder(0, 2, 0, 2, COULEUR_BORDURE));
 
 		/** On centre le panel qui contient la carte dans le conteneur creer juste avant */
-		carteMiniature.setLayout(new BorderLayout());
+		carteMiniaturePanel.setLayout(new BorderLayout());
 		/** On definie les dimensions */
-		carteMiniature.setPreferredSize(new Dimension(MINI_CARTE_LARGEUR, MINI_CARTE_HAUTEUR));
+		carteMiniaturePanel.setPreferredSize(new Dimension(MINI_CARTE_LARGEUR, MINI_CARTE_HAUTEUR));
 		
 		// On ajoute la carte au panel
-		carteMiniature.add(new MiniCarte(panneau.cam));	
+		carteMiniaturePanel.add(new MiniCarte(panneau.cam));	
 		
 		// On Met des bordure autour de la carte
-		carteMiniature.setBorder(new MatteBorder(5, 5, 5, 5, COULEUR_MENUBAR));
+		carteMiniaturePanel.setBorder(new MatteBorder(5, 5, 5, 5, COULEUR_MENUBAR));
 		
 		/** On rajoute ce panel au conteneur miniCartePanel */
-		miniCartePanel.add(carteMiniature);
+		miniCartePanel.add(carteMiniaturePanel);
 		
 		/** On ajoute enfin on conteneur principal */
 		infosPanel.add(miniCartePanel);
@@ -123,19 +114,19 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		infosSoldatPanel.setBackground(COULEUR_FORET);
 		
 		/** Alignement du text */		
-		soldatRestant.setHorizontalAlignment(SwingConstants.CENTER);
+		elementRestantLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		/** On centre le label avec BorderLayou.CENTER */
-		soldatRestant.setLayout(new BorderLayout());
+		elementRestantLabel.setLayout(new BorderLayout());
 	
 		/** On definit la couleur et la taille */
-		soldatRestant.setPreferredSize(new Dimension(INFOS_PANEL_LARGEUR, ELEMENT_RESTANT_HAUTEUR));
+		elementRestantLabel.setPreferredSize(new Dimension(INFOS_PANEL_LARGEUR, ELEMENT_RESTANT_HAUTEUR));
 		
 		/** Couleur du text et Police */
-		soldatRestant.setForeground(COULEUR_GRILLE);
-		soldatRestant.setFont(new Font("Pushster", Font.BOLD, 15));
-		soldatRestant.setBorder(new MatteBorder(2, 2, 0, 2, COULEUR_BORDURE));
-		infosSoldatPanel.add(soldatRestant);
+		elementRestantLabel.setForeground(COULEUR_GRILLE);
+		elementRestantLabel.setFont(new Font("Pushster", Font.BOLD, 15));
+		elementRestantLabel.setBorder(new MatteBorder(2, 2, 0, 2, COULEUR_BORDURE));
+		infosSoldatPanel.add(elementRestantLabel);
 		
 		infosPanel.add(infosSoldatPanel);
 		
@@ -147,42 +138,42 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		infosElementPanel.setBorder(new MatteBorder(2, 2, 0, 2, COULEUR_BORDURE));
 		
 		// panel contenant l'icon
-		iconPanel.setBackground(COULEUR_GRILLE);
-		iconPanel.setPreferredSize(new Dimension(ICON_ELEMENT_LARGEUR, ICON_ELEMENT_HAUTEUR));
-		iconPanel.setBorder(new LineBorder(COULEUR_BORDURE, 2, true));
+		infosIconPanel.setBackground(COULEUR_GRILLE);
+		infosIconPanel.setPreferredSize(new Dimension(ICON_ELEMENT_LARGEUR, ICON_ELEMENT_HAUTEUR));
+		infosIconPanel.setBorder(new LineBorder(COULEUR_BORDURE, 2, true));
 		
 		// Taille du label contenant l'icon
-		iconLabel.setPreferredSize(new Dimension(ICON_ELEMENT_LARGEUR, ICON_ELEMENT_HAUTEUR));
+		infosIconLabel.setPreferredSize(new Dimension(ICON_ELEMENT_LARGEUR, ICON_ELEMENT_HAUTEUR));
 		
 		// Label contant les infos de l'elements
-		iconInfosLabel.setOpaque(true);
-		iconInfosLabel.setBackground(COULEUR_HEROS_DEJA_JOUE);
+		InfosElementLabel.setOpaque(true);
+		InfosElementLabel.setBackground(COULEUR_HEROS_DEJA_JOUE);
 
 		// On centre le text
-		iconInfosLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		iconInfosLabel.setFont(new Font("Pushster", Font.BOLD, 15));
-		iconInfosLabel.setBorder(new MatteBorder(0, 0, 0, 2, COULEUR_BORDURE));
+		InfosElementLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		InfosElementLabel.setFont(new Font("Pushster", Font.BOLD, 15));
+		InfosElementLabel.setBorder(new MatteBorder(0, 0, 0, 2, COULEUR_BORDURE));
 		
 		// On rajoute les elements a leur conteneur parent
-		iconPanel.add(iconLabel);
-		infosElementHeader.add(iconPanel, BorderLayout.WEST);
-		infosElementHeader.add(iconInfosLabel, BorderLayout.CENTER);
+		infosIconPanel.add(infosIconLabel);
+		infosElementHeader.add(infosIconPanel, BorderLayout.WEST);
+		infosElementHeader.add(InfosElementLabel, BorderLayout.CENTER);
 		infosElementPanel.add(infosElementHeader, BorderLayout.NORTH);
 	
-		infosElementBody.setOpaque(true);
-		infosElementBody.setLayout(new GridLayout(1, 0));
-		infosElementBody.setBackground(COULEUR_EAU);
+		descriptifElementPanel.setOpaque(true);
+		descriptifElementPanel.setLayout(new GridLayout(1, 0));
+		descriptifElementPanel.setBackground(COULEUR_EAU);
 		
 		// En mode config on affiche les elements deposable
 		if(Carte.modeConf) {
-			infosElementBody.setPreferredSize(new Dimension(ELEMENT_BODY_LARGEUR, TAILLE_CARREAU));
+			descriptifElementPanel.setPreferredSize(new Dimension(ELEMENT_BODY_LARGEUR, TAILLE_CARREAU));
 			InfosElement.dessineInfosElementBody();
 		}
 		/** Sinon on affiche le panel avec le detail des elements clique */
 		else
-			infosElementBody.setPreferredSize(new Dimension(ELEMENT_BODY_LARGEUR, ELEMENT_BODY_HAUTEUR));
+			descriptifElementPanel.setPreferredSize(new Dimension(ELEMENT_BODY_LARGEUR, ELEMENT_BODY_HAUTEUR));
 		
-		infosElementPanel.add(infosElementBody, BorderLayout.SOUTH);
+		infosElementPanel.add(descriptifElementPanel, BorderLayout.SOUTH);
 		infosPanel.add(infosElementPanel);
 		
 		/** le panneau existe deja on le modifie */
@@ -191,20 +182,20 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		else
 			panneau.setPanneauJeu(c);	
 	
-		panel.add(panneau, BorderLayout.CENTER);
+		cartePanel.add(panneau, BorderLayout.CENTER);
 		
-		footer.setBackground(COULEUR_FOOTER);
-		footer.setPreferredSize(new Dimension(FOOTER_LARGEUR, FOOTER_HAUTEUR));
-		footer.setOpaque(true);
-		footer.setFont(new Font("Arial", Font.BOLD, 13));
-		footer.setForeground(Color.WHITE);				
+		footerLabel.setBackground(COULEUR_FOOTER);
+		footerLabel.setPreferredSize(new Dimension(FOOTER_LARGEUR, FOOTER_HAUTEUR));
+		footerLabel.setOpaque(true);
+		footerLabel.setFont(new Font("Arial", Font.BOLD, 13));
+		footerLabel.setForeground(Color.WHITE);				
 		
-		panel.add(footer, BorderLayout.SOUTH);
+		cartePanel.add(footerLabel, BorderLayout.SOUTH);
 		
 		// On ajoute tout les panels a la frame
-		panelPrincipal.add(header, BorderLayout.NORTH);
+		panelPrincipal.add(headerPanel, BorderLayout.NORTH);
 		panelPrincipal.add(infosPanel, BorderLayout.EAST);
-		panelPrincipal.add(panel, BorderLayout.CENTER);		
+		panelPrincipal.add(cartePanel, BorderLayout.CENTER);		
 		
 		new MenuBarHeader();
 		new MenuBar();

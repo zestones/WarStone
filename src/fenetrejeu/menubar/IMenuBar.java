@@ -5,16 +5,16 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicArrowButton;
 
-import utile.Boutton;
+import utile.Bouton;
 import wargame.IConfig;
 
 public interface IMenuBar extends IConfig {
 	
-	JButton finTour = Boutton.setBouttonStyle("Fin Tour");; 
-	JButton play =  Boutton.setBouttonStyle("play"); 
-	JButton sauvegarde = Boutton.setBouttonStyle("Save");   
-	JButton restart = Boutton.setBouttonStyle("ReStart");;   
-	JButton menu = Boutton.setBouttonStyle("Menu");;
+	JButton finTour = Bouton.setBoutonStyle("Fin Tour");; 
+	JButton jouer =  Bouton.setBoutonStyle("Jouer"); 
+	JButton sauvegarde = Bouton.setBoutonStyle("Sauvegarder");   
+	JButton recommencer = Bouton.setBoutonStyle("Recommencer");;   
+	JButton menu = Bouton.setBoutonStyle("Menu");;
 
 	// MenuBar Principal contenant les bouton
 	JPanel menuBar = new JPanel();

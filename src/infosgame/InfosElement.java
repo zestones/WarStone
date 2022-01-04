@@ -55,15 +55,15 @@ public abstract class InfosElement implements IFenetre {
 		}
 		/** si nous ne somme pas en mode creatif on affiche pas les infos des obstacles */
 		if(!Carte.modeConf) {
-			infosElementBody.removeAll();
-			infosElementBody.revalidate();
+			descriptifElementPanel.removeAll();
+			descriptifElementPanel.revalidate();
 			dessineInfosSupElements(e);
 		}	
 		
 		Image img = e.getImage().getScaledInstance(ICON_ELEMENT_LARGEUR, ICON_ELEMENT_HAUTEUR, Image.SCALE_SMOOTH);
 		ImageIcon imgIcon = new ImageIcon(img);
 		
-		iconLabel.setIcon(imgIcon);
+		infosIconLabel.setIcon(imgIcon);
 		
 		String infos = "<html><font size=\"+1\">  " + e.getType() + "</font><FONT COLOR=RED><br><font size=\"-1\">  POS: " + e.getPosition()+"</font></FONT>";
 		
@@ -72,14 +72,14 @@ public abstract class InfosElement implements IFenetre {
 		else
 			infos += "</html>";
 		
-		iconInfosLabel.setText(infos);
+		InfosElementLabel.setText(infos);
 	
-		iconPanel.add(iconLabel);
+		infosIconPanel.add(infosIconLabel);
 		
-		infosElementHeader.add(iconPanel, BorderLayout.WEST);
-		infosElementHeader.add(iconInfosLabel, BorderLayout.CENTER);
+		infosElementHeader.add(infosIconPanel, BorderLayout.WEST);
+		infosElementHeader.add(InfosElementLabel, BorderLayout.CENTER);
 		infosElementPanel.add(infosElementHeader, BorderLayout.NORTH);
-		infosElementPanel.add(infosElementBody, BorderLayout.SOUTH);
+		infosElementPanel.add(descriptifElementPanel, BorderLayout.SOUTH);
 		infosElementPanel.repaint();
 	}
 	
@@ -96,8 +96,8 @@ public abstract class InfosElement implements IFenetre {
 		infosLabel.setText(infos);
 		infosLabel.setFont(new Font("Pushster", Font.BOLD, 15));
 		infosLabel.setBorder(new MatteBorder(0, 0, 0, 2, COULEUR_BORDURE));
-		infosElementBody.add(infosLabel);
-		infosElementBody.repaint();
+		descriptifElementPanel.add(infosLabel);
+		descriptifElementPanel.repaint();
 	}
 	
 	/**
@@ -114,7 +114,7 @@ public abstract class InfosElement implements IFenetre {
 			ImageIcon imgIcon = new ImageIcon(img);
 			ObstacleLabel.setIcon(imgIcon);
 			ObstacleLabel.setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
-			infosElementBody.add(ObstacleLabel, BorderLayout.CENTER);
+			descriptifElementPanel.add(ObstacleLabel, BorderLayout.CENTER);
 			listeLabelObstacle.add(ObstacleLabel);
 			listeObstacle.add(o);
 		}
@@ -122,7 +122,7 @@ public abstract class InfosElement implements IFenetre {
 		dessinElementModeConfig();
 			
 		System.out.println("dessin liste");
-		infosElementBody.repaint();
+		descriptifElementPanel.repaint();
 	}
 	
 	/**
@@ -148,7 +148,7 @@ public abstract class InfosElement implements IFenetre {
 		}
 		
 		/** Un clique sur le header ou le panel infosElement deselectione l'objet */
-		header.addMouseListener(new MouseAdapter() {
+		headerPanel.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				if(Carte.modeConf) {
 					obstacleSelectione = null;
@@ -183,19 +183,19 @@ public abstract class InfosElement implements IFenetre {
 	 */
 	private static void supprimeInfos() {
 		// Suppression de l'icon
-		iconPanel.removeAll();
-		iconPanel.revalidate();
+		infosIconPanel.removeAll();
+		infosIconPanel.revalidate();
 		// On redefinie ses dimensions
-		iconPanel.setPreferredSize(new Dimension(ICON_ELEMENT_LARGEUR, ICON_ELEMENT_HAUTEUR));
-		iconInfosLabel.setText("");
+		infosIconPanel.setPreferredSize(new Dimension(ICON_ELEMENT_LARGEUR, ICON_ELEMENT_HAUTEUR));
+		InfosElementLabel.setText("");
 		// On redessine le panel
 		infosElementHeader.repaint();
 		// On supprime aussi les infos supp si nous ne somme pas en mode config
 		if(!Carte.modeConf) {
-			infosElementBody.removeAll();
-			infosElementBody.revalidate();
+			descriptifElementPanel.removeAll();
+			descriptifElementPanel.revalidate();
 			// On redessine le panel
-			infosElementBody.repaint();
+			descriptifElementPanel.repaint();
 		}
 	}
 }

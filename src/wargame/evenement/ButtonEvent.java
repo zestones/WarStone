@@ -1,12 +1,3 @@
-/********************************************************************
- * 							WarStone								*
- *  -------------------------------------------------------------	*
- * |	 Universit� Jean-Monnet   		 L3-Infos 		   2021	 |	*
- *  -------------------------------------------------------------	*
- * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
- * 																	*
- * 												wargame.evenement	*
- * ******************************************************************/
 package wargame.evenement;
 
 import java.awt.Color;
@@ -19,64 +10,66 @@ import carte.Carte;
 import fenetrejeu.FenetreJeu;
 import fenetrejeu.IFenetre;
 import infosgame.InfosElement;
+import infosgame.MiniCarte;
 import menu.MenuEvent;
 import menu.MenuJeu;
 import menu.loadgame.ISauvegarde;
 import menu.loadgame.Sauvegarde;
-import sprite.SpriteController;
-import utile.Fleche;
+import sprite.GestionSprite;
+import utile.FlecheDirectionnelle;
 import wargame.PanneauJeu;
 
 public class ButtonEvent implements IFenetre, ISauvegarde {
 	private static final long serialVersionUID = 1L;
+
+	private GestionSprite spriteController;
 	private PanneauJeu pj;
 	public int tour;
-	private SpriteController spriteController;
 
 	public ButtonEvent(PanneauJeu pj) {
 		this.tour = 0;
 		this.pj = pj;
 		
-		this.spriteController = new SpriteController(pj);
+		this.spriteController = new GestionSprite(pj);
 		
-		this.cameraEvent();
-		this.partieEvent();
+		this.cameraListeners();
+		this.partieListeners();
 		
-		this.bouttonHover();
+		this.boutonHover();
 	}
 	
-	private void cameraEvent() {
+	private void cameraListeners() {
 		// Boutton restart recharge une carte cree aleatoirement
 		cameraBas.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
-				pj.cam.deplacement(0, 1);;
+				pj.cam.deplaceCamera(0, 1);;
 			}  
 		});  
 		cameraHaut.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
-				pj.cam.deplacement(0, -1);
+				pj.cam.deplaceCamera(0, -1);
 			}  
 		});  
 		cameraGauche.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
-				pj.cam.deplacement(-1, 0);
+				pj.cam.deplaceCamera(-1, 0);
 			}  
 		});  
 		cameraDroite.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
-				pj.cam.deplacement(1, 0);
+				pj.cam.deplaceCamera(1, 0);
 			}  
 		}); 
 	}
 	
-	private void partieEvent() {
+	private void partieListeners() {
 		// Boutton restart recharge une carte cree aleatoirement
-		restart.addActionListener(new ActionListener(){  
+		recommencer.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  	
 				pj.c = new Carte();
-				pj.majMiniCarte();
+				MiniCarte.majMiniCarte(pj);
 				
-				pj.flecheDirectionnelle = new Fleche(pj.cam);
+				pj.flecheDirectionnelle = new FlecheDirectionnelle(pj.cam);
 								
 				tour = 0;
 				pj.herosSelectione = null;
@@ -110,7 +103,7 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
     		}
     	});
 		
-		play.addActionListener(new ActionListener(){
+		jouer.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e){    	
     				pj.c.genereSoldats();
     				// On suprime tout le contenu
@@ -120,18 +113,18 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
     				// Suprime les listes des obstacle
     				InfosElement.removeObstacleList();
     				// On vide le panel
-    				infosElementBody.removeAll();
-    				infosElementBody.revalidate();
+    				descriptifElementPanel.removeAll();
+    				descriptifElementPanel.revalidate();
     				
     				// On supprime le header et les fleches
-    				header.removeAll();
-    				fleche.removeAll();
+    				headerPanel.removeAll();
+    				flecheMiniCartePanel.removeAll();
     				// On supprime le panneau que l'on va remplacer
     				frame.remove(panelPrincipal);
     				
     				// On supprime le boutton fin de tour pour qu'il n'aparaisse pas si une config est lancer
     				menuBar.remove(finTour);	
-    				menuBar.remove(play);	
+    				menuBar.remove(jouer);	
     				// On arrete la music de conf et lance music jeux
     				gameMusic.clip.start();
     				
@@ -167,25 +160,25 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 				// Suprime les listes des obstacle
 				InfosElement.removeObstacleList();
 				// On vide le panel
-				infosElementBody.removeAll();
-				infosElementBody.revalidate();
+				descriptifElementPanel.removeAll();
+				descriptifElementPanel.revalidate();
 				
 				// On supprime le header et les fleches
-				header.removeAll();
-				fleche.removeAll();
+				headerPanel.removeAll();
+				flecheMiniCartePanel.removeAll();
 				// On supprime le panneau que l'on va remplacer
 				frame.remove(panelPrincipal);
 				
 				// On supprime le boutton fin de tour pour qu'il n'aparaisse pas si une config est lancer
 				menuBar.remove(finTour);	
-				menuBar.remove(play);
+				menuBar.remove(jouer);
 				// On lance la music du menu	
 				menuMusic.clip.start();
 				// On enleve le boutton de music
-				musicBoutton.removeAll();
-				musicBoutton.revalidate();
+				musiqueBouton.removeAll();
+				musiqueBouton.revalidate();
 				// et on le remplace par un nouveau
-				musicBoutton.setBouttonImage("unmute");
+				musiqueBouton.setBoutonImage("unmute");
 				MenuEvent.estMusicActif = true;
 				
 				// Creation du menu
@@ -195,11 +188,11 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 		});  
 	}	
 	
-	private void bouttonHover() {
-		play.addMouseMotionListener(new MouseAdapter() {
+	private void boutonHover() {
+		jouer.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			play.setForeground(Color.WHITE);
-    			play.setBackground(Color.BLACK);
+    			jouer.setForeground(Color.WHITE);
+    			jouer.setBackground(Color.BLACK);
     		}	
 		});
 		sauvegarde.addMouseMotionListener(new MouseAdapter() {
@@ -208,10 +201,10 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
     			sauvegarde.setBackground(Color.BLACK);
     		}	
 		});
-		restart.addMouseMotionListener(new MouseAdapter() {
+		recommencer.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			restart.setForeground(Color.WHITE);
-    			restart.setBackground(Color.BLACK);
+    			recommencer.setForeground(Color.WHITE);
+    			recommencer.setBackground(Color.BLACK);
     		}	
 		});
 		finTour.addMouseMotionListener(new MouseAdapter() {
@@ -227,7 +220,7 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
     		}	
 		});
 		
-		header.addMouseMotionListener(new MouseAdapter() {
+		headerPanel.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
     			menu.setForeground(Color.BLACK);
     			menu.setBackground(Color.WHITE);
@@ -235,14 +228,14 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
     			finTour.setForeground(Color.BLACK);
     			finTour.setBackground(Color.WHITE);
     			
-    			restart.setForeground(Color.BLACK);
-    			restart.setBackground(Color.WHITE);
+    			recommencer.setForeground(Color.BLACK);
+    			recommencer.setBackground(Color.WHITE);
     			
     			sauvegarde.setForeground(Color.BLACK);
     			sauvegarde.setBackground(Color.WHITE);
     			
-    			play.setForeground(Color.BLACK);
-    			play.setBackground(Color.WHITE);
+    			jouer.setForeground(Color.BLACK);
+    			jouer.setBackground(Color.WHITE);
     		}	
 		});
 	}

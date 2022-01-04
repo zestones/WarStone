@@ -5,8 +5,8 @@ import java.awt.image.BufferedImage;
 
 import carte.Camera;
 import carte.Carte;
-import sprite.SpriteInitializer;
-import sprite.SpriteSheet;
+import sprite.InitialiseurSprite;
+import sprite.Sprite;
 import utile.Position;
 
 /**
@@ -20,8 +20,8 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
 	private final int POINTS_DE_VIE_MAX, PUISSANCE, TIR, PORTEE_VISUELLE;
    
 	/** sprite soldat. */
-	protected transient SpriteInitializer spriteSoldat;
-	public transient SpriteSheet dernierSprite;
+	protected transient InitialiseurSprite spriteSoldat;
+	public transient Sprite dernierSprite;
 	
 	private int pointsDeVie;
        
@@ -138,9 +138,9 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
 			
 		this.initChampVisuelle();
 		for(int i = 0; i < nbCotes - 1; i++)
-			listeAngle[i] = p.signeAngle(this.champVisuelle[i], this.champVisuelle[i + 1]);
+			listeAngle[i] = p.getSigneAngle(this.champVisuelle[i], this.champVisuelle[i + 1]);
 		
-		listeAngle[nbCotes - 1] = p.signeAngle(this.champVisuelle[nbCotes - 1], this.champVisuelle[0]);
+		listeAngle[nbCotes - 1] = p.getSigneAngle(this.champVisuelle[nbCotes - 1], this.champVisuelle[0]);
 		
 		for(int k = 0; k < listeAngle.length; k++) {
 			for(int j = 1; j < nbCotes - 1; j++)
@@ -161,11 +161,11 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     	int dy = cam.getDy() * TAILLE_CARREAU;
     	
     	if(this.spriteSoldat == null) {
-    		this.spriteSoldat = new SpriteInitializer(this);
+    		this.spriteSoldat = new InitialiseurSprite(this);
     		this.dernierSprite = this.spriteSoldat.spriteReposDroit;
     	}
     	
-    	BufferedImage sprite = this.dernierSprite.getSprite(spriteEngine.getCycleProgress()); 
+    	BufferedImage sprite = this.dernierSprite.getImageSprite(spriteEngine.getProgression()); 
 		g.drawImage(sprite, (this.pos.getX() * TAILLE_CARREAU) - dx + this.deplacementX, (this.pos.getY() * TAILLE_CARREAU) - dy + this.deplacementY, TAILLE_CARREAU, TAILLE_CARREAU, null);
 		
 		if(this.fleche != null && this.combat) {
@@ -209,7 +209,7 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     		return;
     	
     	if(this.spriteSoldat == null) {
-    		this.spriteSoldat = new SpriteInitializer(this);
+    		this.spriteSoldat = new InitialiseurSprite(this);
     		this.dernierSprite = this.spriteSoldat.spriteReposDroit;
     	}
     	   	
@@ -410,5 +410,5 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
      *
      * @return sprite
      */
-    public abstract String getSprite();
+    public abstract String getCheminSprite();
 }

@@ -1,12 +1,3 @@
-/********************************************************************
- * 							WarStone								*
- *  -------------------------------------------------------------	*
- * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
- *  -------------------------------------------------------------	*
- * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
- * 																	*
- * 														carte		*
- * ******************************************************************/
 package carte;
 
 import java.awt.Graphics;
@@ -48,6 +39,7 @@ public interface ICarte {
 	/**
 	 * Trouve un héros choisi aléatoirement
 	 * parmi les 8 positions adjacentes de pos
+	 * 
 	 * @param herosTrouve
 	 * @return Heros
 	 */
@@ -60,6 +52,7 @@ public interface ICarte {
 	 * @return boolean
 	 */
 	boolean deplaceSoldat(Position pos, Soldat soldat);
+	
 	/**
 	 * Supression d'un soldat lors de la perte de tout ses Points de vie
 	 * @param perso
@@ -79,7 +72,7 @@ public interface ICarte {
 	 * géré par cette methode
 	 * @param pj
 	 */
-	void jouerSoldats(PanneauJeu pj, int tour);
+	void jouerSoldats(PanneauJeu pj);
 	
 	/**
 	 * Methode de dessin de la carte

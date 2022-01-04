@@ -1,6 +1,5 @@
 package menu;
 
-import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -26,7 +25,7 @@ public class MenuJeu implements IMenu {
 	 */
 	public MenuJeu(){
 		/** Creation de la fenetre avec les valeurs maximal de l'ecran */
-		frame.setPreferredSize(new Dimension(MENU_LARGEUR, MENU_HAUTEUR));
+		frame.setPreferredSize(DIM_MENU);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		frame.setUndecorated(true);
@@ -36,8 +35,8 @@ public class MenuJeu implements IMenu {
 		menuMusic.clip.start();
 
 		/** Creation du boutton music */
-        musicBoutton.setBouttonImage("unmute");
-        musicBoutton.hoverBoutton(COULEUR_BOUTTON_MENU);
+        musiqueBouton.setBoutonImage("unmute");
+        musiqueBouton.hoverBoutton(COULEUR_BOUTON_MENU);
         
         /** Creation d'une menu Bar */
         new MenuBar();
@@ -55,7 +54,7 @@ public class MenuJeu implements IMenu {
 	 */
 	public static void initMenuJeu() {
 		/** creation du panel Principal */
-		panelMenu.setPreferredSize(new Dimension(MENU_LARGEUR, MENU_HAUTEUR));
+		panelMenu.setPreferredSize(DIM_MENU);
 		panelMenu.setOpaque(false);
 			
 		/** Arret des music qui ont pu être lance */
@@ -63,34 +62,34 @@ public class MenuJeu implements IMenu {
 		configMusic.clip.stop();
 			
 		/** creation d'un label pour deposer l'image */
-		BufferedImage backgroundImg = null;
+		BufferedImage fondEcran = null;
 		try {
-			backgroundImg = ImageIO.read(new File(background));
+			fondEcran = ImageIO.read(new File(fondEcranLoadPage));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		
-		JLabel backgroundLabel = new JLabel();
-		Image img = backgroundImg.getScaledInstance(MENU_LARGEUR, MENU_HAUTEUR, Image.SCALE_SMOOTH);
+		JLabel fondEcranLabel = new JLabel();
+		Image img = fondEcran.getScaledInstance((int) DIM_MENU.getWidth(), (int) DIM_MENU.getHeight(), Image.SCALE_SMOOTH);
 		/** Ajout de l'image au label */
-		backgroundLabel.setIcon(new ImageIcon(img));	
+		fondEcranLabel.setIcon(new ImageIcon(img));	
 		/** Ajout du label au panel */
-		panelMenu.add(backgroundLabel);	
+		panelMenu.add(fondEcranLabel);	
 		
-		frame.remove(backMenu);
+		frame.remove(retourMenu);
 			
 		/** Creation des boutton avec des images */
-		newGame.setBouttonImage("new game");
-		newGame.hoverBoutton(COULEUR_BOUTTON_MENU);
-        loadGame.setBouttonImage("load game");
-        loadGame.hoverBoutton(COULEUR_BOUTTON_MENU);
-        config.setBouttonImage("config");
-        config.hoverBoutton(COULEUR_BOUTTON_MENU);
-        quit.setBouttonImage("quit");
-        quit.hoverBoutton(COULEUR_BOUTTON_MENU);
+		newGame.setBoutonImage("new game");
+		newGame.hoverBoutton(COULEUR_BOUTON_MENU);
+        loadGame.setBoutonImage("load game");
+        loadGame.hoverBoutton(COULEUR_BOUTON_MENU);
+        config.setBoutonImage("config");
+        config.hoverBoutton(COULEUR_BOUTON_MENU);
+        quit.setBoutonImage("quit");
+        quit.hoverBoutton(COULEUR_BOUTON_MENU);
 				
 		/** Ajout des bouttons du menu a la frame */
-		frame.add(musicBoutton);
+		frame.add(musiqueBouton);
 		frame.add(newGame); 
         frame.add(loadGame); 
         frame.add(config);

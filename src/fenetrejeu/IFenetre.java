@@ -12,43 +12,45 @@ import menu.IMenu;
 
 public interface IFenetre extends IMenuBar, IMenu{
 
-	// panelPrincipal de la fenetre
+	/** panelPrincipal de la fenetre */
 	JPanel panelPrincipal = new JPanel();
-	
-	// Creation du panel principal qui contient la carte
-	JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
-	// Creation d'un panel dans lequel on va mettre notre menu
-	JPanel header = new JPanel();	
-
-	JLabel footer = new JLabel("", SwingConstants.CENTER);	
-	// Panel contenant la carte miniature
-	JPanel carteMiniature = new JPanel();
+	/** Creation d'un panel contenant la partie haute de la fenetre (boutton, fleche..) */
+	JPanel headerPanel = new JPanel();	
 	
-	// infos sur les elements clique
-	JLabel iconInfosLabel = new JLabel();
+	/** panel contenant les fleches pour ce diriger sur la carte */
+	JPanel flecheMiniCartePanel = new JPanel();
 	
-	// Image pour les elements clique
-	JLabel iconLabel = new JLabel();
+	/** Creation du panel principal qui contient la carte */
+	JPanel cartePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 	
-	// Conteneur de l'img de l'element clique
-	JPanel iconPanel = new JPanel();
+	/** Panel contenant la carte miniature */
+	JPanel carteMiniaturePanel = new JPanel();
 	
-	// Panel qui contient les l'icon et les infos sur l'element cliquer
-	JPanel infosElementHeader = new JPanel(new BorderLayout());
-	
-	// Conteneur principal des infos sur les elements
+	/** Conteneur principal des infos sur les elements */
 	JPanel infosElementPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, PADDING_INFOS_PANEL, PADDING_INFOS_PANEL));
 	
-	// Contient une description des elements cliquer en mode jeux 
-	// Ou les elements deposable sur la carte en mode config
-	JPanel infosElementBody = new JPanel();
+	/** infos sur les elements clique */
+	JLabel InfosElementLabel = new JLabel();
+
+	/** Conteneur du label contentant l'img de l'element clique */
+	JPanel infosIconPanel = new JPanel();
+
+	/** Label contenant l'img de l'elements cliquer */
+	JLabel infosIconLabel = new JLabel();
+		
+	/** Panel qui contient les l'icon et les infos (a droite de l'icon) sur l'element cliquer */
+	JPanel infosElementHeader = new JPanel(new BorderLayout());
+		
+	/** Contient une description des elements cliquer en mode jeux
+	 *	Ou les elements deposable sur la carte en mode config
+	 */
+	JPanel descriptifElementPanel = new JPanel();
 	
-	// Label pour Nombre de soldat restant
-	JLabel soldatRestant = new JLabel();	
-	
-	// panel contenant les fleches pour ce diriger sur la carte
-	JPanel fleche = new JPanel();
-	// Position de la fenetre
-	int POSITION_X = 100; int POSITION_Y = 50; 
+	/** Label pour Nombre de soldat restant */
+	JLabel elementRestantLabel = new JLabel();	
+		
+	/** Label affichant les infos des elements survole */
+	JLabel footerLabel = new JLabel("", SwingConstants.CENTER);	
+
 }

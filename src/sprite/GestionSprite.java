@@ -23,14 +23,14 @@ import utile.Position;
 import wargame.IConfig;
 import wargame.PanneauJeu;
 
-public class SpriteController implements IConfig{
+public class GestionSprite implements IConfig{
 
 	private static final long serialVersionUID = 1L;
 	private List<Position> listePositionDeplacement;
 	private List<Soldat> listeRepos;
 	private PanneauJeu pj;
 	
-	public SpriteController(PanneauJeu pj) {
+	public GestionSprite(PanneauJeu pj) {
 		this.listeRepos = new ArrayList<>();
 		this.listePositionDeplacement = new ArrayList<>();
 		this.pj = pj;
@@ -143,12 +143,12 @@ public class SpriteController implements IConfig{
 		Timer timer;
 		public Chrono(int seconds) {
 			timer = new Timer();
-			timer.schedule(new RemindTask(), seconds * 1000); 
+			timer.schedule(new Notificateur(), seconds * 1000); 
 		}
 
-		class RemindTask extends TimerTask {
+		class Notificateur extends TimerTask {
 			public void run() {
-				// On recharge les sprites standBy
+				// On change les sprites d'action en sprite repos
 				reposSoldatAttaque(pj.getGraphics(), listeRepos);
 				reposSoldatDeplacement(pj.getGraphics(), listePositionDeplacement);
 				
@@ -156,7 +156,7 @@ public class SpriteController implements IConfig{
 				pj.c.removeAllAction();
 				
 				pj.estFiniAction = true;
-				pj.c.jouerSoldats(pj, pj.buttonEvent.tour);
+				pj.c.jouerSoldats(pj);
 				timer.cancel();
 			}
 	    }

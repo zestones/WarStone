@@ -33,7 +33,7 @@ public class Carte implements IConfig, ICarte {
 	/** Creation d'une liste de Monstres contenant les monstres present sur la carte. */
 	public List<Monstre> listeMonstres;
 	
-	/**  Liste  contenant les actions a realiser lors d'un tour. */
+	/**  Liste contenant les actions a realiser lors d'un tour. */
 	public List<Soldat> listeActionAttaque;
 	
 	/** The liste action deplacement. */
@@ -71,12 +71,17 @@ public class Carte implements IConfig, ICarte {
         }
 	}
 
+    /**
+     * Genere obstacles.
+     */
     private void genereObstacles() {
-        for (int i = 0; i < NB_OBSTACLES; i++) {
+        for (int i = 0; i < NB_OBSTACLES; i++)
             new Obstacle(this, Obstacle.TypeObstacle.getObstacleAlea(), this.trouvePositionVide());
-		}
     }
 
+    /**
+     * Genere soldats.
+     */
     public void genereSoldats() {
         int nbMaxSoldats = Math.max(NB_MONSTRES, NB_HEROS);
 		
@@ -93,7 +98,7 @@ public class Carte implements IConfig, ICarte {
     }
 	
 	/**
-	 * Sets the carte vide.
+	 * Set carte vide.
 	 */
 	public void setCarteVide() {
 		// On initialise le plateau vide
@@ -102,13 +107,13 @@ public class Carte implements IConfig, ICarte {
 	}
 
 	/**
-	 * Fonction principale du jeu c'est ici que tout est gere
-	 * Les appels au autre methode .
+	 * Fonction principale du jeu c'est ici qu est gere
+	 * les appels au autre methode .
 	 *
 	 * @param pj
 	 * @param tour
 	 */
-	public void jouerSoldats(PanneauJeu pj, int tour) {
+	public void jouerSoldats(PanneauJeu pj) {
 		// On met a jour le nombre de soldat restant sur la carte
 		this.nombreSoldatVivant(pj);
 		
@@ -168,7 +173,7 @@ public class Carte implements IConfig, ICarte {
 				Heros h = this.trouveHeros(this.listeMonstres.get(i).getPosition(), listePorteeHeros);
 				Monstre m = this.listeMonstres.get(i);
 				// on verifie la distance entre le heros et le monstre
-				int distance = (int) m.getPosition().distance(h.getPosition());	
+				int distance = m.getPosition().getDistance(h.getPosition());	
 				// si le heros est voisin du monstre
 				if(distance == 1) {
 					// 1- prendre la fuite
@@ -187,7 +192,7 @@ public class Carte implements IConfig, ICarte {
 					}
 				}
 				// 3 - si le monstre n'a toujours pas jouer alors il doit attaquer le heros trouver 
-				this.actionMonstre(pj, this.listeMonstres.get(i).getPosition(), h.getPosition());				
+				this.monstreAttaque(pj, this.listeMonstres.get(i).getPosition(), h.getPosition());				
 			}
 		}
 		
@@ -210,7 +215,7 @@ public class Carte implements IConfig, ICarte {
         int distance = Math.max(NB_COLONNES, NB_LIGNES);
 		
 		for(Position posVoisine : positionVoisine) {
-            int distanceHeroPosVoisine = (int) posVoisine.distance(h.getPosition());
+            int distanceHeroPosVoisine = posVoisine.getDistance(h.getPosition());
 			if(distance > distanceHeroPosVoisine) {
 				pos = posVoisine;
 				distance = distanceHeroPosVoisine;
@@ -234,9 +239,9 @@ public class Carte implements IConfig, ICarte {
 		int distance = 0;
 		// On cherche une position vide le plus eloigne du heros 
 		for(Position posVoisine : positionVoisine) {
-			if(h.getPosition().distance(posVoisine) > distance && posVoisine.estValide() && this.estCaseVide(posVoisine)) {
+			if(h.getPosition().getDistance(posVoisine) > distance && posVoisine.estValide() && this.estCaseVide(posVoisine)) {
 				posFuite = posVoisine;
-				distance = (int) h.getPosition().distance(posVoisine);
+				distance = (int) h.getPosition().getDistance(posVoisine);
 			}
 		}
 		
@@ -253,7 +258,7 @@ public class Carte implements IConfig, ICarte {
 	 * @param pos2 
 	 * @return boolean
 	 */
-	public void actionMonstre(PanneauJeu pj, Position pos, Position pos2) {
+	public void monstreAttaque(PanneauJeu pj, Position pos, Position pos2) {
 		Monstre m = (Monstre) this.getElement(pos);
 		// On verifie que le Monstre n'a pas deja jouer et que la position d'attaque (pos2) n'est pas un autre Monstre
 		if (m == null || !(this.getElement(pos2) instanceof Heros) || m.aJoue)
@@ -266,7 +271,7 @@ public class Carte implements IConfig, ICarte {
 	}
 
 	/**
-	 *  Le generale joueur decide quelle action r�aliser.
+	 *  Le generale joueur decide quelle action realiser.
 	 *
 	 * @param pj
 	 */
@@ -339,7 +344,7 @@ public class Carte implements IConfig, ICarte {
 	 * @return boolean
 	 */
 	public boolean deplaceSoldat(Position pos, Soldat soldat) {
-		if (pos.estValide() && this.getElement(pos) == null && soldat.getPosition().estVoisine(pos) && !estPrisePosition(pos)) {
+		if (pos.estValide() && this.estCaseVide(pos) && soldat.getPosition().estVoisine(pos) && !this.estPrisePosition(pos)) {
 			
 			Soldat soldatCopie = null;
 			try {
@@ -351,6 +356,7 @@ public class Carte implements IConfig, ICarte {
 			
 			soldat.seDeplace = true;
 			soldat.aJoue = true; 
+			
 			this.listeActionDeplacement.addAll(Arrays.asList(soldat, soldatCopie));
 			
 			return true;
@@ -439,7 +445,7 @@ public class Carte implements IConfig, ICarte {
 		
 		// On retire les position deja prise sur la carte et les position non valides
 		for(int i = 0; i < listePos.size(); i++)
-			if(listePos.get(i).estValide() == false || !this.estCaseVide(listePos.get(i))) 
+			if(!listePos.get(i).estValide() || !this.estCaseVide(listePos.get(i))) 
 				listePos.remove(i);
 		
 		// Si toute les position adjacente sont prise alors on revoie la meme pos
@@ -456,7 +462,7 @@ public class Carte implements IConfig, ICarte {
 
 	/**
 	 *  renvoie un Heros trouve aleatoirement sur la carte 
-	 *  Les heros pr�sent sur la carte sont stocke dans la liste "listeheros".
+	 *  Les heros present sur la carte sont enregistre dans la liste "listeheros".
 	 *
 	 * @return Heros
 	 */
@@ -476,7 +482,7 @@ public class Carte implements IConfig, ICarte {
 		
 		// On cherche le voisin du monstre avec le moins de vie 
 		for(Heros voisin : herosTrouve) {
-			if(minVie > voisin.getPoints() && pos.distance(voisin.getPosition()) == 1) {
+			if(minVie > voisin.getPoints() && pos.getDistance(voisin.getPosition()) == 1) {
 				h = voisin;
 				minVie = voisin.getPoints();				
 			}

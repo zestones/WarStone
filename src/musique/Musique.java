@@ -1,4 +1,4 @@
-package music;
+package musique;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class SoundLauncher {
+public class Musique {
 	public Clip clip;
 	 
 	/**
@@ -17,7 +17,7 @@ public class SoundLauncher {
 	 *
 	 * @param fichier le nom du fichier
 	 */
-	public SoundLauncher(String fichier) {
+	public Musique(String fichier) {
 		File f = new File("./res/sound/" + fichier);
 		AudioInputStream audioIn = null;
 		try {
