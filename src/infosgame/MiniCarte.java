@@ -100,7 +100,7 @@ public class MiniCarte extends JPanel implements IConfig, IFenetre {
 	private void dessineFocus(Graphics g, int dx, int dy) {
 		for(int i = 0; i < NB_COLONNES_VISIBLES; i++) {
 			for(int j = 0; j < NB_LIGNES_VISIBLES; j++) {
-				g.setColor(COULEUR_FOCUS);
+				g.setColor(COULEUR_FOCUS_MINI_CARTE);
 	    		g.fillRect(i * TAILLE_CARREAU_MINI_CARTE + dx * TAILLE_CARREAU_MINI_CARTE, j * TAILLE_CARREAU_MINI_CARTE + dy * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE); 
 			}
 		}

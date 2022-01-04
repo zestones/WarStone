@@ -313,10 +313,10 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     	int dx = cam.getDx() * TAILLE_CARREAU;
     	int dy = cam.getDy() * TAILLE_CARREAU;
     			
-    	g.setColor(COULEUR_VIE_R);
+    	g.setColor(COULEUR_BARRE_VIE_ROUGE);
  		g.fillRect(((this.pos.getX() * TAILLE_CARREAU) - ( Math.min(this.getPointsMax(), TAILLE_CARREAU - PADDING_VIE_CASE_GAUCHE) / 2) + TAILLE_CARREAU/2) - dx, (this.pos.getY() * TAILLE_CARREAU + PADDING_VIE_CASE_HAUT) - dy, Math.min(this.getPointsMax(), TAILLE_CARREAU - PADDING_VIE_CASE_GAUCHE), TAILLE_CARREAU/8); 
  		
- 		g.setColor(COULEUR_VIE_V);
+ 		g.setColor(COULEUR_BARRE_VIE_VERT);
  		g.fillRect(((this.pos.getX() * TAILLE_CARREAU) - ( Math.min(this.getPointsMax(), TAILLE_CARREAU - PADDING_VIE_CASE_GAUCHE) / 2) + TAILLE_CARREAU/2) - dx, (this.pos.getY() * TAILLE_CARREAU + PADDING_VIE_CASE_HAUT) - dy,  (int) (Math.min(this.getPointsMax(), TAILLE_CARREAU - PADDING_VIE_CASE_GAUCHE) * ((float)this.getPoints() / (float)this.getPointsMax())), TAILLE_CARREAU/8); 
  		
  		g.setColor(COULEUR_VIDE);

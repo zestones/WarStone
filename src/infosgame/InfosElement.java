@@ -11,10 +11,12 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 
 import carte.Carte;
 import element.Element;
+import element.Heros;
 import element.Obstacle.TypeObstacle;
 import element.Soldat;
 import fenetrejeu.IFenetre;
@@ -57,7 +59,7 @@ public abstract class InfosElement implements IFenetre {
 		if(!Carte.modeConf) {
 			descriptifElementPanel.removeAll();
 			descriptifElementPanel.revalidate();
-			dessineInfosSupElements(e);
+			dessineDescriptifElement(e);
 		}	
 		
 		Image img = e.getImage().getScaledInstance(ICON_ELEMENT_LARGEUR, ICON_ELEMENT_HAUTEUR, Image.SCALE_SMOOTH);
@@ -65,15 +67,28 @@ public abstract class InfosElement implements IFenetre {
 		
 		infosIconLabel.setIcon(imgIcon);
 		
-		String infos = "<html><font size=\"+1\">  " + e.getType() + "</font><FONT COLOR=RED><br><font size=\"-1\">  POS: " + e.getPosition()+"</font></FONT>";
+		String infos = "<html>";
 		
-		if(e instanceof Soldat)
-			infos += "<br><FONT COLOR=BLUE size=\"-1\">  HP: "+((Soldat) e).getPoints() + " / " + ((Soldat) e).getPointsMax() + "</FONT><br><font COLOR=GREEN size = \"-1\">  PV: "+((Soldat) e).getPuissance()+"</font></html>";
-		else
-			infos += "</html>";
+		if(e instanceof Soldat) {
+			if(e instanceof Heros)
+				infos += "<center><FONT COLOR = BLACK size=\"+1\">HEROS</FONT><center>";
+			else 
+				infos += "<center><FONT COLOR = BLACK size=\"+1\">MONSTRE</FONT><center>";
+		
+			infos += "<br><br><FONT COLOR = BLUE>  POINTS VIE : " + ((Soldat) e).getPoints() + " / " + ((Soldat) e).getPointsMax() + "</FONT>"
+					+ "<br> <FONT COLOR = GREEN>  PUISSANCE : " + ((Soldat) e).getPuissance() + "</FONT>"
+					+ "<br> <FONT COLOR = GREEN> PORTEE :" + ((Soldat) e).getPortee() + "</FONT>"
+					+ "<br>	<FONT COLOR = GREEN> TIR :" + ((Soldat) e).getTir() + "</FONT>" 
+					;
+		}
+		else 
+			infos += "<center><FONT COLOR = BLACK size=\"+3\">" + e.getType() + "</FONT><center>";
+		
+		infos += "</html>";
 		
 		InfosElementLabel.setText(infos);
-	
+		InfosElementLabel.setHorizontalAlignment(SwingConstants.HORIZONTAL);
+
 		infosIconPanel.add(infosIconLabel);
 		
 		infosElementHeader.add(infosIconPanel, BorderLayout.WEST);
@@ -88,14 +103,24 @@ public abstract class InfosElement implements IFenetre {
 	 *
 	 * @param e
 	 */
-	private static void dessineInfosSupElements(Element e) {
-		JLabel infosLabel = new JLabel();
+	public static void dessineDescriptifElement(Element e) {
+		JLabel typeLabel = new JLabel();
+		String titre = "<html><font text-shadow: 3px 2px COLOR = BLACK> <center> " + e.getType() + "</center></font></html>";
+		typeLabel.setText(titre);
+		typeLabel.setFont(new Font("Pushster", Font.BOLD, 30));
+		typeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		typeLabel.setVerticalAlignment(SwingConstants.CENTER);
 		
-		String infos = "<html><font COLOR=RED text-shadow: 3px 2px #000 size=\"+4\" > <center> " + e.getType() + "</center></font><br><font size=\"+1\"><center>" +e.getHistoire() + "</center></font>";
+		typeLabel.setPreferredSize(new Dimension(DESCRIPTIF_ELEMENT_LARGEUR, DESCRIPTIF_ELEMENT_HAUTEUR/5));
+		descriptifElementPanel.add(typeLabel, BorderLayout.NORTH);
+
+		JLabel infosLabel = new JLabel();	
+		String infos = "<html><font size=\"+1\"><center>"  + e.getHistoire() + "</center></font><html>";
 		
 		infosLabel.setText(infos);
 		infosLabel.setFont(new Font("Pushster", Font.BOLD, 15));
-		infosLabel.setBorder(new MatteBorder(0, 0, 0, 2, COULEUR_BORDURE));
+		infosLabel.setVerticalAlignment(JLabel.NORTH);
+
 		descriptifElementPanel.add(infosLabel);
 		descriptifElementPanel.repaint();
 	}
@@ -103,7 +128,7 @@ public abstract class InfosElement implements IFenetre {
 	/**
 	 * Dessine infos element body.
 	 */
-	public static void dessineInfosElementBody() {
+	public static void dessineElementsDeposable() {
 		// On supprime le contenu des panels 
 		supprimeInfos();
 		// Pour chque objet dans le type enum on recupere son image et on la met dans une liste de label
@@ -119,16 +144,15 @@ public abstract class InfosElement implements IFenetre {
 			listeObstacle.add(o);
 		}
 		
-		dessinElementModeConfig();
+		elementDeposableEvent();
 			
-		System.out.println("dessin liste");
 		descriptifElementPanel.repaint();
 	}
 	
 	/**
 	 * Dessin element mode config.
 	 */
-	private static void dessinElementModeConfig() {
+	private static void elementDeposableEvent() {
 		// On creer un listener pour chaque label
 		// On recupere le type de l'element cliquer a l'aide de l'index de la liste de label
 		for(int i = 0; i < listeLabelObstacle.size(); i++) {

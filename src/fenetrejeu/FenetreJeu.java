@@ -84,7 +84,7 @@ public class FenetreJeu extends JPanel implements IFenetre{
 
 		/** On definie les dimensions et la couleurs du background */
 		miniCartePanel.setPreferredSize(new Dimension(INFOS_PANEL_LARGEUR, MINI_CARTE_HAUTEUR + PADDING_MINI_CARTE_HAUT * 2));
-		miniCartePanel.setBackground(COULEUR_EAU);
+		miniCartePanel.setBackground(COULEUR_MINI_CARTE_PANEL);
 		miniCartePanel.setBorder(new MatteBorder(0, 2, 0, 2, COULEUR_BORDURE));
 
 		/** On centre le panel qui contient la carte dans le conteneur creer juste avant */
@@ -161,17 +161,20 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		infosElementPanel.add(infosElementHeader, BorderLayout.NORTH);
 	
 		descriptifElementPanel.setOpaque(true);
-		descriptifElementPanel.setLayout(new GridLayout(1, 0));
-		descriptifElementPanel.setBackground(COULEUR_EAU);
+		descriptifElementPanel.setBackground(COULEUR_DESCRIPTIF_INFOS_PANEL);
 		
 		// En mode config on affiche les elements deposable
 		if(Carte.modeConf) {
-			descriptifElementPanel.setPreferredSize(new Dimension(ELEMENT_BODY_LARGEUR, TAILLE_CARREAU));
-			InfosElement.dessineInfosElementBody();
+			descriptifElementPanel.setPreferredSize(new Dimension(DESCRIPTIF_ELEMENT_LARGEUR, TAILLE_CARREAU));
+			descriptifElementPanel.setLayout(new GridLayout(1, 0));
+			InfosElement.dessineElementsDeposable();
 		}
 		/** Sinon on affiche le panel avec le detail des elements clique */
-		else
-			descriptifElementPanel.setPreferredSize(new Dimension(ELEMENT_BODY_LARGEUR, ELEMENT_BODY_HAUTEUR));
+		else 
+			{
+				descriptifElementPanel.setLayout(new BorderLayout());
+				descriptifElementPanel.setPreferredSize(new Dimension(DESCRIPTIF_ELEMENT_LARGEUR, DESCRIPTIF_ELEMENT_HAUTEUR));
+			}
 		
 		infosElementPanel.add(descriptifElementPanel, BorderLayout.SOUTH);
 		infosPanel.add(infosElementPanel);

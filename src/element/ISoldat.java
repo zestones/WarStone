@@ -1,12 +1,3 @@
-/********************************************************************
- * 							WarStone								*
- *  -------------------------------------------------------------	*
- * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
- *  -------------------------------------------------------------	*
- * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
- * 																	*
- * 														element		*
- * ******************************************************************/
 package element;
 
 import java.awt.Image;
@@ -21,73 +12,55 @@ import utile.Position;
 public interface ISoldat extends ISprite{
 	
 	/**  Elf miniature. */
-	//	Miniature des Heros
 	Image ElfMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/miniature/Elf.png");
-	
-	/**  Hobbit miniature. */
 	Image HobbitMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/miniature/Hobbit.png");
-	
-	/**  Humain miniature. */
 	Image HumainMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/miniature/Humain.png");
-	
-	/**  Nain miniature. */
 	Image NainMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/miniature/Nain.png");
-
 	Image SorcierMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/miniature/Sorcier.png");
 
 	
-	/**  Gobelin miniature. */
 	Image GobelinMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/miniature/Gobelin.png");
-	
-	/**  Orc miniature. */
 	Image OrcMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/miniature/Orc.png");
-	
-	/**  Troll miniature. */
 	Image TrollMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/miniature/Troll.png");
-		
-	/** histoire Nain*/
-	String histoireNain = "Puisqu'ils vivent essentiellement sous terre, les Nains sont peu férus d'agriculture \r\n"
-			+ "et d'élevage, préférant commercer avec les autres races pour obtenir ces biens. \r\n"
-			+ "Ils sont dits être des amis loyaux, mais des adversaires rancuniers \r\n"
+
+	
+	
+	String histoireNain = "Puisqu'ils vivent essentiellement sous terre, les Nains sont peu férus d'agriculture "
+			+ "et d'élevage, préférant commercer avec les autres races pour obtenir ces biens. <br> <br>"
+			+ "Ils sont dits être des amis loyaux, mais des adversaires rancuniers "
 			+ "et tenaces, qui n'oublient jamais ni une insulte, ni une bonne action.";
 	
-	/** The histoire humain. */
-	String histoireHumain = "Des creatures intelligentes et mallines \r\n"
-			+"leur point fort est ce qu'on appelle le cerveau \r\n"
-			+"et c'est avec ca qu'ils ont pu conquerir le monde\r\n"
-			+"ils sont capables d'utiliser des differentes armes et techniques de magie";
+	String histoireHumain = "Des creatures intelligentes et mallines "
+			+"leur point fort est ce qu'on appelle le cerveau "
+			+"et c'est avec ca qu'ils ont pu conquerir le monde. <br><br>"
+			+"Ils sont capables d'utiliser differentes armes et techniques de magie";
 	
-	/** The histoire elf. */
-	String histoireElf = "Créature légendaire anthropomorphe \r\n"
-			+ "vivant le plus souvent dans des forêts \r\n"
-			+ "considérés comme immortels et dotés de pouvoirs magiques";
+	String histoireElf = "Créature légendaire anthropomorphe "
+			+ "vivant le plus souvent dans des forêts. <br><br>"
+			+ "Considérés comme immortels et dotés de pouvoirs magiques";
 	
-	/** The histoire hobbit. */
-	String histoireHobbit = "Créatures apparentées aux Hommes caractérisées par leur petite taille \r\n"
-			+"leur pieds à l'abondante pilosité, leurs oreilles légèrement pointues et leur visage rubicond\r\n"
-			+"vivant Au cœur de l'Eriador";
+	String histoireHobbit = "Créatures apparentées aux Hommes caractérisées par leur petite taille,"
+			+"leur pieds à l'abondante pilosité, leurs oreilles légèrement pointues et leur visage rubicond <br><br>"
+			+"vivant Au cœur de l'Eriador.";
 	
-	/** The histoire goblin. */
-	String histoireGoblin = "Créature légendaire, anthropomorphe et de petite taille,\r\n"
-			+"issue du folklore médiéval européen.Ils vivent généralement en groupe dans les cavernes.\r\n"
+	String histoireGoblin = "Créature légendaire, anthropomorphe et de petite taille,<br>"
+			+"issue du folklore médiéval européen.Ils vivent généralement en groupe dans les cavernes.<br><br>"
 			+"On les trouve en grand nombre dans la Moria.";
 	
-	/** The histoire troll. */
-	String histoireTroll = "Un être de la mythologie nordique, \r\n"
-			+ "incarnant les forces naturelles ou la magie, \r\n"
-			+ "caractérisé principalement par son opposition aux hommes\r\n"
-			+ "Ils vivent dans le dangereux Pays des Trolls, \r\n"
-			+ "un lieu peuplé de nombreuses créatures tout aussi dangereuses,";
+	String histoireTroll = "Un être de la mythologie nordique, "
+			+ "incarnant les forces naturelles ou la magie, <br>"
+			+ "caractérisé principalement par son opposition aux hommes <br><br>"
+			+ "Ils vivent dans le dangereux Pays des Trolls, "
+			+ "un lieu peuplé de nombreuses créatures tout aussi dangereuses.";
 	
-	/** The histoire orc. */
-	String histoireOrc = "Les Orks vivent en symbiose avec des champignons et algues qui leur donnent leur couleur verte, \r\n"
-			+ "et leur incroyable résistance et potentiel de régénération. \r\n"
-			+ "Leur culture est semblable : les plus forts dirigent, et deviennent plus grands et plus forts \r\n"
-			+ "grâce à l’énergie psychique des Orks sous leur commandement.";
+	String histoireOrc = "Les Orcs vivent en symbiose avec des champignons et algues qui leur donnent leur couleur verte, <br>"
+			+ "et leur incroyable résistance et potentiel de régénération.<br>"
+			+ "Leur culture est semblable : les plus forts dirigent, <br> et deviennent plus grands et plus forts <br>"
+			+ "grâce à l’énergie psychique des Orcs sous leur commandement.";
 	
 	
 	/**
-	 * The Enum TypesH.
+	 * Enum TypesH.
 	 */
 	static enum TypesH { 
 		HUMAIN (40, 2, 10, 2, humain, HumainMiniature, histoireHumain), 

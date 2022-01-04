@@ -77,7 +77,7 @@ public class FlecheDirectionnelle implements IConfig {
 	    Graphics2D g2 = (Graphics2D) g;
 	    g2.setStroke(new BasicStroke(2));
 	    
-	    g.setColor(COULEUR_EAU);
+	    g.setColor(COULEUR_FLECHE_DIRECTIONNELLE);
 	   
 	    // On recalcule le deuxieme point de la ligne de la fleche pour qu'il soit centre
 	    if(clique.getX() < Cx && clique.getY() == Cy) x2 -= d;
