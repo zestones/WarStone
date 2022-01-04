@@ -10,12 +10,14 @@ import wargame.IConfig;
 
 public interface IMenuBar extends IConfig {
 	
-	JButton finTour = Bouton.setBoutonStyle("Fin Tour");; 
+	JButton finTour = Bouton.setBoutonStyle("Fin Tour");
 	JButton jouer =  Bouton.setBoutonStyle("Jouer"); 
 	JButton sauvegarde = Bouton.setBoutonStyle("Sauvegarder");   
-	JButton recommencer = Bouton.setBoutonStyle("Recommencer");;   
-	JButton menu = Bouton.setBoutonStyle("Menu");;
-
+	JButton recommencer = Bouton.setBoutonStyle("Recommencer");
+	JButton menu = Bouton.setBoutonStyle("Menu");
+	JButton obstacle = Bouton.setBoutonStyle("Obstacle");
+	JButton heros = Bouton.setBoutonStyle("Heros");
+	
 	// MenuBar Principal contenant les bouton
 	JPanel menuBar = new JPanel();
 	

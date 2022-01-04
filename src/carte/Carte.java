@@ -83,14 +83,15 @@ public class Carte implements IConfig, ICarte {
      * Genere soldats.
      */
     public void genereSoldats() {
-        int nbMaxSoldats = Math.max(NB_MONSTRES, NB_HEROS);
+    	boolean genereHeros = this.listeHeros.isEmpty();
+    	int nbMaxSoldats = Math.max(NB_MONSTRES, NB_HEROS);
 		
 		for (int i = 0; i < nbMaxSoldats; i++) {
 			if(i < NB_MONSTRES) {
 				Monstre m = new Monstre(this, Soldat.TypesM.getTypeMAlea(), this.trouvePositionVide());
 				this.listeMonstres.add(m);
 			}
-			if(i < NB_HEROS) {
+			if(genereHeros && i < NB_HEROS) {
 				Heros h = new Heros(this, Soldat.TypesH.getTypeHAlea(), this.trouvePositionVide());
 				this.listeHeros.add(h);
 			}

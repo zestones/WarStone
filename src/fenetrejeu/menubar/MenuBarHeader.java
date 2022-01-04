@@ -31,11 +31,17 @@ public class MenuBarHeader  implements IFenetre{
 
 		if(!Carte.modeConf) {
 			finTour.setVisible(true);
-			menuBar.add(finTour);		
+			menuBar.add(finTour);
 		}
 		else {
 			jouer.setVisible(true);
 			menuBar.add(jouer);
+			
+			obstacle.setVisible(true);
+			menuBar.add(obstacle);
+			
+			heros.setVisible(true);
+			menuBar.add(heros);
 		}
 			
 		sauvegarde.setVisible(true);

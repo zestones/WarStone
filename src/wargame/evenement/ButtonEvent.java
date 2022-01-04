@@ -32,13 +32,13 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 		
 		this.spriteController = new GestionSprite(pj);
 		
-		this.cameraListeners();
-		this.partieListeners();
+		this.cameraEvent();
+		this.jeuEvent();
 		
 		this.boutonHover();
 	}
 	
-	private void cameraListeners() {
+	private void cameraEvent() {
 		// Boutton restart recharge une carte cree aleatoirement
 		cameraBas.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  
@@ -62,7 +62,7 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 		}); 
 	}
 	
-	private void partieListeners() {
+	private void jeuEvent() {
 		// Boutton restart recharge une carte cree aleatoirement
 		recommencer.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  	
@@ -109,13 +109,13 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
     				// On suprime tout le contenu
     				panelPrincipal.removeAll();
     				panelPrincipal.revalidate();
-    				
+    				// On arrete la music de config
+    				configMusic.clip.stop();
     				// Suprime les listes des obstacle
-    				InfosElement.removeObstacleList();
+    				InfosElement.removeElementList();
     				// On vide le panel
     				descriptifElementPanel.removeAll();
     				descriptifElementPanel.revalidate();
-    				
     				// On supprime le header et les fleches
     				headerPanel.removeAll();
     				flecheMiniCartePanel.removeAll();
@@ -151,6 +151,19 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
     		}
     	});
 		
+		obstacle.addActionListener(new ActionListener(){
+    		public void actionPerformed(ActionEvent e){    			
+    			InfosElement.dessineObstacleDeposable();
+    		}
+    	});
+		
+		heros.addActionListener(new ActionListener(){
+    		public void actionPerformed(ActionEvent e){    			
+    			InfosElement.dessineHerosDeposable();
+    		}
+    	});
+		
+		
 		menu.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  	
 				// On suprime tout le contenu
@@ -158,7 +171,7 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 				panelPrincipal.revalidate();
 				
 				// Suprime les listes des obstacle
-				InfosElement.removeObstacleList();
+				InfosElement.removeElementList();
 				// On vide le panel
 				descriptifElementPanel.removeAll();
 				descriptifElementPanel.revalidate();

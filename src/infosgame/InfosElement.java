@@ -17,6 +17,7 @@ import javax.swing.border.MatteBorder;
 import carte.Carte;
 import element.Element;
 import element.Heros;
+import element.ISoldat.TypesH;
 import element.Obstacle.TypeObstacle;
 import element.Soldat;
 import fenetrejeu.IFenetre;
@@ -30,13 +31,17 @@ public abstract class InfosElement implements IFenetre {
 	private static final long serialVersionUID = 1L;
 	 
 	/** liste label obstacle. */
-	private static List<JLabel> listeLabelObstacle = new ArrayList<>();
+	private static List<JLabel> listeLabelElement = new ArrayList<>();
 	
 	/** liste obstacle. */
 	private static List<TypeObstacle> listeObstacle = new ArrayList<>();
 	
+	private static List<TypesH> listeHeros = new ArrayList<>();
+	
 	/** obstacle selectione. */
 	public static TypeObstacle obstacleSelectione;
+	
+	public static TypesH herosSelectione;
 	
 	/** nb element deposer. */
 	public static int nbElementDeposer = 0;
@@ -128,9 +133,12 @@ public abstract class InfosElement implements IFenetre {
 	/**
 	 * Dessine infos element body.
 	 */
-	public static void dessineElementsDeposable() {
+	public static void dessineObstacleDeposable() {
 		// On supprime le contenu des panels 
 		supprimeInfos();
+		supprimeLabelDeposable();
+		removeElementList();
+		
 		// Pour chque objet dans le type enum on recupere son image et on la met dans une liste de label
 		// une deuxieme liste est creer pour comparer les label au objet (ROCHER FORET...) 
 		for(TypeObstacle o : TypeObstacle.values()) {
@@ -139,44 +147,105 @@ public abstract class InfosElement implements IFenetre {
 			ImageIcon imgIcon = new ImageIcon(img);
 			ObstacleLabel.setIcon(imgIcon);
 			ObstacleLabel.setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
+			ObstacleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			ObstacleLabel.setVerticalAlignment(SwingConstants.CENTER);
 			descriptifElementPanel.add(ObstacleLabel, BorderLayout.CENTER);
-			listeLabelObstacle.add(ObstacleLabel);
+			listeLabelElement.add(ObstacleLabel);
 			listeObstacle.add(o);
 		}
 		
-		elementDeposableEvent();
-			
+		obstacleDeposableEvent();
+		
+		deselectionEvent();
+		
 		descriptifElementPanel.repaint();
 	}
 	
 	/**
-	 * Dessin element mode config.
+	 * Dessine infos element body.
 	 */
-	private static void elementDeposableEvent() {
+	public static void dessineHerosDeposable() {
+		// On supprime le contenu des panels 
+		supprimeInfos();
+		supprimeLabelDeposable();
+		removeElementList();
+		// Pour chque objet dans le type enum on recupere son image et on la met dans une liste de label
+		// une deuxieme liste est creer pour comparer les label au objet (ROCHER FORET...) 
+		for(TypesH h : TypesH.values()) {
+			JLabel HerosLabel = new JLabel();
+			Image img = h.getMiniature().getScaledInstance(INFOS_PANEL_LARGEUR / TypesH.values().length, TAILLE_CARREAU, Image.SCALE_SMOOTH);
+			ImageIcon imgIcon = new ImageIcon(img);
+			HerosLabel.setIcon(imgIcon);
+			HerosLabel.setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
+			HerosLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			HerosLabel.setVerticalAlignment(SwingConstants.CENTER);
+			descriptifElementPanel.add(HerosLabel, BorderLayout.CENTER);
+			listeLabelElement.add(HerosLabel);
+			listeHeros.add(h);
+		}
+		
+		herosDeposableEvent();
+		deselectionEvent();
+
+		descriptifElementPanel.repaint();
+	}
+	
+	
+	private static void herosDeposableEvent() {
 		// On creer un listener pour chaque label
 		// On recupere le type de l'element cliquer a l'aide de l'index de la liste de label
-		for(int i = 0; i < listeLabelObstacle.size(); i++) {
-			listeLabelObstacle.get(i).addMouseListener(new MouseAdapter() {
+		for(int i = 0; i < listeLabelElement.size(); i++) {
+			listeLabelElement.get(i).addMouseListener(new MouseAdapter() {
 				public void mousePressed(MouseEvent e) {
-					for(int j = 0; j < listeLabelObstacle.size(); j++) {
-						if(e.getSource() == listeLabelObstacle.get(j)) {
-							obstacleSelectione = listeObstacle.get(j);
-							listeLabelObstacle.get(j).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_FORET));
+					for(int j = 0; j < listeLabelElement.size(); j++) {
+						if(e.getSource() == listeLabelElement.get(j)) {
+							herosSelectione = listeHeros.get(j);
+							listeLabelElement.get(j).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_FORET));
 							index = j;
 						}
 						else
-							listeLabelObstacle.get(j).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
+							listeLabelElement.get(j).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
 					}
 				}	
 			});
 		}
-		
+	}
+	
+	
+	
+	/**
+	 * Dessin element mode config.
+	 */
+	private static void obstacleDeposableEvent() {
+		// On creer un listener pour chaque label
+		// On recupere le type de l'element cliquer a l'aide de l'index de la liste de label
+		for(int i = 0; i < listeLabelElement.size(); i++) {
+			listeLabelElement.get(i).addMouseListener(new MouseAdapter() {
+				public void mousePressed(MouseEvent e) {
+					for(int j = 0; j < listeLabelElement.size(); j++) {
+						if(e.getSource() == listeLabelElement.get(j)) {
+							obstacleSelectione = listeObstacle.get(j);
+							listeLabelElement.get(j).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_FORET));
+							index = j;
+						}
+						else
+							listeLabelElement.get(j).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
+					}
+				}	
+			});
+		}
+	}
+	
+	
+	
+
+	private static void deselectionEvent() {
 		/** Un clique sur le header ou le panel infosElement deselectione l'objet */
 		headerPanel.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				if(Carte.modeConf) {
 					obstacleSelectione = null;
-					listeLabelObstacle.get(index).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
+					listeLabelElement.get(index).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
 				}
 			}
 		});
@@ -185,20 +254,23 @@ public abstract class InfosElement implements IFenetre {
 			public void mousePressed(MouseEvent e) {
 				if(Carte.modeConf) {
 					obstacleSelectione = null;
-					listeLabelObstacle.get(index).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
+					listeLabelElement.get(index).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
 				}
 			}
 		});
 	}
 	
+	
 	/**
 	 * Supression des listes.
 	 */
-	public static void removeObstacleList() {
+	public static void removeElementList() {
 		// On supprime les listes
-		listeLabelObstacle.clear();
+		listeLabelElement.clear();
 		listeObstacle.clear();
+		listeHeros.clear();
 		// et on oublie l'obstacle selectione au passage
+		herosSelectione = null;
 		obstacleSelectione = null;
 	}
 	
@@ -207,19 +279,29 @@ public abstract class InfosElement implements IFenetre {
 	 */
 	private static void supprimeInfos() {
 		// Suppression de l'icon
-		infosIconPanel.removeAll();
-		infosIconPanel.revalidate();
-		// On redefinie ses dimensions
-		infosIconPanel.setPreferredSize(new Dimension(ICON_ELEMENT_LARGEUR, ICON_ELEMENT_HAUTEUR));
-		InfosElementLabel.setText("");
-		// On redessine le panel
-		infosElementHeader.repaint();
-		// On supprime aussi les infos supp si nous ne somme pas en mode config
 		if(!Carte.modeConf) {
+			infosIconPanel.removeAll();
+			infosIconPanel.revalidate();
+			// On redefinie ses dimensions
+			infosIconPanel.setPreferredSize(new Dimension(ICON_ELEMENT_LARGEUR, ICON_ELEMENT_HAUTEUR));
+			InfosElementLabel.setText("");
+			// On redessine le panel
+			infosElementHeader.repaint();
+			// On supprime aussi les infos supp si nous ne somme pas en mode config
 			descriptifElementPanel.removeAll();
 			descriptifElementPanel.revalidate();
 			// On redessine le panel
 			descriptifElementPanel.repaint();
 		}
 	}
+	
+	private static void supprimeLabelDeposable() {
+
+		// On supprime aussi les infos supp si nous ne somme pas en mode config
+		descriptifElementPanel.removeAll();
+		descriptifElementPanel.revalidate();
+		// On redessine le panel
+		descriptifElementPanel.repaint();
+	}
+	
 }

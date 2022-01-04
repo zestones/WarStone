@@ -244,8 +244,12 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 					g.drawRect(i * TAILLE_CARREAU - cam.getDx() * TAILLE_CARREAU, j  * TAILLE_CARREAU - cam.getDy() * TAILLE_CARREAU, TAILLE_CARREAU, TAILLE_CARREAU); 
 				}
 			}
-			if(deposeObstacle != null && InfosElement.obstacleSelectione != null) {
-				c.setElement(new Obstacle(c, InfosElement.obstacleSelectione, deposeObstacle));
+			if(deposeObstacle != null && (InfosElement.obstacleSelectione != null || InfosElement.herosSelectione  != null)) {
+				if(InfosElement.obstacleSelectione != null) c.setElement(new Obstacle(c, InfosElement.obstacleSelectione, deposeObstacle));
+				else if(InfosElement.herosSelectione != null) {
+					c.setElement(new Heros(c, InfosElement.herosSelectione, deposeObstacle));
+					c.listeHeros.add((Heros) c.getElement(deposeObstacle));
+				}
 			}
 			elementRestantLabel.setText("" + InfosElement.nbElementDeposer + "  MAX : " + NB_OBSTACLES);	
 		}
