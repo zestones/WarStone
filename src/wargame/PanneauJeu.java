@@ -32,7 +32,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	private Position draggedCam, cliqueRelache;
 	public int nombreHeros, nombreMonstre;
 	public FlecheDirectionnelle flecheDirectionnelle;
-	public Position deposeObstacle;
+	public Position deposeElement;
 	public ButtonEvent buttonEvent;
 	private boolean dessineFleche;
 	public Heros herosSelectione;
@@ -58,7 +58,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		this.dessineFleche = false;
 		this.estFiniAction = true;
 				
-		this.deposeObstacle = null;
+		this.deposeElement = null;
 		
 		this.buttonEvent = new ButtonEvent(this);		
 		this.gestionEvenement();
@@ -118,37 +118,62 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 				if (SwingUtilities.isLeftMouseButton(e)) {
 					clique = new Position(e.getX() / TAILLE_CARREAU + cam.getDx(), e.getY() / TAILLE_CARREAU + cam.getDy());
 					dernierClique = new Position(e.getX() / TAILLE_CARREAU + cam.getDx(), e.getY() / TAILLE_CARREAU + cam.getDy());
-					deposeObstacle = new Position(e.getX() / TAILLE_CARREAU + cam.getDx(), e.getY() / TAILLE_CARREAU + cam.getDy());
+					deposeElement = new Position(e.getX() / TAILLE_CARREAU + cam.getDx(), e.getY() / TAILLE_CARREAU + cam.getDy());
 					
 					if(!c.estCaseVide(clique)) dessineFleche = false;
 											
 					if(!clique.estValide()) return;	
 							
 					// On affiche les informations des elements clique visible uniquement
-					for(Heros h : c.listeHeros) {
-						if(h.estDedans(clique)) {
-							elem = c.getElement(clique);
-							InfosElement.dessineInfosElement(elem);
+					// En mode config on voit tous
+					if(!Carte.modeConf) {
+						for(Heros h : c.listeHeros) {
+							if(h.estDedans(clique)) {
+								elem = c.getElement(clique);
+								InfosElement.dessineInfosElement(elem);
+								break;
+							}
 						}
 					}
-					
+					else {
+						elem = c.getElement(clique);
+						InfosElement.dessineInfosElement(elem);
+					}
 					// Si on a Selectionnee un heros et que l'on a effectuer un clic autre part alors on appelle jouerSoldat
 					if(elem instanceof Heros && estFiniAction) {
 						herosSelectione = (Heros)elem;
 						if(dernierClique != null)
 							c.jouerSoldats(pj);
 					}
+					/** Si on est en mode config et on a selectioner un element a deposer ainsi qu'un endroit ou le deposer alors on ajoute l'element a la carte */
+					if(Carte.modeConf && deposeElement != null && (InfosElement.obstacleSelectione != null || InfosElement.herosSelectione  != null)) {
+						if(InfosElement.obstacleSelectione != null  && c.estCaseVide(deposeElement)) c.setElement(new Obstacle(c, InfosElement.obstacleSelectione, deposeElement));
+						/** Pour les heros il faut mettre a jour la liste de heros et Ajouter l'element sur la carte */
+						else if(InfosElement.herosSelectione != null && c.estCaseVide(deposeElement)) {
+							c.setElement(new Heros(c, InfosElement.herosSelectione, deposeElement));
+							c.listeHeros.add((Heros) c.getElement(deposeElement));
+						}
+					}
+				
+				
 				}
+				/** Un clique droit en mode Config nous permet de supprimer un element sur la carte */
 				if(SwingUtilities.isRightMouseButton(e) && Carte.modeConf) {
 					Position delete = new Position(e.getX() / TAILLE_CARREAU + cam.getDx(), e.getY() / TAILLE_CARREAU + cam.getDy());
-					if(!c.estCaseVide(delete))
+					System.out.println("liste clique : " + c.listeHeros);
+					if(!c.estCaseVide(delete)) {
+						/** On ne doit pas oublier supprimer le heros de la liste */
+						if(c.getElement(delete) instanceof Heros) {
+							c.listeHeros.remove(c.getElement(delete));
+						}
 						c.setElementVide(delete);
+					}
 				}
 			}
 			
 			public void mouseReleased(MouseEvent e) {
 				if (SwingUtilities.isLeftMouseButton(e)) {
-					deposeObstacle = null;
+					deposeElement = null;
 					dessineFleche = false;
 					cliqueRelache = new Position((int)e.getX() / TAILLE_CARREAU + cam.getDx(), (int)e.getY() / TAILLE_CARREAU + cam.getDy());
 					
@@ -171,7 +196,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 					 * Cette option fonction uniquement dans le mode jeu et non en mode config
 					 *
 					 */
-					if(deposeObstacle == null && c.getElement(clique) == null && !clique.estIdentique(cliqueRelache) && c.estCaseVide(dernierClique)) {
+					if(deposeElement == null && c.getElement(clique) == null && !clique.estIdentique(cliqueRelache) && c.estCaseVide(dernierClique)) {
 						int distance = clique.getDistance(cliqueRelache);
 						switch(clique.getPositionCardinal(cliqueRelache)) {
 						case NORD: cam.deplaceCamera(0, -distance);
@@ -242,13 +267,6 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 									
 					g.setColor(COULEUR_GRILLE);
 					g.drawRect(i * TAILLE_CARREAU - cam.getDx() * TAILLE_CARREAU, j  * TAILLE_CARREAU - cam.getDy() * TAILLE_CARREAU, TAILLE_CARREAU, TAILLE_CARREAU); 
-				}
-			}
-			if(deposeObstacle != null && (InfosElement.obstacleSelectione != null || InfosElement.herosSelectione  != null)) {
-				if(InfosElement.obstacleSelectione != null) c.setElement(new Obstacle(c, InfosElement.obstacleSelectione, deposeObstacle));
-				else if(InfosElement.herosSelectione != null) {
-					c.setElement(new Heros(c, InfosElement.herosSelectione, deposeObstacle));
-					c.listeHeros.add((Heros) c.getElement(deposeObstacle));
 				}
 			}
 			elementRestantLabel.setText("" + InfosElement.nbElementDeposer + "  MAX : " + NB_OBSTACLES);	

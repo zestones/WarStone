@@ -113,6 +113,8 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
     				configMusic.clip.stop();
     				// Suprime les listes des obstacle
     				InfosElement.removeElementList();
+    				pj.elem = null;
+    				    				
     				// On vide le panel
     				descriptifElementPanel.removeAll();
     				descriptifElementPanel.revalidate();
@@ -125,11 +127,13 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
     				// On supprime le boutton fin de tour pour qu'il n'aparaisse pas si une config est lancer
     				menuBar.remove(finTour);	
     				menuBar.remove(jouer);	
+    				menuBar.remove(heros);
+    				menuBar.remove(obstacle);
     				// On arrete la music de conf et lance music jeux
     				gameMusic.clip.start();
     				
     				new FenetreJeu(pj.c);
-    		
+    	    				
     				frame.repaint();
     		}
     	});
@@ -176,6 +180,8 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 				descriptifElementPanel.removeAll();
 				descriptifElementPanel.revalidate();
 				
+				pj.elem = null;
+				
 				// On supprime le header et les fleches
 				headerPanel.removeAll();
 				flecheMiniCartePanel.removeAll();
@@ -184,7 +190,9 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 				
 				// On supprime le boutton fin de tour pour qu'il n'aparaisse pas si une config est lancer
 				menuBar.remove(finTour);	
-				menuBar.remove(jouer);
+				menuBar.remove(jouer);	
+				menuBar.remove(heros);
+				menuBar.remove(obstacle);
 				// On lance la music du menu	
 				menuMusic.clip.start();
 				// On enleve le boutton de music
@@ -196,6 +204,7 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 				
 				// Creation du menu
 				MenuJeu.initMenuJeu();
+				
 				frame.repaint();
 			} 	 
 		});  
@@ -208,6 +217,21 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
     			jouer.setBackground(Color.BLACK);
     		}	
 		});
+		
+		obstacle.addMouseMotionListener(new MouseAdapter() {
+    		public void mouseMoved(MouseEvent e) {
+    			obstacle.setForeground(Color.WHITE);
+    			obstacle.setBackground(Color.BLACK);
+    		}	
+		});
+		
+		heros.addMouseMotionListener(new MouseAdapter() {
+    		public void mouseMoved(MouseEvent e) {
+    			heros.setForeground(Color.WHITE);
+    			heros.setBackground(Color.BLACK);
+    		}	
+		});
+				
 		sauvegarde.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
     			sauvegarde.setForeground(Color.WHITE);
@@ -249,6 +273,12 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
     			
     			jouer.setForeground(Color.BLACK);
     			jouer.setBackground(Color.WHITE);
+    			
+    			heros.setForeground(Color.BLACK);
+    			heros.setBackground(Color.WHITE);
+    			
+    			obstacle.setForeground(Color.BLACK);
+    			obstacle.setBackground(Color.WHITE);
     		}	
 		});
 	}

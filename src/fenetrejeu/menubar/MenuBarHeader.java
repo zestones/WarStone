@@ -28,7 +28,13 @@ public class MenuBarHeader  implements IFenetre{
 
 		menu.setVisible(true);
 		menuBar.add(menu);
-
+		
+		sauvegarde.setVisible(true);
+		menuBar.add(sauvegarde);
+		
+		recommencer.setVisible(true);
+		menuBar.add(recommencer);
+		
 		if(!Carte.modeConf) {
 			finTour.setVisible(true);
 			menuBar.add(finTour);
@@ -42,13 +48,7 @@ public class MenuBarHeader  implements IFenetre{
 			
 			heros.setVisible(true);
 			menuBar.add(heros);
-		}
-			
-		sauvegarde.setVisible(true);
-		menuBar.add(sauvegarde);
-		
-		recommencer.setVisible(true);
-		menuBar.add(recommencer);
+		}		
 		
 		menuBar.add(musicOn); 
         musicOn.setSelected(true);

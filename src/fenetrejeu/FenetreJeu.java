@@ -15,6 +15,7 @@ import javax.swing.border.MatteBorder;
 import carte.Carte;
 import fenetrejeu.menubar.MenuBar;
 import fenetrejeu.menubar.MenuBarHeader;
+import infosgame.InfosElement;
 import infosgame.MiniCarte;
 import menu.loadgame.LoadGamePage;
 import wargame.PanneauJeu;
@@ -164,7 +165,11 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		
 		// En mode config on affiche les elements deposable
 		descriptifElementPanel.setPreferredSize(new Dimension(DESCRIPTIF_ELEMENT_LARGEUR, DESCRIPTIF_ELEMENT_HAUTEUR));
-
+		
+		/** On nettoi le panel contenant les infos des elements */
+		InfosElement.supprimeInfosElement();
+		InfosElement.supprimeLabelDeposable();
+		
 		if(Carte.modeConf) 
 			descriptifElementPanel.setLayout(new GridLayout(0, 1));
 		

@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import carte.Carte;
 import fenetrejeu.menubar.MenuBar;
 
 /**
@@ -61,6 +62,9 @@ public class MenuJeu implements IMenu {
 		gameMusic.clip.stop();
 		configMusic.clip.stop();
 			
+		/** Lorsqu'on revient sur le menu le mode config est toujours remis a false */
+		Carte.modeConf = false;
+		
 		/** creation d'un label pour deposer l'image */
 		BufferedImage fondEcran = null;
 		try {

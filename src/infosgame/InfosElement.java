@@ -55,11 +55,10 @@ public abstract class InfosElement implements IFenetre {
 	 * @param e 
 	 */
 	public static void dessineInfosElement(Element e) {
-		/** On verifie qu'un element a ete cliquer sinon on nettoie le panel */
-		if(e == null) {
-			supprimeInfos();			
-			return;
-		}
+		/** on nettoie le panel et on verifie qu'un element a ete cliquer */
+		supprimeInfosElement();	
+		if(e == null) return;
+		
 		/** si nous ne somme pas en mode creatif on affiche pas les infos des obstacles */
 		if(!Carte.modeConf) {
 			descriptifElementPanel.removeAll();
@@ -135,10 +134,10 @@ public abstract class InfosElement implements IFenetre {
 	 */
 	public static void dessineObstacleDeposable() {
 		// On supprime le contenu des panels 
-		supprimeInfos();
-		supprimeLabelDeposable();
 		removeElementList();
-		
+		supprimeInfosElement();
+		supprimeLabelDeposable();
+				
 		// Pour chque objet dans le type enum on recupere son image et on la met dans une liste de label
 		// une deuxieme liste est creer pour comparer les label au objet (ROCHER FORET...) 
 		for(TypeObstacle o : TypeObstacle.values()) {
@@ -155,7 +154,6 @@ public abstract class InfosElement implements IFenetre {
 		}
 		
 		obstacleDeposableEvent();
-		
 		deselectionEvent();
 		
 		descriptifElementPanel.repaint();
@@ -166,9 +164,10 @@ public abstract class InfosElement implements IFenetre {
 	 */
 	public static void dessineHerosDeposable() {
 		// On supprime le contenu des panels 
-		supprimeInfos();
+		supprimeInfosElement();
 		supprimeLabelDeposable();
 		removeElementList();
+		
 		// Pour chque objet dans le type enum on recupere son image et on la met dans une liste de label
 		// une deuxieme liste est creer pour comparer les label au objet (ROCHER FORET...) 
 		for(TypesH h : TypesH.values()) {
@@ -245,6 +244,7 @@ public abstract class InfosElement implements IFenetre {
 			public void mousePressed(MouseEvent e) {
 				if(Carte.modeConf) {
 					obstacleSelectione = null;
+					herosSelectione = null;
 					listeLabelElement.get(index).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
 				}
 			}
@@ -254,6 +254,7 @@ public abstract class InfosElement implements IFenetre {
 			public void mousePressed(MouseEvent e) {
 				if(Carte.modeConf) {
 					obstacleSelectione = null;
+					herosSelectione = null;
 					listeLabelElement.get(index).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
 				}
 			}
@@ -272,30 +273,27 @@ public abstract class InfosElement implements IFenetre {
 		// et on oublie l'obstacle selectione au passage
 		herosSelectione = null;
 		obstacleSelectione = null;
+		index = 0;
 	}
 	
 	/**
 	 * Supprime les infos du panel
 	 */
-	private static void supprimeInfos() {
+	public static void supprimeInfosElement() {
 		// Suppression de l'icon
-		if(!Carte.modeConf) {
-			infosIconPanel.removeAll();
-			infosIconPanel.revalidate();
-			// On redefinie ses dimensions
-			infosIconPanel.setPreferredSize(new Dimension(ICON_ELEMENT_LARGEUR, ICON_ELEMENT_HAUTEUR));
-			InfosElementLabel.setText("");
-			// On redessine le panel
-			infosElementHeader.repaint();
-			// On supprime aussi les infos supp si nous ne somme pas en mode config
-			descriptifElementPanel.removeAll();
-			descriptifElementPanel.revalidate();
-			// On redessine le panel
-			descriptifElementPanel.repaint();
-		}
-	}
+		infosIconPanel.removeAll();
+		infosIconPanel.revalidate();
+		
+		// On redefinie ses dimensions
+		infosIconPanel.setPreferredSize(new Dimension(ICON_ELEMENT_LARGEUR, ICON_ELEMENT_HAUTEUR));
+		InfosElementLabel.setText("");
+		// On redessine le panel
+		infosElementHeader.repaint();
+		if(!Carte.modeConf)
+			supprimeLabelDeposable();
+	}	
 	
-	private static void supprimeLabelDeposable() {
+	public static void supprimeLabelDeposable() {
 
 		// On supprime aussi les infos supp si nous ne somme pas en mode config
 		descriptifElementPanel.removeAll();
