@@ -160,13 +160,14 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 				/** Un clique droit en mode Config nous permet de supprimer un element sur la carte */
 				if(SwingUtilities.isRightMouseButton(e) && Carte.modeConf) {
 					Position delete = new Position(e.getX() / TAILLE_CARREAU + cam.getDx(), e.getY() / TAILLE_CARREAU + cam.getDy());
-					System.out.println("liste clique : " + c.listeHeros);
 					if(!c.estCaseVide(delete)) {
 						/** On ne doit pas oublier supprimer le heros de la liste */
 						if(c.getElement(delete) instanceof Heros) {
 							c.listeHeros.remove(c.getElement(delete));
 						}
 						c.setElementVide(delete);
+						/** On supprime les infos */
+						InfosElement.supprimeInfosElement();
 					}
 				}
 			}
@@ -240,9 +241,14 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 				if(!survol.estValide()) return;
 					
 				// On affiche les elements survole visible uniquement
-				for(Heros h : c.listeHeros)
-					if(h.estDedans(survol))
-						elem = c.getElement(survol);
+				if(!Carte.modeConf) {
+					for(Heros h : c.listeHeros)
+						if(h.estDedans(survol))
+							elem = c.getElement(survol);
+				}
+				// En mode conf on affiche tout les elements survole
+				else
+					elem = c.getElement(survol);
 				
 				/* Si le clic est relacher dans la case du heros on continue a memoriser les position */ 
 				if(herosSelectione != null) cliqueDragged = new Position(survol.getX(), survol.getY());
