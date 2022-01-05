@@ -16,8 +16,8 @@ import menu.MenuJeu;
 import menu.loadgame.ISauvegarde;
 import menu.loadgame.Sauvegarde;
 import sprite.GestionSprite;
-import utile.Bouton;
 import utile.FlecheDirectionnelle;
+import utile.style.Bouton;
 
 public class ButtonEvent implements IFenetre, ISauvegarde {
 	private static final long serialVersionUID = 1L;

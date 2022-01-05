@@ -1,4 +1,4 @@
-package utile;
+package utile.style;
 
 import java.awt.Color;
 

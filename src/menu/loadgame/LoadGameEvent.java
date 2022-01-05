@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 
 import menu.IMenu;
 import menu.MenuJeu;
-import utile.Bouton;
+import utile.style.Bouton;
 
 /**
  * Class LoadGameEvent.

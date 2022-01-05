@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import musique.Musique;
-import utile.Bouton;
+import utile.style.Bouton;
 
 /**
  * Interface IMenu.

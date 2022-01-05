@@ -8,7 +8,7 @@ import java.io.File;
 
 import fenetrejeu.FenetreJeu;
 import menu.IMenu;
-import utile.Bouton;
+import utile.style.Bouton;
 
 /**
  * 

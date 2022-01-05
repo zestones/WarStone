@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import utile.Bouton;
+import utile.style.Bouton;
 
 /**
  * Interface ISauvegarde.
