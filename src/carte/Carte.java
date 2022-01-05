@@ -36,13 +36,16 @@ public class Carte implements IConfig, ICarte {
 	/**  Liste contenant les actions a realiser lors d'un tour. */
 	public List<Soldat> listeActionAttaque;
 	
-	/** The liste action deplacement. */
+	/** liste action deplacement. */
 	public List<Soldat> listeActionDeplacement;
 	
-	/** The liste action mort. */
+	/** liste action mort. */
 	public List<Soldat> listeActionMort;
+	
+	/** varaible fin de tour permettant de dessiner les heros d'une autre couleur si c'est le tour des monstres */
+	public boolean tourMonstre;
 		
-	/**  Boolean indiquant le mode de jeu. */
+	/** Boolean indiquant le mode de jeu. */
 	public static boolean modeConf = false;
 	
 	/**
@@ -51,7 +54,7 @@ public class Carte implements IConfig, ICarte {
 	public Carte() {
 		// Initialisation des listes
 		this.plateau = new Element[NB_COLONNES][NB_LIGNES];
-		
+		this.tourMonstre = false;
 		// les listes d'action 
 		this.listeActionAttaque = new ArrayList<>();
 		this.listeActionDeplacement = new ArrayList<>();
@@ -117,11 +120,15 @@ public class Carte implements IConfig, ICarte {
 		// On met a jour le nombre de soldat restant sur la carte
 		this.nombreSoldatVivant(pj);
 		
+		this.tourMonstre = false;
+		
 		//On joue le tour de chacun des deux joueurs
-		if (pj.buttonEvent.tour == 0) 
+		if (pj.buttonEvent.tour == 0) {
 			this.joueTourHeros(pj);
+		}
 		else {
 			this.joueTourMonstre();
+			this.tourMonstre = true;
 			// On effectue le clic pour jouer le tour des monstres
 			IMenuBar.finTour.doClick();
 		}
@@ -143,14 +150,13 @@ public class Carte implements IConfig, ICarte {
 	}
 
 	/**
-	 * On effectue une action pour chaque monstre .
+	 * IA du General monstre
+	 * On effectue une action pour chaque monstre.
 	 *
 	 * @param pj
 	 */
 	private void joueTourMonstre() {
-//		// Tour du monstre 
-//		if (pj.buttonEvent.tour != 1) return;
-//	
+		
 		/**  Creation d'une liste contenant les heros a la portee du Monstre */
 		List<Heros> listePorteeHeros;
 		

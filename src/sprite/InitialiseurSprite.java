@@ -94,7 +94,7 @@ public class InitialiseurSprite implements IConfig, ISprite {
 		ConstructeurSprite consSprite = new ConstructeurSprite(this.sprite, ligne, nbImage);
 		Sprite spriteSheet = consSprite.genereSprite();
 		
-		spriteEngine.start();
+		animateur.start();
 		return spriteSheet;
 	}
 }

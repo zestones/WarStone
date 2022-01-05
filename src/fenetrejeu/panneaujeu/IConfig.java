@@ -38,7 +38,7 @@ public interface IConfig extends java.io.Serializable {
 	Color COULEUR_ENEMIS = new Color(255, 10, 20, 50), COULEUR_AMIS = new Color(20,200,10,50); 
 	Color COULEUR_MONSTRE = new Color(0, 0, 0, 60);
 	Color COULEUR_HEROS = Color.red, COULEUR_HEROS_DEJA_JOUE = new Color(175, 25, 75, 100);
-	
+	Color COULEUR_HEROS_TOUR_MONSTRE = new Color(247, 146, 24, 100); 
 	Color COULEUR_BARRE_VIE_ROUGE = Color.red, COULEUR_BARRE_VIE_VERT = Color.green;
 	Color COULEUR_FLECHE_DIRECTIONNELLE = new Color(139, 223, 255);
 	

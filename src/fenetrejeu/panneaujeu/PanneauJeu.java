@@ -105,7 +105,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		PanneauJeu pj = this;
 		
 		// Actualisation des sprites
-		ISprite.spriteEngine.addActionListener(new ActionListener() {
+		ISprite.animateur.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				carteMiniaturePanel.repaint();
 				repaint();

@@ -1,14 +1,3 @@
-/********************************************************************
- * 							WarStone							    *
- *  -------------------------------------------------------------	*
- * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
- *  -------------------------------------------------------------	*
- * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
- * 																	*
- *	 													sprite  	*
- * ******************************************************************/
-
-
 package sprite;
 
 /**
@@ -17,32 +6,19 @@ package sprite;
 public interface ISprite {
 
 	/** Chemin des sprites. */
-	/** humain. */
 	String humain = "./res/img/soldat/heros/sprite/humain.png";
-
-	/** nain. */
 	String nain = "./res/img/soldat/heros/sprite/nain.png";
-
-	/** elf. */
 	String elf = "./res/img/soldat/heros/sprite/elf.png";
-
-	/** hobbit. */
 	String hobbit = "./res/img/soldat/heros/sprite/hobbit.png";
-
 	String sorcier = "./res/img/soldat/heros/sprite/sorcier.png";
 	
-	/** troll. */
-	// Chemin des sprites pour les monstres
+	/** Chemin des sprites pour les monstres */
 	String troll = "./res/img/soldat/monstres/sprite/troll.png";
-
-	/** orc. */
 	String orc = "./res/img/soldat/monstres/sprite/orc.png";
-
-	/** gobelin. */
 	String gobelin = "./res/img/soldat/monstres/sprite/gobelin.png";
 
-	/** frequence des image pour la lecture des sprites. */
-	public AnimateurSprite spriteEngine = new AnimateurSprite(33);
+	/** frequence des images pour la lecture des sprites. */
+	public AnimateurSprite animateur = new AnimateurSprite(33);
 
 	int IMAGE_LARGEUR = 64;
 	int IMAGE_HAUTEUR = 64;
@@ -75,7 +51,7 @@ public interface ISprite {
 
 	int NB_IMAGE_ATTAQUE = 13;
 		
-	int LIGNE_MORT= 20;
+	int LIGNE_MORT = 20;
 	int NB_IMAGE_MORT = 6;
 	
 }

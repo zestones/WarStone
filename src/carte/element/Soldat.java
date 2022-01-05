@@ -165,7 +165,7 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     		this.dernierSprite = this.spriteSoldat.spriteReposDroit;
     	}
     	
-    	BufferedImage sprite = this.dernierSprite.getImageSprite(spriteEngine.getProgression()); 
+    	BufferedImage sprite = this.dernierSprite.getImageSprite(animateur.getProgression()); 
 		g.drawImage(sprite, (this.pos.getX() * TAILLE_CARREAU) - dx + this.deplacementX, (this.pos.getY() * TAILLE_CARREAU) - dy + this.deplacementY, TAILLE_CARREAU, TAILLE_CARREAU, null);
 		
 		if(this.fleche != null && this.combat) {

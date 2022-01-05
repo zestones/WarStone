@@ -65,8 +65,15 @@ public class Heros extends Soldat {
     		g.setColor(COULEUR_HEROS_DEJA_JOUE);
     		g.fillRect((this.getPosition().getX() * TAILLE_CARREAU) - dx + this.deplacementX, (this.getPosition().getY() * TAILLE_CARREAU) - dy + this.deplacementY, TAILLE_CARREAU, TAILLE_CARREAU); 
         }
-        /** La barre de vie n'est pas dessiner si le heros se deplace */
-        if(!this.estActifDeplacement)
+    	
+    	/** On dessine un filtre orange sur les heros si le tour est au monstre et que le heros ne combat pas */
+    	if(carte.tourMonstre && !this.combat) {
+    		g.setColor(COULEUR_HEROS_TOUR_MONSTRE);
+    		g.fillRect((this.getPosition().getX() * TAILLE_CARREAU) - dx + this.deplacementX, (this.getPosition().getY() * TAILLE_CARREAU) - dy + this.deplacementY, TAILLE_CARREAU, TAILLE_CARREAU); 
+    	}
+    	
+        /** La barre de vie est dessine lorsque le heros ne se deplace pas */
+        if(!this.estActifDeplacement) 
         	this.dessineBarreVie(g, cam);
     }
     
@@ -136,7 +143,7 @@ public class Heros extends Soldat {
     	
     	/** On dessine le sprite du heros selectione si la souris se trouve dans la zone de deplacement du heros et que la case est vide */
     	if(clique != null && clique.estVoisine(herosSelectione.getPosition()) && carte.estCaseVide(clique))
-    		g.drawImage(herosSelectione.dernierSprite.getImageSprite(spriteEngine.getProgression()), clique.getX() * TAILLE_CARREAU - dx, clique.getY() * TAILLE_CARREAU - dy, TAILLE_CARREAU, TAILLE_CARREAU, null);
+    		g.drawImage(herosSelectione.dernierSprite.getImageSprite(animateur.getProgression()), clique.getX() * TAILLE_CARREAU - dx, clique.getY() * TAILLE_CARREAU - dy, TAILLE_CARREAU, TAILLE_CARREAU, null);
     }
 
 	/**
