@@ -50,7 +50,7 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		Carte.modeConf = conf;
 		
 		/** On initialise le panel principal */
-		panelPrincipal.setPreferredSize(taille);
+		panelPrincipal.setPreferredSize(DIM_FEN);
 		panelPrincipal.setLayout(new BorderLayout());
 		panelPrincipal.setOpaque(false);	   	
 		

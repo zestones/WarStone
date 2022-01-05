@@ -25,36 +25,15 @@ public class ConstructeurSprite implements java.io.Serializable, ISprite {
 		this.largeur = IMAGE_LARGEUR;
 		this.haurteur = IMAGE_HAUTEUR;
 	}
-
-	private int getLigne() {
-		return this.ligne;
-	}
-	
-	private int getNombreImage() {
-		return this.nbImage;
-	}
-	
-	private int getLargeur() {
-		return this.largeur;
-	}
-
-	private int getHauteur() {
-		return this.haurteur;
-	}
-
-	private BufferedImage getSpriteImage() {
-		return this.spriteImage;
-	}
-
 	
 	protected Sprite genereSprite() {
-		int nbImage = getNombreImage();
-		int ligne = getLigne();
+		int nbImage = this.nbImage;
+		int ligne = this.ligne;
 		
-		int largeur = getLargeur();
-		int hauteur = getHauteur();
+		int largeur = this.largeur;
+		int hauteur = this.haurteur;
 
-		BufferedImage sprite = getSpriteImage();
+		BufferedImage sprite = this.spriteImage;
 		
 		int x = 0;
 		int y = ligne * largeur;

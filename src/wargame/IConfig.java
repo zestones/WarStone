@@ -53,10 +53,10 @@ public interface IConfig extends java.io.Serializable {
 	Image fleche = Toolkit.getDefaultToolkit().getImage("./res/img/pops/arrow.png");	
 	
 	/** Dimension de la fenetre de jeux */
-	Dimension taille = Toolkit.getDefaultToolkit().getScreenSize();	
+	Dimension DIM_FEN = Toolkit.getDefaultToolkit().getScreenSize();	
 
-	int FEN_LARGEUR = (int)taille.getWidth();
-	int FEN_HAUTEUR = (int)taille.getHeight();
+	int FEN_LARGEUR = (int)DIM_FEN.getWidth();
+	int FEN_HAUTEUR = (int)DIM_FEN.getHeight();
 	
 	/** Dimension de la barre de menu */
 	int MENUBAR_SECONDAIRE_HAUTEUR = 20;
