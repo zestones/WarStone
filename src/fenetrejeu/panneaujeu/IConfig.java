@@ -14,8 +14,7 @@ public interface IConfig extends java.io.Serializable {
 	int NB_HEROS = 5; 
 	int NB_MONSTRES = 1; 
 	int NB_OBSTACLES = NB_HEROS * 2;
-	
-	
+		
 	/** Couleur Panel */
 	Color COULEUR_MENUBAR = new Color(0, 70 ,85, 38); 
 	Color COULEUR_MINI_CARTE_PANEL = new Color(160, 95, 0);
@@ -23,8 +22,7 @@ public interface IConfig extends java.io.Serializable {
 	Color COULEUR_DESCRIPTIF_INFOS_PANEL = new Color(213, 129, 0);
 	
 	Color COULEUR_FOOTER = Color.BLACK;
-		
-	
+			
 	Color COULEUR_TEXTE = Color.BLACK;
 	Color COULEUR_BORDURE = Color.white;
 	

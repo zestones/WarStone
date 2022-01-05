@@ -18,7 +18,9 @@ public class Monstre extends Soldat {
 	
 	/** Constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-
+	
+	public int SEUIL_VIE_CRITIQUE;
+	
 	/** le type. */
 	TypesM m;
 	    
@@ -29,13 +31,17 @@ public class Monstre extends Soldat {
 	 * @param m 
 	 * @param nom 
 	 * @param pos
-	 */
+	 */	
 	public Monstre(Carte carte, TypesM m, Position pos){
-        super(carte, m.getPoints(), m.getPortee(), m.getPuissance(), m.getTir(), pos);
-        this.m = m;
+		super(carte, m.getPoints(), m.getPortee(), m.getPuissance(), m.getTir(), pos);
+		this.m = m;
+        
         this.combat = false;
+        this.SEUIL_VIE_CRITIQUE = this.getPointsMax() / 10;
+        
         this.spriteSoldat = new InitialiseurSprite(this);
         this.dernierSprite = this.spriteSoldat.spriteReposBas;
+                        
         carte.setElement(this);      
     }
 	
@@ -47,7 +53,7 @@ public class Monstre extends Soldat {
 	 */
 	public void seDessiner(Graphics g, Camera cam) { 
 		int dx = cam.getDx() * TAILLE_CARREAU;
-    	int dy = cam.getDy() * TAILLE_CARREAU;
+		int dy = cam.getDy() * TAILLE_CARREAU;
 
     	/** Dessin de la case du monstre */
     	g.drawImage(terre, (this.getPosition().getX() * TAILLE_CARREAU) - dx, (this.getPosition().getY() * TAILLE_CARREAU) - dy, TAILLE_CARREAU, TAILLE_CARREAU, null);
@@ -56,7 +62,7 @@ public class Monstre extends Soldat {
 		g.drawRect(this.getPosition().getX() * TAILLE_CARREAU - dx, this.getPosition().getY() * TAILLE_CARREAU - dy, TAILLE_CARREAU, TAILLE_CARREAU); 
 		    
 		/** Dessin du sprite du monstre */
-    	this.dessineSprite(g, cam);
+		this.dessineSprite(g, cam);
     	
     	/** Dessin de la barre de vie ainsi que le fond du monstre uniquement si le monstre ne se deplace pas */
     	if(!this.estActifDeplacement) {
@@ -71,24 +77,23 @@ public class Monstre extends Soldat {
    *
    * @param g 
    */
-  public void seDessinerMiniCarte(Graphics g) { 
-    	g.drawImage(terre, this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);   	
-    	
-    	g.drawImage(this.getImage(), this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);   	
+	public void seDessinerMiniCarte(Graphics g) { 
+		g.drawImage(terre, this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);   	
+	  
+		g.drawImage(this.getImage(), this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);   		
 
-    	g.setColor(COULEUR_MONSTRE);
-    	g.fillRect(this.getPosition().getX()  * TAILLE_CARREAU_MINI_CARTE , this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE , TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE);
-
-    }
+		g.setColor(COULEUR_MONSTRE);
+		g.fillRect(this.getPosition().getX()  * TAILLE_CARREAU_MINI_CARTE , this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE , TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE);
+	}
     
   /**
    * Gets list heros in range.
    *
-   * Retourne une liste de heros present dans la portee du monstre
+   * Retourne une liste de heros present a la portee du monstre
    *
    * @return list heros in range
    */
-  public List<Heros> getListHerosDansPortee(){
+	public List<Heros> getListHerosDansPortee(){
 		List<Heros> listeHeros = new ArrayList<>();
 		int portee = this.getPortee();
 
@@ -96,13 +101,13 @@ public class Monstre extends Soldat {
 			for(int j = 0; j <= portee * 2 ; j++) {
 				Position porteeVisuelle = new Position(this.getPosition().getX() + i - portee, this.getPosition().getY() + j - portee);
 				if(!porteeVisuelle.estValide())
-    				continue; 
+					continue; 
 				if(carte.getElement(porteeVisuelle) instanceof Heros) 
 					listeHeros.add((Heros)carte.getElement(porteeVisuelle));
 			}
 		}
 		return listeHeros;
-    }
+	}
     
   
   /**
@@ -116,10 +121,10 @@ public class Monstre extends Soldat {
 	public void seRapproche(Heros h) {
 		List<Position> positionVoisine = this.getPosition().getPositionAdjacente();
 		Position pos = null;
-      int distance = Math.max(NB_COLONNES, NB_LIGNES);
+		int distance = Math.max(NB_COLONNES, NB_LIGNES);
 		
 		for(Position posVoisine : positionVoisine) {
-          int distanceHeroPosVoisine = posVoisine.getDistance(h.getPosition());
+			int distanceHeroPosVoisine = posVoisine.getDistance(h.getPosition());
 			if(distance > distanceHeroPosVoisine) {
 				pos = posVoisine;
 				distance = distanceHeroPosVoisine;
@@ -164,13 +169,13 @@ public class Monstre extends Soldat {
 	 */
 	public void attaque(Position pos2) {
 		// On verifie que le Monstre n'a pas deja jouer et que la position d'attaque (pos2) n'est pas un autre Monstre
-		if (this == null || !(carte.getElement(pos2) instanceof Heros) || this.aJoue)
-            return;
-
+		if (carte.getElement(pos2) instanceof Monstre || this.aJoue)
+			return;
+		
 		// Si un Heros est present en pos2 alors on fait combatre notre monstre
-        Heros h = (Heros) carte.getElement(pos2);
-        this.combat = h.combat = true;
-        carte.listeActionAttaque.addAll(Arrays.asList(this, h, h, this));
+		Heros h = (Heros) carte.getElement(pos2);
+		this.combat = h.combat = true;
+		carte.listeActionAttaque.addAll(Arrays.asList(this, h, h, this));
 	}
 	
 	

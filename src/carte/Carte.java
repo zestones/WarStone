@@ -45,7 +45,6 @@ public class Carte implements IConfig, ICarte {
 	/**  Boolean indiquant le mode de jeu. */
 	public static boolean modeConf = false;
 	
-
 	/**
 	 * Instancie une nouvelle Carte.
 	 */
@@ -70,12 +69,12 @@ public class Carte implements IConfig, ICarte {
             this.genereObstacles();
         }
 	}
-
-    /**
-     * Genere obstacles.
-     */
+	
+	/**
+	 * Genere obstacles.
+	 */
     private void genereObstacles() {
-        for (int i = 0; i < NB_OBSTACLES; i++)
+        for(int i = 0; i < NB_OBSTACLES; i++)
             new Obstacle(this, Obstacle.TypeObstacle.getObstacleAlea(), this.trouvePositionVide());
     }
 
@@ -122,7 +121,7 @@ public class Carte implements IConfig, ICarte {
 		if (pj.buttonEvent.tour == 0) 
 			this.joueTourHeros(pj);
 		else {
-			this.joueTourMonstre(pj);
+			this.joueTourMonstre();
 			// On effectue le clic pour jouer le tour des monstres
 			IMenuBar.finTour.doClick();
 		}
@@ -148,10 +147,10 @@ public class Carte implements IConfig, ICarte {
 	 *
 	 * @param pj
 	 */
-	private void joueTourMonstre(PanneauJeu pj) {
-		// Tour du monstre 
-		if (pj.buttonEvent.tour != 1) return;
-	
+	private void joueTourMonstre() {
+//		// Tour du monstre 
+//		if (pj.buttonEvent.tour != 1) return;
+//	
 		/**  Creation d'une liste contenant les heros a la portee du Monstre */
 		List<Heros> listePorteeHeros;
 		
@@ -188,11 +187,11 @@ public class Carte implements IConfig, ICarte {
 						m.seRapproche(h);
 					}
 					// Si la vie du monstre atteint un seuil critique il fuit
-					else if(m.getPoints() < m.getPointsMax()/10) {
+					else if(m.getPoints() < m.SEUIL_VIE_CRITIQUE) {
 						m.prendFuite(h);
 					}
 				}
-				// 3 - si le monstre n'a toujours pas jouer alors il doit attaquer le heros trouver 
+				// 3- si le monstre n'a toujours pas jouer alors il doit attaquer le heros trouver 
 				this.listeMonstres.get(i).attaque(h.getPosition());				
 			}
 		}

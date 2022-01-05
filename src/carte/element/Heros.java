@@ -19,8 +19,8 @@ public class Heros extends Soldat {
     /** bonus repos. */
     private int BONUS_REPOS;
     	
-	/** le type. */
-	private TypesH h;
+    /** le type. */
+    private TypesH h;
 	
     /**
      * Instancie un nouveau heros.

@@ -232,13 +232,13 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
      * @param clic new stand by sprite
      */
     private void setSpriteRepos(Position clic) {
-    	if(clic.getX() < this.getPosition().getX())
+    	if(this.getPosition().getX() > clic.getX())
 			this.dernierSprite = this.spriteSoldat.spriteReposGauche;
-    	else if(clic.getX() > this.getPosition().getX())
+    	else if(this.getPosition().getX() < clic.getX())
     		this.dernierSprite = this.spriteSoldat.spriteReposDroit;
-      	else if(clic.getY() > this.getPosition().getY())
+      	else if(this.getPosition().getY() < clic.getY())
       		this.dernierSprite = this.spriteSoldat.spriteReposBas;
-    	else if(clic.getY() < this.getPosition().getY())
+    	else if(this.getPosition().getY() > clic.getY())
     		this.dernierSprite = this.spriteSoldat.spriteReposHaut;
     
     	this.deplacementX = this.deplacementY = 0;

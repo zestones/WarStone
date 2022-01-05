@@ -62,7 +62,6 @@ public class FlecheDirectionnelle implements IConfig {
 	    int[] xpoints = {x2, (int) xm, (int) xn};
 	    int[] ypoints = {y2, (int) ym, (int) yn};
 
-
 	    // On recupre les positions des point X2, Y2
 	    int Cx = x2 / TAILLE_CARREAU + cam.getDx(); 
 	    int Cy = y2 / TAILLE_CARREAU + cam.getDy();
