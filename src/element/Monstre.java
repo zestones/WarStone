@@ -3,6 +3,7 @@ package element;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import carte.Camera;
@@ -103,6 +104,76 @@ public class Monstre extends Soldat {
 		return listeHeros;
     }
     
+  
+  /**
+	 * Raproche monstre.
+	 * Si le monstre est confiant il se rapproche du heros pour le combatre
+	 *
+	 * @param h
+	 * @param m 
+	 * @return true, if successful
+	 */
+	public void seRapproche(Heros h) {
+		List<Position> positionVoisine = this.getPosition().getPositionAdjacente();
+		Position pos = null;
+      int distance = Math.max(NB_COLONNES, NB_LIGNES);
+		
+		for(Position posVoisine : positionVoisine) {
+          int distanceHeroPosVoisine = posVoisine.getDistance(h.getPosition());
+			if(distance > distanceHeroPosVoisine) {
+				pos = posVoisine;
+				distance = distanceHeroPosVoisine;
+			}
+		}
+		
+		if(pos != null) carte.deplaceSoldat(pos, this);
+	}
+  
+	/**
+	 * Fuite monstre.
+	 * Si le monstre n'est pas de taille face au heros alors il fuit
+	 * 
+	 * @param h
+	 * @param m
+	 * @return true, if successful
+	 */
+	public void prendFuite(Heros h) {
+		List<Position> positionVoisine = this.getPosition().getPositionAdjacente();
+		Position posFuite = null;
+		int distance = 0;
+		// On cherche une position vide le plus eloigne du heros 
+		for(Position posVoisine : positionVoisine) {
+			if(h.getPosition().getDistance(posVoisine) > distance && posVoisine.estValide() && carte.estCaseVide(posVoisine)) {
+				posFuite = posVoisine;
+				distance = (int) h.getPosition().getDistance(posVoisine);
+			}
+		}
+		
+		// Si on a trouver aucune position on a pas le choix
+		// Le monstre doit attaquer le heros
+		if(posFuite != null) carte.deplaceSoldat(posFuite, this);
+	}
+  
+	/**
+	 *  Methode qui gere le combat des Monstres.
+	 *
+	 * @param pj
+	 * @param pos 
+	 * @param pos2 
+	 * @return boolean
+	 */
+	public void attaque(Position pos2) {
+		// On verifie que le Monstre n'a pas deja jouer et que la position d'attaque (pos2) n'est pas un autre Monstre
+		if (this == null || !(carte.getElement(pos2) instanceof Heros) || this.aJoue)
+            return;
+
+		// Si un Heros est present en pos2 alors on fait combatre notre monstre
+        Heros h = (Heros) carte.getElement(pos2);
+        this.combat = h.combat = true;
+        carte.listeActionAttaque.addAll(Arrays.asList(this, h, h, this));
+	}
+	
+	
   /**
    * Gets index soldat.
    *

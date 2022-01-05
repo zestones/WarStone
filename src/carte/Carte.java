@@ -108,7 +108,7 @@ public class Carte implements IConfig, ICarte {
 	}
 
 	/**
-	 * Fonction principale du jeu c'est ici qu est gere
+	 * Methode principale du jeu c'est ici qu est gere
 	 * les appels au autre methode .
 	 *
 	 * @param pj
@@ -179,98 +179,29 @@ public class Carte implements IConfig, ICarte {
 				if(distance == 1) {
 					// 1- prendre la fuite
 					if(m.getPoints() < h.getPuissance()) {
-						fuiteMonstre(h, m);
+						m.prendFuite(h);
 					}
 				}
 				// 2- se rapprocher 
 				else {
 					if(m.getPoints() > h.getPoints() && m.getPuissance() > h.getPuissance()) {
-						rapprocheMonstre(h, m);
+						m.seRapproche(h);
 					}
 					// Si la vie du monstre atteint un seuil critique il fuit
 					else if(m.getPoints() < m.getPointsMax()/10) {
-						fuiteMonstre(h, m);
+						m.prendFuite(h);
 					}
 				}
 				// 3 - si le monstre n'a toujours pas jouer alors il doit attaquer le heros trouver 
-				this.monstreAttaque(pj, this.listeMonstres.get(i).getPosition(), h.getPosition());				
+				this.listeMonstres.get(i).attaque(h.getPosition());				
 			}
 		}
 		
-		/* On cherche les heros qui n'ont effectuer aucune action */
+		/* On cherche les heros qui n'ont effectuer aucune action et on leur donne un bonus de repos */
 		for(int j = 0; j < this.listeHeros.size(); j++)
 			if(!this.listeHeros.get(j).aJoue) this.listeHeros.get(j).repos();	
 	}
-	
-	/**
-	 * Raproche monstre.
-	 * Si le monstre est confiant il se rapproche du heros pour le combatre
-	 *
-	 * @param h
-	 * @param m 
-	 * @return true, if successful
-	 */
-	private void rapprocheMonstre(Heros h, Monstre m) {
-		List<Position> positionVoisine = this.positionAdjacente(m.getPosition());
-		Position pos = null;
-        int distance = Math.max(NB_COLONNES, NB_LIGNES);
-		
-		for(Position posVoisine : positionVoisine) {
-            int distanceHeroPosVoisine = posVoisine.getDistance(h.getPosition());
-			if(distance > distanceHeroPosVoisine) {
-				pos = posVoisine;
-				distance = distanceHeroPosVoisine;
-			}
-		}
-		
-		if(pos != null) this.deplaceSoldat(pos, m);
-	}
-	
-	/**
-	 * Fuite monstre.
-	 * Si le monstre n'est pas de taille face au heros alors il fuit
-	 * 
-	 * @param h
-	 * @param m
-	 * @return true, if successful
-	 */
-	private void fuiteMonstre(Heros h, Monstre m) {
-		List<Position> positionVoisine = this.positionAdjacente(m.getPosition());
-		Position posFuite = null;
-		int distance = 0;
-		// On cherche une position vide le plus eloigne du heros 
-		for(Position posVoisine : positionVoisine) {
-			if(h.getPosition().getDistance(posVoisine) > distance && posVoisine.estValide() && this.estCaseVide(posVoisine)) {
-				posFuite = posVoisine;
-				distance = (int) h.getPosition().getDistance(posVoisine);
-			}
-		}
-		
-		// Si on a trouver aucune position on a pas le choix
-		// Le monstre doit attaquer le heros
-		if(posFuite != null) this.deplaceSoldat(posFuite, m);
-	}
-	
-	/**
-	 *  Methode qui gere le combat des Monstres.
-	 *
-	 * @param pj
-	 * @param pos 
-	 * @param pos2 
-	 * @return boolean
-	 */
-	public void monstreAttaque(PanneauJeu pj, Position pos, Position pos2) {
-		Monstre m = (Monstre) this.getElement(pos);
-		// On verifie que le Monstre n'a pas deja jouer et que la position d'attaque (pos2) n'est pas un autre Monstre
-		if (m == null || !(this.getElement(pos2) instanceof Heros) || m.aJoue)
-            return;
-
-		// Si un Heros est present en pos2 alors on fait combatre notre monstre
-        Heros h = (Heros) this.getElement(pos2);
-        m.combat = h.combat = true;
-        this.listeActionAttaque.addAll(Arrays.asList(m, h, h, m));
-	}
-
+			
 	/**
 	 *  Le generale joueur decide quelle action realiser.
 	 *
@@ -285,7 +216,7 @@ public class Carte implements IConfig, ICarte {
 		if (!(pj.herosSelectione.getPosition().estIdentique(pj.dernierClique))) {
 			// On recupere l'index du Heros pour le mettre a jour la listeHeros
 			int index = this.listeHeros.indexOf(pj.herosSelectione);
-			if ((this.actionHeros(pj, pj.herosSelectione.getPosition(), pj.dernierClique))) {
+			if ((this.actionHeros(pj.herosSelectione.getPosition(), pj.dernierClique))) {
 				// Met a jour le heros dans la liste et on "oublie" le heros selectione
 				this.listeHeros.set(index, pj.herosSelectione);
 		    	pj.herosSelectione.aJoue = true;
@@ -302,7 +233,7 @@ public class Carte implements IConfig, ICarte {
 	 * @param pos2 
 	 * @return boolean
 	 */
-	public boolean actionHeros(PanneauJeu pj, Position pos, Position pos2) {
+	public boolean actionHeros(Position pos, Position pos2) {
 		Heros h = (Heros) this.plateau[pos.getX()][pos.getY()];
 		
 		// Si l'element a attaquer est un heros ou que le heros selectionner a deja jouer alors on ne fait rien
@@ -340,8 +271,8 @@ public class Carte implements IConfig, ICarte {
 	 * Deplace le Soldat a la position pos, si l'opperation a ete effectue alors
 	 * retourne true sinon false.
 	 *
-	 * @param pos the pos
-	 * @param soldat the soldat
+	 * @param pos 
+	 * @param soldat 
 	 * @return boolean
 	 */
 	public boolean deplaceSoldat(Position pos, Soldat soldat) {
@@ -390,12 +321,9 @@ public class Carte implements IConfig, ICarte {
 	}
 
 	/**
-	 * On remet aJoue = false en fonction du tour de la partie : 
-	 * tours des Monstre == 1 / tour des Heros == 0
-	 * Lorsque c'est le tour des monstres alors les Heros
-	 * doivent pouvoir bouger de nouveau, idem pour les Heros.
+	 * On remet aJoue = false en fonction du tour de jeu
 	 *
-	 * @param tour the tour
+	 * @param tour
 	 */
 	public void joueTour(int tour) {
 		if(tour == 1) {
@@ -420,20 +348,6 @@ public class Carte implements IConfig, ICarte {
 		return this.trouvePositionVide();
 	}
 
-	/**
-	 *  Methode renvoyant une liste contenant les 8 positions adjacente a une case .
-	 *
-	 * @param pos the pos
-	 * @return List
-	 */
-	private List<Position> positionAdjacente(Position pos) {
-		List<Position> listePos = new ArrayList<>();
-		for (int i = -1; i < 2; i++)
-			for (int j = -1; j < 2; j++)
-				if (i != 0 || j != 0)
-					listePos.add(new Position(pos.getX() + i, pos.getY() + j));
-		return listePos;
-	}
 	
 	/**
 	 *  Trouve une position vide adjacente a pos sur la carte si aucune position .
@@ -442,7 +356,7 @@ public class Carte implements IConfig, ICarte {
 	 * @return Position
 	 */
 	public Position trouvePositionVide(Position pos) {
-		List<Position> listePos = this.positionAdjacente(pos);
+		List<Position> listePos = pos.getPositionAdjacente();
 		
 		// On retire les position deja prise sur la carte et les position non valides
 		for(int i = 0; i < listePos.size(); i++)

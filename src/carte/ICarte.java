@@ -66,7 +66,7 @@ public interface ICarte {
 	 * @param pos2
 	 * @return boolean
 	 */
-	boolean actionHeros(PanneauJeu pj, Position pos, Position pos2);
+	boolean actionHeros(Position pos, Position pos2);
 	/**
 	 * Fonction principale de la class carte les tours et les appels au fonction sont 
 	 * géré par cette methode

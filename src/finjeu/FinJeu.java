@@ -78,7 +78,7 @@ public class FinJeu implements IFenetre {
 		}
 		
 		JLabel fondEcranLabel = new JLabel();
-		Image img = fondEcranImg.getScaledInstance(CARTE_LARGEUR, CARTE_HAUTEUR, Image.SCALE_SMOOTH);
+		Image img = fondEcranImg.getScaledInstance(FEN_LARGEUR, FEN_HAUTEUR, Image.SCALE_SMOOTH);
 		
 		fondEcranLabel.setIcon(new ImageIcon(img));	
 		panelFinJeu.add(fondEcranLabel);	

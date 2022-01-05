@@ -2,6 +2,9 @@ package utile;
 
 import static java.lang.Math.pow;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import wargame.IConfig;
 
 /**
@@ -134,6 +137,21 @@ public class Position implements IConfig {
 		if (angle < 0)
 			return SIAM;
 		return SAM_ALIGNE;	
+	}
+	
+	/**
+	 * Methode renvoyant une liste contenant les 8 positions adjacente a une case .
+	 *
+	 * @param pos the pos
+	 * @return List
+	 */
+	public List<Position> getPositionAdjacente() {
+		List<Position> listePos = new ArrayList<>();
+		for (int i = -1; i < 2; i++)
+			for (int j = -1; j < 2; j++)
+				if (i != 0 || j != 0)
+					listePos.add(new Position(this.getX() + i, this.getY() + j));
+		return listePos;
 	}
 	
 	/**

@@ -49,6 +49,8 @@ public abstract class InfosElement implements IFenetre {
 	/** index des listes. */
 	private static int index = 0;
 	
+	private static boolean premiereInit = true;
+	
 	/**
 	 * Dessine infos element.
 	 *
@@ -75,14 +77,14 @@ public abstract class InfosElement implements IFenetre {
 		
 		if(e instanceof Soldat) {
 			if(e instanceof Heros)
-				infos += "<center><FONT COLOR = BLACK size=\"+1\">HEROS</FONT><center>";
+				infos += "<center><FONT COLOR = #731400 size=\"+1\">HEROS</FONT><center>";
 			else 
-				infos += "<center><FONT COLOR = BLACK size=\"+1\">MONSTRE</FONT><center>";
+				infos += "<center><FONT COLOR = #901900 size=\"+1\">MONSTRE</FONT><center>";
 		
-			infos += "<br><br><FONT COLOR = BLUE>  POINTS VIE : " + ((Soldat) e).getPoints() + " / " + ((Soldat) e).getPointsMax() + "</FONT>"
-					+ "<br> <FONT COLOR = GREEN>  PUISSANCE : " + ((Soldat) e).getPuissance() + "</FONT>"
-					+ "<br> <FONT COLOR = GREEN> PORTEE :" + ((Soldat) e).getPortee() + "</FONT>"
-					+ "<br>	<FONT COLOR = GREEN> TIR :" + ((Soldat) e).getTir() + "</FONT>" 
+			infos += "<br><br><FONT COLOR = #6AE749>  POINTS VIE : " + ((Soldat) e).getPoints() + " / " + ((Soldat) e).getPointsMax() + "</FONT>"
+					+ "<br> <FONT COLOR = #DD0000>  PUISSANCE : " + ((Soldat) e).getPuissance() + "</FONT>"
+					+ "<br> <FONT COLOR = #8700FF> PORTEE : " + ((Soldat) e).getPortee() + "</FONT>"
+					+ "<br>	<FONT COLOR = #DD0000> TIR : " + ((Soldat) e).getTir() + "</FONT>" 
 					;
 		}
 		else 
@@ -184,7 +186,8 @@ public abstract class InfosElement implements IFenetre {
 		}
 		
 		herosDeposableEvent();
-		deselectionEvent();
+		
+		if(premiereInit) deselectionEvent();
 
 		descriptifElementPanel.repaint();
 	}
@@ -239,13 +242,16 @@ public abstract class InfosElement implements IFenetre {
 	
 
 	private static void deselectionEvent() {
+		premiereInit = false;
+		
 		/** Un clique sur le header ou le panel infosElement deselectione l'objet */
-		headerPanel.addMouseListener(new MouseAdapter() {
+		headerPanel.addMouseListener(new MouseAdapter() {	
 			public void mousePressed(MouseEvent e) {
 				if(Carte.modeConf) {
 					obstacleSelectione = null;
 					herosSelectione = null;
-					listeLabelElement.get(index).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
+					if(!listeLabelElement.isEmpty())
+						listeLabelElement.get(index).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
 				}
 			}
 		});
@@ -293,8 +299,10 @@ public abstract class InfosElement implements IFenetre {
 			supprimeLabelDeposable();
 	}	
 	
+	/**
+	 * Supprime le contenu du panel descriptifElementPanel qui ici contient les elements deposable sur la carte
+	 */
 	public static void supprimeLabelDeposable() {
-
 		// On supprime aussi les infos supp si nous ne somme pas en mode config
 		descriptifElementPanel.removeAll();
 		descriptifElementPanel.revalidate();

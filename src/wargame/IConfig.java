@@ -10,6 +10,12 @@ import java.awt.Toolkit;
  */
 public interface IConfig extends java.io.Serializable {	
 	
+	// Definir le NB ELEMENT sur la carte
+	int NB_HEROS = 5; 
+	int NB_MONSTRES = 1; 
+	int NB_OBSTACLES = NB_HEROS * 2;
+	
+	
 	/** Couleur Panel */
 	Color COULEUR_MENUBAR = new Color(0, 70 ,85, 38); 
 	Color COULEUR_MINI_CARTE_PANEL = new Color(160, 95, 0);
@@ -117,9 +123,4 @@ public interface IConfig extends java.io.Serializable {
 	// Constante pour centrer la barre de vie
 	int PADDING_VIE_CASE_GAUCHE = TAILLE_CARREAU/8;
 	int PADDING_VIE_CASE_HAUT = PADDING_VIE_CASE_GAUCHE/2;
-		
-	// Definir le NB ELEMENT sur la carte
-	int NB_HEROS = 5; 
-	int NB_MONSTRES = 5; 
-	int NB_OBSTACLES = NB_HEROS * 2;
 }
