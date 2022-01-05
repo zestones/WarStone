@@ -1,4 +1,4 @@
-package element;
+package carte.element;
 
 import java.awt.Image;
 import java.awt.Toolkit;

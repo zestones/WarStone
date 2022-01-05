@@ -1,4 +1,4 @@
-package wargame;
+package fenetrejeu.panneaujeu;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,16 +10,16 @@ import javax.swing.SwingUtilities;
 
 import carte.Camera;
 import carte.Carte;
-import element.Element;
-import element.Heros;
-import element.Obstacle;
+import carte.element.Element;
+import carte.element.Heros;
+import carte.element.Obstacle;
 import fenetrejeu.IFenetre;
-import infosgame.InfosElement;
-import infosgame.MiniCarte;
+import fenetrejeu.infosjeu.InfosElement;
+import fenetrejeu.infosjeu.MiniCarte;
+import fenetrejeu.panneaujeu.evenement.ButtonEvent;
 import sprite.ISprite;
 import utile.FlecheDirectionnelle;
 import utile.Position;
-import wargame.evenement.ButtonEvent;
 
 
 /**

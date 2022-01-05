@@ -1,4 +1,4 @@
-package infosgame;
+package fenetrejeu.infosjeu;
 
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
@@ -10,9 +10,9 @@ import javax.swing.SwingUtilities;
 import carte.Camera;
 import carte.Carte;
 import fenetrejeu.IFenetre;
+import fenetrejeu.panneaujeu.IConfig;
+import fenetrejeu.panneaujeu.PanneauJeu;
 import utile.Position;
-import wargame.IConfig;
-import wargame.PanneauJeu;
 
 /**
  * Class MiniCarte.

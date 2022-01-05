@@ -1,11 +1,11 @@
-package element;
+package carte.element;
 import java.awt.Graphics;
 import java.awt.Image;
 
 import carte.Camera;
 import carte.Carte;
+import fenetrejeu.panneaujeu.IConfig;
 import utile.Position;
-import wargame.IConfig;
 
 /**
  * Class Element.

@@ -16,12 +16,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import carte.Camera;
-import element.Element;
-import element.Soldat;
-import finjeu.FinJeu;
+import carte.element.Element;
+import carte.element.Soldat;
+import fenetrejeu.finjeu.FinJeu;
+import fenetrejeu.panneaujeu.IConfig;
+import fenetrejeu.panneaujeu.PanneauJeu;
 import utile.Position;
-import wargame.IConfig;
-import wargame.PanneauJeu;
 
 public class GestionSprite implements IConfig{
 

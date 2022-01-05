@@ -1,4 +1,4 @@
-package infosgame;
+package fenetrejeu.infosjeu;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -15,11 +15,11 @@ import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 
 import carte.Carte;
-import element.Element;
-import element.Heros;
-import element.ISoldat.TypesH;
-import element.Obstacle.TypeObstacle;
-import element.Soldat;
+import carte.element.Element;
+import carte.element.Heros;
+import carte.element.Soldat;
+import carte.element.ISoldat.TypesH;
+import carte.element.Obstacle.TypeObstacle;
 import fenetrejeu.IFenetre;
 
 /**

@@ -1,4 +1,4 @@
-package wargame;
+package fenetrejeu.panneaujeu;
 
 import java.awt.Color;
 import java.awt.Dimension;

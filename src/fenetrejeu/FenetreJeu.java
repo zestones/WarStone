@@ -13,12 +13,12 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
 import carte.Carte;
+import fenetrejeu.infosjeu.InfosElement;
+import fenetrejeu.infosjeu.MiniCarte;
 import fenetrejeu.menubar.MenuBar;
 import fenetrejeu.menubar.MenuBarHeader;
-import infosgame.InfosElement;
-import infosgame.MiniCarte;
+import fenetrejeu.panneaujeu.PanneauJeu;
 import menu.loadgame.LoadGamePage;
-import wargame.PanneauJeu;
 
 
 /**

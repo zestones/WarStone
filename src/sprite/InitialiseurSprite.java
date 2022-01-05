@@ -6,8 +6,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import element.Soldat;
-import wargame.IConfig;
+import carte.element.Soldat;
+import fenetrejeu.panneaujeu.IConfig;
 
 /**
  * La Class SpriteInitializer.

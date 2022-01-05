@@ -1,10 +1,10 @@
-package element;
+package carte.element;
 
 import java.awt.Graphics;
 
 import carte.Camera;
+import fenetrejeu.panneaujeu.IConfig;
 import utile.Position;
-import wargame.IConfig;
 
 /**
  * The Class Projectile.

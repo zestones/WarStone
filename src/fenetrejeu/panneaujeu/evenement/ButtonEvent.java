@@ -1,4 +1,4 @@
-package wargame.evenement;
+package fenetrejeu.panneaujeu.evenement;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -9,15 +9,15 @@ import java.awt.event.MouseEvent;
 import carte.Carte;
 import fenetrejeu.FenetreJeu;
 import fenetrejeu.IFenetre;
-import infosgame.InfosElement;
-import infosgame.MiniCarte;
+import fenetrejeu.infosjeu.InfosElement;
+import fenetrejeu.infosjeu.MiniCarte;
+import fenetrejeu.panneaujeu.PanneauJeu;
 import menu.MenuEvent;
 import menu.MenuJeu;
 import menu.loadgame.ISauvegarde;
 import menu.loadgame.Sauvegarde;
 import sprite.GestionSprite;
 import utile.FlecheDirectionnelle;
-import wargame.PanneauJeu;
 
 public class ButtonEvent implements IFenetre, ISauvegarde {
 	private static final long serialVersionUID = 1L;

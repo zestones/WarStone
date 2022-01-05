@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import element.Element;
-import element.Heros;
-import element.Monstre;
-import element.Obstacle;
-import element.Soldat;
+import carte.element.Element;
+import carte.element.Heros;
+import carte.element.Monstre;
+import carte.element.Obstacle;
+import carte.element.Soldat;
+import fenetrejeu.finjeu.FinJeu;
 import fenetrejeu.menubar.IMenuBar;
-import finjeu.FinJeu;
+import fenetrejeu.panneaujeu.IConfig;
+import fenetrejeu.panneaujeu.PanneauJeu;
 import utile.Position;
-import wargame.IConfig;
-import wargame.PanneauJeu;
 
 /**
  * Class implementant la carte du jeu ainsi que ses methodes.

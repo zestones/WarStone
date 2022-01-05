@@ -5,8 +5,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicArrowButton;
 
+import fenetrejeu.panneaujeu.IConfig;
 import utile.Bouton;
-import wargame.IConfig;
 
 public interface IMenuBar extends IConfig {
 	

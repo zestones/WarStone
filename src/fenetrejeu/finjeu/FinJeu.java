@@ -1,4 +1,4 @@
-package finjeu;
+package fenetrejeu.finjeu;
 
 import java.awt.FlowLayout;
 import java.awt.Image;

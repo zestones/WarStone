@@ -3,11 +3,11 @@ package carte;
 import java.awt.Graphics;
 import java.util.List;
 
-import element.Element;
-import element.Heros;
-import element.Soldat;
+import carte.element.Element;
+import carte.element.Heros;
+import carte.element.Soldat;
+import fenetrejeu.panneaujeu.PanneauJeu;
 import utile.Position;
-import wargame.PanneauJeu;
 
 public interface ICarte {
 	/**

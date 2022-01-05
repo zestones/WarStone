@@ -5,8 +5,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import carte.Camera;
-import element.Soldat;
-import wargame.IConfig;
+import carte.element.Soldat;
+import fenetrejeu.panneaujeu.IConfig;
 
 /**
  * Class Fleche.

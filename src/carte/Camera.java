@@ -1,7 +1,7 @@
 package carte;
 
+import fenetrejeu.panneaujeu.IConfig;
 import utile.Position;
-import wargame.IConfig;
 
 /**
  * Class Camera.

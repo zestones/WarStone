@@ -4,7 +4,7 @@ package sprite;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import wargame.IConfig;
+import fenetrejeu.panneaujeu.IConfig;
 
 public class Sprite implements IConfig, java.io.Serializable {
 	private static final long serialVersionUID = 1L;
