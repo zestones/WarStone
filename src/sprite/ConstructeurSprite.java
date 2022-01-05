@@ -24,7 +24,7 @@ public class ConstructeurSprite implements java.io.Serializable, ISprite {
 	private void tailleImage() {
 		this.largeur = IMAGE_LARGEUR;
 		this.haurteur = IMAGE_HAUTEUR;
-	}
+	}	
 	
 	protected Sprite genereSprite() {
 		int nbImage = this.nbImage;

@@ -44,41 +44,20 @@ public class Bouton extends JButton implements IMenu{
 	 * @param largeur la largeur
 	 * @param hauteur la hauteur
 	 */
-	public Bouton(int x, int y, int largeur, int hauteur) {
+	public Bouton(int x, int y, int largeur, int hauteur, boolean setPositionY) {
     	this.largeur = largeur;
     	this.hauteur = hauteur;
 		
     	this.setSize(largeur, hauteur);
-    	y = y + (hauteur + hauteur/4 ) * NOMBRE_BOUTON;
-
+    	if(setPositionY) {
+    		y = y + (hauteur + hauteur/4 ) * NOMBRE_BOUTON;
+    		NOMBRE_BOUTON++;
+    	}
     	this.setLocation(x, y);  	
     	this.setOpaque(false);
-    	this.setBorderPainted(false);
-    	
-    	NOMBRE_BOUTON++;
+    	this.setBorderPainted(false);   	
 	}
 	
-	/**
-	 * Instancie un nouveau boutton.
-	 * Sans le placement en y
-	 *
-	 * @param x 
-	 * @param y 
-	 * @param largeur 
-	 * @param hauteur 
-	 * @param boolean
-	 */
-	public Bouton(int x, int y, int largeur, int hauteur, boolean faux) {
-    	this.largeur = largeur;
-    	this.hauteur = hauteur;
-		
-    	this.setSize(largeur, hauteur);
-    	
-    	this.setLocation(x, y);  	
-    	this.setOpaque(false);
-    	this.setBorderPainted(false);
-	}
-
 	/**
 	 * Paintcomponent.
 	 *

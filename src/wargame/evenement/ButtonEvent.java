@@ -105,36 +105,38 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 		
 		jouer.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e){    	
-    				pj.c.genereSoldats();
-    				// On suprime tout le contenu
-    				panelPrincipal.removeAll();
-    				panelPrincipal.revalidate();
-    				// On arrete la music de config
-    				configMusic.clip.stop();
-    				// Suprime les listes des obstacle
-    				InfosElement.removeElementList();
-    				pj.elem = null;
-    				    				
-    				// On vide le panel
-    				descriptifElementPanel.removeAll();
-    				descriptifElementPanel.revalidate();
-    				// On supprime le header et les fleches
-    				headerPanel.removeAll();
-    				flecheMiniCartePanel.removeAll();
-    				// On supprime le panneau que l'on va remplacer
-    				frame.remove(panelPrincipal);
-    				
-    				// On supprime le boutton fin de tour pour qu'il n'aparaisse pas si une config est lancer
-    				menuBar.remove(finTour);	
-    				menuBar.remove(jouer);	
-    				menuBar.remove(heros);
-    				menuBar.remove(obstacle);
-    				// On arrete la music de conf et lance music jeux
-    				gameMusic.clip.start();
-    				
-    				new FenetreJeu(pj.c);
-    	    				
-    				frame.repaint();
+    			// le joueur 1 commence toujours en premier
+    			tour = 0;
+    			pj.c.genereSoldats();
+    			// On suprime tout le contenu
+    			panelPrincipal.removeAll();
+    			panelPrincipal.revalidate();
+    			// On arrete la music de config
+    			configMusic.clip.stop();
+    			// Suprime les listes des obstacle
+    			InfosElement.removeElementList();
+    			pj.elem = null;
+    			
+    			// On vide le panel
+    			descriptifElementPanel.removeAll();
+    			descriptifElementPanel.revalidate();
+    			// On supprime le header et les fleches
+    			headerPanel.removeAll();
+    			flecheMiniCartePanel.removeAll();
+    			// On supprime le panneau que l'on va remplacer
+    			frame.remove(panelPrincipal);
+    			
+    			// On supprime le boutton fin de tour pour qu'il n'aparaisse pas si une config est lancer
+    			menuBar.remove(finTour);	
+    			menuBar.remove(jouer);	
+    			menuBar.remove(heros);
+    			menuBar.remove(obstacle);
+    			// On arrete la music de conf et lance music jeux
+    			gameMusic.clip.start();
+    			
+    			new FenetreJeu(pj.c);
+    			
+    			frame.repaint();
     		}
     	});
 		
@@ -170,6 +172,9 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 		
 		menu.addActionListener(new ActionListener(){  
 			public void actionPerformed(ActionEvent e){  	
+    			// le joueur 1 commence toujours en premier
+    			tour = 0;
+				
 				// On suprime tout le contenu
 				panelPrincipal.removeAll();
 				panelPrincipal.revalidate();

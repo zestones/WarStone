@@ -65,7 +65,7 @@ public class LoadGamePage extends JPanel implements ISauvegarde, IMenu {
 		Bouton.NOMBRE_BOUTON = 0;
 		/** Pour chaque sauvegarde on creer un boutton que l'on met dans une liste de bouttons */
 		for(String save : listeSauvegarde) {
-			listeBoutton.add(new Bouton(BOUTTON_POSITION_X, BOUTTON_POSITION_Y, BOUTON_LARGEUR, BOUTON_HAUTEUR));
+			listeBoutton.add(new Bouton(BOUTTON_POSITION_X, BOUTTON_POSITION_Y, BOUTON_LARGEUR, BOUTON_HAUTEUR, true));
 			listeBoutton.get(i).setBouttonText(save.replace(chemin, ""));
 			frame.add(listeBoutton.get(i));
 			i++;
