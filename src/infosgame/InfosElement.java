@@ -261,7 +261,8 @@ public abstract class InfosElement implements IFenetre {
 				if(Carte.modeConf) {
 					obstacleSelectione = null;
 					herosSelectione = null;
-					listeLabelElement.get(index).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
+					if(!listeLabelElement.isEmpty())
+						listeLabelElement.get(index).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
 				}
 			}
 		});
