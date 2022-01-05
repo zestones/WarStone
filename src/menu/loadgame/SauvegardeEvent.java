@@ -87,7 +87,7 @@ public class SauvegardeEvent implements ISauvegarde, IMenu {
 					for(int j = 0; j < listeBoutton.size(); j++)
 						if(e.getSource() == listeBoutton.get(j)) {
 							/** On change la couleur du boutton */
-							listeBoutton.get(j).hoverBoutton(COULEUR_BOUTON_HOVER_MENU);
+							listeBoutton.get(j).hoverBouton(COULEUR_BOUTON_HOVER_MENU);
 							break;
 						}
 				}	
@@ -97,10 +97,10 @@ public class SauvegardeEvent implements ISauvegarde, IMenu {
 		/** Pour tout les bouttons on change la couleur lorsque la souris est deplacer sur la frame */
 		frame.addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
-				retour.unsetHoverBoutton(COULEUR_BOUTON_MENU);
+				retour.unsetHoverBouton(COULEUR_BOUTON_MENU);
 				
 				for(Bouton boutton : listeBoutton) {
-					boutton.unsetHoverBoutton(COULEUR_BOUTON_MENU);
+					boutton.unsetHoverBouton(COULEUR_BOUTON_MENU);
 				}
 				
 				frame.repaint();

@@ -91,13 +91,13 @@ public class FinJeu implements IFenetre {
         
         frame.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			retourMenu.unsetHoverBoutton(COULEUR_BOUTON_MENU);
+    			retourMenu.unsetHoverBouton(COULEUR_BOUTON_MENU);
     		}	
 		});
         
         retourMenu.addMouseMotionListener(new MouseAdapter() {
         	public void mouseMoved(MouseEvent e) {
-        		retourMenu.hoverBoutton(COULEUR_BOUTON_HOVER_MENU);
+        		retourMenu.hoverBouton(COULEUR_BOUTON_HOVER_MENU);
     		}	
 		});
         

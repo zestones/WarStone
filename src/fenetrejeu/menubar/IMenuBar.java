@@ -7,16 +7,17 @@ import javax.swing.plaf.basic.BasicArrowButton;
 
 import fenetrejeu.panneaujeu.IConfig;
 import utile.Bouton;
+import utile.CheckBox;
 
 public interface IMenuBar extends IConfig {
 	
-	JButton finTour = Bouton.setBoutonStyle("Fin Tour");
-	JButton jouer =  Bouton.setBoutonStyle("Jouer"); 
-	JButton sauvegarde = Bouton.setBoutonStyle("Sauvegarder");   
-	JButton recommencer = Bouton.setBoutonStyle("Recommencer");
-	JButton menu = Bouton.setBoutonStyle("Menu");
-	JButton obstacle = Bouton.setBoutonStyle("Obstacle");
-	JButton heros = Bouton.setBoutonStyle("Heros");
+	JButton finTour = Bouton.setButtonStyle("Fin Tour");
+	JButton jouer =  Bouton.setButtonStyle("Jouer"); 
+	JButton sauvegarde = Bouton.setButtonStyle("Sauvegarder");   
+	JButton recommencer = Bouton.setButtonStyle("Recommencer");
+	JButton menu = Bouton.setButtonStyle("Menu");
+	JButton obstacle = Bouton.setButtonStyle("Obstacle");
+	JButton heros = Bouton.setButtonStyle("Heros");
 	
 	// MenuBar Principal contenant les bouton
 	JPanel menuBar = new JPanel();
@@ -26,7 +27,7 @@ public interface IMenuBar extends IConfig {
 	JButton cameraGauche = new BasicArrowButton(BasicArrowButton.WEST);
 	JButton cameraDroite = new BasicArrowButton(BasicArrowButton.EAST); 
 	
-	JCheckBox musicOn = new JCheckBox("Music On/Off"); 
+	JCheckBox musicOn = CheckBox.setCheckBoxStyle("Music On/Off"); 
 
 	/** Variable du menuBar dans le PanneauJeu */
 	final int MENUBAR_LARGEUR = CARTE_LARGEUR;

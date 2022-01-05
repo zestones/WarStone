@@ -1,6 +1,5 @@
 package fenetrejeu.panneaujeu.evenement;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -17,6 +16,7 @@ import menu.MenuJeu;
 import menu.loadgame.ISauvegarde;
 import menu.loadgame.Sauvegarde;
 import sprite.GestionSprite;
+import utile.Bouton;
 import utile.FlecheDirectionnelle;
 
 public class ButtonEvent implements IFenetre, ISauvegarde {
@@ -174,8 +174,11 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 			public void actionPerformed(ActionEvent e){  	
     			// le joueur 1 commence toujours en premier
     			tour = 0;
-				
-				// On suprime tout le contenu
+    			
+    			// On change le style du bouton
+    			Bouton.unsetHoverButton(menu);
+    			
+    			// On suprime tout le contenu
 				panelPrincipal.removeAll();
 				panelPrincipal.revalidate();
 				
@@ -218,74 +221,58 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 	private void boutonHover() {
 		jouer.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			jouer.setForeground(Color.WHITE);
-    			jouer.setBackground(Color.BLACK);
+    			Bouton.setHoverButton(jouer);
     		}	
 		});
 		
 		obstacle.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			obstacle.setForeground(Color.WHITE);
-    			obstacle.setBackground(Color.BLACK);
+    			Bouton.setHoverButton(obstacle);
     		}	
 		});
 		
 		heros.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			heros.setForeground(Color.WHITE);
-    			heros.setBackground(Color.BLACK);
+    			Bouton.setHoverButton(heros);
     		}	
 		});
 				
 		sauvegarde.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			sauvegarde.setForeground(Color.WHITE);
-    			sauvegarde.setBackground(Color.BLACK);
+    			Bouton.setHoverButton(sauvegarde);
     		}	
 		});
 		recommencer.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			recommencer.setForeground(Color.WHITE);
-    			recommencer.setBackground(Color.BLACK);
+    			Bouton.setHoverButton(recommencer);
     		}	
 		});
 		finTour.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			finTour.setForeground(Color.WHITE);
-    			finTour.setBackground(Color.BLACK);
+    			Bouton.setHoverButton(finTour);
     		}	
 		});
 		menu.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			menu.setForeground(Color.WHITE);
-    			menu.setBackground(Color.BLACK);
+    			Bouton.setHoverButton(menu);
     		}	
 		});
 		
 		headerPanel.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			menu.setForeground(Color.BLACK);
-    			menu.setBackground(Color.WHITE);
-    			
-    			finTour.setForeground(Color.BLACK);
-    			finTour.setBackground(Color.WHITE);
-    			
-    			recommencer.setForeground(Color.BLACK);
-    			recommencer.setBackground(Color.WHITE);
-    			
-    			sauvegarde.setForeground(Color.BLACK);
-    			sauvegarde.setBackground(Color.WHITE);
-    			
-    			jouer.setForeground(Color.BLACK);
-    			jouer.setBackground(Color.WHITE);
-    			
-    			heros.setForeground(Color.BLACK);
-    			heros.setBackground(Color.WHITE);
-    			
-    			obstacle.setForeground(Color.BLACK);
-    			obstacle.setBackground(Color.WHITE);
+    			unsetAllHoverButton();
     		}	
 		});
+	}
+	
+	public void unsetAllHoverButton() {
+		Bouton.unsetHoverButton(menu);
+		Bouton.unsetHoverButton(finTour);
+		Bouton.unsetHoverButton(recommencer);
+		Bouton.unsetHoverButton(sauvegarde);
+		Bouton.unsetHoverButton(jouer);
+		Bouton.unsetHoverButton(heros);
+		Bouton.unsetHoverButton(obstacle);	
 	}
 	
 	

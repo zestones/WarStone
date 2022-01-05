@@ -3,6 +3,7 @@ package menu;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
@@ -92,4 +93,6 @@ public interface IMenu {
 
 	/** Couleur du boutton de supression des sauvegarde */
 	Color COULEUR_SUPPRIME = new Color(176, 176, 176);
+	
+	Font BUTTON_FONT = new Font("Noto Serif", Font.BOLD, 13);
 }

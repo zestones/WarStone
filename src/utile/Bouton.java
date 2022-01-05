@@ -22,7 +22,7 @@ import menu.IMenu;
  * Cree des bouttons
  * 
  */
-public class Bouton extends JButton implements IMenu{
+public class Bouton extends JButton implements IMenu {
 	
 	/** Constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -73,7 +73,7 @@ public class Bouton extends JButton implements IMenu{
      *
      * @param c la couleur
      */
-    public void hoverBoutton(Color c){
+    public void hoverBouton(Color c){
     	couleur = c;
     	this.repaint();
     }
@@ -83,7 +83,7 @@ public class Bouton extends JButton implements IMenu{
      *
      * @param c la couleur
      */
-    public void unsetHoverBoutton(Color c) {
+    public void unsetHoverBouton(Color c) {
     	couleur = c;
     	this.repaint();
     }
@@ -93,7 +93,7 @@ public class Bouton extends JButton implements IMenu{
      *
      * @param txt
      */
-    public void setBouttonText(String txt) {
+    public void setBoutonText(String txt) {
     	/** On creer le label qui va contenir l'image */
     	JLabel label = new JLabel();
     	
@@ -135,19 +135,31 @@ public class Bouton extends JButton implements IMenu{
      * @param text
      * @return button
      */
-    public static JButton setBoutonStyle(String text) {
-    	JButton bouton = new JButton(text);
+    public static JButton setButtonStyle(String text) {
+    	JButton button = new JButton(text);
 
-    	bouton.setForeground(Color.BLACK);
-    	bouton.setBackground(Color.WHITE);
-
+    	button.setForeground(Color.BLACK);
+    	button.setBackground(Color.WHITE);
+    	button.setFont(BUTTON_FONT);
+    	
     	Border bordure = BorderFactory.createLineBorder(Color.GRAY, 2);;
     	Border margin = new EmptyBorder(5, 15, 5, 15);
 
     	Border compound = new CompoundBorder(bordure, margin);
     	
-    	bouton.setBorder(compound);
+    	button.setBorder(compound);
     	    	
-    	return bouton;
+    	return button;
     }  
+    
+    public static void setHoverButton(JButton btn) {
+    	btn.setForeground(Color.WHITE);
+		btn.setBackground(Color.BLACK);
+    }
+    
+    public static void unsetHoverButton(JButton btn) {
+    	btn.setForeground(Color.BLACK);
+		btn.setBackground(Color.WHITE);
+    }
+    
 }

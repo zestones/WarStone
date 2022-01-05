@@ -37,7 +37,7 @@ public class MenuJeu implements IMenu {
 
 		/** Creation du boutton music */
         musiqueBouton.setBoutonImage("unmute");
-        musiqueBouton.hoverBoutton(COULEUR_BOUTON_MENU);
+        musiqueBouton.hoverBouton(COULEUR_BOUTON_MENU);
         
         /** Creation d'une menu Bar */
         new MenuBar();
@@ -84,13 +84,13 @@ public class MenuJeu implements IMenu {
 			
 		/** Creation des boutton avec des images */
 		newGame.setBoutonImage("new game");
-		newGame.hoverBoutton(COULEUR_BOUTON_MENU);
+		newGame.hoverBouton(COULEUR_BOUTON_MENU);
         loadGame.setBoutonImage("load game");
-        loadGame.hoverBoutton(COULEUR_BOUTON_MENU);
+        loadGame.hoverBouton(COULEUR_BOUTON_MENU);
         config.setBoutonImage("config");
-        config.hoverBoutton(COULEUR_BOUTON_MENU);
+        config.hoverBouton(COULEUR_BOUTON_MENU);
         quit.setBoutonImage("quit");
-        quit.hoverBoutton(COULEUR_BOUTON_MENU);
+        quit.hoverBouton(COULEUR_BOUTON_MENU);
 				
 		/** Ajout des bouttons du menu a la frame */
 		frame.add(musiqueBouton);

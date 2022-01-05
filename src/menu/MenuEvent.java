@@ -39,36 +39,36 @@ public class MenuEvent extends JPanel implements IMenu {
 		/** Pour chaque boutton s'il est survoler on change la couleur de fond */
 		newGame.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			newGame.hoverBoutton(COULEUR_BOUTON_HOVER_MENU);
+    			newGame.hoverBouton(COULEUR_BOUTON_HOVER_MENU);
     		}	
 		});
 		
 		loadGame.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			loadGame.hoverBoutton(COULEUR_BOUTON_HOVER_MENU);
+    			loadGame.hoverBouton(COULEUR_BOUTON_HOVER_MENU);
     		}	
 		});
 		
 		config.addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
-				config.hoverBoutton(COULEUR_BOUTON_HOVER_MENU);
+				config.hoverBouton(COULEUR_BOUTON_HOVER_MENU);
     		}	
 		});
 		
 		quit.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			quit.hoverBoutton(COULEUR_BOUTON_HOVER_MENU);
+    			quit.hoverBouton(COULEUR_BOUTON_HOVER_MENU);
     		}	
 		});
 		
 		/** Si la frame est survoler on change la couleur des boutton */
 		frame.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
-    			newGame.unsetHoverBoutton(COULEUR_BOUTON_MENU);
-    			loadGame.unsetHoverBoutton(COULEUR_BOUTON_MENU);
-    			config.unsetHoverBoutton(COULEUR_BOUTON_MENU);
-    			quit.unsetHoverBoutton(COULEUR_BOUTON_MENU);
-    			musiqueBouton.unsetHoverBoutton(COULEUR_BOUTON_MENU);
+    			newGame.unsetHoverBouton(COULEUR_BOUTON_MENU);
+    			loadGame.unsetHoverBouton(COULEUR_BOUTON_MENU);
+    			config.unsetHoverBouton(COULEUR_BOUTON_MENU);
+    			quit.unsetHoverBouton(COULEUR_BOUTON_MENU);
+    			musiqueBouton.unsetHoverBouton(COULEUR_BOUTON_MENU);
     		}	
 		});
 		

@@ -66,17 +66,17 @@ public class LoadGamePage extends JPanel implements ISauvegarde, IMenu {
 		/** Pour chaque sauvegarde on creer un boutton que l'on met dans une liste de bouttons */
 		for(String save : listeSauvegarde) {
 			listeBoutton.add(new Bouton(BOUTTON_POSITION_X, BOUTTON_POSITION_Y, BOUTON_LARGEUR, BOUTON_HAUTEUR, true));
-			listeBoutton.get(i).setBouttonText(save.replace(chemin, ""));
+			listeBoutton.get(i).setBoutonText(save.replace(chemin, ""));
 			frame.add(listeBoutton.get(i));
 			i++;
 		}
 		
 		/** Ajout d'une image / couleur au boutton */
 		supprimeSauvegarde.setBoutonImage("deleteOff");
-		supprimeSauvegarde.unsetHoverBoutton(COULEUR_SUPPRIME);
+		supprimeSauvegarde.unsetHoverBouton(COULEUR_SUPPRIME);
 		/** Ajout de text / couleur au boutton  */
-		retour.setBouttonText("BACK");
-		retour.hoverBoutton(COULEUR_BOUTON_MENU);		
+		retour.setBoutonText("BACK");
+		retour.hoverBouton(COULEUR_BOUTON_MENU);		
 		
 		/** Creation des listeners des bouttons delete et back une seule fois */
 		if(premiereFois) {

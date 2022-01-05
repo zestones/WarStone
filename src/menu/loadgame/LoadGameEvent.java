@@ -48,7 +48,7 @@ public class LoadGameEvent implements ISauvegarde, IMenu {
 		retour.addMouseMotionListener(new MouseAdapter() { 
 			public void mouseMoved(MouseEvent e) {
 				/** Si le boutton est survole on change sa couleur */
-				retour.hoverBoutton(COULEUR_BOUTON_HOVER_MENU);
+				retour.hoverBouton(COULEUR_BOUTON_HOVER_MENU);
 			}
 		});
 		

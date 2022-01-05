@@ -34,7 +34,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	public FlecheDirectionnelle flecheDirectionnelle;
 	public Position deposeElement;
 	public ButtonEvent buttonEvent;
-	private boolean dessineFleche;
+	private boolean dessineFlecheDirectionnelle;
 	public Heros herosSelectione;
 	public boolean estFiniAction;
 	private	Position survol;
@@ -55,7 +55,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		this.herosSelectione = null;		
 		
 		this.elem = null;
-		this.dessineFleche = false;
+		this.dessineFlecheDirectionnelle = false;
 		this.estFiniAction = true;
 				
 		this.deposeElement = null;
@@ -78,7 +78,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		descriptifElementPanel.revalidate();
 				
 		this.elem = null;
-		this.dessineFleche = false;
+		this.dessineFlecheDirectionnelle = false;
 		this.estFiniAction = true;
 		
 		c.nombreSoldatVivant(this);
@@ -94,7 +94,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		
 		this.elem = null;
 		
-		this.dessineFleche = false;
+		this.dessineFlecheDirectionnelle = false;
 		this.estFiniAction = false;
 	}		
 			 
@@ -120,7 +120,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 					dernierClique = new Position(e.getX() / TAILLE_CARREAU + cam.getDx(), e.getY() / TAILLE_CARREAU + cam.getDy());
 					deposeElement = new Position(e.getX() / TAILLE_CARREAU + cam.getDx(), e.getY() / TAILLE_CARREAU + cam.getDy());
 					
-					if(!c.estCaseVide(clique)) dessineFleche = false;
+					if(!c.estCaseVide(clique)) dessineFlecheDirectionnelle = false;
 											
 					if(!clique.estValide()) return;	
 							
@@ -175,7 +175,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 			public void mouseReleased(MouseEvent e) {
 				if (SwingUtilities.isLeftMouseButton(e)) {
 					deposeElement = null;
-					dessineFleche = false;
+					dessineFlecheDirectionnelle = false;
 					cliqueRelache = new Position((int)e.getX() / TAILLE_CARREAU + cam.getDx(), (int)e.getY() / TAILLE_CARREAU + cam.getDy());
 					
 					// On recupere les clic lorsque la souris est egalement relache
@@ -229,11 +229,13 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 				cliqueDragged = new Position ((int)e.getX() / TAILLE_CARREAU + cam.getDx(), (int)e.getY() / TAILLE_CARREAU + cam.getDy());
 				draggedCam = new Position ((int)e.getX() / TAILLE_CARREAU + cam.getDx(), (int)e.getY() / TAILLE_CARREAU + cam.getDy());		
 				
-				if(c.estCaseVide(clique)) dessineFleche = true;
-				else dessineFleche = false;
+				if(c.estCaseVide(clique)) dessineFlecheDirectionnelle = true;
+				else dessineFlecheDirectionnelle = false;
 			}	
 			
 			public void mouseMoved(MouseEvent e) {
+				buttonEvent.unsetAllHoverButton();
+				
 				survol = new Position((int)e.getX() / TAILLE_CARREAU + cam.getDx(), (int)e.getY() / TAILLE_CARREAU + cam.getDy());
 				
 				elem = null;
@@ -292,7 +294,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		}
 		
 		 // On verifie si on doit dessiner la fleche ou non
-	    if(flecheDirectionnelle.estFlecheDessinable(herosSelectione, dessineFleche, draggedCam)) 
+	    if(flecheDirectionnelle.estFlecheDessinable(herosSelectione, dessineFlecheDirectionnelle, draggedCam)) 
 	    	flecheDirectionnelle.dessineFlecheDirectionnelle(g, clique.getX() * TAILLE_CARREAU - cam.getDx() * TAILLE_CARREAU + TAILLE_CARREAU/2, 
 	    			clique.getY() * TAILLE_CARREAU - cam.getDy() * TAILLE_CARREAU + TAILLE_CARREAU/2, 
 	    			draggedCam.getX() * TAILLE_CARREAU - cam.getDx() * TAILLE_CARREAU + TAILLE_CARREAU/2, 
