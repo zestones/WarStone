@@ -331,8 +331,8 @@ public class Carte implements IConfig, ICarte {
 				h.aJoue = false;
 		}
 		else {
-			for(Monstre m : this.listeMonstres) 
-				m.aJoue = false;	
+			for(Monstre m : this.listeMonstres) 	
+				m.aJoue = false;
 		}
 	}
 

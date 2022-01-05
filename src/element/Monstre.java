@@ -21,7 +21,7 @@ public class Monstre extends Soldat {
 
 	/** le type. */
 	TypesM m;
-    
+	    
 	/**
 	 * Instancie un nouveau monstre.
 	 *
@@ -46,7 +46,7 @@ public class Monstre extends Soldat {
 	 * @param cam 
 	 */
 	public void seDessiner(Graphics g, Camera cam) { 
-    	int dx = cam.getDx() * TAILLE_CARREAU;
+		int dx = cam.getDx() * TAILLE_CARREAU;
     	int dy = cam.getDy() * TAILLE_CARREAU;
 
     	/** Dessin de la case du monstre */

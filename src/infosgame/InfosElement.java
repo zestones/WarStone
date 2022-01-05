@@ -144,7 +144,7 @@ public abstract class InfosElement implements IFenetre {
 		// une deuxieme liste est creer pour comparer les label au objet (ROCHER FORET...) 
 		for(TypeObstacle o : TypeObstacle.values()) {
 			JLabel ObstacleLabel = new JLabel();
-			Image img = o.getImage().getScaledInstance(INFOS_PANEL_LARGEUR / TypeObstacle.values().length, TAILLE_CARREAU, Image.SCALE_SMOOTH);
+			Image img = o.getMiniature().getScaledInstance(INFOS_PANEL_LARGEUR / TypeObstacle.values().length, TAILLE_CARREAU, Image.SCALE_SMOOTH);
 			ImageIcon imgIcon = new ImageIcon(img);
 			ObstacleLabel.setIcon(imgIcon);
 			ObstacleLabel.setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));

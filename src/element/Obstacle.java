@@ -46,7 +46,7 @@ public class Obstacle extends Element{
 		 *
 		 * @return image
 		 */
-		public Image getImage() { return IMAGE; } 
+		public Image getMiniature() { return IMAGE; } 
 		
 		/**
 		 * Gets un obstacle aleatoire.
@@ -60,8 +60,7 @@ public class Obstacle extends Element{
 	
 	/** le type. */
 	private TypeObstacle TYPE;
-	private Position pos;
-	
+
 	/**
 	 * Instancie un nouvelle obstacle.
 	 *
@@ -70,7 +69,7 @@ public class Obstacle extends Element{
 	 * @param pos 
 	 */
 	public Obstacle(Carte carte, TypeObstacle type, Position pos) {
-		this.pos = pos;
+		super(carte, pos);
 		this.TYPE = type; 
 		carte.setElement(this);; 
 	}
@@ -84,7 +83,7 @@ public class Obstacle extends Element{
 	 */
 	public void seDessiner(Graphics g, Camera cam) {
 		g.drawImage(fondObstacle, (this.getPosition().getX() * TAILLE_CARREAU) - cam.getDx() * TAILLE_CARREAU, (this.getPosition().getY() * TAILLE_CARREAU) - cam.getDy() * TAILLE_CARREAU, TAILLE_CARREAU, TAILLE_CARREAU, null);
-		g.drawImage(this.TYPE.getImage(), (this.getPosition().getX() * TAILLE_CARREAU) - cam.getDx() * TAILLE_CARREAU, (this.getPosition().getY() * TAILLE_CARREAU) - cam.getDy() * TAILLE_CARREAU, TAILLE_CARREAU, TAILLE_CARREAU, null);
+		g.drawImage(this.TYPE.getMiniature(), (this.getPosition().getX() * TAILLE_CARREAU) - cam.getDx() * TAILLE_CARREAU, (this.getPosition().getY() * TAILLE_CARREAU) - cam.getDy() * TAILLE_CARREAU, TAILLE_CARREAU, TAILLE_CARREAU, null);
 	}
 	
 	/**
@@ -94,7 +93,7 @@ public class Obstacle extends Element{
 	 */
 	public void seDessinerMiniCarte(Graphics g) {
 		g.drawImage(fondObstacle, this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);
-		g.drawImage(this.TYPE.getImage(), this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);
+		g.drawImage(this.TYPE.getMiniature(), this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);
 	}
 	
 	/**
@@ -105,25 +104,19 @@ public class Obstacle extends Element{
 	public String toString() { return ""+TYPE; }
 	
 	/**
-	 * Gets position.
-	 *
-	 * @return position
-	 */
-	public Position getPosition() {	return pos;	}
-
-	/**
 	 * Gets image.
 	 *
 	 * @return image
 	 */
-	public Image getImage() { return this.TYPE.getImage(); }
+	public Image getImage() { return this.TYPE.getMiniature(); }
+	
 
-	public String getHistoire() {return null;}
+	public String getHistoire() {return this.getType();}
 	
 	/**
 	 * Gets type.
 	 *
 	 * @return type
 	 */
-	public String getType() { return ""+this.TYPE.name(); }
+	public String getType() { return "" + this.TYPE.name(); }
 }

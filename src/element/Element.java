@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 import carte.Camera;
+import carte.Carte;
 import utile.Position;
 import wargame.IConfig;
 
@@ -13,6 +14,27 @@ public abstract class Element implements IConfig {
 	
 	/** Constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	private Position pos;
+	protected Carte carte;
+	
+	Element(Carte carte, Position pos) {
+		this.pos = pos;
+	}
+	
+	  /**
+     * Sets position.
+     *
+     * @param nouvPos new position
+     */
+    public void setPosition(Position nouvPos) { pos = new Position(nouvPos.getX(), nouvPos.getY()); }
+    
+    /**
+     * Gets position.
+     *
+     * @return position
+     */
+    public Position getPosition() { return pos; }
 	
 	/**
 	 * Se dessiner minia.
@@ -28,13 +50,6 @@ public abstract class Element implements IConfig {
 	 * @param cam
 	 */
 	public abstract void seDessiner(Graphics g, Camera cam);
-	
-	/**
-	 * Gets  position.
-	 *
-	 * @return position
-	 */
-	public abstract Position getPosition();
 	
 	/**
 	 * To string.

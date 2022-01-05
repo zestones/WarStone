@@ -27,9 +27,7 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
        
     public Position nouvellePos;
     private Position pos;    
-    
-    public Carte carte;
-    
+        
     /** boolean informant sur le status du soldat */
     public boolean seDeplace, combat, estMort;
     public boolean estActifDeplacement;
@@ -52,6 +50,8 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
      * @param pos 
      */
     public Soldat(Carte carte, int pts, int portee, int puiss, int tir, Position pos) {
+    	super(carte, pos);
+    	
     	this.carte = carte;
     	
     	POINTS_DE_VIE_MAX = pointsDeVie = pts;
@@ -246,9 +246,9 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     }
     
     /**
-     * Sets attack sprite.
+     * Sets attaque sprite.
      *
-     * @param clic new attack sprite
+     * @param clic
      */
     private void setSpriteAttaque(Position clic) {
     	if(clic.getX() < this.getPosition().getX()) { 
@@ -281,33 +281,22 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
      * @param clic new deplacement sprite
      */
     private void setSpriteDeplacement(Position clic) {
-    	switch(clic.getPositionCardinal(this.getPosition())) {
-		case NORD: this.dernierSprite = this.spriteSoldat.spriteDeplacementHaut;
-		break;
-		case NORD_OUEST: this.dernierSprite = this.spriteSoldat.spriteDeplacementGauche;
-		break;
-		case OUEST: this.dernierSprite = this.spriteSoldat.spriteDeplacementGauche;
-		break;
-		case SUD_OUEST: this.dernierSprite = this.spriteSoldat.spriteDeplacementGauche;
-		break;
-		case SUD: this.dernierSprite = this.spriteSoldat.spriteDeplacementBas;
-		break;
-		case SUD_EST: this.dernierSprite = this.spriteSoldat.spriteDeplacementDroit;
-		break;
-		case EST: this.dernierSprite = this.spriteSoldat.spriteDeplacementDroit;
-		break;
-		case NORD_EST: this.dernierSprite = this.spriteSoldat.spriteDeplacementDroit;
-		break;
-		default: this.dernierSprite = this.spriteSoldat.spriteReposBas;
-		break;
-    	}
+    	
+    	if(clic.getX() < this.getPosition().getX())
+			this.dernierSprite = this.spriteSoldat.spriteDeplacementGauche;
+    	else if(clic.getX() > this.getPosition().getX())
+    		this.dernierSprite = this.spriteSoldat.spriteDeplacementDroit;
+      	else if(clic.getY() > this.getPosition().getY())
+      		this.dernierSprite = this.spriteSoldat.spriteDeplacementBas;
+    	else if(clic.getY() < this.getPosition().getY())
+    		this.dernierSprite = this.spriteSoldat.spriteDeplacementHaut;
     }
     
     /**
      * Dessin barre vie.
      *
-     * @param g g
-     * @param cam cam
+     * @param g
+     * @param cam
      */
     public void dessineBarreVie(Graphics g, Camera cam) {
     	int dx = cam.getDx() * TAILLE_CARREAU;
@@ -334,13 +323,6 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     public Soldat clone() throws CloneNotSupportedException {	
     	return (Soldat) super.clone();
     }
-    
-    /**
-     * Sets position.
-     *
-     * @param nouvPos new position
-     */
-    public void setPosition(Position nouvPos) { pos = new Position(nouvPos.getX(), nouvPos.getY()); }
     
     /**
      * Gets points max.
@@ -376,14 +358,7 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
      * @return points
      */
     public int getPoints() { return this.pointsDeVie; }
-    
-    /**
-     * Gets position.
-     *
-     * @return position
-     */
-    public Position getPosition() { return pos; }
-    
+        
     /**
      * Gets tir.
      *

@@ -33,6 +33,7 @@ public class Heros extends Soldat {
     public Heros(Carte carte, TypesH h, Position pos){
     	super(carte, h.getPoints(), h.getPortee(), h.getPuissance(), h.getTir(), pos);
         this.h = h;
+       
         carte.setElement(this);
        
         this.BONUS_REPOS = this.getPointsMax() / 10;
@@ -237,7 +238,7 @@ public class Heros extends Soldat {
 	public void repos() {
     	if(!this.aJoue && this.getPoints() + BONUS_REPOS < this.getPointsMax())
     		this.setPoints(this.getPoints() + BONUS_REPOS);
-    	else if (!this.aJoue && this.getPoints() + BONUS_REPOS > this.getPointsMax())
+    	else if(!this.aJoue && this.getPoints() + BONUS_REPOS > this.getPointsMax())
     		this.setPoints(this.getPointsMax());
     }
 
