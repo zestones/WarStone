@@ -56,6 +56,8 @@ public class Bouton extends JButton implements IMenu {
     	this.setLocation(x, y);  	
     	this.setOpaque(false);
     	this.setBorderPainted(false);   	
+    	
+    	this.repaint();
 	}
 	
 	/**
@@ -113,7 +115,7 @@ public class Bouton extends JButton implements IMenu {
      * @param image
      */
     public void setBoutonImage(String image){
-    	double coef =  0.89;
+    	double coef = 0.89;
     	/** chargement de l'image */
     	ImageIcon icon = new ImageIcon("./res/img/background/menu/" + image + ".png");
     	Image monImage = icon.getImage();
@@ -138,28 +140,28 @@ public class Bouton extends JButton implements IMenu {
     public static JButton setButtonStyle(String text) {
     	JButton button = new JButton(text);
 
-    	button.setForeground(Color.BLACK);
-    	button.setBackground(Color.WHITE);
+    	button.setForeground(COULEUR_BUTTON_FOREGROUND);
+    	button.setBackground(COULEUR_BUTTON_BACKGROUND);
     	button.setFont(BUTTON_FONT);
     	
-    	Border bordure = BorderFactory.createLineBorder(Color.GRAY, 2);;
+    	Border bordure = BorderFactory.createLineBorder(COULEUR_BUTTON_BORDER, 2);
     	Border margin = new EmptyBorder(5, 15, 5, 15);
 
     	Border compound = new CompoundBorder(bordure, margin);
     	
     	button.setBorder(compound);
-    	    	
+       	
     	return button;
     }  
     
     public static void setHoverButton(JButton btn) {
-    	btn.setForeground(Color.WHITE);
-		btn.setBackground(Color.BLACK);
+    	btn.setForeground(COULEUR_BUTTON_BACKGROUND);
+		btn.setBackground(COULEUR_BUTTON_FOREGROUND);
     }
     
     public static void unsetHoverButton(JButton btn) {
-    	btn.setForeground(Color.BLACK);
-		btn.setBackground(Color.WHITE);
+    	btn.setForeground(COULEUR_BUTTON_FOREGROUND);
+		btn.setBackground(COULEUR_BUTTON_BACKGROUND);
     }
     
 }

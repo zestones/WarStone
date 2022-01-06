@@ -7,8 +7,11 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
@@ -56,7 +59,8 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		
 		headerPanel.setLayout(new BorderLayout());
 		headerPanel.setOpaque(false);	    	
-	
+		headerPanel.setBorder(new MatteBorder(0, 2, 2, 0, COULEUR_BORDURE));
+		
 		cartePanel.setLayout(new BorderLayout());
 		cartePanel.setOpaque(false);	    
 		
@@ -95,8 +99,8 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		// On ajoute la carte au panel
 		carteMiniaturePanel.add(new MiniCarte(panneau.cam));	
 		
-		// On Met des bordure autour de la carte
-		carteMiniaturePanel.setBorder(new MatteBorder(5, 5, 5, 5, COULEUR_MENUBAR));
+		// On Met des bordure autour de la mini carte
+		carteMiniaturePanel.setBorder(new MatteBorder(5, 5, 5, 5, COULEUR_BORDUR_MINI_CARTE));
 		
 		/** On rajoute ce panel au conteneur miniCartePanel */
 		miniCartePanel.add(carteMiniaturePanel);
@@ -111,7 +115,7 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		FlowLayout infosSoldatLayout = (FlowLayout)infosSoldatPanel.getLayout();
 		infosSoldatLayout.setVgap(0);
 	
-		infosSoldatPanel.setBackground(COULEUR_FORET);
+		infosSoldatPanel.setBackground(COULEUR_ELEMENT_RESTANT);
 		
 		/** Alignement du text */		
 		elementRestantLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -125,13 +129,18 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		/** Couleur du text et Police */
 		elementRestantLabel.setForeground(COULEUR_GRILLE);
 		elementRestantLabel.setFont(new Font("Pushster", Font.BOLD, 15));
-		elementRestantLabel.setBorder(new MatteBorder(2, 2, 0, 2, COULEUR_BORDURE));
+	 	Border bordureInterieur = BorderFactory.createLineBorder(Color.GRAY, 4);;
+    	Border bordureExterieur = new MatteBorder(2, 2, 0, 2, COULEUR_BORDURE);
+
+    	Border compound = new CompoundBorder(bordureExterieur, bordureInterieur);
+    	
+		elementRestantLabel.setBorder(compound);
 		infosSoldatPanel.add(elementRestantLabel);
 		
 		infosPanel.add(infosSoldatPanel);
 		
 		infosElementPanel.setPreferredSize(new Dimension(INFOS_PANEL_LARGEUR, INFOS_ELEMENT_PANEL_HAUTEUR));
-		infosElementPanel.setBackground(COULEUR_HEROS);		
+		infosElementPanel.setBackground(COULEUR_INFOS_PANEL);		
 		
 		// Couleur et taille du header dans ce panel
 		infosElementHeader.setPreferredSize(new Dimension(INFOS_PANEL_LARGEUR - PADDING_INFOS_PANEL*2, ICON_ELEMENT_HAUTEUR));
@@ -140,28 +149,29 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		// panel contenant l'icon
 		infosIconPanel.setBackground(COULEUR_GRILLE);
 		infosIconPanel.setPreferredSize(new Dimension(ICON_ELEMENT_LARGEUR, ICON_ELEMENT_HAUTEUR));
-		infosIconPanel.setBorder(new LineBorder(COULEUR_BORDURE, 2, true));
+		infosIconPanel.setBorder(new MatteBorder(2, 2, 2, 0, COULEUR_BORDURE));
 		
 		// Taille du label contenant l'icon
 		infosIconLabel.setPreferredSize(new Dimension(ICON_ELEMENT_LARGEUR, ICON_ELEMENT_HAUTEUR));
 		
 		// Label contant les infos de l'elements
 		InfosElementLabel.setOpaque(true);
-		InfosElementLabel.setBackground(COULEUR_HEROS_DEJA_JOUE);
+		InfosElementLabel.setBackground(COULEUR_INFOS_ELEMENT_LABEL);
 
 		// On centre le text
 		InfosElementLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		InfosElementLabel.setFont(new Font("Pushster", Font.BOLD, 15));
-		InfosElementLabel.setBorder(new MatteBorder(0, 0, 0, 2, COULEUR_BORDURE));
+		InfosElementLabel.setBorder(new MatteBorder(2, 0, 2, 2, COULEUR_BORDURE));
 		
 		// On rajoute les elements a leur conteneur parent
 		infosIconPanel.add(infosIconLabel);
 		infosElementHeader.add(infosIconPanel, BorderLayout.WEST);
 		infosElementHeader.add(InfosElementLabel, BorderLayout.CENTER);
 		infosElementPanel.add(infosElementHeader, BorderLayout.NORTH);
-	
+		
 		descriptifElementPanel.setOpaque(true);
 		descriptifElementPanel.setBackground(COULEUR_DESCRIPTIF_INFOS_PANEL);
+		descriptifElementPanel.setBorder(new LineBorder(COULEUR_GRILLE));
 		
 		// En mode config on affiche les elements deposable
 		descriptifElementPanel.setPreferredSize(new Dimension(DESCRIPTIF_ELEMENT_LARGEUR, DESCRIPTIF_ELEMENT_HAUTEUR));
@@ -191,9 +201,9 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		footerLabel.setBackground(COULEUR_FOOTER);
 		footerLabel.setPreferredSize(new Dimension(FOOTER_LARGEUR, FOOTER_HAUTEUR));
 		footerLabel.setOpaque(true);
-		footerLabel.setFont(new Font("Arial", Font.BOLD, 13));
+		footerLabel.setFont(new Font("Arial", Font.BOLD, 14));
 		footerLabel.setForeground(Color.WHITE);				
-		
+		footerLabel.setBorder(new MatteBorder(2, 2, 0, 0, COULEUR_BORDURE));
 		cartePanel.add(footerLabel, BorderLayout.SOUTH);
 		
 		// On ajoute tout les panels a la frame

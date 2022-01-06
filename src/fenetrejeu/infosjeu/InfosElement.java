@@ -77,14 +77,14 @@ public abstract class InfosElement implements IFenetre {
 		
 		if(e instanceof Soldat) {
 			if(e instanceof Heros)
-				infos += "<center><FONT COLOR = #731400 size=\"+1\">HEROS</FONT><center>";
+				infos += "<center><FONT COLOR = #901900 size=\"+1\">HEROS</FONT><center>";
 			else 
 				infos += "<center><FONT COLOR = #901900 size=\"+1\">MONSTRE</FONT><center>";
 		
-			infos += "<br><br><FONT COLOR = #6AE749>  POINTS VIE : " + ((Soldat) e).getPoints() + " / " + ((Soldat) e).getPointsMax() + "</FONT>"
-					+ "<br> <FONT COLOR = #DD0000>  PUISSANCE : " + ((Soldat) e).getPuissance() + "</FONT>"
-					+ "<br> <FONT COLOR = #8700FF> PORTEE : " + ((Soldat) e).getPortee() + "</FONT>"
-					+ "<br>	<FONT COLOR = #DD0000> TIR : " + ((Soldat) e).getTir() + "</FONT>" 
+			infos += "<br><br><FONT COLOR = #1B8100>  POINTS VIE : " + ((Soldat) e).getPoints() + " / " + ((Soldat) e).getPointsMax() + "</FONT>"
+					+ "<br> <FONT COLOR = #B00000>  PUISSANCE : " + ((Soldat) e).getPuissance() + "</FONT>"
+					+ "<br> <FONT COLOR = #3D0074> PORTEE : " + ((Soldat) e).getPortee() + "</FONT>"
+					+ "<br>	<FONT COLOR = #B00000> TIR : " + ((Soldat) e).getTir() + "</FONT>" 
 					;
 		}
 		else 
@@ -111,7 +111,7 @@ public abstract class InfosElement implements IFenetre {
 	 */
 	public static void dessineDescriptifElement(Element e) {
 		JLabel typeLabel = new JLabel();
-		String titre = "<html><font text-shadow: 3px 2px COLOR = BLACK> <center> " + e.getType() + "</center></font></html>";
+		String titre = "<html><FONT text-shadow: 3px 2px COLOR = #B0A2BD><center> " + e.getType() + "</center></FONT></html>";
 		typeLabel.setText(titre);
 		typeLabel.setFont(new Font("Pushster", Font.BOLD, 30));
 		typeLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -121,10 +121,11 @@ public abstract class InfosElement implements IFenetre {
 		descriptifElementPanel.add(typeLabel, BorderLayout.NORTH);
 
 		JLabel infosLabel = new JLabel();	
-		String infos = "<html><font size=\"+1\"><center>"  + e.getHistoire() + "</center></font><html>";
-		
+		String infos = "<html><FONT COLOR = #BFB7A6 size=\"+1\"><center>"  + e.getHistoire() + "</center></FONT><html>";
+			
 		infosLabel.setText(infos);
 		infosLabel.setFont(new Font("Pushster", Font.BOLD, 15));
+		
 		infosLabel.setVerticalAlignment(JLabel.NORTH);
 
 		descriptifElementPanel.add(infosLabel);
@@ -202,7 +203,7 @@ public abstract class InfosElement implements IFenetre {
 					for(int j = 0; j < listeLabelElement.size(); j++) {
 						if(e.getSource() == listeLabelElement.get(j)) {
 							herosSelectione = listeHeros.get(j);
-							listeLabelElement.get(j).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_FORET));
+							listeLabelElement.get(j).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_ELEMENT_SELECTIONE));
 							index = j;
 						}
 						else
@@ -227,7 +228,7 @@ public abstract class InfosElement implements IFenetre {
 					for(int j = 0; j < listeLabelElement.size(); j++) {
 						if(e.getSource() == listeLabelElement.get(j)) {
 							obstacleSelectione = listeObstacle.get(j);
-							listeLabelElement.get(j).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_FORET));
+							listeLabelElement.get(j).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_ELEMENT_SELECTIONE));
 							index = j;
 						}
 						else

@@ -29,8 +29,12 @@ public class MenuJeu implements IMenu {
 		frame.setPreferredSize(DIM_MENU);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		frame.setUndecorated(true);
-					
+		frame.setUndecorated(true);	
+		
+		/** creation du panel Principal */
+		panelMenu.setPreferredSize(DIM_MENU);
+		panelMenu.setOpaque(false);
+				
 		/** Initialisation des elements du menu */
 		initMenuJeu();
 		menuMusic.clip.start();
@@ -54,10 +58,7 @@ public class MenuJeu implements IMenu {
 	 *  
 	 */
 	public static void initMenuJeu() {
-		/** creation du panel Principal */
-		panelMenu.setPreferredSize(DIM_MENU);
-		panelMenu.setOpaque(false);
-			
+		
 		/** Arret des music qui ont pu être lance */
 		gameMusic.clip.stop();
 		configMusic.clip.stop();

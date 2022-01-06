@@ -18,6 +18,7 @@ import menu.loadgame.Sauvegarde;
 import sprite.GestionSprite;
 import utile.FlecheDirectionnelle;
 import utile.style.Bouton;
+import utile.style.CheckBox;
 
 public class ButtonEvent implements IFenetre, ISauvegarde {
 	private static final long serialVersionUID = 1L;
@@ -68,6 +69,9 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 			public void actionPerformed(ActionEvent e){  	
 				pj.c = new Carte();
 				MiniCarte.majMiniCarte(pj);
+				/** On nettoi le panel contenant les infos des elements */
+				InfosElement.supprimeInfosElement();
+				InfosElement.supprimeLabelDeposable();
 				
 				pj.flecheDirectionnelle = new FlecheDirectionnelle(pj.cam);
 								
@@ -143,16 +147,23 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 		musicOn.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e){    			
     			if(!Carte.modeConf) {
-    				if(!musicOn.isSelected()) 
+    				if(!musicOn.isSelected()) {
     					gameMusic.clip.stop();
-    				else 
+    					CheckBox.setCheckedStyle(musicOn);
+    				}
+    				else {
     					gameMusic.clip.start();
+    					CheckBox.unCheckedStyle(musicOn);	
+    				}
     			}
     			else {
-    				if(!musicOn.isSelected()) 
+    				if(!musicOn.isSelected()) {
     					configMusic.clip.stop();
-    				else 
+    				}
+    				else {
     					configMusic.clip.start();
+    					CheckBox.unCheckedStyle(musicOn);
+    				}
     			}
     		}
     	});

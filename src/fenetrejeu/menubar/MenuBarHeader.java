@@ -5,13 +5,12 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
 import carte.Carte;
 import fenetrejeu.IFenetre;
 
-public class MenuBarHeader  implements IFenetre{
+public class MenuBarHeader  implements IFenetre {
 	private static final long serialVersionUID = 1L;
 
 	public MenuBarHeader() {
@@ -21,10 +20,9 @@ public class MenuBarHeader  implements IFenetre{
 	private void initMenuBarHeader() {
 		
 		// Creation du menu qui contiendra les bouttons
-		menuBar.setLayout(new FlowLayout(FlowLayout.CENTER, 25, 10));
+		menuBar.setLayout(new FlowLayout(FlowLayout.CENTER, 25, 15));
 		menuBar.setOpaque(true);
 		menuBar.setBackground(COULEUR_MENUBAR);
-		menuBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
 		menu.setVisible(true);
 		menuBar.add(menu);
@@ -56,14 +54,15 @@ public class MenuBarHeader  implements IFenetre{
         headerPanel.add(menuBar, BorderLayout.CENTER);
                 
         flecheMiniCartePanel.setOpaque(true);
-		flecheMiniCartePanel.setBackground(COULEUR_BOUTON_MENU);
+        flecheMiniCartePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
+		flecheMiniCartePanel.setBackground(COULEUR_FLECHE_PANEL);
 		flecheMiniCartePanel.setPreferredSize(new Dimension(INFOS_PANEL_LARGEUR, MENUBAR_HAUTEUR));
-		flecheMiniCartePanel.setBorder(new MatteBorder(0, 2, 2, 2, COULEUR_BORDURE));
+		flecheMiniCartePanel.setBorder(new MatteBorder(0, 2, 0, 2, COULEUR_BORDURE));
 		
 		// Panel contenant les fleche pour se diriger sur la carte
 		JPanel flecheContainer = new JPanel(new BorderLayout());
 		flecheContainer.setOpaque(true);
-		flecheContainer.setBackground(COULEUR_MENUBAR);
+		flecheContainer.setBackground(COULEUR_FLECHE_PANEL);
 		flecheContainer.setBorder(new MatteBorder(1, 1, 1, 1, COULEUR_GRILLE));
 		flecheContainer.setPreferredSize(new Dimension(MENUBAR_HAUTEUR - MENUBAR_HAUTEUR/4, MENUBAR_HAUTEUR - MENUBAR_HAUTEUR/4));
 

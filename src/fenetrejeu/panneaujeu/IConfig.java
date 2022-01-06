@@ -16,35 +16,37 @@ public interface IConfig extends java.io.Serializable {
 	int NB_OBSTACLES = NB_HEROS * 2;
 		
 	/** Couleur Panel */
-	Color COULEUR_MENUBAR = new Color(0, 70 ,85, 38); 
-	Color COULEUR_MINI_CARTE_PANEL = new Color(160, 95, 0);
-	Color COULEUR_INFOS_PANEL = new Color(88, 41, 0);
-	Color COULEUR_DESCRIPTIF_INFOS_PANEL = new Color(213, 129, 0);
-	
-	Color COULEUR_FOOTER = Color.BLACK;
+	Color COULEUR_MENUBAR = new Color(70, 71, 71); 
+	Color COULEUR_MINI_CARTE_PANEL = new Color(51, 51, 51);
+	Color COULEUR_INFOS_PANEL = new Color(51, 51, 51);
+	Color COULEUR_INFOS_ELEMENT_LABEL = new Color(234, 184, 150);
+	Color COULEUR_DESCRIPTIF_INFOS_PANEL = new Color(84, 84, 84);
+	Color COULEUR_ELEMENT_RESTANT = new Color(234, 184, 150);
+	Color COULEUR_FOOTER = new Color(41, 41, 41); 
+	Color COULEUR_FLECHE_PANEL = new Color(70, 71, 71); 
 			
+	Color COULEUR_BORDUR_MINI_CARTE = new Color(220, 170, 135);
+
 	Color COULEUR_TEXTE = Color.BLACK;
 	Color COULEUR_BORDURE = Color.white;
 	
 	Color COULEUR_FOCUS_MINI_CARTE = new Color(145, 145, 145, 95);
-	
-	
+		
 	/** Couleur grille de la carte*/
 	Color COULEUR_GRILLE = Color.BLACK; 
 	
 	Color COULEUR_DEPLACEMENT = new Color(75, 25, 75, 100), COULEUR_PORTEE = new Color(20, 25, 25, 100);
-	Color COULEUR_VIDE = Color.WHITE;
 
 	Color COULEUR_ENEMIS = new Color(255, 10, 20, 50), COULEUR_AMIS = new Color(20,200,10,50); 
-	Color COULEUR_MONSTRE = new Color(0, 0, 0, 60);
 	Color COULEUR_HEROS = Color.red, COULEUR_HEROS_DEJA_JOUE = new Color(175, 25, 75, 100);
+	
 	Color COULEUR_HEROS_TOUR_MONSTRE = new Color(247, 146, 24, 100); 
 	Color COULEUR_BARRE_VIE_ROUGE = Color.red, COULEUR_BARRE_VIE_VERT = Color.green;
-	Color COULEUR_FLECHE_DIRECTIONNELLE = new Color(139, 223, 255);
-	
-	Color COULEUR_FORET = Color.green, COULEUR_ROCHER = Color.gray;
-	
-	
+	Color COULEUR_MONSTRE = new Color(0, 0, 0, 60);
+		
+	Color COULEUR_FLECHE_DIRECTIONNELLE = new Color(187, 227, 222);
+	Color COULEUR_ELEMENT_SELECTIONE = Color.green;
+		
 	Image herbe = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/grass.png");
 	Image terre = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/range.jpg");
 	Image lave = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/lave.jpg");
@@ -82,7 +84,7 @@ public interface IConfig extends java.io.Serializable {
 
 	/** Dimension du panel INFOS */
 	int INFOS_PANEL_LARGEUR = FEN_LARGEUR - NB_COLONNES_VISIBLES * TAILLE_CARREAU - 2;
-	int INFOS_PANEL_HAUTEUR = CARTE_HAUTEUR + FOOTER_HAUTEUR;
+	int INFOS_PANEL_HAUTEUR = CARTE_HAUTEUR + FOOTER_HAUTEUR - 2;
 	
 	/** Largeur du footer */
 	int FOOTER_LARGEUR = (int) (FEN_LARGEUR - INFOS_PANEL_LARGEUR);

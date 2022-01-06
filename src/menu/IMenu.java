@@ -95,4 +95,10 @@ public interface IMenu {
 	Color COULEUR_SUPPRIME = new Color(176, 176, 176);
 	
 	Font BUTTON_FONT = new Font("Noto Serif", Font.BOLD, 13);
+	
+	Color COULEUR_BUTTON_BORDER = new Color(51, 51, 51);
+	Color COULEUR_BUTTON_BORDER_HOVER = new Color(84, 84, 84);
+	
+	Color COULEUR_BUTTON_BACKGROUND = new Color(220, 170, 135);
+	Color COULEUR_BUTTON_FOREGROUND = new Color(51, 51, 51);
 }
