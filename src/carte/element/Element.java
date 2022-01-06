@@ -63,7 +63,7 @@ public abstract class Element implements IConfig {
 	 *
 	 * @return image
 	 */
-	public abstract Image getImage();
+	public abstract Image getMiniature();
 	
 	/**
 	 * Gets  type.

@@ -236,7 +236,7 @@ public class Heros extends Soldat {
      */
     private void dessineHerosMiniCarte(Graphics g) { 
     	g.drawImage(terre, this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);	
-    	g.drawImage(this.getImage(), this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);	
+    	g.drawImage(this.getImageMiniCarte(), this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);	
     }
     
 	/**
@@ -291,7 +291,14 @@ public class Heros extends Soldat {
 	 *
 	 * @return image
 	 */
-	public Image getImage() {return this.h.getMiniature(); }
+	public Image getMiniature() {return this.h.getMiniature(); }
+	
+	/**
+	 * Gets image.
+	 *
+	 * @return image
+	 */
+	public Image getImageMiniCarte() {return this.h.getImageMiniCarte(); }
 	
 	/**
 	 * Gets type.

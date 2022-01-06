@@ -80,7 +80,7 @@ public class Monstre extends Soldat {
 	public void seDessinerMiniCarte(Graphics g) { 
 		g.drawImage(terre, this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);   	
 	  
-		g.drawImage(this.getImage(), this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);   		
+		g.drawImage(this.getImageMiniCarte(), this.getPosition().getX() * TAILLE_CARREAU_MINI_CARTE, this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE, null);   		
 
 		g.setColor(COULEUR_MONSTRE);
 		g.fillRect(this.getPosition().getX()  * TAILLE_CARREAU_MINI_CARTE , this.getPosition().getY() * TAILLE_CARREAU_MINI_CARTE , TAILLE_CARREAU_MINI_CARTE, TAILLE_CARREAU_MINI_CARTE);
@@ -223,7 +223,14 @@ public class Monstre extends Soldat {
    *
    * @return image
    */
-  public Image getImage() { return this.m.getMiniature(); }
+  public Image getMiniature() { return this.m.getMiniature(); }
+
+  /**
+   * Gets image.
+   *
+   * @return image
+   */
+  public Image getImageMiniCarte() { return this.m.getImageMiniCarte(); }
   
   /**
    * Gets type.

@@ -69,7 +69,7 @@ public abstract class InfosElement implements IFenetre {
 		}	
 		
 		
-		Image img = e.getImage().getScaledInstance(ICON_ELEMENT_LARGEUR - PADDING_ICON_ELEMENT_GAUCHE, ICON_ELEMENT_HAUTEUR - PADDING_ICON_ELEMENT_HAUT, Image.SCALE_SMOOTH);
+		Image img = e.getMiniature().getScaledInstance(ICON_ELEMENT_LARGEUR - PADDING_ICON_ELEMENT_GAUCHE, ICON_ELEMENT_HAUTEUR - PADDING_ICON_ELEMENT_HAUT, Image.SCALE_SMOOTH);
 		ImageIcon imgIcon = new ImageIcon(img);
 		
 		infosIconLabel.setIcon(imgIcon);

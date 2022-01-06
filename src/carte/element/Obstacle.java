@@ -108,7 +108,7 @@ public class Obstacle extends Element{
 	 *
 	 * @return image
 	 */
-	public Image getImage() { return this.TYPE.getMiniature(); }
+	public Image getMiniature() { return this.TYPE.getMiniature(); }
 	
 
 	public String getHistoire() {return this.getType();}

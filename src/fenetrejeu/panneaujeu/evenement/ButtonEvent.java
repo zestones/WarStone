@@ -69,6 +69,8 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 			public void actionPerformed(ActionEvent e){  	
 				pj.c = new Carte();
 				MiniCarte.majMiniCarte(pj);
+				/** On remet a jour les listes */
+				InfosElement.removeElementList();
 				/** On nettoi le panel contenant les infos des elements */
 				InfosElement.supprimeInfosElement();
 				InfosElement.supprimeLabelDeposable();

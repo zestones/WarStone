@@ -11,20 +11,32 @@ import utile.Position;
  */
 public interface ISoldat extends ISprite{
 	
-	/**  Elf miniature. */
+	/** miniature des Heros. */
 	Image ElfMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/miniature/Elf.png");
 	Image HobbitMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/miniature/Hobbit.png");
 	Image HumainMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/miniature/Humain.png");
 	Image NainMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/miniature/Nain.png");
 	Image SorcierMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/miniature/Sorcier.png");
-
-	
+		
+	/** Miniature des Monstres */
 	Image GobelinMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/miniature/Gobelin.png");
 	Image OrcMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/miniature/Orc.png");
 	Image TrollMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/miniature/Troll.png");
+	
+	/** Icon des heros sur la Mini Carte */
+	Image ElfMiniCarte = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/mini-Carte/Elf.png");
+	Image HobbitMiniCarte = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/mini-Carte/Hobbit.png");
+	Image HumainMiniCarte = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/mini-Carte/Humain.png");
+	Image NainMiniCarte = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/mini-Carte/Nain.png");
+	Image SorcierMiniCarte = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/mini-Carte/Sorcier.png");
+	
+	/** Icon des Monstres sur la miniCarte*/
+	Image GobelinMiniCarte = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/mini-Carte/Gobelin.png");
+	Image OrcMiniCarte = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/mini-Carte/Orc.png");
+	Image TrollMiniCarte = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/mini-Carte/Troll.png");
+	
 
-	
-	
+	/** Description des heros */
 	String histoireNain = "Puisqu'ils vivent essentiellement sous terre, les Nains sont peu férus d'agriculture "
 			+ "et d'élevage, préférant commercer avec les autres races pour obtenir ces biens. <br> <br>"
 			+ "Ils sont dits être des amis loyaux, mais des adversaires rancuniers "
@@ -43,6 +55,7 @@ public interface ISoldat extends ISprite{
 			+"leur pieds à l'abondante pilosité, leurs oreilles légèrement pointues et leur visage rubicond <br><br>"
 			+"vivant Au cœur de l'Eriador.";
 	
+	/** Description des Monstres */
 	String histoireGoblin = "Créature légendaire, anthropomorphe et de petite taille,<br>"
 			+"issue du folklore médiéval européen.Ils vivent généralement en groupe dans les cavernes.<br><br>"
 			+"On les trouve en grand nombre dans la Moria.";
@@ -63,15 +76,16 @@ public interface ISoldat extends ISprite{
 	 * Enum TypesH.
 	 */
 	static enum TypesH { 
-		HUMAIN (40, 2, 10, 2, humain, HumainMiniature, histoireHumain), 
-		NAIN (80, 1, 20, 0, nain, NainMiniature, histoireNain), 
-		ELF (70, 5, 10, 6, elf, ElfMiniature, histoireElf), 
-		HOBBIT (20, 3, 5, 2, hobbit, HobbitMiniature, histoireHobbit),
-		SORCIER (30, 3, 1, 10, sorcier, SorcierMiniature, "");
+		HUMAIN (40, 2, 10, 2, humain, HumainMiniature, HumainMiniCarte, histoireHumain), 
+		NAIN (80, 1, 20, 0, nain, NainMiniature, NainMiniCarte, histoireNain), 
+		ELF (70, 5, 10, 6, elf, ElfMiniature, ElfMiniCarte ,histoireElf), 
+		HOBBIT (20, 3, 5, 2, hobbit, HobbitMiniature, HobbitMiniCarte, histoireHobbit),
+		SORCIER (30, 3, 1, 10, sorcier, SorcierMiniature, SorcierMiniCarte, "");
       
 		private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR;	
 		private final String SPRITE;
-		private final Image IMAGE;
+		private final Image IMAGE_MINIATURE;
+		private final Image IMAGE_MINICARTE;
 		private final String HISTOIRE;
     
 		/**
@@ -85,11 +99,12 @@ public interface ISoldat extends ISprite{
 		 * @param imgMiniature  
 		 * @param histoire
 		 */
-		TypesH(int points, int portee, int puissance, int tir, String cheminSprite, Image imgMiniature, String histoire) {
+		TypesH(int points, int portee, int puissance, int tir, String cheminSprite, Image imgMiniature, Image imgMiniCarte, String histoire) {
 			POINTS_DE_VIE = points; PORTEE_VISUELLE = portee;
 			PUISSANCE = puissance; TIR = tir;
 			SPRITE = cheminSprite;
-			IMAGE = imgMiniature;
+			IMAGE_MINIATURE = imgMiniature;
+			IMAGE_MINICARTE = imgMiniCarte;
 			HISTOIRE = histoire;
 		}
       
@@ -133,8 +148,15 @@ public interface ISoldat extends ISprite{
        *
        * @return  image
        */
-      public Image getMiniature() { return IMAGE; } 
+      public Image getMiniature() { return IMAGE_MINIATURE; } 
       
+      /**
+       * Gets  image.
+       *
+       * @return  image
+       */
+      public Image getImageMiniCarte() { return IMAGE_MINICARTE; } 
+
       
       /**
        * Gets the histoire.
@@ -156,13 +178,14 @@ public interface ISoldat extends ISprite{
     *  Enum TypesM.
     */
    public static enum TypesM {
-       TROLL (100,1,30,0, troll, TrollMiniature, histoireTroll), 
-	   ORC (40,2,10,3, orc, OrcMiniature, histoireOrc), 
-	   GOBELIN (20,2,5,2, gobelin, GobelinMiniature, histoireGoblin);
+       TROLL (100,1,30,0, troll, TrollMiniature, TrollMiniCarte,histoireTroll), 
+	   ORC (40,2,10,3, orc, OrcMiniature, OrcMiniCarte,histoireOrc), 
+	   GOBELIN (20,2,5,2, gobelin, GobelinMiniature, GobelinMiniCarte,histoireGoblin);
       
 	   private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR;
 	   private final String SPRITE;
-       private final Image IMAGE;
+       private final Image IMAGE_MINIATURE;
+       private final Image IMAGE_MINICARTE;
        private final String HISTOIRE;
       
       /**
@@ -176,11 +199,12 @@ public interface ISoldat extends ISprite{
        * @param imgMiniature 
        * @param histoire
        */
-	   TypesM(int points, int portee, int puissance, int tir, String cheminSprite, Image imgMiniature,String histoire) {
+	   TypesM(int points, int portee, int puissance, int tir, String cheminSprite, Image imgMiniature, Image imgMiniCarte, String histoire) {
 		   POINTS_DE_VIE = points; PORTEE_VISUELLE = portee;
 		   PUISSANCE = puissance; TIR = tir;
 		   SPRITE = cheminSprite;
-		   IMAGE = imgMiniature;
+		   IMAGE_MINIATURE = imgMiniature;
+		   IMAGE_MINICARTE = imgMiniCarte;
 		   HISTOIRE = histoire;
       }
       
@@ -224,8 +248,15 @@ public interface ISoldat extends ISprite{
        *
        * @return  image
        */
-      public Image getMiniature() { return IMAGE; } 
+      public Image getMiniature() { return IMAGE_MINIATURE; } 
       
+      /**
+       * Gets  image.
+       *
+       * @return  image
+       */
+      public Image getImageMiniCarte() { return IMAGE_MINICARTE; } 
+
       /**
        * Gets  histoire.
        *
