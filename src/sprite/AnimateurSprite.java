@@ -7,7 +7,12 @@ import java.util.List;
 
 import javax.swing.Timer;
 
+/**
+ * Class AnimateurSprite.
+ */
 public class AnimateurSprite implements java.io.Serializable {
+	
+	/** Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	private transient List<ActionListener> listeners;
@@ -17,28 +22,55 @@ public class AnimateurSprite implements java.io.Serializable {
 	private Timer timer;
 	private Long debut;
 		
+	/**
+	 * Instancie un nouvelle animateur sprite.
+	 *
+	 * @param nb image par seconde
+	 */
 	public AnimateurSprite(int nb) {
 		imgParSec = nb;
 		timerHandler = new TimerHandler();
 		listeners = new ArrayList<>(25);
 	}
 
+	/**
+	 * add Action listeners a la liste de listeners.
+	 *
+	 * @param actionListener
+	 */
 	public void addActionListener(ActionListener actionListener) {
 		listeners.add(actionListener);
 	}
 
+	/**
+	 * Gets progression.
+	 *
+	 * @return progression
+	 */
 	public double getProgression() {
 		return progression;
 	}
 
+	/**
+	 * Start.
+	 */
 	public void start() {
 		timer = new Timer(1000 / imgParSec, timerHandler);
 		timer.start();
 	}
 
+	/**
+	 * Class TimerHandler.
+	 */
 	protected class TimerHandler implements ActionListener, java.io.Serializable {
+		/** Constant serialVersionUID. */
 		private static final long serialVersionUID = 1L;
 
+		/**
+		 * Action performed.
+		 *
+		 * @param e
+		 */
 		public void actionPerformed(ActionEvent e) {
 			if (debut == null)
 				debut = System.currentTimeMillis();

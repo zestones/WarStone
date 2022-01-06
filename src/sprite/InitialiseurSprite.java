@@ -10,7 +10,7 @@ import carte.element.Soldat;
 import fenetrejeu.panneaujeu.IConfig;
 
 /**
- * La Class SpriteInitializer.
+ * Class SpriteInitializer.
  */
 public class InitialiseurSprite implements IConfig, ISprite {
 	private static final long serialVersionUID = 1L;
@@ -85,11 +85,12 @@ public class InitialiseurSprite implements IConfig, ISprite {
 	/**
 	 * Inits Le sprite.
 	 *
+	 * Genere un sprite a partir du numero de ligne et le nombre d'image
+	 *
 	 * @param ligne
 	 * @param nbImage
-	 * @return spriteSheet
+	 * @return Sprite
 	 */
-	/* Genere un Sprite a l'aide du numero de ligne et le nombre d'image */
 	private Sprite initSprite(int ligne, int nbImage) {
 		ConstructeurSprite consSprite = new ConstructeurSprite(this.sprite, ligne, nbImage);
 		Sprite sprite = consSprite.genereSprite();

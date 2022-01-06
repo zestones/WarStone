@@ -76,7 +76,9 @@ public class Obstacle extends Element{
 
 	
 	/**
-	 * Se dessiner dessine l'obstacle
+	 * Se dessiner 
+	 * 
+	 * dessine l'obstacle
 	 *
 	 * @param g
 	 * @param cam 
@@ -104,13 +106,17 @@ public class Obstacle extends Element{
 	public String toString() { return ""+TYPE; }
 	
 	/**
-	 * Gets image.
+	 * Gets image Miniature.
 	 *
 	 * @return image
 	 */
 	public Image getMiniature() { return this.TYPE.getMiniature(); }
 	
-
+	/**
+	 * Gets histoire.
+	 *
+	 * @return histoire
+	 */
 	public String getHistoire() {return this.getType();}
 	
 	/**

@@ -19,7 +19,7 @@ public class Monstre extends Soldat {
 	/** Constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	public int SEUIL_VIE_CRITIQUE;
+	public final int SEUIL_VIE_CRITIQUE;
 	
 	/** le type. */
 	TypesM m;
@@ -87,7 +87,7 @@ public class Monstre extends Soldat {
 	}
     
   /**
-   * Gets list heros in range.
+   * Gets liste des heros a portee du monste.
    *
    * Retourne une liste de heros present a la portee du monstre
    *
@@ -136,7 +136,7 @@ public class Monstre extends Soldat {
   
 	/**
 	 * Fuite monstre.
-	 * Si le monstre n'est pas de taille face au heros alors il fuit
+	 * Si le monstre n'est pas de taille face au heros alors il prend la fuite
 	 * 
 	 * @param h
 	 * @param m
@@ -184,7 +184,7 @@ public class Monstre extends Soldat {
    *
    * renvoie la position du minstre dans la liste de monstres
    *
-   * @return index soldat
+   * @return index
    */
   public int getIndexSoldat() { return carte.listeMonstres.indexOf(this); }
   
@@ -219,14 +219,14 @@ public class Monstre extends Soldat {
   public String getCheminSprite() { return this.m.getCheminSprite(); }     
   
   /**
-   * Gets image.
+   * Gets image Miniature.
    *
    * @return image
    */
   public Image getMiniature() { return this.m.getMiniature(); }
 
   /**
-   * Gets image.
+   * Gets image Mini Carte.
    *
    * @return image
    */

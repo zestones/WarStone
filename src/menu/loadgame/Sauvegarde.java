@@ -30,7 +30,7 @@ public class Sauvegarde implements ISauvegarde{
 	 */
 	public Sauvegarde(Carte c){		
 		/** nom de la sauvegarde different en fonction du mode */
-		String nom = Carte.modeConf ? "WarConf " : "WarGame ";
+		String nom = Carte.modeConfig ? "WarConf " : "WarGame ";
 		
 		/** Si il reste de la place on creer une nouvelle sauvegarde */
 		if(listeSauvegarde.size() <= MAX_SAUVEGARDE)

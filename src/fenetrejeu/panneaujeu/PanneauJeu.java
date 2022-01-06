@@ -14,6 +14,7 @@ import carte.element.Element;
 import carte.element.Heros;
 import carte.element.Obstacle;
 import fenetrejeu.IFenetre;
+import fenetrejeu.configjeu.ElementDeposable;
 import fenetrejeu.infosjeu.InfosElement;
 import fenetrejeu.infosjeu.MiniCarte;
 import fenetrejeu.panneaujeu.evenement.ButtonEvent;
@@ -26,8 +27,11 @@ import utile.Position;
  * Class PanneauJeu.
  */
 public class PanneauJeu extends JPanel implements IFenetre, ISprite {
+	
+	/** Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-
+	
+	private static final int MAX_ELEMENT_DEPOSABLE = NB_HEROS + NB_OBSTACLES;
 	public Position clique, dernierClique, cliqueDragged;
 	private Position draggedCam, cliqueRelache;
 	public int nombreHeros, nombreMonstre;
@@ -43,7 +47,9 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	public Carte c;
 	
 	/**
-	 * Instantiates a new panneau jeu.
+	 * Instancie un bouveau panneau jeu.
+	 *
+	 * @param c
 	 */
 	public PanneauJeu(Carte c) {	
 		
@@ -65,7 +71,13 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		
 		c.nombreSoldatVivant(this);
 	} 
+
 	
+	/**
+	 * Sets panneau jeu.
+	 *
+	 * @param c
+	 */
 	public void setPanneauJeu(Carte c) {
 		this.c = c;
 			
@@ -84,7 +96,12 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 		c.nombreSoldatVivant(this);
 	}		
 	
-	public void setPanneauJeuConf(Carte c) {
+	/**
+	 * Sets panneau jeu en mode config.
+	 *
+	 * @param c
+	 */
+	public void setPanneauJeuConfig(Carte c) {
 		this.c = c;
 			
 		MiniCarte.majMiniCarte(this);
@@ -126,7 +143,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 							
 					// On affiche les informations des elements clique visible uniquement
 					// En mode config on voit tous
-					if(!Carte.modeConf) {
+					if(!Carte.modeConfig) {
 						for(Heros h : c.listeHeros) {
 							if(h.estDedans(clique)) {
 								elem = c.getElement(clique);
@@ -146,19 +163,23 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 							c.jouerSoldats(pj);
 					}
 					/** Si on est en mode config et on a selectioner un element a deposer ainsi qu'un endroit ou le deposer alors on ajoute l'element a la carte */
-					if(Carte.modeConf && deposeElement != null && (InfosElement.obstacleSelectione != null || InfosElement.herosSelectione  != null)) {
-						if(InfosElement.obstacleSelectione != null  && c.estCaseVide(deposeElement)) c.setElement(new Obstacle(c, InfosElement.obstacleSelectione, deposeElement));
+					if(Carte.modeConfig && deposeElement != null && (ElementDeposable.obstacleSelectione != null || ElementDeposable.herosSelectione  != null) && ElementDeposable.nbElementDeposer < MAX_ELEMENT_DEPOSABLE) {
+						if(ElementDeposable.obstacleSelectione != null  && c.estCaseVide(deposeElement)) {
+							c.setElement(new Obstacle(c, ElementDeposable.obstacleSelectione, deposeElement));
+							ElementDeposable.nbElementDeposer++;
+						}
 						/** Pour les heros il faut mettre a jour la liste de heros et Ajouter l'element sur la carte */
-						else if(InfosElement.herosSelectione != null && c.estCaseVide(deposeElement)) {
-							c.setElement(new Heros(c, InfosElement.herosSelectione, deposeElement));
+						else if(ElementDeposable.herosSelectione != null && c.estCaseVide(deposeElement)) {
+							c.setElement(new Heros(c, ElementDeposable.herosSelectione, deposeElement));
 							c.listeHeros.add((Heros) c.getElement(deposeElement));
+							ElementDeposable.nbElementDeposer++;
 						}
 					}
 				
 				
 				}
 				/** Un clique droit en mode Config nous permet de supprimer un element sur la carte */
-				if(SwingUtilities.isRightMouseButton(e) && Carte.modeConf) {
+				if(SwingUtilities.isRightMouseButton(e) && Carte.modeConfig) {
 					Position delete = new Position(e.getX() / TAILLE_CARREAU + cam.getDx(), e.getY() / TAILLE_CARREAU + cam.getDy());
 					if(!c.estCaseVide(delete)) {
 						/** On ne doit pas oublier supprimer le heros de la liste */
@@ -168,6 +189,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 						c.setElementVide(delete);
 						/** On supprime les infos */
 						InfosElement.supprimeInfosElement();
+						ElementDeposable.nbElementDeposer--;
 					}
 				}
 			}
@@ -243,7 +265,7 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 				if(!survol.estValide()) return;
 					
 				// On affiche les elements survole visible uniquement
-				if(!Carte.modeConf) {
+				if(!Carte.modeConfig) {
 					for(Heros h : c.listeHeros)
 						if(h.estDedans(survol))
 							elem = c.getElement(survol);
@@ -261,11 +283,11 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 	/**
 	 * Paint component.
 	 *
-	 * @param g the g
+	 * @param g
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if(Carte.modeConf) {		
+		if(Carte.modeConfig) {		
 			for(int i = cam.getDx(); i < NB_COLONNES_VISIBLES + cam.getDx(); i++) {
 				for(int j = cam.getDy(); j < NB_LIGNES_VISIBLES + cam.getDy(); j++) {		
 					g.drawImage(terre, i * TAILLE_CARREAU - cam.getDx() * TAILLE_CARREAU, j  * TAILLE_CARREAU - cam.getDy() * TAILLE_CARREAU, TAILLE_CARREAU, TAILLE_CARREAU, null);
@@ -277,7 +299,12 @@ public class PanneauJeu extends JPanel implements IFenetre, ISprite {
 					g.drawRect(i * TAILLE_CARREAU - cam.getDx() * TAILLE_CARREAU, j  * TAILLE_CARREAU - cam.getDy() * TAILLE_CARREAU, TAILLE_CARREAU, TAILLE_CARREAU); 
 				}
 			}
-			elementRestantLabel.setText("" + InfosElement.nbElementDeposer + "  MAX : " + NB_OBSTACLES);	
+			if(ElementDeposable.nbElementDeposer == MAX_ELEMENT_DEPOSABLE)
+				elementRestantLabel.setForeground(COULEUR_BARRE_VIE_ROUGE);
+			else 
+				elementRestantLabel.setForeground(COULEUR_TEXTE);
+			
+			elementRestantLabel.setText("" + ElementDeposable.nbElementDeposer + " MAX : " + MAX_ELEMENT_DEPOSABLE);	
 		}
 		else {
 			g.drawImage(herbe, 0, 0, TAILLE_CARREAU * NB_COLONNES_VISIBLES, TAILLE_CARREAU * NB_LIGNES_VISIBLES, null);

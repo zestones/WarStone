@@ -19,11 +19,10 @@ public class FlecheDirectionnelle implements IConfig {
 	/** Constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	/** The cam. */
 	private Camera cam;
 	
 	/**
-	 * Instantiates a new fleche.
+	 * Instancie une nouvelle fleche.
 	 *
 	 * @param cam the cam
 	 */
@@ -102,7 +101,7 @@ public class FlecheDirectionnelle implements IConfig {
 	}
 	
 	/**
-	 * Dessine deplacement.
+	 * verifie si la fleche doit etre dessine ou pas.
 	 *
 	 * @param herosSelectione le heros selectione
 	 * @param dessineFleche 

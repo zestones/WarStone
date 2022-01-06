@@ -13,9 +13,9 @@ public class Musique {
 	public Clip clip;
 	 
 	/**
-	 * Instancie un nouveau sound launcher.
+	 * Instancie une nouvelle musique.
 	 *
-	 * @param fichier le nom du fichier
+	 * @param fichier
 	 */
 	public Musique(String fichier) {
 		File f = new File("./res/sound/" + fichier);
@@ -38,4 +38,5 @@ public class Musique {
 			e.printStackTrace();
 		}
 	}
+
 }

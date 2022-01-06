@@ -10,13 +10,27 @@ import javax.swing.border.MatteBorder;
 import carte.Carte;
 import fenetrejeu.IFenetre;
 
+/**
+ * Class MenuBarHeader.
+ * 
+ * Panel contenant les bouttons en mode jeu
+ * 
+ */
 public class MenuBarHeader  implements IFenetre {
+	
+	/** Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Instancie une nouvlle barre de Menu.
+	 */
 	public MenuBarHeader() {
 		this.initMenuBarHeader();
 	}
 	
+	/**
+	 * Inits menu bar header.
+	 */
 	private void initMenuBarHeader() {
 		
 		// Creation du menu qui contiendra les bouttons
@@ -33,7 +47,7 @@ public class MenuBarHeader  implements IFenetre {
 		recommencer.setVisible(true);
 		menuBar.add(recommencer);
 		
-		if(!Carte.modeConf) {
+		if(!Carte.modeConfig) {
 			finTour.setVisible(true);
 			menuBar.add(finTour);
 		}

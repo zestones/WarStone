@@ -22,10 +22,10 @@ public abstract class Element implements IConfig {
 		this.pos = pos;
 	}
 	
-	  /**
+	/**
      * Sets position.
      *
-     * @param nouvPos new position
+     * @param nouvPos
      */
     public void setPosition(Position nouvPos) { pos = new Position(nouvPos.getX(), nouvPos.getY()); }
     
@@ -37,7 +37,7 @@ public abstract class Element implements IConfig {
     public Position getPosition() { return pos; }
 	
 	/**
-	 * Se dessiner minia.
+	 * Dessine les elements de la miniCarte.
 	 *
 	 * @param g
 	 */
@@ -59,14 +59,14 @@ public abstract class Element implements IConfig {
 	public abstract String toString();
 	
 	/**
-	 * Gets  image.
+	 * Gets Miniature.
 	 *
 	 * @return image
 	 */
 	public abstract Image getMiniature();
 	
 	/**
-	 * Gets  type.
+	 * Gets type.
 	 *
 	 * @return type
 	 */

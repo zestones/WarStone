@@ -148,7 +148,7 @@ public class MiniCarte extends JPanel implements IConfig, IFenetre {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		if(!Carte.modeConf)
+		if(!Carte.modeConfig)
 			g.drawImage(herbe, 0, 0, MINI_CARTE_LARGEUR, MINI_CARTE_HAUTEUR, null);
 		else
 			dessineCarte(g);

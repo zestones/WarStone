@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import carte.Carte;
 import fenetrejeu.FenetreJeu;
+import fenetrejeu.finjeu.IFinJeu;
 import menu.loadgame.LoadGamePage;
 
 /**
@@ -17,7 +18,7 @@ import menu.loadgame.LoadGamePage;
  * Cree des listeners pour chaque boutton present sur la page
  * 
  */
-public class MenuEvent extends JPanel implements IMenu {
+public class MenuEvent extends JPanel implements IMenu, IFinJeu {
 	
 	/** Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -132,6 +133,11 @@ public class MenuEvent extends JPanel implements IMenu {
 				frame.remove(panelMenu);
 				/** Suppression du boutton music */
 				frame.remove(musiqueBouton);
+				
+				panelFinJeu.removeAll();
+				panelFinJeu.revalidate();
+				frame.remove(panelFinJeu);
+				
 				/** Arret de la music du menu */
 				menuMusic.clip.stop();
 				/** lancement de la music du jeu */
@@ -167,9 +173,7 @@ public class MenuEvent extends JPanel implements IMenu {
 				/** On redessine */
 				frame.repaint();
         	}			
-        });  	
-		
-		
+        });  		
 	}
 	
 	/**

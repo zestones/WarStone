@@ -129,7 +129,7 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     /**
      * Est dedans.
      *
-     * @param p p
+     * @param p
      * @return true, if successful
      */
     public boolean estDedans(Position p) {
@@ -153,8 +153,8 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     /**
      * Dessine sprite.
      *
-     * @param g g
-     * @param cam cam
+     * @param g
+     * @param cam
      */
     protected void dessineSprite(Graphics g, Camera cam) {
     	int dx = cam.getDx() * TAILLE_CARREAU;
@@ -177,7 +177,7 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     }
     
     /**
-     * Effectuer deplacement.
+     * Effectue le deplacement.
      */
     private void effectuerDeplacement() {
     	if(this.estActifDeplacement) {
@@ -201,8 +201,8 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     /**
      * Change sprite.
      *
-     * @param clic clic
-     * @param cam cam
+     * @param clic
+     * @param cam
      */
     public void changeSprite(Position clic, Camera cam) {   	
     	if(clic == null)
@@ -227,9 +227,9 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     }
     
     /**
-     * Sets stand by sprite.
+     * Sets sprite repos.
      *
-     * @param clic new stand by sprite
+     * @param clic
      */
     private void setSpriteRepos(Position clic) {
     	if(this.getPosition().getX() > clic.getX())
@@ -247,6 +247,8 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     
     /**
      * Sets attaque sprite.
+     * 
+     * On verifie si le soldat est adjacent ou pas : les animations sont differente
      *
      * @param clic
      */
@@ -261,12 +263,12 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     		if(this.getPosition().estVoisine(clic))
     			this.dernierSprite = this.spriteSoldat.spriteAttaqueAdjacentDroit;
     	}
-    	else if(clic.getY() > this.getPosition().getY()) {
+    	else if(clic.getY() < this.getPosition().getY()) {
     		this.dernierSprite = this.spriteSoldat.spriteAttaqueHaut;
     		if(this.getPosition().estVoisine(clic))
     			this.dernierSprite = this.spriteSoldat.spriteAttaqueAdjacentHaut;
     	}
-    	else if(clic.getY() < this.getPosition().getY()) {
+    	else if(clic.getY() > this.getPosition().getY()) {
     		this.dernierSprite = this.spriteSoldat.spriteAttaqueBas;
     		if(this.getPosition().estVoisine(clic))
     			this.dernierSprite = this.spriteSoldat.spriteAttaqueAdjacentBas;
@@ -278,7 +280,7 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     /**
      * Sets deplacement sprite.
      *
-     * @param clic new deplacement sprite
+     * @param clic
      */
     private void setSpriteDeplacement(Position clic) {
     	
@@ -334,9 +336,11 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     /**
      * Sets points.
      *
+     * Utilise pour le bonus de repos
+     *
      * @param pts new points
      */
-    public void setPoints(int pts) { this.pointsDeVie = pts; } // Utilise pour les bonus (lorsque le heros ce repose)
+    protected void setPoints(int pts) { this.pointsDeVie = pts; } 
     
     /**
      * Gets portee.
@@ -376,14 +380,14 @@ public abstract class Soldat extends Element implements ISoldat, Cloneable{
     /**
      * Mort.
      *
-     * @param index index
+     * @param index
      */
     public abstract void mort(int index);
     
     /**
-     * Gets sprite.
+     * Gets chemin sprite.
      *
-     * @return sprite
+     * @return chemin sprite
      */
     public abstract String getCheminSprite();
 }

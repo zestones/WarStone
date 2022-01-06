@@ -1,17 +1,7 @@
-/********************************************************************
- * 							WarStone								*
- *  -------------------------------------------------------------	*
- * |	 Université Jean-Monnet    L3-Infos 		    2021	 |	*
- *  -------------------------------------------------------------	*
- * 	  BEGGARI ISLEM - CHATAIGNIER ANTOINE - BENGUEZZOU Idriss		*
- * 																	*
- * 														wargame		*
- * ******************************************************************/
 package fenetrejeu.menubar;
 
 import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JMenu;
@@ -21,51 +11,49 @@ import javax.swing.JMenuItem;
 import fenetrejeu.IFenetre;
 
 /**
- * The Class MenuBar.
+ * Class MenuBar.
  */
 public class MenuBar implements IFenetre {
 
-	/** The Constant serialVersionUID. */
+	/** Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Instantiates a new menu bar.
+	 * Instancie une nouvelle menu bar.
 	 */
 	public MenuBar() {
+		// Creation de la barre de Menu
 		JMenuBar menuBarSecondaire = new JMenuBar();
 		menuBarSecondaire.setPreferredSize(new Dimension(LARGEUR_MENUBAR_SECONDAIRE, MENUBAR_SECONDAIRE_HAUTEUR));
 		JMenu option = new JMenu("Option");
 		
-		//ImageIcon menuIcon = new ImageIcon("./res/img/icon/menu.png");
-		JMenuItem menuItem = new JMenuItem("Menu");
+		// Creation d'un Item Menu
+		ImageIcon menuIcon = new ImageIcon("./res/img/icon/menu.png");
+		Image imageMenu = menuIcon.getImage();
+		Image menuImg = imageMenu.getScaledInstance(ICON_MENUBAR_SECONDAIRE_LARGEUR, ICON_MENUBAR_SECONDAIRE_HAUTEUR, Image.SCALE_SMOOTH);
 		
-		//Image imageMenu = menuIcon.getImage();
-		//Image menuImg = imageMenu.getScaledInstance(LARGEUR_ICON_MENU, HAUTEUR_ICON_MENU, java.awt.Image.SCALE_SMOOTH);
-		
-		//menuIcon = new ImageIcon(menuImg);
+		menuIcon = new ImageIcon(menuImg);
+		// Ajout de l'icon au menu Item
+		JMenuItem menuItem = new JMenuItem("Menu", menuIcon);
 		
 		menuItem.setToolTipText("Retour au menu");
 		menuItem.addActionListener(event -> menu.doClick());
+		
 		option.add(menuItem);
 		
-		
+		// Creation d'un Item quitter
 		ImageIcon exitIcon = new ImageIcon("./res/img/icon/exit.png");
-	
 		Image imageExit = exitIcon.getImage();
-		Image exitImg = imageExit.getScaledInstance(ICON_MENUBAR_SECONDAIRE_LARGEUR, ICON_MENUBAR_SECONDAIRE_HAUTEUR, java.awt.Image.SCALE_SMOOTH);
+		Image exitImg = imageExit.getScaledInstance(ICON_MENUBAR_SECONDAIRE_LARGEUR, ICON_MENUBAR_SECONDAIRE_HAUTEUR, Image.SCALE_SMOOTH);
 		
 		exitIcon = new ImageIcon(exitImg);
-		// Marche pas setFocusable ??
-		option.setMnemonic(KeyEvent.VK_F);
-
 		JMenuItem exitItem = new JMenuItem("Quitter", exitIcon);
-		exitItem.setMnemonic(KeyEvent.VK_E);
+
 		exitItem.setToolTipText("Quitter le Jeu");
 		exitItem.addActionListener(event -> System.exit(0));
 		
 		option.add(exitItem);
 		menuBarSecondaire.add(option);
-		
 		
 		frame.setJMenuBar(menuBarSecondaire);
 	}

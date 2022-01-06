@@ -30,6 +30,7 @@ public interface ICarte {
 	 * @return Position
 	 */
 	Position trouvePositionVide(Position pos);
+	
 	/**
 	 * Trouve aléatoirement un héros sur la carte
 	 * @return Heros
@@ -58,6 +59,7 @@ public interface ICarte {
 	 * @param perso
 	 */
 	void mort(Soldat perso);
+	
 	/**
 	 * Gere les actions des heros (i.e Combat deplacement)
 	 * et renvoie le status (réussie ou non)
@@ -67,6 +69,7 @@ public interface ICarte {
 	 * @return boolean
 	 */
 	boolean actionHeros(Position pos, Position pos2);
+	
 	/**
 	 * Fonction principale de la class carte les tours et les appels au fonction sont 
 	 * géré par cette methode

@@ -97,6 +97,7 @@ public interface ISoldat extends ISprite{
 		 * @param tir 
 		 * @param cheminSprite 
 		 * @param imgMiniature  
+		 * @param imgMiniCarte
 		 * @param histoire
 		 */
 		TypesH(int points, int portee, int puissance, int tir, String cheminSprite, Image imgMiniature, Image imgMiniCarte, String histoire) {
@@ -144,14 +145,14 @@ public interface ISoldat extends ISprite{
       public String getCheminSprite() { return SPRITE; }
       
       /**
-       * Gets  image.
+       * Gets  image Miniature.
        *
        * @return  image
        */
       public Image getMiniature() { return IMAGE_MINIATURE; } 
       
       /**
-       * Gets  image.
+       * Gets  image Mini Carte. 
        *
        * @return  image
        */
@@ -159,15 +160,15 @@ public interface ISoldat extends ISprite{
 
       
       /**
-       * Gets the histoire.
+       * Gets histoire.
        *
-       * @return the histoire
+       * @return histoire
        */
       public String getHistoire() { return HISTOIRE; } 
       /**
-       * Gets  type H alea.
+       * Gets  type Heros alea.
        *
-       * @return  type H alea
+       * @return  type
        */
       public static TypesH getTypeHAlea() {
          return values()[(int)(Math.random()*values().length)];
@@ -197,6 +198,7 @@ public interface ISoldat extends ISprite{
        * @param tir 
        * @param cheminSprite 
        * @param imgMiniature 
+       * @param imgMiniCarte
        * @param histoire
        */
 	   TypesM(int points, int portee, int puissance, int tir, String cheminSprite, Image imgMiniature, Image imgMiniCarte, String histoire) {
@@ -244,14 +246,14 @@ public interface ISoldat extends ISprite{
       public String getCheminSprite() { return SPRITE; }
       
       /**
-       * Gets  image.
+       * Gets  image Miniature.
        *
        * @return  image
        */
       public Image getMiniature() { return IMAGE_MINIATURE; } 
       
       /**
-       * Gets  image.
+       * Gets  image Mini Carte.
        *
        * @return  image
        */

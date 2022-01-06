@@ -8,6 +8,8 @@ import java.awt.event.MouseEvent;
 import carte.Carte;
 import fenetrejeu.FenetreJeu;
 import fenetrejeu.IFenetre;
+import fenetrejeu.configjeu.ElementDeposable;
+import fenetrejeu.finjeu.IFinJeu;
 import fenetrejeu.infosjeu.InfosElement;
 import fenetrejeu.infosjeu.MiniCarte;
 import fenetrejeu.panneaujeu.PanneauJeu;
@@ -20,13 +22,24 @@ import utile.FlecheDirectionnelle;
 import utile.style.Bouton;
 import utile.style.CheckBox;
 
-public class ButtonEvent implements IFenetre, ISauvegarde {
+/**
+ * Class ButtonEvent.
+ */
+public class ButtonEvent implements IFenetre, ISauvegarde, IFinJeu {
+	
+	/** Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/** sprite controller. */
 	private GestionSprite spriteController;
 	private PanneauJeu pj;
 	public int tour;
 
+	/**
+	 * Instancie un nouveau buttonEvent.
+	 *
+	 * @param pj
+	 */
 	public ButtonEvent(PanneauJeu pj) {
 		this.tour = 0;
 		this.pj = pj;
@@ -39,6 +52,9 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 		this.boutonHover();
 	}
 	
+	/**
+	 * Camera event.
+	 */
 	private void cameraEvent() {
 		// Boutton restart recharge une carte cree aleatoirement
 		cameraBas.addActionListener(new ActionListener(){  
@@ -63,6 +79,9 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 		}); 
 	}
 	
+	/**
+	 * Jeu event.
+	 */
 	private void jeuEvent() {
 		// Boutton restart recharge une carte cree aleatoirement
 		recommencer.addActionListener(new ActionListener(){  
@@ -70,10 +89,11 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 				pj.c = new Carte();
 				MiniCarte.majMiniCarte(pj);
 				/** On remet a jour les listes */
-				InfosElement.removeElementList();
+				ElementDeposable.removeElementList();
+				ElementDeposable.nbElementDeposer = 0;
 				/** On nettoi le panel contenant les infos des elements */
 				InfosElement.supprimeInfosElement();
-				InfosElement.supprimeLabelDeposable();
+				ElementDeposable.supprimeLabelDeposable();
 				
 				pj.flecheDirectionnelle = new FlecheDirectionnelle(pj.cam);
 								
@@ -99,7 +119,7 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 		// Boutton de sauvegarde de la partie
 		sauvegarde.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e){    	
-    			if(!Carte.modeConf)
+    			if(!Carte.modeConfig)
     				new Sauvegarde(pj.c);
     			else {
     				pj.c.genereSoldats();
@@ -110,25 +130,32 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
     	});
 		
 		jouer.addActionListener(new ActionListener(){
-    		public void actionPerformed(ActionEvent e){    	
-    			// le joueur 1 commence toujours en premier
-    			tour = 0;
-    			pj.c.genereSoldats();
+			public void actionPerformed(ActionEvent e){    	
+				// le joueur 1 commence toujours en premier
+				tour = 0;
+				pj.c.genereSoldats();
+    			
     			// On suprime tout le contenu
     			panelPrincipal.removeAll();
     			panelPrincipal.revalidate();
+    			
     			// On arrete la music de config
     			configMusic.clip.stop();
+    			
     			// Suprime les listes des obstacle
-    			InfosElement.removeElementList();
+    			ElementDeposable.removeElementList();
+    			ElementDeposable.nbElementDeposer = 0;
+    			
     			pj.elem = null;
     			
     			// On vide le panel
     			descriptifElementPanel.removeAll();
     			descriptifElementPanel.revalidate();
+    			
     			// On supprime le header et les fleches
     			headerPanel.removeAll();
     			flecheMiniCartePanel.removeAll();
+    			
     			// On supprime le panneau que l'on va remplacer
     			frame.remove(panelPrincipal);
     			
@@ -137,6 +164,7 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
     			menuBar.remove(jouer);	
     			menuBar.remove(heros);
     			menuBar.remove(obstacle);
+    			
     			// On arrete la music de conf et lance music jeux
     			gameMusic.clip.start();
     			
@@ -148,7 +176,7 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 		
 		musicOn.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e){    			
-    			if(!Carte.modeConf) {
+    			if(!Carte.modeConfig) {
     				if(!musicOn.isSelected()) {
     					gameMusic.clip.stop();
     					CheckBox.setCheckedStyle(musicOn);
@@ -172,13 +200,13 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 		
 		obstacle.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e){    			
-    			InfosElement.dessineObstacleDeposable();
+    			ElementDeposable.dessineObstacleDeposable();
     		}
     	});
 		
 		heros.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e){    			
-    			InfosElement.dessineHerosDeposable();
+    			ElementDeposable.dessineHerosDeposable();
     		}
     	});
 		
@@ -187,16 +215,22 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 			public void actionPerformed(ActionEvent e){  	
     			// le joueur 1 commence toujours en premier
     			tour = 0;
-    			
     			// On change le style du bouton
     			Bouton.unsetHoverButton(menu);
+    			// Si le clic de retour au menu se fait a partir de la barre d'option 
+    			// dans un ecran de fin de jeu il faut nettoyer ce panel
+    			panelFinJeu.removeAll();
+				panelFinJeu.revalidate();
+				frame.remove(panelFinJeu);
     			
     			// On suprime tout le contenu
 				panelPrincipal.removeAll();
 				panelPrincipal.revalidate();
 				
 				// Suprime les listes des obstacle
-				InfosElement.removeElementList();
+				ElementDeposable.removeElementList();
+				ElementDeposable.nbElementDeposer = 0;
+
 				// On vide le panel
 				descriptifElementPanel.removeAll();
 				descriptifElementPanel.revalidate();
@@ -214,6 +248,7 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 				menuBar.remove(jouer);	
 				menuBar.remove(heros);
 				menuBar.remove(obstacle);
+				
 				// On lance la music du menu	
 				menuMusic.clip.start();
 				// On enleve le boutton de music
@@ -231,6 +266,9 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 		});  
 	}	
 	
+	/**
+	 * Bouton hover.
+	 */
 	private void boutonHover() {
 		jouer.addMouseMotionListener(new MouseAdapter() {
     		public void mouseMoved(MouseEvent e) {
@@ -278,6 +316,9 @@ public class ButtonEvent implements IFenetre, ISauvegarde {
 		});
 	}
 	
+	/**
+	 * Unset all hover button.
+	 */
 	public void unsetAllHoverButton() {
 		Bouton.unsetHoverButton(menu);
 		Bouton.unsetHoverButton(finTour);

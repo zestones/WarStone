@@ -29,20 +29,17 @@ public class Bouton extends JButton implements IMenu {
 
 	/** le nombre boutton cree. */
 	public static int NOMBRE_BOUTON = 0;
-	
-	/** la couleur. */
 	private Color couleur = COULEUR_BOUTON_MENU;
-	
-	/** les dimensions. */
 	private int largeur, hauteur;
 		
 	/**
-	 * instancie un nouveau boutton.
-	 *
-	 * @param x la pos x
-	 * @param y la pos y
-	 * @param largeur la largeur
-	 * @param hauteur la hauteur
+	 * Instancie un nouveau Boutton
+	 * 
+	 * @param x
+	 * @param y
+	 * @param largeur
+	 * @param hauteur
+	 * @param setPositionY : boolean permettant de savoir si position Y doit etre calculer ou pas
 	 */
 	public Bouton(int x, int y, int largeur, int hauteur, boolean setPositionY) {
     	this.largeur = largeur;
@@ -53,6 +50,7 @@ public class Bouton extends JButton implements IMenu {
     		y = y + (hauteur + hauteur/4 ) * NOMBRE_BOUTON;
     		NOMBRE_BOUTON++;
     	}
+    	
     	this.setLocation(x, y);  	
     	this.setOpaque(false);
     	this.setBorderPainted(false);   	
@@ -73,7 +71,7 @@ public class Bouton extends JButton implements IMenu {
     /**
      * Hover boutton.
      *
-     * @param c la couleur
+     * @param c
      */
     public void hoverBouton(Color c){
     	couleur = c;
@@ -83,7 +81,7 @@ public class Bouton extends JButton implements IMenu {
     /**
      * Unset hover boutton.
      *
-     * @param c la couleur
+     * @param c
      */
     public void unsetHoverBouton(Color c) {
     	couleur = c;
@@ -132,7 +130,9 @@ public class Bouton extends JButton implements IMenu {
 	}   
     
     /**
-     * Sets boutton style.
+     * Sets button style.
+     *
+     * Changement du style des JButton
      *
      * @param text
      * @return button
@@ -153,12 +153,25 @@ public class Bouton extends JButton implements IMenu {
        	
     	return button;
     }  
-    
+    /**
+     * Sets Hover Button
+     * 
+     * Methode de style pour les JButton
+     * 
+     * @param btn
+     */
     public static void setHoverButton(JButton btn) {
     	btn.setForeground(COULEUR_BUTTON_BACKGROUND);
 		btn.setBackground(COULEUR_BUTTON_FOREGROUND);
     }
     
+    /**
+     * UnSets Hover Button
+     * 
+     * Methode de style pour les JButton
+     * 
+     * @param btn
+     */
     public static void unsetHoverButton(JButton btn) {
     	btn.setForeground(COULEUR_BUTTON_FOREGROUND);
 		btn.setBackground(COULEUR_BUTTON_BACKGROUND);

@@ -16,6 +16,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
 import carte.Carte;
+import fenetrejeu.configjeu.ElementDeposable;
 import fenetrejeu.infosjeu.InfosElement;
 import fenetrejeu.infosjeu.MiniCarte;
 import fenetrejeu.menubar.MenuBar;
@@ -35,11 +36,16 @@ public class FenetreJeu extends JPanel implements IFenetre{
 	
 	/**
 	 * Instancie une nouvelle fenetre jeu.
+	 * 
+	 * Avec mode jeu si false et mode Config si true
+	 *
+	 * @param c
+	 * @param modeConfig
 	 */
-	public FenetreJeu(Carte c, boolean conf) {
+	public FenetreJeu(Carte c, boolean modeConfig) {
 		
 		/** Si le joueur lance une partie en mode config on nettoie la carte */
-		if(conf) {
+		if(modeConfig) {
 			/** On vide la carte */
 			c.setCarteVide();	
 			/**Nettoie les listes de soldat */
@@ -50,7 +56,7 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		}
 		
 		/** On change le mode de jeux en fonction du choix du joueur */
-		Carte.modeConf = conf;
+		Carte.modeConfig = modeConfig;
 		
 		/** On initialise le panel principal */
 		panelPrincipal.setPreferredSize(DIM_FEN);
@@ -178,9 +184,9 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		
 		/** On nettoi le panel contenant les infos des elements */
 		InfosElement.supprimeInfosElement();
-		InfosElement.supprimeLabelDeposable();
+		ElementDeposable.supprimeLabelDeposable();
 		
-		if(Carte.modeConf) 
+		if(Carte.modeConfig) 
 			descriptifElementPanel.setLayout(new GridLayout(0, 1));
 		
 		/** Sinon on affiche le panel avec le detail des elements clique */
@@ -191,8 +197,8 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		infosPanel.add(infosElementPanel);
 		
 		/** le panneau existe deja on le modifie */
-		if(conf)
-			panneau.setPanneauJeuConf(c);
+		if(modeConfig)
+			panneau.setPanneauJeuConfig(c);
 		else
 			panneau.setPanneauJeu(c);	
 	
@@ -217,10 +223,22 @@ public class FenetreJeu extends JPanel implements IFenetre{
 		frame.add(panelPrincipal);	
 	}
 	
+	/**
+	 * Instancie une nouvelle fenetre jeu en mode jeu.
+	 * 
+	 *
+	 * @param c
+	 */
 	public FenetreJeu(Carte c){	
 		this(c, false);
 	}
 	
+	/**
+	 * Instancie une nouvelle fenetre jeu 
+	 * 
+	 * avec une carte aleatoire et en mode jeu.
+	 * 
+	 */
 	public FenetreJeu(){	
 		this(new Carte());
 	}

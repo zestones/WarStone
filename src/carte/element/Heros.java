@@ -17,7 +17,7 @@ public class Heros extends Soldat {
 	private static final long serialVersionUID = 1L;
 	
     /** bonus repos. */
-    private int BONUS_REPOS;
+    private final int BONUS_REPOS;
     	
     /** le type. */
     private TypesH h;
@@ -53,6 +53,7 @@ public class Heros extends Soldat {
     	
     	/** Dessin de la case du heros */
     	g.drawImage(terre, (this.getPosition().getX() * TAILLE_CARREAU) - dx, (this.getPosition().getY() * TAILLE_CARREAU) - dy, TAILLE_CARREAU, TAILLE_CARREAU, null);
+    	
     	/** On dessine la grille de cette case */
     	g.setColor(COULEUR_GRILLE);
 		g.drawRect(this.getPosition().getX() * TAILLE_CARREAU - dx, this.getPosition().getY() * TAILLE_CARREAU - dy, TAILLE_CARREAU, TAILLE_CARREAU); 
@@ -73,12 +74,14 @@ public class Heros extends Soldat {
     	}
     	
         /** La barre de vie est dessine lorsque le heros ne se deplace pas et que le mode config est desactive */
-        if(!this.estActifDeplacement && !Carte.modeConf) 
+        if(!this.estActifDeplacement && !Carte.modeConfig) 
         	this.dessineBarreVie(g, cam);
     }
     
     /**
      * Desssine la zone du heros.
+     * 
+     * dessine un carreau de terre et les obstacles dans sa portee
      *
      * @param g 
      * @param cam
@@ -125,7 +128,7 @@ public class Heros extends Soldat {
     	this.dessinePorteeVisuelle(g, cam);
     	/** dessin de la zone de deplacement */
     	this.dessineDeplacement(g, cam);
-    	/** dessin des sprite dans la zonde de deplacement */
+    	/** dessin le sprite lorsque la souris est dans la zone de deplacement du heros */
     	this.dessineSpriteDeplacement(g, herosSelectione, clic, cam);   	
     }
     
@@ -148,6 +151,8 @@ public class Heros extends Soldat {
 
 	/**
 	 * Dessine la zone de deplacement.
+	 * 
+	 * Dessin des zones de deplacement possible du heros
 	 *
 	 * @param g 
 	 * @param cam 
@@ -187,15 +192,17 @@ public class Heros extends Soldat {
     			Position porteeVisuelle = new Position(this.getPosition().getX() + i - portee, this.getPosition().getY() + j - portee);
     			if(!porteeVisuelle.estValide()) 
     				continue;
-    			
+    			// Si la case est vide on ajoute un filtre de couleur pour la portee
     			if(carte.estCaseVide(porteeVisuelle)) {
     				g.setColor(COULEUR_PORTEE);
     				g.fillRect(porteeVisuelle.getX() * TAILLE_CARREAU - dx + this.deplacementX, porteeVisuelle.getY() * TAILLE_CARREAU - dy + this.deplacementY, TAILLE_CARREAU, TAILLE_CARREAU); 
     			}
+    			// Si la case contient un monstre un dessine un filtre pour l'ennemis
     			else if(carte.getElement(porteeVisuelle) instanceof Monstre) {
-    				g.setColor(COULEUR_ENEMIS);
+    				g.setColor(COULEUR_ENNEMIS);
     				g.fillRect(porteeVisuelle.getX() * TAILLE_CARREAU - dx + this.deplacementX, porteeVisuelle.getY() * TAILLE_CARREAU - dy + this.deplacementY, TAILLE_CARREAU, TAILLE_CARREAU); 
     			}
+    			// Si c'est un autre heros on ajoute une couleur amis
     			else if(carte.getElement(porteeVisuelle) instanceof Heros && carte.getElement(porteeVisuelle) != this) {
     				g.setColor(COULEUR_AMIS);
     				g.fillRect(porteeVisuelle.getX() * TAILLE_CARREAU - dx + this.deplacementX, porteeVisuelle.getY() * TAILLE_CARREAU - dy + this.deplacementY, TAILLE_CARREAU, TAILLE_CARREAU); 
@@ -205,7 +212,7 @@ public class Heros extends Soldat {
 	}
 	
 	/**
-	 * dessin des elements dans la carte miniature
+	 * dessin des elements dans la Mini carte
 	 *
 	 * @param g 
 	 */
@@ -241,6 +248,8 @@ public class Heros extends Soldat {
     
 	/**
 	 * Repos.
+	 * 
+	 * Ajoute un bonus de repos pour les heros ayant effectuer aucune action
 	 */
 	public void repos() {
     	if(!this.aJoue && this.getPoints() + BONUS_REPOS < this.getPointsMax())
@@ -254,7 +263,7 @@ public class Heros extends Soldat {
 	 * 
 	 * renvoie la position du heros dans la liste de heros
 	 * 
-	 * @return index soldat
+	 * @return index
 	 */
 	public int getIndexSoldat() { return carte.listeHeros.indexOf(this); }
 	

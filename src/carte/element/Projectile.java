@@ -7,7 +7,7 @@ import fenetrejeu.panneaujeu.IConfig;
 import utile.Position;
 
 /**
- * The Class Projectile.
+ * Class Projectile.
  */
 public class Projectile implements IConfig {
 	
@@ -22,6 +22,12 @@ public class Projectile implements IConfig {
 	private int deplacementY;
 	public boolean toucher;
 	
+	/**
+	 * Instancie un nouveau projectile.
+	 *
+	 * @param depart 
+	 * @param arrive
+	 */
 	Projectile(Position depart, Position arrive) {
 		this.depart = depart;
 		this.arrive = arrive;
@@ -29,7 +35,12 @@ public class Projectile implements IConfig {
 		this.deplacementX = this.deplacementY = 0;
 		this.toucher = false;
 	}
-	
+	/**
+	 * dessine le projectile
+	 * 
+	 * @param g
+	 * @param cam
+	 */
 	void dessineProjectile(Graphics g, Camera cam) {
 		int dx = cam.getDx() * TAILLE_CARREAU;
     	int dy = cam.getDy() * TAILLE_CARREAU;
@@ -38,7 +49,11 @@ public class Projectile implements IConfig {
 		
 		this.effectuerDeplacement(cam);
 	}
-    
+    /**
+     * Change la position du projectile et verifie que celui ci na pas encore toucher un soldat
+     * 
+     * @param cam
+     */
     private void effectuerDeplacement(Camera cam) {
     	if(!this.toucher) {
     		this.deplacementX += this.arrive.getX() - this.depart.getX();

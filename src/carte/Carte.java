@@ -42,32 +42,31 @@ public class Carte implements IConfig, ICarte {
 	/** liste action mort. */
 	public List<Soldat> listeActionMort;
 	
-	/** varaible fin de tour permettant de dessiner les heros d'une autre couleur si c'est le tour des monstres */
+	/** variable fin de tour permettant de dessiner les heros d'une autre couleur si c'est le tour des monstres */
 	public boolean tourMonstre;
 		
 	/** Boolean indiquant le mode de jeu. */
-	public static boolean modeConf = false;
+	public static boolean modeConfig = false;
 	
 	/**
 	 * Instancie une nouvelle Carte.
 	 */
 	public Carte() {
-		// Initialisation des listes
 		this.plateau = new Element[NB_COLONNES][NB_LIGNES];
-		this.tourMonstre = false;
-		// les listes d'action 
+		// Initialisation des listes
 		this.listeActionAttaque = new ArrayList<>();
 		this.listeActionDeplacement = new ArrayList<>();
 		this.listeActionMort = new ArrayList<>();
 		
-		// liste de monstre et heros presenet sur la carte 
+		// liste de monstre et heros present sur la carte 
 		this.listeHeros = new ArrayList<>();
 		this.listeMonstres = new ArrayList<>();
 			
+		// Initialisation d'une carte vide
 		this.setCarteVide();
 		
-		// Creation des Elements
-        if(!Carte.modeConf) {
+		// Creation des Elements, en mode config les elements sont deposer par le joueur
+        if(!Carte.modeConfig) {
             this.genereSoldats();
             this.genereObstacles();
         }
@@ -110,9 +109,10 @@ public class Carte implements IConfig, ICarte {
 	}
 
 	/**
-	 * Methode principale du jeu c'est ici qu est gere
-	 * les appels au autre methode .
-	 *
+	 * 
+	 * Jouer soldat va gerer les tours de jeux ainsi que les appels au methode 
+	 * permettant de realiser des action sur la carte
+	 * 
 	 * @param pj
 	 * @param tour
 	 */
@@ -136,7 +136,7 @@ public class Carte implements IConfig, ICarte {
 	}
 
 	/**
-	 * Calcule du nombre de soldats encore present sur la carte.
+	 * Compte le nombre de soldat vivant sur la carte.
 	 *
 	 * @param pj
 	 */
@@ -151,7 +151,7 @@ public class Carte implements IConfig, ICarte {
 
 	/**
 	 * IA du General monstre
-	 * On effectue une action pour chaque monstre.
+	 * On decide quelle action realiser pour chaque monstre.
 	 *
 	 * @param pj
 	 */
@@ -208,7 +208,7 @@ public class Carte implements IConfig, ICarte {
 	}
 			
 	/**
-	 *  Le generale joueur decide quelle action realiser.
+	 * Le generale joueur realise les actions des heros.
 	 *
 	 * @param pj
 	 */
@@ -231,7 +231,8 @@ public class Carte implements IConfig, ICarte {
 	}
 	
 	/**
-	 *  Methode qui gere les actions des Heros .
+	 *  Methode qui gere les actions des Heros.
+	 *  Combat ou deplacement
 	 *
 	 * @param pj
 	 * @param pos
@@ -259,30 +260,30 @@ public class Carte implements IConfig, ICarte {
 	}
 
 	/**
-	 *  On supprime un soldat ayant perdu tout ses point de vie.
+	 * On supprime un soldat ayant perdu tout ses point de vie.
 	 *
 	 * @param perso the perso
 	 */
 	public void mort(Soldat perso) { 
 		// On recupere l'index du soldat dans la liste
 		int index = perso.getIndexSoldat();
-		// On l'enleve de la carte
+		// On le supprime de la carte
 		this.setElementVide(perso.getPosition());
 		// Et on le tue
 		perso.mort(index);
 	}
 
 	/**
-	 * Deplace le Soldat a la position pos, si l'opperation a ete effectue alors
-	 * retourne true sinon false.
+	 * Methode de deplacement d'un Soldat
 	 *
 	 * @param pos 
 	 * @param soldat 
-	 * @return boolean
+	 * @return true, if Successful
 	 */
 	public boolean deplaceSoldat(Position pos, Soldat soldat) {
+		// On verifie que le deplacement est valide
 		if (pos.estValide() && this.estCaseVide(pos) && soldat.getPosition().estVoisine(pos) && !this.estPrisePosition(pos)) {
-			
+			// On cree une copie du soldat
 			Soldat soldatCopie = null;
 			try {
 				soldatCopie = soldat.clone();
@@ -290,10 +291,10 @@ public class Carte implements IConfig, ICarte {
 				e.printStackTrace();
 			}
 			soldatCopie.setPosition(pos);
-			
+			// On met a jour le status du soldat
 			soldat.seDeplace = true;
 			soldat.aJoue = true; 
-			
+			// On enregistre le deplacement dans la liste d'action
 			this.listeActionDeplacement.addAll(Arrays.asList(soldat, soldatCopie));
 			
 			return true;
@@ -306,7 +307,7 @@ public class Carte implements IConfig, ICarte {
 	 * si plusieurs soldat veulent se deplacer sur la meme case on retourne false.
 	 *
 	 * @param pos the pos
-	 * @return positionPrise boolean
+	 * @return true, if successful
 	 */
 	private boolean estPrisePosition(Position pos) {
 		boolean positionPrise = false;
@@ -342,20 +343,20 @@ public class Carte implements IConfig, ICarte {
 	}
 
 	/**
-	 *  trouve une position vide aleatoiremennt sur la Carte .
+	 * trouve une position vide aleatoiremennt sur la Carte .
 	 *
 	 * @return Position
 	 */
 	public Position trouvePositionVide() {
 		Position pos = new Position();
-		if (pos.estValide() && this.estCaseVide(pos))
+		if(pos.estValide() && this.estCaseVide(pos))
 			return pos;
 		return this.trouvePositionVide();
 	}
 
 	
 	/**
-	 *  Trouve une position vide adjacente a pos sur la carte si aucune position .
+	 *  Trouve une position vide adjacente a pos.
 	 *
 	 * @param pos the pos
 	 * @return Position
@@ -407,13 +408,13 @@ public class Carte implements IConfig, ICarte {
 				minVie = voisin.getPoints();				
 			}
 		}
-		// Si on a trouver un heros correspondant a nos attente on le revoie
+		// Si on a trouver un heros on attaque celui ci
 		if(h != null) return h;
 		
 		int attaque = minVie = Integer.MAX_VALUE;
 		
 		// sinon on cherche le heros a la portee du monstre avec le moins de vie
-		// Et la force d'attaque la plus faible (le tir car il n'y a pas de voisin)
+		// Et la force d'attaque la plus faible (le tir car la puissance est pour les voisins)
 		for(Heros choixHeros : herosTrouve) {
 			if(minVie > choixHeros.getPoints() && attaque > choixHeros.getTir()) {
 				h = choixHeros;
@@ -426,7 +427,7 @@ public class Carte implements IConfig, ICarte {
 	}
 	
 	/**
-	 * Removes the all action.
+	 * Suppression des actions dans les listes.
 	 */
 	public void removeAllAction() {
 		this.listeActionAttaque.clear();
@@ -435,32 +436,32 @@ public class Carte implements IConfig, ICarte {
 	}
 
 	/**
-	 *  Retourne l'element sur la carte a la position pos .
+	 * Retourne l'element sur la carte a la position pos .
 	 *
-	 * @param pos the pos
+	 * @param pos 
 	 * @return Element
 	 */
 	public Element getElement(Position pos) { return plateau[pos.getX()][pos.getY()]; }
 	
 	/**
-	 *  Ajoute un element sur la carte .
+	 * Ajoute un element sur la carte .
 	 *
-	 * @param e the new element
+	 * @param e
 	 */
 	public void setElement(Element e) { this.plateau[e.getPosition().getX()][e.getPosition().getY()] = e; }
 	
 	/**
-	 *  Met une position donnee vide .
+	 * Met une position donnee vide .
 	 *
 	 * @param pos
 	 */
 	public void setElementVide(Position pos) { this.plateau[pos.getX()][pos.getY()] = null; }
 	
 	/**
-	 * Renvoie true si la case est vide sinon false .
+	 * Test si une case est vide.
 	 *
 	 * @param pos
-	 * @return boolean
+	 * @return true, if successful
 	 */
 	public boolean estCaseVide(Position pos) { return (this.getElement(pos) == null); }
 	

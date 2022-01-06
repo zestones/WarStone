@@ -4,53 +4,26 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import javax.swing.border.MatteBorder;
 
 import carte.Carte;
 import carte.element.Element;
 import carte.element.Heros;
-import carte.element.ISoldat.TypesH;
-import carte.element.Obstacle.TypeObstacle;
 import carte.element.Soldat;
 import fenetrejeu.IFenetre;
+import fenetrejeu.configjeu.ElementDeposable;
 
 /**
  * Class InformationElement.
  */
-public abstract class InfosElement implements IFenetre {
+public class InfosElement implements IFenetre {
 	
 	/** Constante serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	 
-	/** liste label obstacle. */
-	private static List<JLabel> listeLabelElement = new ArrayList<>();
-	
-	/** liste obstacle. */
-	private static List<TypeObstacle> listeObstacle = new ArrayList<>();
-	
-	private static List<TypesH> listeHeros = new ArrayList<>();
-	
-	/** obstacle selectione. */
-	public static TypeObstacle obstacleSelectione;
-	
-	public static TypesH herosSelectione;
-	
-	/** nb element deposer. */
-	public static int nbElementDeposer = 0;
-	
-	/** index des listes. */
-	private static int index = 0;
-	
-	private static boolean premiereInit = true;
-	
+		
 	/**
 	 * Dessine infos element.
 	 *
@@ -61,14 +34,14 @@ public abstract class InfosElement implements IFenetre {
 		supprimeInfosElement();	
 		if(e == null) return;
 		
-		/** si nous ne somme pas en mode creatif on affiche pas les infos des obstacles */
-		if(!Carte.modeConf) {
+		/** si nous ne somme pas en mode config on affiche le descriptif des elements */
+		if(!Carte.modeConfig) {
 			descriptifElementPanel.removeAll();
 			descriptifElementPanel.revalidate();
 			dessineDescriptifElement(e);
 		}	
 		
-		
+		// On ajoute la Miniature de l'element clique
 		Image img = e.getMiniature().getScaledInstance(ICON_ELEMENT_LARGEUR - PADDING_ICON_ELEMENT_GAUCHE, ICON_ELEMENT_HAUTEUR - PADDING_ICON_ELEMENT_HAUT, Image.SCALE_SMOOTH);
 		ImageIcon imgIcon = new ImageIcon(img);
 		
@@ -76,6 +49,8 @@ public abstract class InfosElement implements IFenetre {
 		
 		infosIconLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		infosIconLabel.setVerticalAlignment(SwingConstants.TOP);
+		
+		// Et on ajoute les infos de l'element
 		String infos = "<html>";
 		
 		if(e instanceof Soldat) {
@@ -108,7 +83,7 @@ public abstract class InfosElement implements IFenetre {
 	}
 	
 	/**
-	 * Dessine infos sup elements.
+	 * Dessine descriptif des elements.
 	 *
 	 * @param e
 	 */
@@ -135,159 +110,6 @@ public abstract class InfosElement implements IFenetre {
 		descriptifElementPanel.repaint();
 	}
 	
-	/**
-	 * Dessine infos element body.
-	 */
-	public static void dessineObstacleDeposable() {
-		// On supprime le contenu des panels 
-		removeElementList();
-		supprimeInfosElement();
-		supprimeLabelDeposable();
-				
-		// Pour chque objet dans le type enum on recupere son image et on la met dans une liste de label
-		// une deuxieme liste est creer pour comparer les label au objet (ROCHER FORET...) 
-		for(TypeObstacle o : TypeObstacle.values()) {
-			JLabel ObstacleLabel = new JLabel();
-			Image img = o.getMiniature().getScaledInstance(DESCRIPTIF_ELEMENT_LARGEUR / TypeObstacle.values().length, DESCRIPTIF_ELEMENT_HAUTEUR / TypeObstacle.values().length - PADDING_ICON_ELEMENT_HAUT, Image.SCALE_SMOOTH);
-			ImageIcon imgIcon = new ImageIcon(img);
-
-			ObstacleLabel.setIcon(imgIcon);
-			ObstacleLabel.setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
-			ObstacleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			ObstacleLabel.setVerticalAlignment(SwingConstants.CENTER);
-			descriptifElementPanel.add(ObstacleLabel, BorderLayout.CENTER);
-			listeLabelElement.add(ObstacleLabel);
-			listeObstacle.add(o);
-		}
-		
-		obstacleDeposableEvent();
-		deselectionEvent();
-		
-		descriptifElementPanel.repaint();
-	}
-	
-	/**
-	 * Dessine infos element body.
-	 */
-	public static void dessineHerosDeposable() {
-		// On supprime le contenu des panels 
-		supprimeInfosElement();
-		supprimeLabelDeposable();
-		removeElementList();
-		
-		// Pour chque objet dans le type enum on recupere son image et on la met dans une liste de label
-		// une deuxieme liste est creer pour comparer les label au objet (ROCHER FORET...) 
-		for(TypesH h : TypesH.values()) {
-			JLabel HerosLabel = new JLabel();
-			Image img = h.getMiniature().getScaledInstance(DESCRIPTIF_ELEMENT_LARGEUR / TypesH.values().length, DESCRIPTIF_ELEMENT_HAUTEUR / TypesH.values().length - PADDING_ICON_ELEMENT_HAUT, Image.SCALE_SMOOTH);
-			ImageIcon imgIcon = new ImageIcon(img);
-			HerosLabel.setIcon(imgIcon);
-			
-			HerosLabel.setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
-			HerosLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			HerosLabel.setVerticalAlignment(SwingConstants.CENTER);
-			descriptifElementPanel.add(HerosLabel, BorderLayout.CENTER);
-			listeLabelElement.add(HerosLabel);
-			listeHeros.add(h);
-		}
-		
-		herosDeposableEvent();
-		
-		if(premiereInit) deselectionEvent();
-
-		descriptifElementPanel.repaint();
-	}
-	
-	
-	private static void herosDeposableEvent() {
-		// On creer un listener pour chaque label
-		// On recupere le type de l'element cliquer a l'aide de l'index de la liste de label
-		for(int i = 0; i < listeLabelElement.size(); i++) {
-			listeLabelElement.get(i).addMouseListener(new MouseAdapter() {
-				public void mousePressed(MouseEvent e) {
-					for(int j = 0; j < listeLabelElement.size(); j++) {
-						if(e.getSource() == listeLabelElement.get(j)) {
-							herosSelectione = listeHeros.get(j);
-							listeLabelElement.get(j).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_ELEMENT_SELECTIONE));
-							index = j;
-						}
-						else
-							listeLabelElement.get(j).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
-					}
-				}	
-			});
-		}
-	}
-	
-	
-	
-	/**
-	 * Dessin element mode config.
-	 */
-	private static void obstacleDeposableEvent() {
-		// On creer un listener pour chaque label
-		// On recupere le type de l'element cliquer a l'aide de l'index de la liste de label
-		for(int i = 0; i < listeLabelElement.size(); i++) {
-			listeLabelElement.get(i).addMouseListener(new MouseAdapter() {
-				public void mousePressed(MouseEvent e) {
-					for(int j = 0; j < listeLabelElement.size(); j++) {
-						if(e.getSource() == listeLabelElement.get(j)) {
-							obstacleSelectione = listeObstacle.get(j);
-							listeLabelElement.get(j).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_ELEMENT_SELECTIONE));
-							index = j;
-						}
-						else
-							listeLabelElement.get(j).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
-					}
-				}	
-			});
-		}
-	}
-	
-	
-	
-
-	private static void deselectionEvent() {
-		premiereInit = false;
-		
-		/** Un clique sur le header ou le panel infosElement deselectione l'objet */
-		headerPanel.addMouseListener(new MouseAdapter() {	
-			public void mousePressed(MouseEvent e) {
-				if(Carte.modeConf) {
-					obstacleSelectione = null;
-					herosSelectione = null;
-					if(!listeLabelElement.isEmpty())
-						listeLabelElement.get(index).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
-				}
-			}
-		});
-				
-		infosElementPanel.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if(Carte.modeConf) {
-					obstacleSelectione = null;
-					herosSelectione = null;
-					if(!listeLabelElement.isEmpty())
-						listeLabelElement.get(index).setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
-				}
-			}
-		});
-	}
-	
-	
-	/**
-	 * Supression des listes.
-	 */
-	public static void removeElementList() {
-		// On supprime les listes
-		listeLabelElement.clear();
-		listeObstacle.clear();
-		listeHeros.clear();
-		// et on oublie l'obstacle selectione au passage
-		herosSelectione = null;
-		obstacleSelectione = null;
-		index = 0;
-	}
 	
 	/**
 	 * Supprime les infos du panel
@@ -302,19 +124,8 @@ public abstract class InfosElement implements IFenetre {
 		InfosElementLabel.setText("");
 		// On redessine le panel
 		infosElementHeader.repaint();
-		if(!Carte.modeConf)
-			supprimeLabelDeposable();
-	}	
-	
-	/**
-	 * Supprime le contenu du panel descriptifElementPanel qui ici contient les elements deposable sur la carte
-	 */
-	public static void supprimeLabelDeposable() {
 		// On supprime aussi les infos supp si nous ne somme pas en mode config
-		descriptifElementPanel.removeAll();
-		descriptifElementPanel.revalidate();
-		// On redessine le panel
-		descriptifElementPanel.repaint();
-	}
-	
+		if(!Carte.modeConfig)
+			ElementDeposable.supprimeLabelDeposable();
+	}		
 }

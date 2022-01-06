@@ -11,11 +11,11 @@ import java.awt.Toolkit;
 public interface IConfig extends java.io.Serializable {	
 	
 	// Definir le NB ELEMENT sur la carte
-	int NB_HEROS = 5; 
-	int NB_MONSTRES = 1; 
+	int NB_HEROS = 1; 
+	int NB_MONSTRES = 8; 
 	int NB_OBSTACLES = NB_HEROS * 2;
 		
-	/** Couleur Panel */
+	/** Couleur des different Panel */
 	Color COULEUR_MENUBAR = new Color(70, 71, 71); 
 	Color COULEUR_MINI_CARTE_PANEL = new Color(51, 51, 51);
 	Color COULEUR_INFOS_PANEL = new Color(51, 51, 51);
@@ -25,32 +25,38 @@ public interface IConfig extends java.io.Serializable {
 	Color COULEUR_FOOTER = new Color(41, 41, 41); 
 	Color COULEUR_FLECHE_PANEL = new Color(70, 71, 71); 
 			
+	/** Couleur des Bordure */
 	Color COULEUR_BORDUR_MINI_CARTE = new Color(220, 170, 135);
-
-	Color COULEUR_TEXTE = Color.BLACK;
 	Color COULEUR_BORDURE = Color.white;
 	
+	Color COULEUR_TEXTE = Color.BLACK;
+		
+	/** Couleur de la zone visible sur la miniCarte */
 	Color COULEUR_FOCUS_MINI_CARTE = new Color(145, 145, 145, 95);
 		
 	/** Couleur grille de la carte*/
 	Color COULEUR_GRILLE = Color.BLACK; 
 	
+	/** Couleur des zones autour du heros */
 	Color COULEUR_DEPLACEMENT = new Color(75, 25, 75, 100), COULEUR_PORTEE = new Color(20, 25, 25, 100);
 
-	Color COULEUR_ENEMIS = new Color(255, 10, 20, 50), COULEUR_AMIS = new Color(20,200,10,50); 
+	Color COULEUR_ENNEMIS = new Color(255, 10, 20, 50), COULEUR_AMIS = new Color(20,200,10,50); 
 	Color COULEUR_HEROS = Color.red, COULEUR_HEROS_DEJA_JOUE = new Color(175, 25, 75, 100);
 	
 	Color COULEUR_HEROS_TOUR_MONSTRE = new Color(247, 146, 24, 100); 
 	Color COULEUR_BARRE_VIE_ROUGE = Color.red, COULEUR_BARRE_VIE_VERT = Color.green;
 	Color COULEUR_MONSTRE = new Color(0, 0, 0, 60);
-		
+	
 	Color COULEUR_FLECHE_DIRECTIONNELLE = new Color(187, 227, 222);
+	
+	/** Couleur d'un element selectione en mode config */
 	Color COULEUR_ELEMENT_SELECTIONE = Color.green;
 		
 	Image herbe = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/grass.png");
 	Image terre = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/range.jpg");
 	Image lave = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/lave.jpg");
 	Image fleche = Toolkit.getDefaultToolkit().getImage("./res/img/pops/arrow.png");	
+	
 	
 	/** Dimension de la fenetre de jeux */
 	Dimension DIM_FEN = Toolkit.getDefaultToolkit().getScreenSize();	
@@ -125,5 +131,5 @@ public interface IConfig extends java.io.Serializable {
 
 	// Constante pour centrer la barre de vie
 	int PADDING_VIE_CASE_GAUCHE = TAILLE_CARREAU/8;
-	int PADDING_VIE_CASE_HAUT = PADDING_VIE_CASE_GAUCHE/2;
+	int PADDING_VIE_CASE_HAUT = PADDING_VIE_CASE_GAUCHE/2;	
 }

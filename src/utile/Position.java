@@ -57,14 +57,14 @@ public class Position implements IConfig {
 	/**
 	 * Sets x.
 	 *
-	 * @param x new x
+	 * @param x
 	 */
 	public void setX(int x) { this.x = x; }
 	
 	/**
 	 * Sets y.
 	 *
-	 * @param y new y
+	 * @param y
 	 */
 	public void setY(int y) { this.y = y; }
 	
@@ -78,13 +78,15 @@ public class Position implements IConfig {
 	/**
 	 * Distance.
 	 *
-	 * @param p la position
-	 * @return double
+	 * @param p
+	 * @return int
 	 */
 	public int getDistance(Position p) { return (int) Math.sqrt(pow(this.x-p.x,2)+pow(this.y-p.y,2)); }
 	
 	/**
 	 * Est identique.
+	 *
+	 * Test si deux position son identique 
 	 *
 	 * @param p
 	 * @return true, if successful
@@ -142,7 +144,7 @@ public class Position implements IConfig {
 	/**
 	 * Methode renvoyant une liste contenant les 8 positions adjacente a une case .
 	 *
-	 * @param pos the pos
+	 * @param pos
 	 * @return List
 	 */
 	public List<Position> getPositionAdjacente() {

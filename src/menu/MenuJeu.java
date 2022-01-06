@@ -64,7 +64,7 @@ public class MenuJeu implements IMenu {
 		configMusic.clip.stop();
 			
 		/** Lorsqu'on revient sur le menu le mode config est toujours remis a false */
-		Carte.modeConf = false;
+		Carte.modeConfig = false;
 		
 		/** creation d'un label pour deposer l'image */
 		BufferedImage fondEcran = null;
@@ -106,7 +106,7 @@ public class MenuJeu implements IMenu {
 	/**
 	 * main method.
 	 *
-	 * @param args les arguments
+	 * @param args
 	 */
 	public static void main(String[] args) {		
 		new MenuJeu();

@@ -23,34 +23,23 @@ public interface IMenu {
 	
 	/**  Music. */
 	Musique menuMusic = new Musique("menu_music.wav");
-	
-	/** game music. */
 	Musique gameMusic = new Musique("game_music.wav");
-	
-	/** config music. */
 	Musique configMusic = new Musique("config_music.wav");
 	
-	/** panel principal du menu. */
+	
 	JPanel panelMenu = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 	
 	/**  recuperation de la taille de l'ecran. */
 	Dimension DIM_MENU = Toolkit.getDefaultToolkit().getScreenSize();	
 	
-	/**  Largeur des boutton. */
 	int BOUTON_LARGEUR = (int) (DIM_MENU.getWidth()/4);
-	
-	/** Position des boutton. */
 	int BOUTTON_POSITION_X = (int) (DIM_MENU.getWidth() / 2 - BOUTON_LARGEUR/2);
 	
 	/** On recupere la hauteur libre pour placer 4 boutton dans la moitier de l'ecran */
 	int HAUTEUR = (int) ((DIM_MENU.getWidth() / 2) / 8);
 	
-	/** Hauteur boutton. */
 	int BOUTON_HAUTEUR = HAUTEUR - HAUTEUR / 4;
 	
-	/** Position Y du boutton.
-	 *  la POS_Y se met a jour en fonction du nombre de boutton cree
-	 */
 	int BOUTTON_POSITION_Y = (int) (DIM_MENU.getHeight() / 2 + BOUTON_HAUTEUR/2);
 
 	/** Les boutttons du menu */
