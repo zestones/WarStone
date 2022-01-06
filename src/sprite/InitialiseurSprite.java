@@ -92,9 +92,9 @@ public class InitialiseurSprite implements IConfig, ISprite {
 	/* Genere un Sprite a l'aide du numero de ligne et le nombre d'image */
 	private Sprite initSprite(int ligne, int nbImage) {
 		ConstructeurSprite consSprite = new ConstructeurSprite(this.sprite, ligne, nbImage);
-		Sprite spriteSheet = consSprite.genereSprite();
+		Sprite sprite = consSprite.genereSprite();
 		
 		animateur.start();
-		return spriteSheet;
+		return sprite;
 	}
 }

@@ -112,6 +112,9 @@ public interface IConfig extends java.io.Serializable {
 	/** Dimension de l'icon affichant l'element clique sur la carte */
 	int ICON_ELEMENT_HAUTEUR = Math.max(66, INFOS_ELEMENT_PANEL_HAUTEUR/4);
 	int ICON_ELEMENT_LARGEUR = ICON_ELEMENT_HAUTEUR;
+	
+	int PADDING_ICON_ELEMENT_HAUT = ICON_ELEMENT_HAUTEUR/10;
+	int PADDING_ICON_ELEMENT_GAUCHE = ICON_ELEMENT_LARGEUR/8;
 			/** Dimension du panel affichant les infos de l'element clique */
 	int DESCRIPTIF_ELEMENT_LARGEUR = INFOS_PANEL_LARGEUR - PADDING_INFOS_PANEL * 2;
 	int DESCRIPTIF_ELEMENT_HAUTEUR = INFOS_ELEMENT_PANEL_HAUTEUR - ICON_ELEMENT_HAUTEUR - PADDING_INFOS_PANEL * 3;

@@ -72,8 +72,8 @@ public class Heros extends Soldat {
     		g.fillRect((this.getPosition().getX() * TAILLE_CARREAU) - dx + this.deplacementX, (this.getPosition().getY() * TAILLE_CARREAU) - dy + this.deplacementY, TAILLE_CARREAU, TAILLE_CARREAU); 
     	}
     	
-        /** La barre de vie est dessine lorsque le heros ne se deplace pas */
-        if(!this.estActifDeplacement) 
+        /** La barre de vie est dessine lorsque le heros ne se deplace pas et que le mode config est desactive */
+        if(!this.estActifDeplacement && !Carte.modeConf) 
         	this.dessineBarreVie(g, cam);
     }
     

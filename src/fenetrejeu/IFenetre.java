@@ -52,5 +52,4 @@ public interface IFenetre extends IMenuBar, IMenu{
 		
 	/** Label affichant les infos des elements survole */
 	JLabel footerLabel = new JLabel("", SwingConstants.CENTER);	
-
 }

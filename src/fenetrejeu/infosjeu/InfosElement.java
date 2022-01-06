@@ -17,9 +17,9 @@ import javax.swing.border.MatteBorder;
 import carte.Carte;
 import carte.element.Element;
 import carte.element.Heros;
-import carte.element.Soldat;
 import carte.element.ISoldat.TypesH;
 import carte.element.Obstacle.TypeObstacle;
+import carte.element.Soldat;
 import fenetrejeu.IFenetre;
 
 /**
@@ -68,11 +68,14 @@ public abstract class InfosElement implements IFenetre {
 			dessineDescriptifElement(e);
 		}	
 		
-		Image img = e.getImage().getScaledInstance(ICON_ELEMENT_LARGEUR, ICON_ELEMENT_HAUTEUR, Image.SCALE_SMOOTH);
+		
+		Image img = e.getImage().getScaledInstance(ICON_ELEMENT_LARGEUR - PADDING_ICON_ELEMENT_GAUCHE, ICON_ELEMENT_HAUTEUR - PADDING_ICON_ELEMENT_HAUT, Image.SCALE_SMOOTH);
 		ImageIcon imgIcon = new ImageIcon(img);
 		
 		infosIconLabel.setIcon(imgIcon);
 		
+		infosIconLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		infosIconLabel.setVerticalAlignment(SwingConstants.TOP);
 		String infos = "<html>";
 		
 		if(e instanceof Soldat) {
@@ -145,8 +148,9 @@ public abstract class InfosElement implements IFenetre {
 		// une deuxieme liste est creer pour comparer les label au objet (ROCHER FORET...) 
 		for(TypeObstacle o : TypeObstacle.values()) {
 			JLabel ObstacleLabel = new JLabel();
-			Image img = o.getMiniature().getScaledInstance(INFOS_PANEL_LARGEUR / TypeObstacle.values().length, TAILLE_CARREAU, Image.SCALE_SMOOTH);
+			Image img = o.getMiniature().getScaledInstance(DESCRIPTIF_ELEMENT_LARGEUR / TypeObstacle.values().length, DESCRIPTIF_ELEMENT_HAUTEUR / TypeObstacle.values().length - PADDING_ICON_ELEMENT_HAUT, Image.SCALE_SMOOTH);
 			ImageIcon imgIcon = new ImageIcon(img);
+
 			ObstacleLabel.setIcon(imgIcon);
 			ObstacleLabel.setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
 			ObstacleLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -175,9 +179,10 @@ public abstract class InfosElement implements IFenetre {
 		// une deuxieme liste est creer pour comparer les label au objet (ROCHER FORET...) 
 		for(TypesH h : TypesH.values()) {
 			JLabel HerosLabel = new JLabel();
-			Image img = h.getMiniature().getScaledInstance(INFOS_PANEL_LARGEUR / TypesH.values().length, TAILLE_CARREAU, Image.SCALE_SMOOTH);
+			Image img = h.getMiniature().getScaledInstance(DESCRIPTIF_ELEMENT_LARGEUR / TypesH.values().length, DESCRIPTIF_ELEMENT_HAUTEUR / TypesH.values().length - PADDING_ICON_ELEMENT_HAUT, Image.SCALE_SMOOTH);
 			ImageIcon imgIcon = new ImageIcon(img);
 			HerosLabel.setIcon(imgIcon);
+			
 			HerosLabel.setBorder(new MatteBorder(2, 2, 2, 2, COULEUR_GRILLE));
 			HerosLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			HerosLabel.setVerticalAlignment(SwingConstants.CENTER);
