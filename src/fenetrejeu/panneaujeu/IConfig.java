@@ -11,8 +11,8 @@ import java.awt.Toolkit;
 public interface IConfig extends java.io.Serializable {	
 	
 	// Definir le NB ELEMENT sur la carte
-	int NB_HEROS = 1; 
-	int NB_MONSTRES = 8; 
+	int NB_HEROS = 8; 
+	int NB_MONSTRES = 10; 
 	int NB_OBSTACLES = NB_HEROS * 2;
 		
 	/** Couleur des different Panel */

@@ -76,7 +76,7 @@ public class FinJeu implements IFenetre, IFinJeu {
           
         newGame.setBoutonImage("new game");      
         retourMenu.setBoutonImage("menu");      
-        
+       
         // Si les listeners on deja ete cree on ne le recree pas
         if(!eventDejaCree)
         	new FinJeuEvent();	

@@ -1,4 +1,1 @@
-/**
- * Provides...
- */
 package sprite;

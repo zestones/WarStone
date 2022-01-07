@@ -22,6 +22,8 @@ public class FinJeuEvent implements IFenetre, IFinJeu {
 	 */
 	public FinJeuEvent() {
 		FinJeu.eventDejaCree = true; 
+		// Ajout d'une couleur au boutton
+		retourMenu.unsetHoverBouton(COULEUR_BOUTON_MENU);
 		
 		frame.addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {

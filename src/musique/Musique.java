@@ -9,13 +9,18 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+/**
+ * Class Musique.
+ */
 public class Musique {
+	
+	/** The clip. */
 	public Clip clip;
 	 
 	/**
 	 * Instancie une nouvelle musique.
 	 *
-	 * @param fichier
+	 * @param fichier : le nom du fichier
 	 */
 	public Musique(String fichier) {
 		File f = new File("./res/sound/" + fichier);

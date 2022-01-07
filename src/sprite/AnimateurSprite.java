@@ -63,7 +63,7 @@ public class AnimateurSprite implements java.io.Serializable {
 	 * Class TimerHandler.
 	 */
 	protected class TimerHandler implements ActionListener, java.io.Serializable {
-		/** Constant serialVersionUID. */
+		/** Constante serialVersionUID. */
 		private static final long serialVersionUID = 1L;
 
 		/**

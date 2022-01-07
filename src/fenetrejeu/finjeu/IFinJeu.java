@@ -4,6 +4,9 @@ import java.awt.FlowLayout;
 
 import javax.swing.JPanel;
 
+/**
+ * Interface IFinJeu.
+ */
 public interface IFinJeu {
 	
 	/** Chemin youLooseImg. */
@@ -12,8 +15,6 @@ public interface IFinJeu {
 	/** Chemin youWinImg. */
 	String youWinImg = "./res/img/background/menu/youWin.png";
 	
-	/** Panel de la page fin jeu */
-	JPanel panelFinJeu = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-
-	
+	/** Panel de la page fin jeu. */
+	JPanel panelFinJeu = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));	
 }

@@ -22,7 +22,9 @@ public interface ISoldat extends ISprite{
 	Image GobelinMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/miniature/Gobelin.png");
 	Image OrcMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/miniature/Orc.png");
 	Image TrollMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/miniature/Troll.png");
-	
+	Image WolfmanMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/miniature/wolfman.png");
+	Image ZombieMiniature = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/miniature/zombie.png");
+
 	/** Icon des heros sur la Mini Carte */
 	Image ElfMiniCarte = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/mini-Carte/Elf.png");
 	Image HobbitMiniCarte = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/heros/mini-Carte/Hobbit.png");
@@ -34,7 +36,9 @@ public interface ISoldat extends ISprite{
 	Image GobelinMiniCarte = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/mini-Carte/Gobelin.png");
 	Image OrcMiniCarte = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/mini-Carte/Orc.png");
 	Image TrollMiniCarte = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/mini-Carte/Troll.png");
-	
+	Image WolfmanMiniCarte = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/mini-Carte/wolfman.png");
+	Image ZombieMiniCarte = Toolkit.getDefaultToolkit().getImage("./res/img/soldat/monstres/mini-Carte/zombie.png");
+
 
 	/** Description des heros */
 	String histoireNain = "Puisqu'ils vivent essentiellement sous terre, les Nains sont peu férus d'agriculture "
@@ -55,6 +59,13 @@ public interface ISoldat extends ISprite{
 			+"leur pieds à l'abondante pilosité, leurs oreilles légèrement pointues et leur visage rubicond <br><br>"
 			+"vivant Au cœur de l'Eriador.";
 	
+
+	String histoireSorcier = "vivent au milieu des tombes, et entendent ce qui se passe dans les Enfers \r\n"
+			+ "ils sont maigres et laids, avec des cheveux mêlés sur sa tête sont noués \r\n"
+			+ "comme des serpents les cachent avec un chapeau de sorcier .\r\n"
+			+ "ils ne sortent que la nuit ou par temps d'orage.";
+		
+	
 	/** Description des Monstres */
 	String histoireGoblin = "Créature légendaire, anthropomorphe et de petite taille,<br>"
 			+"issue du folklore médiéval européen.Ils vivent généralement en groupe dans les cavernes.<br><br>"
@@ -70,7 +81,16 @@ public interface ISoldat extends ISprite{
 			+ "et leur incroyable résistance et potentiel de régénération.<br>"
 			+ "Leur culture est semblable : les plus forts dirigent, <br> et deviennent plus grands et plus forts <br>"
 			+ "grâce à l’énergie psychique des Orcs sous leur commandement.";
+
+	String histoireWolfman = "est un homme qui se transforme en loup la nuit et qui erre dans les campagnes,\r\n"
+			+ "Cette transformation peut être due à plusieurs causes, \r\n"
+			+ "comme une malédiction ou un rituel volontaire, \r\n"
+			+ "et plus récemment la morsure ou griffure d'un loup ou d'un autre lycanthrope.";
 	
+	String histoireZombie = "les zombies sont des morts-vivants en état de décomposition,\r\n"
+			+ " ce sont des personnes vivantes mais infectées par une maladie, \r\n"
+			+ "un poison chimique ou un virus\r\n"
+			+ "souvent transmis par la morsure d'un autre zombie ";
 	
 	/**
 	 * Enum TypesH.
@@ -80,7 +100,7 @@ public interface ISoldat extends ISprite{
 		NAIN (80, 1, 20, 0, nain, NainMiniature, NainMiniCarte, histoireNain), 
 		ELF (70, 5, 10, 6, elf, ElfMiniature, ElfMiniCarte ,histoireElf), 
 		HOBBIT (20, 3, 5, 2, hobbit, HobbitMiniature, HobbitMiniCarte, histoireHobbit),
-		SORCIER (30, 3, 1, 10, sorcier, SorcierMiniature, SorcierMiniCarte, "");
+		SORCIER (30, 3, 1, 10, sorcier, SorcierMiniature, SorcierMiniCarte, histoireSorcier);
       
 		private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR;	
 		private final String SPRITE;
@@ -179,8 +199,10 @@ public interface ISoldat extends ISprite{
     *  Enum TypesM.
     */
    public static enum TypesM {
-       TROLL (100,1,30,0, troll, TrollMiniature, TrollMiniCarte,histoireTroll), 
-	   ORC (40,2,10,3, orc, OrcMiniature, OrcMiniCarte,histoireOrc), 
+	   TROLL (100,1,30,0, troll, TrollMiniature, TrollMiniCarte,histoireTroll), 
+	   ORC (40,2,10,3, orc, OrcMiniature, OrcMiniCarte,histoireOrc),
+	   Wolfman (50,3,15,1, wolfman, WolfmanMiniature, WolfmanMiniCarte,histoireWolfman),
+	   Zombie (200,3,10,3, zombie, ZombieMiniature,ZombieMiniCarte,histoireZombie),
 	   GOBELIN (20,2,5,2, gobelin, GobelinMiniature, GobelinMiniCarte,histoireGoblin);
       
 	   private final int POINTS_DE_VIE, PORTEE_VISUELLE, PUISSANCE, TIR;

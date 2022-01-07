@@ -18,20 +18,17 @@ import fenetrejeu.infosjeu.InfosElement;
 public abstract class ElementDeposable implements IFenetre {
 	private static final long serialVersionUID = 1L;
 	
-	/** liste label obstacle. */
+	/** liste label Element : heros ou obstacle. */
 	protected static List<JLabel> listeLabelElement = new ArrayList<>();
 	
-	/** liste obstacle. */
+	/** liste obstacle deposable. */
 	protected static List<TypeObstacle> listeObstacle = new ArrayList<>();
-	
+	/** liste de heros deposable */
 	protected static List<TypesH> listeHeros = new ArrayList<>();
 	
-	/** obstacle selectione. */
 	public static TypeObstacle obstacleSelectione;
-	
 	public static TypesH herosSelectione;
 	
-	/** nb element deposer. */
 	public static int nbElementDeposer = 0;	
 	
 	/** index des listes. */
@@ -117,7 +114,8 @@ public abstract class ElementDeposable implements IFenetre {
 	}
 	
 	/**
-	 * Supprime le contenu du panel descriptifElementPanel qui ici contient les elements deposable sur la carte
+	 * Supprime le contenu du panel descriptifElementPanel 
+	 * qui ici contient les elements deposable sur la carte
 	 */
 	public static void supprimeLabelDeposable() {
 		descriptifElementPanel.removeAll();

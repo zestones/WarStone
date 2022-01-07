@@ -16,10 +16,13 @@ public interface ISprite {
 	String troll = "./res/img/soldat/monstres/sprite/troll.png";
 	String orc = "./res/img/soldat/monstres/sprite/orc.png";
 	String gobelin = "./res/img/soldat/monstres/sprite/gobelin.png";
+	String wolfman = "./res/img/soldat/monstres/sprite/wolfman.png";
+	String zombie = "./res/img/soldat/monstres/sprite/zombie.png";
 
 	/** frequence des images pour la lecture des sprites. */
 	public AnimateurSprite animateur = new AnimateurSprite(33);
-
+	
+	/** Dimension des images */
 	int IMAGE_LARGEUR = 64;
 	int IMAGE_HAUTEUR = 64;
 

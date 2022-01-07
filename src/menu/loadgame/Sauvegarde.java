@@ -34,7 +34,7 @@ public class Sauvegarde implements ISauvegarde{
 		
 		/** Si il reste de la place on creer une nouvelle sauvegarde */
 		if(listeSauvegarde.size() <= MAX_SAUVEGARDE)
-				listeSauvegarde.add((chemin + nom + separateur.format(new Date()) + ".ser"));
+			listeSauvegarde.add((chemin + nom + separateur.format(new Date()) + ".ser"));
 		/** Sinon on supprime la derniere on on rajoute la nouvelle */
 		else {
 			deleteSauvegarde();
@@ -47,8 +47,9 @@ public class Sauvegarde implements ISauvegarde{
 			ObjectOutputStream sortie = new ObjectOutputStream(fichier);
 			
 			sortie.writeObject(c);
-			sortie.close();			
-			sortie.flush(); // Pour le buffer
+			sortie.close();	
+			// Pour le buffer
+			sortie.flush(); 
 			
 			fichier.close();  
 		} catch(IOException ex) {

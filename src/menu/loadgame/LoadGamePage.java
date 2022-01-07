@@ -34,7 +34,6 @@ public class LoadGamePage extends JPanel implements ISauvegarde, IMenu {
 		/** Creation d'un panel principal */
 		panelLoadGame.setPreferredSize(DIM_MENU);
 		
-	
 		BufferedImage backgroundImg = null;
 		try {
 			backgroundImg = ImageIO.read(new File(fondEcranMenu));
@@ -93,7 +92,7 @@ public class LoadGamePage extends JPanel implements ISauvegarde, IMenu {
 	}
 	
 	/**
-	 * Inits the liste sauvegarde.
+	 * Inits la liste de sauvegarde.
 	 */
 	public static void initListeSauvegarde() {
 		/** On vide la liste avant de la remplir */
