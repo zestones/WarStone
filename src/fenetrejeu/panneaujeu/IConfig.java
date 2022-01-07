@@ -55,7 +55,7 @@ public interface IConfig extends java.io.Serializable {
 	Image herbe = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/grass.png");
 	Image terre = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/range.jpg");
 	Image lave = Toolkit.getDefaultToolkit().getImage("./res/img/background/jeu/lave.jpg");
-	Image fleche = Toolkit.getDefaultToolkit().getImage("./res/img/pops/arrow.png");	
+	Image fleche = Toolkit.getDefaultToolkit().getImage("./res/img/pops/pierre.png");	
 	
 	
 	/** Dimension de la fenetre de jeux */

@@ -73,8 +73,8 @@ public interface IMenu {
 	Bouton supprimeSauvegarde = new Bouton(SUPPRIME_BOUTON_POSITION_X, SUPPRIME_BOUTON_POSITION_Y, SUPPRIME_BOUTTON_LARGEUR, SUPPRIME_BOUTON_HAUTEUR, false);	
 	
 	/** Images de fond du menu */
-	String fondEcranLoadPage = "./res/img/background/menu/background.png";
-	String fondEcranMenu = "./res/img/background/menu/background-menu.png";
+	String fondEcranLoadPage = "./res/img/background/menu/background.jpg";
+	String fondEcranMenu = "./res/img/background/menu/background-menu.jpg";
 	
 	/** Couleur des bouttons du menu */
 	Color COULEUR_BOUTON_MENU  = new Color(0, 89, 154);

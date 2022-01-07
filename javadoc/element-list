@@ -1,0 +1,16 @@
+module:WarStone
+carte
+carte.element
+fenetrejeu
+fenetrejeu.configjeu
+fenetrejeu.finjeu
+fenetrejeu.infosjeu
+fenetrejeu.menubar
+fenetrejeu.panneaujeu
+fenetrejeu.panneaujeu.evenement
+menu
+menu.loadgame
+musique
+sprite
+utile
+utile.style
